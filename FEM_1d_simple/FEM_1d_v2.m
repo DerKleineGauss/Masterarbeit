@@ -1,7 +1,7 @@
 %%%% Initialisierungen %%%%
 % Variablen
 N_q = 5e1;     % Anzahl Diskretisierungspunkte in q-Richtung
-N_r = 5e1;     % Anzahl Diskretisierungspunkte in r-Richtung
+N_r = 15e1;     % Anzahl Diskretisierungspunkte in r-Richtung
 L_q = 152e-9;       % nm, lukas paper
 L_r = 106e-9;       % nm, lukas paper
 Delta_q = L_q / N_q;
@@ -98,14 +98,16 @@ rho_r = 0;  % not further needed here, should be considered in calculating C (ge
 f_hut = zeros(size(q,1),1);
 f_hut_trapez = zeros(size(q,1),1);
 fermDiracFt = @(k_value, q_value) fermi_dirac_ft(k_value, q_value, mu);
+k = linspace(0,2e10,5e6);
 for i=1:N_q/2
 %     f_hut(i) = 2/(2*pi)*integral( @(k)fermDiracFt(k, q(i)),0,2e10);
 %     f_hut(N_q-i+1) = f_hut(i);
-    k = linspace(0,2e10,5e6);
     y = fermDiracFt(k, q(i));
     f_hut_trapez(i) = 2/(2*pi)*trapz(y,k);
     f_hut_trapez(N_q-i+1) = f_hut_trapez(i);
 end
+clear k y;
+
 startingWithNegativeEV = false;
 if imag(eigs_A(1)) < 0
     startingWithNegativeEV = true;
@@ -174,13 +176,19 @@ end
 close all
 
 % L
-figure('Name', 'Matrix L -- real part');
-x=1:N_q*N_r;
-y=1:N_q*N_r;
-[X,Y] = meshgrid(x,y);
-mesh(X,Y,abs(real(L)));
-figure('Name', 'Matrix L -- imag part');
-mesh(X,Y,abs(imag(L)));
+% figure('Name', 'Matrix L -- real part');
+% x=1:N_q*N_r;
+% y=1:N_q*N_r;
+% [X,Y] = meshgrid(x,y);
+% mesh(X,Y,abs(real(L)));
+% figure('Name', 'Matrix L -- imag part');
+% mesh(X,Y,abs(imag(L)));
+if N_r*N_q < 1e3
+    figure('Name', 'Matrix L -- real part');
+    surf(real(L));
+    figure('Name', 'Matrix L -- imag part');
+    surf(imag(L));
+end
 
 % rho
 rho = reshape(rho, [N_q,N_r]);
@@ -189,7 +197,7 @@ surf(r,q,real(rho));
 view(2);   
 figure('Name', 'rho -- imag part');
 surf(r,q,imag(rho));
-% view(2);  
+view(2);  
 
 
 %%
