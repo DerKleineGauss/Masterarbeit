@@ -1,18 +1,23 @@
-% warning('off');
-
+%%%% Initialisierungen %%%%
 % Variablen
-N_q = 1e1;     % Anzahl Diskretisierungspunkte in q-Richtung
-N_r = 1e1;     % Anzahl Diskretisierungspunkte in r-Richtung
+N_q = 5e1;     % Anzahl Diskretisierungspunkte in q-Richtung
+N_r = 5e1;     % Anzahl Diskretisierungspunkte in r-Richtung
 L_q = 152e-9;       % nm, lukas paper
 L_r = 106e-9;       % nm, lukas paper
 Delta_q = L_q / N_q;
 Delta_r = L_r / N_r;
+global m kb e hbar Temperature beta N_D E_c;
 m=9.1e-31 *0.063;              % Elektronenmasse
 kb=1.38064852e-23;
 Temperature=300;
+beta = 1/(kb*Temperature);
 hbar=6.626070040e-34/(2*pi);
 e = 1.60217662e-19;     % e-charge
-mu = 0;
+E_c = 1.424*e;          % Leitungsbandkante von GaAs (Valenzbandkante auf 0 gesetzt)
+N_D = 1e22;             % Donatorkonzentration
+% Calculate mu
+%mu = fzero(@(mu)nullstellenSucheMu(mu), [0,3*e]);
+mu = newtonRaphson(@nullstellenSucheMu, 1.5*e);
 
 % Rechengebiet
 r = zeros(N_r,1);
@@ -40,6 +45,7 @@ for k=1:N_q+1
     end
 end
 
+%%
 %%%%%% build A %%%%%
 alpha = 1/2;
 A = full(gallery('tridiag',(N_q),-1,0,1))*alpha;
@@ -74,7 +80,7 @@ end
 %Test = (A + Q'*Lambda_A*Q);
 %norm(Test)
 %norm((A-eigs_A(1)*eye(dim_A))*Q(:,1))
-
+%%
 
 %%%%%% build L %%%%%
 % init quadratic L, the System Matrix of size #firstArgument x #secondArgument 
@@ -91,7 +97,7 @@ rho_l = 0;  % not further needed here, should be considered in calculating C (ge
 rho_r = 0;  % not further needed here, should be considered in calculating C (get_C)
 f_hut = zeros(size(q,1),1);
 f_hut_trapez = zeros(size(q,1),1);
-fermDiracFt = @(k_value, q_value) fermi_dirac_ft(k_value, q_value, mu,Temperature, m, kb, hbar);
+fermDiracFt = @(k_value, q_value) fermi_dirac_ft(k_value, q_value, mu);
 for i=1:N_q/2
 %     f_hut(i) = 2/(2*pi)*integral( @(k)fermDiracFt(k, q(i)),0,2e10);
 %     f_hut(N_q-i+1) = f_hut(i);
@@ -116,8 +122,8 @@ b2 = zeros(N_q*N_r,1);
 % r-Schleife
 for n=1:N_r
     %%%%%% build \Gamma %%%%%
-    Gamma_i  = Q_invers * get_C(r_interface(n), N_q, q_interface, Delta_q, e) * Q;
-    Gamma_i_next = Q_invers * get_C(r_interface(n+1), N_q, q_interface, Delta_q, e) * Q;
+    Gamma_i  = Q_invers * get_C(r_interface(n), N_q, q_interface, Delta_q) * Q;
+    Gamma_i_next = Q_invers * get_C(r_interface(n+1), N_q, q_interface, Delta_q) * Q;
 
     T = 1i*hbar/(m*Delta_r)*Lambda - 1i*e/(2*hbar)*Gamma_i_next;
     F = 1i*hbar/(m*Delta_r)*Lambda + 1i*e/(2*hbar)*Gamma_i;
@@ -149,18 +155,43 @@ for n=1:N_r
         L( (n-1)*N_q+1 : n*N_q , (n-1/2)*N_q+1 : (n+1/2)*N_q ) =  T;
     end
 end
+
+%%
     % Solve LGS
 Psi = L\transpose(b_2);
-rho = Q_invers*Psi;
+    % transform back
+% this one works well but uses much memory
+% rho2 = kron(eye(N_r), Q_invers)*Psi;
+rho = zeros(N_r*N_q,1);
+for i=1:N_r
+   rho( (i-1)*N_q + 1 : i*N_q ) = Q_invers*Psi( (i-1)*N_q + 1 : i*N_q );
+end
 
 
 %%
+%%%% Plotting %%%%
+
+close all
+
+% L
+figure('Name', 'Matrix L -- real part');
 x=1:N_q*N_r;
 y=1:N_q*N_r;
 [X,Y] = meshgrid(x,y);
 mesh(X,Y,abs(real(L)));
-figure();
+figure('Name', 'Matrix L -- imag part');
 mesh(X,Y,abs(imag(L)));
+
+% rho
+rho = reshape(rho, [N_q,N_r]);
+figure('Name', 'rho -- real part');
+surf(r,q,real(rho));
+view(2);   
+figure('Name', 'rho -- imag part');
+surf(r,q,imag(rho));
+% view(2);  
+
+
 %%
 
 

@@ -1,3 +1,3 @@
-function [B] = B (r,q, e)
-B = potential(r + q/2, e) - conj(potential(r - q/2, e));
+function [B] = B (r,q)
+B = potential(r + q/2) - conj(potential(r - q/2));
 end
