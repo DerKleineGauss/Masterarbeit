@@ -14,7 +14,7 @@ S. 26
     The schemes are well suited to variable order and element sizes, as all information excahnge is across the interfaces only
 
 S. 27
-< ... Thus it is the order of the local approximation (N) that gives the fast convergence rate.
+< ... Thus it is the order of the local approximation (N) that gives the fast convergence rate.>
 
 
 N               Ordnung der interpolierenden Polynome
