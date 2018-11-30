@@ -14,8 +14,8 @@ StartUp2D;
 BuildBCMaps2D;
 
 % set up right hand side for homogeneous Poisson 
-%[A,M] = Poisson2D(); % Setup using PoissonRHS2D.m
-[A,M] = PoissonIPDG2D(); % Setup using PoissonIPDG2D.m
+[A,M] = Poisson2D(); % Setup using PoissonRHS2D.m
+%[A,M] = PoissonIPDG2D(); % Setup using PoissonIPDG2D.m
 
 % set up Dirichlet boundary conditions
 uD = zeros(Nfp*Nfaces, K);
@@ -36,3 +36,9 @@ rhs = -MassMatrix*(J.*rhs) + Aqbc;
 % solve system
 u = A\rhs(:);
 u = reshape(u, Np, K);
+
+[xq,yq] = meshgrid(-1:.01:1, -1:.1:1);
+vq = griddata(x,y,u,xq,yq,'cubic');
+mesh(xq,yq,vq);
+hold on
+plot3(x,y,u,'o')

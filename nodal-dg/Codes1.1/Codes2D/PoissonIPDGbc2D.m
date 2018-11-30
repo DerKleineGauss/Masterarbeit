@@ -13,17 +13,17 @@ Fm = Fmask(:,3); faceS = s(Fm); V1D = Vandermonde1D(N, faceS);  massEdge(Fm,Fm,3
 % build DG right hand side
 bc = zeros(Np, K);
 
-for k1=1:K 
+for k1=1:K              % for each element
   if(~mod(k1,1000)) k1, end;
 
-  for f1=1:Nfaces
+  for f1=1:Nfaces       % for e ach face (=3 usually)
     
     if(BCType(k1,f1))
       
       Fm1 = Fmask(:,f1); 
       fidM  = (k1-1)*Nfp*Nfaces + (f1-1)*Nfp + (1:Nfp)';
 
-      id = 1+(f1-1)*Nfp + (k1-1)*Nfp*Nfaces;
+      id = 1+(f1-1)*Nfp + (k1-1)*Nfp*Nfaces;        % the index for a single face of a single element
       lnx = nx(id);  lny = ny(id); lsJ = sJ(id); hinv = Fscale(id);
       
       Dx = rx(1,k1)*Dr + sx(1,k1)*Ds;  
@@ -32,7 +32,7 @@ for k1=1:K
       
       mmE = lsJ*massEdge(:,:,f1);
 
-      gtau = 100*2*(N+1)*(N+1)*hinv; % set penalty scaling
+      gtau = 100*2*(N+1)*(N+1)*hinv; % set penalty scaling, page 294 and usage of tau is on page 275
       switch(BCType(k1,f1))
 	    case {Dirichlet}
 	      bc(:,k1) = bc(:,k1) + (gtau*mmE(:,Fm1) - Dn1'*mmE(:,Fm1))*ubc(fidM);
