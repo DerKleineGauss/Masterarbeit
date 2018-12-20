@@ -39,7 +39,8 @@ for k1=1:K
     fidM  = (k1-1)*Nfp*Nfaces + (f1-1)*Nfp + (1:Nfp);
     vidM = vmapM(fidM); Fm1 = mod(vidM-1,Np)+1;
     vidP = vmapP(fidM); Fm2 = mod(vidP-1,Np)+1;
-    
+    % id: face index, jumps Nfp (=6) within each face-iteration and Nfp*Nfaces
+    % = 18 in each element iteration, thus indexing the correct face
     id = 1+(f1-1)*Nfp + (k1-1)*Nfp*Nfaces;
     lnx = nx(id);  lny = ny(id); lsJ = sJ(id);
     hinv = max(Fscale(id), Fscale(1+(f2-1)*Nfp, k2));    
@@ -75,6 +76,8 @@ for k1=1:K
   entries = entries + Np*Np; entriesMM = entriesMM + Np*Np;
 end  
 
-OP   =   OP(1:max(entries)  -Np*Np,:);  OP   = myspconvert(OP, Np*K, Np*K, 1e-15);
-MM   =   MM(1:max(entriesMM)-Np*Np,:);  MM   = myspconvert(MM, Np*K, Np*K, 1e-15);
+OP   =   OP(1:max(entries)  -Np*Np,:);  
+OP   = myspconvert(OP, Np*K, Np*K, 1e-15);
+MM   =   MM(1:max(entriesMM)-Np*Np,:);  
+MM   = myspconvert(MM, Np*K, Np*K, 1e-15);
 return

@@ -14,8 +14,8 @@ StartUp2D;
 BuildBCMaps2D;
 
 % set up right hand side for homogeneous Poisson 
-[A,M] = Poisson2D(); % Setup using PoissonRHS2D.m
-%[A,M] = PoissonIPDG2D(); % Setup using PoissonIPDG2D.m
+%[A,M] = Poisson2D(); % Setup using PoissonRHS2D.m
+[A,M] = PoissonIPDG2D(); % Setup using PoissonIPDG2D.m
 
 % set up Dirichlet boundary conditions
 uD = zeros(Nfp*Nfaces, K);
@@ -30,15 +30,18 @@ qN(mapN) = nx(mapN).*(pi*cos(pi*Fx(mapN)).*sin(pi*Fy(mapN))) + ...
 Aqbc = PoissonIPDGbc2D(uD, qN);
 
 % set up right hand side forcing
-rhs = -2*(pi^2)*sin(pi*x).*sin(pi*y);
+rhs = (-1-2*(pi^2))*sin(pi*x).*sin(pi*y);
 rhs = -MassMatrix*(J.*rhs) + Aqbc;
+%rhs = -MassMatrix*(J.*rhs);
 
 % solve system
-u = A\rhs(:);
+u = (A+M)\rhs(:);
 u = reshape(u, Np, K);
 
-[xq,yq] = meshgrid(-1:.01:1, -1:.1:1);
-vq = griddata(x,y,u,xq,yq,'cubic');
+[rq,tq] = meshgrid(0:0.01:1, 0:pi/40:2*pi);
+xq = rq.*cos(tq);
+yq = rq.*sin(tq);
+vq = griddata(x,y,u-sin(pi*x).*sin(pi*y),xq,yq,'cubic');
 mesh(xq,yq,vq);
 hold on
-plot3(x,y,u,'o')
+%plot3(x,y,u,'o');

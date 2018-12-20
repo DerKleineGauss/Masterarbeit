@@ -48,3 +48,12 @@ ubc = Abc*ubc;
 % solve linear system
 solvec = (A+M)\(M*(-f(:)) + ubc);
 u = reshape(solvec, Np, K);
+
+%[xq,yq] = meshgrid(-1:.01:1, -1:.1:1);
+[rq,tq] = meshgrid(0:0.01:1, 0:pi/40:2*pi);
+xq = rq.*cos(tq);
+yq = rq.*sin(tq);
+vq = griddata(x,y,u,xq,yq,'cubic');
+mesh(xq,yq,vq);
+hold on
+plot3(x,y,u,'o');
