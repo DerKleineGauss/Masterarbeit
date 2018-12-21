@@ -19,6 +19,7 @@ BuildBCMaps2D;
 q_coordinates = y * L_q / 2; % 1d real coordinates
 r_coordinates = x * L_r / 2; % 1d real coordinates
 pot_vector = LvN_f(r_coordinates,q_coordinates);
+% build diagonal matrix representing f(r,q) in the f(r,q)*u part
 pot = sparse(1:K*Np, 1:K*Np, pot_vector(:), K*Np, K*Np);
 % % plot test
 [xq,yq] = meshgrid(-1:0.02:1, -1:0.02:1);
@@ -51,7 +52,7 @@ mu = newtonRaphson(@nullstellenSucheMu, 1.5*e);
 
 
 fermDiracFt = @(k_value) fermi_dirac_ft(k_value, q_f, mu);
-upper_k = sqrt(2*m*mu/hbar/hbar);
+upper_k = sqrt(20*m*mu/hbar/hbar);
 f_hut = 2/(2*pi)*integral(fermDiracFt, 0, upper_k, 'ArrayValued', true);
 
 % f_hut_trapez = zeros(size(q_f,1),1);
@@ -83,7 +84,7 @@ rhs = Aqbc;
 %rhs = -MassMatrix*(J.*rhs) + Aqbc;
 
 % solve system
-u = (A)\rhs(:);
+u = (A-M)\rhs(:);
 u = reshape(u, Np, K);
 
 %[rq,tq] = meshgrid(0:0.01:1, 0:pi/40:2*pi);

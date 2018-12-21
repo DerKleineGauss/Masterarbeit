@@ -31,7 +31,7 @@ for k1=1:K
   % Build local operators  
   Dx = rx(1,k1)*Dr + sx(1,k1)*Ds;   Dy = ry(1,k1)*Dr + sy(1,k1)*Ds;
 
-  OP11 = J(1,k1)*(Dy'*MassMatrix*Dx/2 + Dx'*MassMatrix*Dy/2 - potential_factor(rows1(:,1), cols1(1,:)) * MassMatrix);
+  OP11 = J(1,k1)*(Dy'*MassMatrix*Dx/2 + Dx'*MassMatrix*Dy/2);
 
   % Build element-to-element parts of operator
   for f1=1:Nfaces
@@ -79,7 +79,9 @@ for k1=1:K
     end 
   end      
   OP(entries(:), :)   = [rows1(:), cols1(:), OP11(:)];
-  mM_times_factor = potential_factor(rows1(:,1), cols1(1,:)) * MassMatrix;
+  % apply the f(r,q) term, which is not the identity - care about
+  % commutation with MassMatrix must be taken
+  mM_times_factor = MassMatrix * potential_factor(rows1(:,1), cols1(1,:));
   MM(entriesMM(:), :) = [rows1(:), cols1(:), J(1,k1)*mM_times_factor(:)];
  % MM(entriesMM(:), :) = [rows1(:), cols1(:), J(1,k1)*MassMatrix(:)];
   entries = entries + Np*Np; entriesMM = entriesMM + Np*Np;
