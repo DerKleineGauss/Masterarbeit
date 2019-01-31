@@ -1,0 +1,11 @@
+{
+  "projectPath": "D:/Bachelorthesis/thesis",
+  "title": "LaTeX-Plus Project",
+  "root": "thesis.tex",
+  "program": "pdflatex",
+  "latexmkOptions": "-bibtex -pdf -shell-escape",
+  "output": ".build",
+  "openOutput": "false",
+  "postAction": "link",
+  "postPath": ""
+}

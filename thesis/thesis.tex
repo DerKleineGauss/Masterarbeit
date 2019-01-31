@@ -1,0 +1,309 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%   Vorlage für eine Abschlussarbeit   %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Erstellt von Maximilian Nöthe, <maximilian.noethe@tu-dortmund.de>
+% Verändert von Max Pernklau und Matthias Jaeger
+% für pdflatex
+
+
+\documentclass[
+  tucolor,
+  BCOR=12mm,     % 12mm binding corrections, adjust to fit your binding
+  parskip=half,  % new paragraphs start with half line vertical space
+  open=any,      % chapters start on both odd and even pages
+  cleardoublepage=plain,  % no header/footer on blank pages
+]{tudothesis}
+
+
+% Warning, if another latex run is needed
+\usepackage[aux]{rerunfilecheck}
+
+% just list chapters and sections in the toc, not subsections or smaller
+\setcounter{tocdepth}{1}
+
+%------------------------------------------------------------------------------
+%------------------------------ Sprache und Schrift: --------------------------
+%------------------------------------------------------------------------------
+\usepackage{lmodern}%Font
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[parfill]{parskip}%linebreaks instead of indention after paragraphs
+
+% german language
+\usepackage[shorthands=off,english,ngerman]{babel}% deutsche Spracheinstellungen
+
+% intelligent quotation marks, language and nesting sensitive
+\usepackage[autostyle]{csquotes}
+
+% microtypographical features, makes the text look nicer on the small scale
+\usepackage{microtype}
+\usepackage{blindtext}
+
+\usepackage[utf8]{inputenc}
+%------------------------------------------------------------------------------
+%------------------------ Für die Matheumgebung--------------------------------
+%------------------------------------------------------------------------------
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{physics} % bra ket schreibweise mit $\bra{\Psi}\ket{\Psi}$   $\expval{A}{\Psi}$
+
+\usepackage{dsfont}
+\usepackage{nicefrac}
+
+\usepackage{adjustbox}
+
+% nice, small fracs for the text with \sfrac{}{}
+\usepackage{xfrac}
+\usepackage{commath} %propper differentials
+
+%------------------------------------------------------------------------------
+%---------------------------- Numbers and Units -------------------------------
+%------------------------------------------------------------------------------
+
+\usepackage[
+  locale=DE,
+  separate-uncertainty=true,
+  per-mode=symbol-or-fraction,
+]{siunitx}
+\sisetup{math-micro=\text{µ},text-micro=µ}
+
+% chemische Formeln
+\usepackage[
+  version=4,
+  math-greek=default, % ┐ mit unicode-math zusammenarbeiten
+  text-greek=default, % ┘
+]{mhchem}
+
+%------------------------------------------------------------------------------
+%-------------------------------- tables  -------------------------------------
+%------------------------------------------------------------------------------
+
+\usepackage{booktabs}       % stellt \toprule, \midrule, \bottomrule
+\usepackage{grffile}% größere Variation von Dateinamen möglich
+\usepackage{pdflscape}% Seite drehen für breite Tabellen
+
+%------------------------------------------------------------------------------
+%-------------------------------- graphics -------------------------------------
+%------------------------------------------------------------------------------
+
+\usepackage[margin=10pt,font=small,labelfont=bf,labelsep=quad]{caption}
+\captionsetup{labelfont={tugreen,bf}}
+\usepackage{graphicx}
+\usepackage{grffile}
+
+% allow figures to be placed in the running text by default:
+\usepackage{scrhack}
+\usepackage{float}
+\floatplacement{figure}{htbp}
+\floatplacement{table}{htbp}
+
+% keep figures and tables in the section
+\usepackage[section, below]{placeins}
+
+
+%------------------------------------------------------------------------------
+%---------------------- customize list environments ---------------------------
+%------------------------------------------------------------------------------
+
+\usepackage{enumitem}
+\usepackage{minted}   % code snippets within text
+
+%------------------------------------------------------------------------------
+%------------------------------ Bibliographie ---------------------------------
+%------------------------------------------------------------------------------
+
+\usepackage[
+  sorting=none,    % sort in order of appearance
+  backend=biber,   % use modern biber backend
+  autolang=hyphen, % load hyphenation rules for if language of bibentry is not
+                   % german, has to be loaded with \setotherlanguages
+                   % in the references.bib use langid={en} for english sources
+  maxbibnames=99   % no fucking et al.
+  %style=numeric,
+]{biblatex}
+\addbibresource{references.bib}  % die Bibliographie einbinden
+\DefineBibliographyStrings{german}{andothers = {{et\,al\adddot}}}
+\DeclareFieldFormat{title}{\glqq#1\grqq}
+%------------------------------------------------------------------------------
+%------------------------------ Sonstiges: ------------------------------------
+%------------------------------------------------------------------------------
+
+% Hyperlinks im Dokument
+\usepackage[
+  unicode,        % Unicode in PDF-Attributen erlauben
+  pdfusetitle,    % Titel, Autoren und Datum als PDF-Attribute
+  pdfcreator={},  % ┐ PDF-Attribute säubern
+  pdfproducer={}, % ┘
+  linkbordercolor=tugreen,
+  linkcolor=blue, % einfache interne Verkn?pfungen
+  citebordercolor=tugreen,
+  citecolor=blue, % Verweise auf Literaturverzeichniseintr?ge im Text
+]{hyperref}
+\usepackage{bookmark}
+\usepackage[shortcuts]{extdash}
+\usepackage[german]{todonotes}
+
+%------------------------------------------------------------------------------
+%------------------------------  Macros:   ------------------------------------
+%------------------------------------------------------------------------------
+
+%make parantheses scale in math mode
+\makeatletter
+\def\resetMathstrut@{%
+  \setbox\z@\hbox{%
+    \mathchardef\@tempa\mathcode`\[\relax
+    \def\@tempb##1"##2##3{\the\textfont"##3\char"}%
+    \expandafter\@tempb\meaning\@tempa \relax
+  }%
+  \ht\Mathstrutbox@\ht\z@ \dp\Mathstrutbox@\dp\z@}
+\makeatother
+\begingroup
+  \catcode`(\active \xdef({\left\string(}
+  \catcode`)\active \xdef){\right\string)}
+\endgroup
+\mathcode`(="8000 \mathcode`)="8000
+
+%increase math spacing between lines with fractions
+\makeatletter
+
+\newlength\minalignvsep
+\def\align@preamble{%
+   &\hfil
+    \setboxz@h{\@lign$\m@th\displaystyle{##}$}%
+    \ifnum\row@>\@ne
+    \ifdim\ht\z@>\ht\strutbox@
+    \dimen@\ht\z@
+    \advance\dimen@\minalignvsep
+    \ht\strutbox\dimen@
+    \fi\fi
+    \strut@
+    \ifmeasuring@\savefieldlength@\fi
+    \set@field
+    \tabskip\z@skip
+   &\setboxz@h{\@lign$\m@th\displaystyle{{}##}$}%
+    \ifnum\row@>\@ne
+    \ifdim\ht\z@>\ht\strutbox@
+    \dimen@\ht\z@
+    \advance\dimen@\minalignvsep
+    \ht\strutbox@\dimen@
+    \fi\fi
+    \strut@
+    \ifmeasuring@\savefieldlength@\fi
+    \set@field
+    \hfil
+    \tabskip\alignsep@
+}
+\makeatother
+
+\minalignvsep.15em
+
+
+\DeclareMathOperator{\const}{const.}
+
+\newcommand{\integral}[4]{\int\displaylimits_{#3}^{#4} #1 \, \mathrm{d} #2}
+\makeatletter
+\newcommand\primitiveinput[1]
+{\@@input #1 }
+\makeatother
+
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand*\Diff[1]{\mathop{}\!\mathrm{d#1}}
+\newcommand*\difffrac[2]{\mathop{}\!\frac{\mathrm{d#1}}{\mathrm{d#2}}}
+\renewcommand{\pd}[2]{\frac{\mathrm{\partial}#1}{\mathrm{\partial}#2}}
+\newcommand{\pdd}[2]{\frac{\mathrm{\partial^2}#1}{\mathrm{\partial}#2^2}}
+
+\newcommand*\inv[1]{#1^{-1}}
+
+\newcommand{\E}[1]{\text{e}^{#1}}
+\newcommand{\HR}{\mathcal{H}}
+
+\newcommand*{\estimates}{\stackrel{\scriptscriptstyle\wedge}{=}}
+
+\DeclareSIUnit[number-unit-product = \,]{\permil}{\text{\textperthousand}}
+
+% make text bold instead of italic
+% \makeatletter
+% \DeclareRobustCommand{\em}{%
+%   \@nomath\em \if b\expandafter\@car\f@series\@nil
+%   \normalfont \else \bfseries \fi}
+% \makeatother
+
+\newcommand*{\english}[1]{\textit{#1}}
+
+% vectors
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%------------------------------------------------------------------------------
+%------------------------------ RenewCommands: ------------------------------------
+%------------------------------------------------------------------------------
+\DeclareMathOperator{\spn}{span}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+%------------------------------------------------------------------------------
+%-------------------------    Angaben zur Arbeit   ----------------------------
+%------------------------------------------------------------------------------
+
+\author{Matthias Jaeger}
+\title{Diskontinuierliche Galerkin Methoden zur Lösung der Liouville-von-Neumann-Gleichung}
+\date{\today}
+\birthplace{Würselen}
+\chair{Lehrstuhl für Hochfrequenztechnik}
+\division{Fakultät Physik}
+\thesisclass{Master of Science}
+\publishers{\thechair \\ \thedivision \\ Technische Universität Dortmund}
+\submissiondate{17. Juli 2019}
+\firstcorrector{Prof.~Dr.~Manfred Bayer}
+\secondcorrector{PD.~Dr.~Dirk Schulz}
+
+% tu logo on top of the titlepage
+\titlehead{\includegraphics[height=1.5cm]{logos/tu-logo.pdf}}
+
+\begin{document}
+\frontmatter
+\maketitle
+
+% Gutachterseite
+\makecorrectorpage
+
+\input{content/gedanken.tex}
+
+% % hier beginnt der Vorspann, nummeriert in römischen Zahlen
+% \input{content/00_abstract.tex}
+% \tableofcontents
+%
+% \mainmatter
+% % Hier beginnt der Inhalt mit Seite 1 in arabischen Ziffern
+% \input{content/01_einleitung.tex}
+% % {\let\clearpage\relax \chapter{bar}}
+% \input{content/02_theorie.tex}
+% \input{content/03_ergebnisse.tex}
+% \input{content/04_zusammenfassung.tex}
+%
+% \appendix
+% % Hier beginnt der Anhang, nummeriert in lateinischen Buchstaben
+% % \input{content/a_anhang.tex}
+%
+% \backmatter
+% \printbibliography
+%
+% \cleardoublepage
+% \input{content/eid_versicherung.tex}
+\end{document}

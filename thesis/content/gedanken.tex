@@ -1,0 +1,19 @@
+\chapter{Entwicklung}
+Die Liouville-von-Neumann Gleichung erhält man aus der Liouville-Gleichung wie folgt.
+\begin{align}
+  \partial_t \hat{\rho} &= \frac{i}{\hbar}\left[\hat{\rho} \right] \hat{H}] \\
+  \underbrace{\bra{x} \partial_t \hat{\rho} \ket{y}}_{\equiv \partial_t \rho(x,y)} &= \bra{x}\frac{i}{\hbar}\left[\hat{\rho} \right] \hat{H}]\ket{y} \\
+   &= \frac{i}{\hbar} \left( \bra{x} \hat{\rho} \hat{H}\ket{y} - \bra{x}\hat{H}\hat{\rho} \ket{y} \right)
+\end{align}
+
+
+\section{Wigner Function}
+Es ist mit $\bra{x}\ket{\Psi} = \Psi(x)$
+\begin{equation}
+  P(x,p) \equiv \frac{1}{\pi\hbar} \int_{-\infty}^{\infty} \bra{x+y}\hat{\rho} \ket{x-y} \E{2ipy/\hbar} \diff y
+\end{equation}
+die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{\rho}$. Die Wigner Transformation ist eine invertierbare Abbildung
+\begin{align}
+  W\; :\; L(\HR,\HR)  \rightarrow & \text{Phasenraum}^* \\
+   \hat{G} \mapsto & g(x,p) = \int_{-\infty}^{\infty} \bra{x-s/2}\hat{G} \ket{x+s/2} \E{ips/\hbar} \diff s
+\end{align}

@@ -55,7 +55,7 @@ for k1=1:K
 
     mmE = lsJ*massEdge(:,:,f1);
 
-    gtau = 100*2*(N+1)*(N+1)*hinv; % set penalty scaling
+    gtau = 90*2*(N+1)*(N+1)*hinv; % set penalty scaling
     switch(BCType(k1,f1))
       case {Dirichlet}
         OP11 = OP11 + ( gtau*mmE - mmE*Dn1 - Dn1'*mmE ); % ok

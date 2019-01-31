@@ -18,7 +18,7 @@ Bbox = [-1 -1; 1 1];
 param = [];
 
 % Call distmesh
-[Vert,EToV]=distmesh2d(fd,fh,h0,Bbox,param);
+[Vert,EToV]=distmesh_2d(fd,fh,h0,Bbox,200, param);
 VX = Vert(:,1); VY = Vert(:,2);
 Nv = length(VX); K  = size(EToV,1);
 

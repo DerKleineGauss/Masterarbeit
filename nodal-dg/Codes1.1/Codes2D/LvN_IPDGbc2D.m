@@ -32,7 +32,7 @@ for k1=1:K              % for each element
       
       mmE = lsJ*massEdge(:,:,f1);
 
-      gtau = 100*2*(N+1)*(N+1)*hinv; % set penalty scaling, page 294 and usage of tau is on page 275
+      gtau = 90*2*(N+1)*(N+1)*hinv; % set penalty scaling, page 294 and usage of tau is on page 275
       switch(BCType(k1,f1))
 	    case {Dirichlet}
 	      bc(:,k1) = bc(:,k1) + (gtau*mmE(:,Fm1) - Dn1'*mmE(:,Fm1))*ubc(fidM);
