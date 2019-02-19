@@ -6,7 +6,7 @@ else
   program = sumatraPDF
 endif
 
-all: build/thesis.pdf
+all: build/thesis.pdf python/scaling.py
 
 
 TeXOptions = -pdf \
@@ -14,6 +14,9 @@ TeXOptions = -pdf \
 			 -halt-on-error \
 			 -output-directory=build \
 			 -shell-escape
+
+python/scaling.py: FORCE
+	python python/scaling.py
 
 build/thesis.pdf: FORCE | build
 	latexmk $(TeXOptions) thesis.tex
@@ -26,7 +29,7 @@ build:
 clean:
 	rm -rf build
 
-once: build
+once: build python/scaling.py
 	pdflatex --output-directory=build --shell-escape thesis.tex
 
 see:

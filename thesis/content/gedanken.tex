@@ -5,7 +5,7 @@ Die Liouville-von-Neumann Gleichung erhält man aus der Liouville-Gleichung wie 
 \begin{align}
   \partial_t \hat{\rho} &= \frac{i}{\hbar}\left[\hat{\rho} , H\right] \\
   \underbrace{\bra{x} \partial_t \hat{\rho} \ket{y}}_{\equiv \partial_t \rho(x,y)} &= \bra{x}\ket{\frac{i}{\hbar}\left[\hat{\rho} , H\right]y} \\
-   &= \frac{i}{\hbar} \sum_k p_k ( \underbrace{\bra{x} \ket{\Psi_k}}_{\equiv \Psi_k(x)}\bra{\Psi_k} \ket{Hy} - \bra{x}\ket{H\Psi_k}\underbrace{\bra{\Psi_k} \ket{y}}_{\equiv \Psi_k^*(y)} )
+   &= \frac{i}{\hbar} \sum_k p_k ( \underbrace{\bra{x}\ket{\Psi_k}}_{\equiv \Psi_k(x)}\bra{\Psi_k}\ket{Hy} - \bra{x}\ket{H\Psi_k}\underbrace{\bra{\Psi_k}\ket{y}}_{\equiv \Psi_k^*(y)} )
 \end{align}
 Mit dem Hamiltonoperator für ein einzelnes Teilchen in einer Dimension in Ortsdarstellung
 \begin{align}
@@ -44,9 +44,9 @@ ein. Die Ableitungen transformieren sich dabei gemäß
 \end{align}
 wobei im letzten Schritt der Satz von Schwarz genutzt wird. Damit ergibt sich der transformierte Liouville Operator zu
 \begin{align}
-  \mathcal{L}(r,q) = -\frac{\hbar^2}{m} \partial_r\partial_q + \underbrace{V\left(r+\frac{q}{2}\right) - V^*\left(r-\frac{q}{2}\right)}_{\equiv e B(r,q)}
+  \mathcal{L}(r,q) = -\frac{\hbar^2}{m} \partial_r\partial_q + \underbrace{V\left(r+\frac{q}{2}\right) - V^*\left(r-\frac{q}{2}\right)}_{\equiv \tilde{B}(r,q)}
 \end{align}
-Das Potential ist nun in eV anzugeben. Mit der Umbenennung
+Mit der Umbenennung
 \begin{align*}
   \rho \longrightarrow u \\
   r \longrightarrow \tilde{x} \\
@@ -55,18 +55,43 @@ Das Potential ist nun in eV anzugeben. Mit der Umbenennung
 \end{align*}
 lautet die LvN Gleichung nun
 \begin{align}
-  i\hbar\partial_{\tilde{t}} u(\tilde{x},\tilde{y})+\frac{\hbar^2}{m}\operatorname{div}(A\nabla u(\tilde{x},\tilde{y})) - e B(\tilde{x},\tilde{y}) u(\tilde{x},\tilde{y}) = 0
+  i\hbar\partial_{\tilde{t}} u(\tilde{x},\tilde{y})+\frac{\hbar^2}{m}\operatorname{div}(A\nabla u(\tilde{x},\tilde{y})) -  \tilde{B}(\tilde{x},\tilde{y}) u(\tilde{x},\tilde{y}) = 0
 \end{align}
 
 \section{Charakteristische Einheiten}
-Wir führen folgende Skalierung ein, um Längen und Zeiten numerisch zu behandeln.
+Zunächst wird die  \lvn in eine einheitenlose Form gebracht.
 \begin{align}
-  \left(\begin{array}{c}\tilde{x}\\\tilde{y}\end{array}\right) &= \chi^{-1} \left(\begin{array}{c}x\\y\end{array}\right) &  & \chi = \sqrt{\frac{me}{\hbar^2}} \\
-  \tilde{t} &= \xi^{-1} t   & \xi = \frac{e}{\hbar}
+    i\frac{\hbar}{V_0}\partial_{\tilde{t}} u(\tilde{x},\tilde{y})+\frac{\hbar^2}{mV_0}\operatorname{div}(A\nabla u(\tilde{x},\tilde{y})) - \frac{B(\tilde{x},\tilde{y})}{V_0} u(\tilde{x},\tilde{y}) = 0
+\end{align}
+Energien werden in Einheiten von $V_0$ gemessen, welche wir im weiteren Verlauf als die Potentialbarriere $V_0 = \SI{0.1768}{\electronvolt}$ wählen werden.
+
+Wir führen folgende Skalierung ein, um nun auch Zeiten und Orte einheitenlos zu messen.
+\begin{align}
+  \left(\begin{array}{c}\tilde{x}\\\tilde{y}\end{array}\right) &= \xi \left(\begin{array}{c}x\\y\end{array}\right)   & \xi &= \sqrt{\frac{\hbar^2}{mV_0}} \\
+  \tilde{t} &= \tau t   & \tau &= \frac{\hbar}{V_0}
 \end{align}
 Damit folgt
 \begin{align}
-  \partial_t u(\chi^{-1}x,\chi^{-1}y)+\operatorname{div}(A\nabla u(\chi^{-1}x,\chi^{-1}y)) - e B(x,y) u(x,y) = 0
+  \partial_{\tilde{t}} &= \frac{\partial}{\partial (\tau t)} = \tau^{-1} \partial_t = \frac{V_0}{\hbar} \partial_t \\
+  \partial_{\tilde{x}}^2 &= \frac{\partial^2}{(\partial (\xi x))^2} = \xi^{-2} \partial_x^2 = \frac{mV_0}{\hbar^2} \partial_x² \; ,
+\end{align}
+sodass die \lvn die Form
+\begin{align}
+  i \partial_t u(x,y)+\operatorname{div}(A\nabla u(x,y)) - B(x,y) u(x,y) = 0
+\end{align}
+annimmt. Hierbei ist
+\begin{align}
+  B(x,y) \equiv \frac{B(x,y)}{V_0} = \frac{V\left(x+\frac{y}{2}\right) - V^*\left(x-\frac{y}{2}\right)}{V_0}
+\end{align}
+eingeführt worden. Die Skalierung lässt sich berechnen, indem die effektive Masse als konstant
+\begin{align}
+  m = 0.063 m_0 =  0.063\cdot\SI{9.1e-31}{\kilogram}
+\end{align}
+angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und den hier eingeführten einheitenlosen Größen.
+\begin{align}
+  V_0 &= \SI{0.1768}{\electronvolt} \\
+  \xi &= \input{tex_files/xi.tex} \\
+  \tau &= \input{tex_files/tau.tex}
 \end{align}
 
 
