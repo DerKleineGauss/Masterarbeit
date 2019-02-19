@@ -18,7 +18,7 @@ N = 4;
 %VX= 1e-9*nodes(:,1)';
 %VY= 1e-9*nodes(:,2)';
 % Read in Mesh - Regelm‰ﬂig
-h_stepsize = 2;
+h_stepsize = 5;
 [Nv, VX, VY, K, EToV, BCType] = regularGrid(h_stepsize*1e-9);
 % plotting the rechengebiet
 figure(figurecounter)

@@ -1,9 +1,72 @@
 \chapter{Entwicklung}
+\section{Herleitung der Liouville-von-Neumann Gleichung}
+
 Die Liouville-von-Neumann Gleichung erhält man aus der Liouville-Gleichung wie folgt.
 \begin{align}
-  \partial_t \hat{\rho} &= \frac{i}{\hbar}\left[\hat{\rho} \right] \hat{H}] \\
-  \underbrace{\bra{x} \partial_t \hat{\rho} \ket{y}}_{\equiv \partial_t \rho(x,y)} &= \bra{x}\frac{i}{\hbar}\left[\hat{\rho} \right] \hat{H}]\ket{y} \\
-   &= \frac{i}{\hbar} \left( \bra{x} \hat{\rho} \hat{H}\ket{y} - \bra{x}\hat{H}\hat{\rho} \ket{y} \right)
+  \partial_t \hat{\rho} &= \frac{i}{\hbar}\left[\hat{\rho} , H\right] \\
+  \underbrace{\bra{x} \partial_t \hat{\rho} \ket{y}}_{\equiv \partial_t \rho(x,y)} &= \bra{x}\ket{\frac{i}{\hbar}\left[\hat{\rho} , H\right]y} \\
+   &= \frac{i}{\hbar} \sum_k p_k ( \underbrace{\bra{x} \ket{\Psi_k}}_{\equiv \Psi_k(x)}\bra{\Psi_k} \ket{Hy} - \bra{x}\ket{H\Psi_k}\underbrace{\bra{\Psi_k} \ket{y}}_{\equiv \Psi_k^*(y)} )
+\end{align}
+Mit dem Hamiltonoperator für ein einzelnes Teilchen in einer Dimension in Ortsdarstellung
+\begin{align}
+  \left[ -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2} + V(x) \right] \Psi(x) = \bra{x}\ket{H\Psi} \equiv \mathcal{L}(x)\Psi(x)
+\end{align}
+folgt mit $H^{\dagger} = H$
+\begin{align}
+  \partial_t \rho(x,y) &= \frac{i}{\hbar} \sum_k p_k \left( \Psi_k(x)\mathcal{L}^*(y)\Psi_k^*(y) - \mathcal{L}(x)\Psi_k(x)\Psi_k^*(y) \right) \\
+  &= \frac{i}{\hbar}  (\mathcal{L}^*(y) - \mathcal{L}(x)) \sum_k p_k \left( \Psi(x)\Psi^*(y) \right) \\
+  &= \frac{i}{\hbar}  (\mathcal{L}^*(y) - \mathcal{L}(x)) \bra{x}\left(\sum_k p_k  \ket{\Psi_k}\bra{\Psi_k} \right)\ket{y} \\
+  &= \frac{i}{\hbar}  (\mathcal{L}^*(y) - \mathcal{L}(x))\rho(x,y)
+\end{align}
+Wir definieren noch
+\begin{align}
+  \mathcal{L}(x,y) &\equiv \mathcal{L}(x) - \mathcal{L}^*(y)\\
+   &= -\frac{\hbar^2}{2m}\left( \partial_x^2 - \partial_y^2 \right) + V(x) - V^*(y)
+\end{align}
+und erhalten die Liouville-von-Neumann Gleichung im Ortsraum
+\begin{equation}
+  \partial_t \rho(x,y) = \frac{1}{i\hbar} \mathcal{L}(x,y) \rho(x,y) \; .
+\end{equation}
+
+\section{Schwerpunkt- und Relativkoordinaten}
+Wir führen die Schwerpunkt und Relativkoordinaten
+\begin{align}
+  &r \equiv \frac{x+y}{2} \qquad &q \equiv x-y \\
+  \Leftrightarrow\qquad &x = r+\frac{q}{2} \qquad &y = r-\frac{q}{2}
+\end{align}
+ein. Die Ableitungen transformieren sich dabei gemäß
+\begin{align}
+  \partial_r \partial_q  &= \partial_r \left( \frac{\partial}{\partial x} \frac{\partial x}{\partial q} + \frac{\partial}{\partial y} \frac{\partial y}{\partial q}\right) \\
+   &= \left( \frac{\partial}{\partial x} \frac{\partial x}{\partial r} + \frac{\partial}{\partial y} \frac{\partial y}{\partial r}\right) \left( \frac{\partial}{\partial x} \frac{1}{2} + \frac{\partial}{\partial y} \frac{-1}{2}\right)\\
+    &= \left( \frac{\partial}{\partial x} 1 + \frac{\partial}{\partial y} 1\right) \left( \frac{\partial}{\partial x} \frac{1}{2} + \frac{\partial}{\partial y} \frac{-1}{2}\right)\\
+   &= \frac{1}{2}\partial_x \partial_x - \frac{1}{2}\partial_x \partial_y + \frac{1}{2}\partial_y \partial_x - \frac{1}{2}\partial_y \partial_y \\
+  &=  \frac{1}{2}(\partial_x^2 - \partial_y^2) \; ,
+\end{align}
+wobei im letzten Schritt der Satz von Schwarz genutzt wird. Damit ergibt sich der transformierte Liouville Operator zu
+\begin{align}
+  \mathcal{L}(r,q) = -\frac{\hbar^2}{m} \partial_r\partial_q + \underbrace{V\left(r+\frac{q}{2}\right) - V^*\left(r-\frac{q}{2}\right)}_{\equiv e B(r,q)}
+\end{align}
+Das Potential ist nun in eV anzugeben. Mit der Umbenennung
+\begin{align*}
+  \rho \longrightarrow u \\
+  r \longrightarrow \tilde{x} \\
+  q \longrightarrow \tilde{y} \\
+  t \longrightarrow \tilde{t}
+\end{align*}
+lautet die LvN Gleichung nun
+\begin{align}
+  i\hbar\partial_{\tilde{t}} u(\tilde{x},\tilde{y})+\frac{\hbar^2}{m}\operatorname{div}(A\nabla u(\tilde{x},\tilde{y})) - e B(\tilde{x},\tilde{y}) u(\tilde{x},\tilde{y}) = 0
+\end{align}
+
+\section{Charakteristische Einheiten}
+Wir führen folgende Skalierung ein, um Längen und Zeiten numerisch zu behandeln.
+\begin{align}
+  \left(\begin{array}{c}\tilde{x}\\\tilde{y}\end{array}\right) &= \chi^{-1} \left(\begin{array}{c}x\\y\end{array}\right) &  & \chi = \sqrt{\frac{me}{\hbar^2}} \\
+  \tilde{t} &= \xi^{-1} t   & \xi = \frac{e}{\hbar}
+\end{align}
+Damit folgt
+\begin{align}
+  \partial_t u(\chi^{-1}x,\chi^{-1}y)+\operatorname{div}(A\nabla u(\chi^{-1}x,\chi^{-1}y)) - e B(x,y) u(x,y) = 0
 \end{align}
 
 
