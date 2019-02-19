@@ -1,9 +1,0 @@
-[0] Config.pm:302> INFO - This is Biber 2.11
-[0] Config.pm:305> INFO - Logfile is 'build\thesis.blg'
-[55] biber-MSWIN64:313> INFO - === 
-[156] Biber.pm:371> INFO - Reading 'build\thesis.bcf'
-[226] Biber.pm:857> INFO - Found 0 citekeys in bib section 0
-[248] Utils.pm:193> WARN - The file 'build\thesis.bcf' does not contain any citations!
-[256] bbl.pm:617> INFO - Writing 'build\thesis.bbl' with encoding 'UTF-8'
-[256] bbl.pm:720> INFO - Output to build\thesis.bbl
-[257] Biber.pm:110> INFO - WARNINGS: 1
