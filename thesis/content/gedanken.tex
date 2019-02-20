@@ -1,3 +1,6 @@
+\chapter{Einleitung}
+Quantenstrukturen, wie sie heutzutage hergestellt werden können, eröffnen neue Möglichkeiten im Bereich der ultraschnellen Elektronik und Photonik. Solche Strukturen lassen sich in aller Regel als \emph{offene} Systeme beschreiben. Es findet ein Austausch von lokal erhaltenen Fermionen -- die Erhaltung wird durch eine lokale Kontinuitätsgleichung beschrieben -- mit der Umgebung statt. Die Umgebung besteht dabei aus mindestens zwei verschiedenen Partikel-Reservoirs. In diesem Fall kann also ein Nicht-Gleichgewichtszustand erreicht werden, beispielsweise durch das Anlegen einer Spannung. Das zu untersuchende System besitzt eine endliche Ausdehnung im Raum. Es muss im Nicht-Gleichgewichtsfall folglich ein Strom durch die Oberfläche als Rand des Systems fließen. Wir beschränken uns hier auf eindimensionale Quantenstrukturen, für die also die interessante Physik in einer Dimension stattfindet. Dabei wollen wir den Strom der Teilchen, also den quantenmechanischen Transport beschreiben. Dies geschieht allgemein in verschiedenen Anwendungsfällen (Hydrodynamik, Aerodynamik, Elektronik, Neutronentransport, \dots) mit Hilfe einer die Dynamik beschreibenden Differentialgleichung. Hierfür werden Randbedingungen benötigt. Eben diese Randbedingungen definieren den offenen (oder auch geschlossenen) Charakter des Systems.
+
 \chapter{Entwicklung}
 \section{Herleitung der Liouville-von-Neumann Gleichung}
 
@@ -27,6 +30,11 @@ und erhalten die Liouville-von-Neumann Gleichung im Ortsraum
 \begin{equation}
   \partial_t \rho(x,y) = \frac{1}{i\hbar} \mathcal{L}(x,y) \rho(x,y) \; .
 \end{equation}
+Es lassen sich zwei Fälle unterscheiden:
+\begin{itemize}
+  \item Der stationäre Fall mit $\partial_t \rho(x,y,t) = 0$
+  \item der allgemeinere transiente Fall $\partial_t \rho(x,y,t) \neq 0$.
+\end{itemize}
 
 \section{Schwerpunkt- und Relativkoordinaten}
 Wir führen die Schwerpunkt und Relativkoordinaten
@@ -61,11 +69,11 @@ lautet die LvN Gleichung nun
 \section{Charakteristische Einheiten}
 Zunächst wird die  \lvn in eine einheitenlose Form gebracht.
 \begin{align}
-    i\frac{\hbar}{V_0}\partial_{\tilde{t}} u(\tilde{x},\tilde{y})+\frac{\hbar^2}{mV_0}\operatorname{div}(A\nabla u(\tilde{x},\tilde{y})) - \frac{B(\tilde{x},\tilde{y})}{V_0} u(\tilde{x},\tilde{y}) = 0
+    i\frac{\hbar}{V_0}\partial_{\tilde{t}}\, u(\tilde{x},\tilde{y})+\frac{\hbar^2}{mV_0}\operatorname{div}(A\nabla u(\tilde{x},\tilde{y})) - \frac{\tilde{B}(\tilde{x},\tilde{y})}{V_0} u(\tilde{x},\tilde{y}) = 0
 \end{align}
 Energien werden in Einheiten von $V_0$ gemessen, welche wir im weiteren Verlauf als die Potentialbarriere $V_0 = \SI{0.1768}{\electronvolt}$ wählen werden.
 
-Wir führen folgende Skalierung ein, um nun auch Zeiten und Orte einheitenlos zu messen.
+Wir führen folgende Skalierung ein, um nun auch Zeiten und Orte einheitenlos zu behandeln.
 \begin{align}
   \left(\begin{array}{c}\tilde{x}\\\tilde{y}\end{array}\right) &= \xi \left(\begin{array}{c}x\\y\end{array}\right)   & \xi &= \sqrt{\frac{\hbar^2}{mV_0}} \\
   \tilde{t} &= \tau t   & \tau &= \frac{\hbar}{V_0}
@@ -81,7 +89,7 @@ sodass die \lvn die Form
 \end{align}
 annimmt. Hierbei ist
 \begin{align}
-  B(x,y) \equiv \frac{B(x,y)}{V_0} = \frac{V\left(x+\frac{y}{2}\right) - V^*\left(x-\frac{y}{2}\right)}{V_0}
+  B(x,y) \equiv \frac{\tilde{B}(x,y)}{V_0} = \frac{V\left(x+\frac{y}{2}\right) - V^*\left(x-\frac{y}{2}\right)}{V_0}
 \end{align}
 eingeführt worden. Die Skalierung lässt sich berechnen, indem die effektive Masse als konstant
 \begin{align}
@@ -94,8 +102,38 @@ angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und
   \tau &= \input{tex_files/tau.tex}
 \end{align}
 
+\section{Randbedingungen}
 
-\section{Wigner Function}
+
+\section{Potential}
+Das Verfahren soll am Beispiel einer resonanten Tunneldiode (RTD) getestet werden. Dessen durch die Materialkomposition GaAs/AlGaAs resultierender Potentialverlauf ist in Abbildung \ref{fig:pot1} gezeigt.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{plots/potential.pdf}
+  \caption{Potentialverlauf der RTD.}
+  \label{fig:pot1}
+\end{figure}
+Die eingezeichneten Längen wählen wir wie in (paper) zu
+\begin{align}
+  L_1 &= \SI{6}{\nano\meter}\\
+  L_2 &= \SI{5}{\nano\meter}\\
+  L_U &= \SI{30}{\nano\meter} \; .
+\end{align}
+Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt. Auch hier lassen sich wieder zwei Fälle unterscheiden.
+\begin{itemize}
+  \item Der Gleichgewichtsfall $U=0$. Hier kann als Randbedingung auf beiden Seiten die Fermi-Dirac-Statistik \ref{eq:fd_statistic} angenommen werden.
+  \item Der Nicht-Gleichgewichtsfall $U>0$. Hier sind lediglich die \emph{inflow}-Bedingungen für positive Geschwindigkeiten am linken- und negative Geschwindigkeiten am rechten Rand des Rechengebietes bekannt.
+\end{itemize}
+
+\section{Strom- und Ladungsträgerdichte}
+Aus der Dichtematrix $\rho(r,q,t)$ lassen sich Strom- und Ladungsträgerdichte ableiten. Es gilt
+\begin{align}
+  j(r,t) &= \frac{\hbar}{m}\Im{\partial_q \rho(r,q,t)|_{q=0}} \\
+  n(r,t) &= \Re{\rho(r,q,t)|_{q=0}} \; .
+\end{align}
+
+
+\section{Wigner Funktion}
 Es ist mit $\bra{x}\ket{\Psi} = \Psi(x)$
 \begin{equation}
   P(x,p) \equiv \frac{1}{\pi\hbar} \int_{-\infty}^{\infty} \bra{x+y}\hat{\rho} \ket{x-y} \E{2ipy/\hbar} \diff y
