@@ -3,6 +3,7 @@ build1/
 build2/
 __pychache__/
 
+*.asv
 *.aux
 *.glo
 *.idx
