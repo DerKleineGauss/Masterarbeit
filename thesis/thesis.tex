@@ -288,13 +288,14 @@
 % Gutachterseite
 \makecorrectorpage
 
-\input{content/gedanken.tex}
+
 
 % % hier beginnt der Vorspann, nummeriert in römischen Zahlen
 % \input{content/00_abstract.tex}
-% \tableofcontents
+\tableofcontents
 %
-% \mainmatter
+\mainmatter
+\input{content/gedanken.tex}
 % % Hier beginnt der Inhalt mit Seite 1 in arabischen Ziffern
 % \input{content/01_einleitung.tex}
 % % {\let\clearpage\relax \chapter{bar}}
@@ -306,8 +307,8 @@
 % % Hier beginnt der Anhang, nummeriert in lateinischen Buchstaben
 % % \input{content/a_anhang.tex}
 %
-% \backmatter
-% \printbibliography
+\backmatter
+\printbibliography
 %
 % \cleardoublepage
 % \input{content/eid_versicherung.tex}

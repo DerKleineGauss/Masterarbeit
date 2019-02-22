@@ -2,8 +2,11 @@
 Quantenstrukturen, wie sie heutzutage hergestellt werden können, eröffnen neue Möglichkeiten im Bereich der ultraschnellen Elektronik und Photonik. Solche Strukturen lassen sich in aller Regel als \emph{offene} Systeme beschreiben. Es findet ein Austausch von lokal erhaltenen Fermionen -- die Erhaltung wird durch eine lokale Kontinuitätsgleichung beschrieben -- mit der Umgebung statt. Die Umgebung besteht dabei aus mindestens zwei verschiedenen Partikel-Reservoirs. In diesem Fall kann also ein Nicht-Gleichgewichtszustand erreicht werden, beispielsweise durch das Anlegen einer Spannung. Das zu untersuchende System besitzt eine endliche Ausdehnung im Raum. Es muss im Nicht-Gleichgewichtsfall folglich ein Strom durch die Oberfläche als Rand des Systems fließen. Wir beschränken uns hier auf eindimensionale Quantenstrukturen, für die also die interessante Physik in einer Dimension stattfindet. Dabei wollen wir den Strom der Teilchen, also den quantenmechanischen Transport beschreiben. Dies geschieht allgemein in verschiedenen Anwendungsfällen (Hydrodynamik, Aerodynamik, Elektronik, Neutronentransport, \dots) mit Hilfe einer die Dynamik beschreibenden Differentialgleichung. Hierfür werden Randbedingungen benötigt. Eben diese Randbedingungen definieren den offenen (oder auch geschlossenen) Charakter des Systems.
 
 \chapter{Entwicklung}
-\section{Herleitung der Liouville-von-Neumann Gleichung}
 
+\section{Zum Dichteoperator}
+Hi
+
+\section{Herleitung der Liouville-von-Neumann Gleichung}
 Die Liouville-von-Neumann Gleichung erhält man aus der Liouville-Gleichung wie folgt.
 \begin{align}
   \partial_t \hat{\rho} &= \frac{i}{\hbar}\left[\hat{\rho} , H\right] \\
@@ -13,6 +16,7 @@ Die Liouville-von-Neumann Gleichung erhält man aus der Liouville-Gleichung wie 
 Mit dem Hamiltonoperator für ein einzelnes Teilchen in einer Dimension in Ortsdarstellung
 \begin{align}
   \left[ -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2} + V(x) \right] \Psi(x) = \bra{x}\ket{H\Psi} \equiv \mathcal{L}(x)\Psi(x)
+  \label{eq:Liouville-Operator}
 \end{align}
 folgt mit $H^{\dagger} = H$
 \begin{align}
@@ -37,7 +41,7 @@ Es lassen sich zwei Fälle unterscheiden:
 \end{itemize}
 
 \section{Schwerpunkt- und Relativkoordinaten}
-Wir führen die Schwerpunkt und Relativkoordinaten
+Wir führen die Schwerpunkt- und Relativkoordinaten
 \begin{align}
   &r \equiv \frac{x+y}{2} \qquad &q \equiv x-y \\
   \Leftrightarrow\qquad &x = r+\frac{q}{2} \qquad &y = r-\frac{q}{2}
@@ -86,6 +90,7 @@ Damit folgt
 sodass die \lvn die Form
 \begin{align}
   i \partial_t u(x,y)+\operatorname{div}(A\nabla u(x,y)) - B(x,y) u(x,y) = 0
+  \label{eq:lvn}
 \end{align}
 annimmt. Hierbei ist
 \begin{align}
@@ -126,11 +131,84 @@ Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt. Auch hier lass
 \end{itemize}
 
 \section{Strom- und Ladungsträgerdichte}
-Aus der Dichtematrix $\rho(r,q,t)$ lassen sich Strom- und Ladungsträgerdichte ableiten. Es gilt
+Aus der Dichtematrix $\rho(r,q,t)$ in Schwerpunkt- und Relativkoordinaten lassen sich Strom- und Ladungsträgerdichte ableiten. Es gilt
 \begin{align}
   j(r,t) &= \frac{\hbar}{m}\Im{\partial_q \rho(r,q,t)|_{q=0}} \\
   n(r,t) &= \Re{\rho(r,q,t)|_{q=0}} \; .
+  \label{eq:dichte}
 \end{align}
+
+\section{Selbstkonsistentes Potential}
+Das Potential in dem Liouville-Operator \eqref{eq:Liouville-Operator} setzt sich zusammen aus dem Hartree Potential $u(x,y,z)$ sowie dem Heterostuktur Potential $V_s(x,y,z)$.
+\begin{align}
+  V(\vb{x}) = u(\vb{x}) + V_s(\vb{x})
+\end{align}
+Das Hartree Potential ist mit der Elektronendichte $n(\vb{x})$ durch die Poisson-Gleichung \cite{frensley}
+\begin{align}
+  -\div \epsilon(\vb{x}) \grad u(\vb{x}) = e^2 (n(\vb{x}) - N_D(\vb{x})) \; ,
+  \label{eq:poisson}
+\end{align}
+verknüpft, wobei $N_D(\vb{x})$ die ortsabhängige Dichte der Donatoren in der Heterostuktur und $\epsilon(\vb{x})$ die Permittivität bezeichnet.
+Die Randbedingungen für $u$ ergeben sich aus der Forderung nach Ladungsneutralität in ausreichend großer Entfernung  \cite{frensley}
+\begin{align}
+  u|_{\partial\Omega} = \mu(\vb{x})|_{\partial\Omega}-V_s(\vb{x})|_{\partial\Omega}-\frac{1}{\beta}\mathcal{F}_{1/2}^{-1}(N_D/N_C) \; .
+  \label{eq:RB_PE}
+\end{align}
+Hierin ist $\mu(\vb{x})$ das chemische Potential, $\beta=1/(k_BT)$ mit $T=\SI{300}{\kelvin}$, $N_C = 2(m^*/2\pi\hbar^2\beta)^{3/2}$ die "effektive Zustandsdichte" und $\mathcal{F}_{1/2}$ das Fermi-Dirac Integral der Ordnung $1/2$:
+\begin{align}
+  \mathcal{F}_j(x)=\frac{1}{\Gamma(j+1)}\int_0^{\infty}\frac{t^j}{\exp(t-x)+1}\diff t
+\end{align}
+Das Potential ergibt sich nach Gleichungen \eqref{eq:poisson} und \eqref{eq:dichte} aus dem Dichteoperator -- umgekehrt ergibt sich der Dichteoperator nach Gleichung \eqref{eq:lvn} aus dem Potential. Die Beziehung zwischen Potential und Dichte ist nicht-linear. Die gleichzeitige Lösung für Poisson- und \lvn zu finden erfordert daher Iteration. Das Problem wird \emph{selbstkonsistent} gelöst. Dazu löst man für $\eqref{eq:lvn}$ zunächst mit einem geeigneten \emph{initial guess} $V^{(0)}$. Nun wird iteriert und alternierend gelöst, bis Dichte und Potential sich nicht mehr signifikant ändern. Im Fall der transienten Betrachtung entspricht eine Iteration gleichzeitig einem Zeitschritt. Das Verfahren ist als \emph{Gummel (Plug-in) Approach} etabliert und beispielsweise in \cite{gummel} beschrieben.
+
+Numerisch behandeln wir Gleichung \eqref{eq:poisson} mit dem Finite-Differenzen Verfahren. Das Rechengebiet $L$ wird diskretisiert gemäß
+\begin{align}
+  L_N \equiv {x_i | x_i = i h \forall i = 0,1,\dots,N\text{ mit }L=Nh}
+\end{align}
+Aus der Taylorentwicklung einer Funktion $f:L \rightarrow \mathbb{R}$ folgt für die Ableitungen
+\begin{align}
+  f'(x_i) &= \frac{f(x_{i+1}) - f(x_{i-1})}{2h} + \mathcal{O}(h^2) \\
+  f''(x_i) &= \frac{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})}{h^2} + \mathcal{O}(h^2) \; .
+\end{align}
+Wir schreiben kurz $f(x_i)\equiv f_i$.
+Damit lässt sich mit $a_i\equiv (\epsilon_{i+1} - \epsilon_{i-1})/(4h^2\epsilon_i)$ Gleichung \eqref{eq:poisson} umschreiben zu
+\begin{align}
+  u_{i+1}\cdot(1+a_i) -2 u_i + u_{i-1}\cdot(1-a_i) - \underbrace{e^2h^2\frac{(N_{D,i} - n_i)}{\epsilon_i}}_{\equiv \text{rhs}_i} = 0\; ,
+  \label{eq:discretePE}
+\end{align}
+wobei berücksichtigt werden muss, dass $u_0$ und $u_N$ über die Randbedingungen nach Gleichung \eqref{eq:RB_PE} vorgegeben sind. Somit haben wir das LGS
+\begin{align}
+  \left[ \begin{matrix}-2 & 1+a_1 & & & 0\\1-a_2 & \ddots & \ddots & & \\ & \ddots & \ddots & \ddots & \\& & \ddots & \ddots &  1+a_{N-2} \\0 & &  & 1-a_{N-1} & -2  \end{matrix}  \right]
+  \left[ \begin{matrix}V_1             \\                          \\ \vdots                       \\                           \\V_{N-1}  \end{matrix}  \right]
+  = \left[ \begin{matrix}\text{rhs}_1  \\                          \\ \vdots                       \\                         \\\text{rhs}_{N-1}  \end{matrix}  \right]
+   - \left[ \begin{matrix}(1-a)V_0     \\0                         \\ \vdots                      \\0                        \\(1+a_{N-1})V_N  \end{matrix}  \right]
+\end{align}
+zu lösen. An dieser Stelle halten wir kurz inne und fragen uns, ob wir nicht eine "bessere" Vorhersage für $u^{(n+1)}$ treffen können, sodass wir eine schnellere Konvergenz der Iteration erreichen können. Diese Überlegung führt uns auf das verallgemeinerte Newton-Raphson-Verfahren.
+Die linke Seite von Gleichung \eqref{eq:discretePE} definieren wir als Funktion $P_i(u_1,\dots,u_N)$ und wenden hierauf das Newton-Raphson-Verfahren an. Ausgehend von einem Startwert $\vb{u}^{(0)}$ erhalten wir das Fixpunktproblem
+\begin{align}
+  \vb{u}^{(n+1)} = \vb{u}^{(n)} - (\mathrm{D}\vb{P}|_{\vb{u}^{(n)}})^{-1} \vb{P}(\vb{u}^{(n)}) \; ,
+  \label{eq:fixpunkt_gummel}
+\end{align}
+wobei wir die Vektorschreibweise
+\begin{align}
+  \vb{f} = \left( f_1,\dots,f_N\right)^T = \left( f(x_1),\dots,f(x_N)\right)^T
+\end{align}
+eingeführt haben und $\mathrm{D}$ der Differentiationsoperator ist, in diesem Fall also die Jacobik Matrix von $P$.
+\begin{align}
+  \left(\mathrm{D}\vb{P}|_{\vb{u}^{(n)}}\right)_{i,j} &= \pd{P_i}{u_j^{(n)}} \\ &\stackrel{\eqref{eq:discretePE}}{=}
+  (1+a_i)\delta_{i+1,j} - 2 \delta_{i,j} + (1-a_i)\delta_{i-1,j} + \frac{e^2h^2}{\epsilon_i}\pd{n_i^{(n)}}{u_j^{(n)}}
+\end{align}
+An dieser Stelle ist anzumerken, dass nun auch die Dichte $n$ einen Iterationsindex $(n)$ bekommen hat. Dies ist auf die eingangs beschriebene alternierende Iteration zurückzuführen, in welcher abwechselnd $n^{(n)}$ und $u^{(n)}$ in einem einzigen Iterationsschritt $n$ berechnet werden. Ferner ist die Ableitung $\pd{n_i^{(n)}}{u_j^{(n)}}$ zunächst nicht bekannt.
+Es ist überhaupt eine Abweichung $\pd{n_i^{(n)}}{u_j^{(n)}} \neq 0$, die den Unterschied zwischen Newton-Iteration und direktem Lösen bewirkt.
+\todo{Ableitung aus klassischem Ansatz -> S.172}
+Statt die Jacobi-Matrix invertieren zu müssen, schreiben wir Gleichung \eqref{eq:fixpunkt_gummel} um.
+\begin{align}
+  \mathrm{D}\vb{P}|_{\vb{u}^{(n)}}(\vb{u}^{(n+1)} - \vb{u}^{(n)}) = -  \vb{P}(\vb{u^{(n)}})
+\end{align}
+Wir lösen das LGS für $(\vb{u}^{(n+1)} - \vb{u}^{(n)})$ und erhalten
+\begin{align}
+  \vb{u}^{(n+1)} = (\vb{u}^{(n+1)} - \vb{u}^{(n)}) + \vb{u}^{(n)} \; .
+\end{align}
+
 
 
 \section{Wigner Funktion}
