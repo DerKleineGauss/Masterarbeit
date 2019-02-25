@@ -1,10 +1,10 @@
 \chapter{Einleitung}
-Quantenstrukturen, wie sie heutzutage hergestellt werden können, eröffnen neue Möglichkeiten im Bereich der ultraschnellen Elektronik und Photonik. Solche Strukturen lassen sich in aller Regel als \emph{offene} Systeme beschreiben. Es findet ein Austausch von lokal erhaltenen Fermionen -- die Erhaltung wird durch eine lokale Kontinuitätsgleichung beschrieben -- mit der Umgebung statt. Die Umgebung besteht dabei aus mindestens zwei verschiedenen Partikel-Reservoirs. In diesem Fall kann also ein Nicht-Gleichgewichtszustand erreicht werden, beispielsweise durch das Anlegen einer Spannung. Das zu untersuchende System besitzt eine endliche Ausdehnung im Raum. Es muss im Nicht-Gleichgewichtsfall folglich ein Strom durch die Oberfläche als Rand des Systems fließen. Wir beschränken uns hier auf eindimensionale Quantenstrukturen, für die also die interessante Physik in einer Dimension stattfindet. Dabei wollen wir den Strom der Teilchen, also den quantenmechanischen Transport beschreiben. Dies geschieht allgemein in verschiedenen Anwendungsfällen (Hydrodynamik, Aerodynamik, Elektronik, Neutronentransport, \dots) mit Hilfe einer die Dynamik beschreibenden Differentialgleichung. Hierfür werden Randbedingungen benötigt. Eben diese Randbedingungen definieren den offenen (oder auch geschlossenen) Charakter des Systems.
+Quantenstrukturen, wie sie heutzutage hergestellt werden können, eröffnen neue Möglichkeiten im Bereich der ultraschnellen Elektronik und Photonik. Solche Strukturen lassen sich in aller Regel als \emph{offene} Systeme beschreiben. Es findet ein Austausch von lokal erhaltenen Fermionen -- die Erhaltung wird durch eine lokale Kontinuitätsgleichung beschrieben -- mit der Umgebung statt. Die Umgebung besteht dabei aus mindestens zwei verschiedenen Teilchen-Reservoirs. In diesem Fall kann also ein Nicht-Gleichgewichtszustand erreicht werden, beispielsweise durch das Anlegen einer Spannung. Das zu untersuchende System besitzt eine endliche Ausdehnung im Raum. Es muss im Nicht-Gleichgewichtsfall folglich ein Strom durch die Oberfläche als Rand des Systems fließen. Wir beschränken uns hier auf eindimensionale Quantenstrukturen, für die also die interessante Physik in einer Dimension stattfindet. Dabei wollen wir den Strom der Teilchen, also den quantenmechanischen Transport beschreiben. Dies geschieht allgemein in verschiedenen Anwendungsfällen (Hydrodynamik, Aerodynamik, Elektronik, Neutronentransport, \dots) mit Hilfe einer die Dynamik beschreibenden Differentialgleichung. Hierfür werden Randbedingungen benötigt. Eben diese Randbedingungen definieren den offenen (oder auch geschlossenen) Charakter des Systems.
 
 \chapter{Entwicklung}
 
 \section{Zum Dichteoperator}
-Hi
+\todo{Datta}
 
 \section{Herleitung der Liouville-von-Neumann Gleichung}
 Die Liouville-von-Neumann Gleichung erhält man aus der Liouville-Gleichung wie folgt.
@@ -33,6 +33,7 @@ Wir definieren noch
 und erhalten die Liouville-von-Neumann Gleichung im Ortsraum
 \begin{equation}
   \partial_t \rho(x,y) = \frac{1}{i\hbar} \mathcal{L}(x,y) \rho(x,y) \; .
+  \label{eq:lvn_first}
 \end{equation}
 Es lassen sich zwei Fälle unterscheiden:
 \begin{itemize}
@@ -108,7 +109,11 @@ angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und
 \end{align}
 
 \section{Randbedingungen}
-
+Die Dynamik des in der Einleitung skizzierten Systems muss irreversibel in der Zeit sein. Andernfalls sind instabile Lösungen in der Zeit zulässig \cite{frensley2}. Solche instabilen Lösungen lassen sich anhand des Eigenwertspektrums des Liouvilleoperators aus Gleichung \eqref{eq:lvn_first} erkennen. Man kann zeigen, dass für geschlossene, konservative Systeme $\mathcal{L}$ hermitsch ist als Folge der Hermitizität des Hamiltonoperators \cite{frensley2}.
+\begin{align}
+  H- H^{\dagger} = \frac{\hbar}{i}\int_s \vb{j}\diff\vb{s} = 0
+\end{align}
+Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der \lvn auf. Da wir nun offene Systeme modellieren wollen, müssen wir das Ein- und Austreten von Teilchen in das System erlauben und verletzen dadurch die Hermitizität von $H$ und $\mathcal{L}$. Dadurch werden einige Eigenwerte einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} sehen wir, dass dann in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die Stabilität des Systems sicherstellen.
 
 \section{Potential}
 Das Verfahren soll am Beispiel einer resonanten Tunneldiode (RTD) getestet werden. Dessen durch die Materialkomposition GaAs/AlGaAs resultierender Potentialverlauf ist in Abbildung \ref{fig:pot1} gezeigt.
@@ -158,11 +163,11 @@ Hierin ist $\mu(\vb{x})$ das chemische Potential, $\beta=1/(k_BT)$ mit $T=\SI{30
 \begin{align}
   \mathcal{F}_j(x)=\frac{1}{\Gamma(j+1)}\int_0^{\infty}\frac{t^j}{\exp(t-x)+1}\diff t
 \end{align}
-Das Potential ergibt sich nach Gleichungen \eqref{eq:poisson} und \eqref{eq:dichte} aus dem Dichteoperator -- umgekehrt ergibt sich der Dichteoperator nach Gleichung \eqref{eq:lvn} aus dem Potential. Die Beziehung zwischen Potential und Dichte ist nicht-linear. Die gleichzeitige Lösung für Poisson- und \lvn zu finden erfordert daher Iteration. Das Problem wird \emph{selbstkonsistent} gelöst. Dazu löst man für $\eqref{eq:lvn}$ zunächst mit einem geeigneten \emph{initial guess} $V^{(0)}$. Nun wird iteriert und alternierend gelöst, bis Dichte und Potential sich nicht mehr signifikant ändern. Im Fall der transienten Betrachtung entspricht eine Iteration gleichzeitig einem Zeitschritt. Das Verfahren ist als \emph{Gummel (Plug-in) Approach} etabliert und beispielsweise in \cite{gummel} beschrieben.
+Das Potential ergibt sich nach Gleichungen \eqref{eq:poisson} und \eqref{eq:dichte} aus dem Dichteoperator -- umgekehrt ergibt sich der Dichteoperator nach Gleichung \eqref{eq:lvn} aus dem Potential. Die Beziehung zwischen Potential und Dichte ist nicht-linear. Die gleichzeitige Lösung für Poisson- und \lvn zu finden erfordert daher Iteration. Das Problem wird \emph{selbstkonsistent} gelöst. Dazu löst man für $\eqref{eq:lvn}$ zunächst mit einem geeigneten \emph{initial guess} $V^{(0)}$. Nun wird iteriert und alternierend gelöst, bis Dichte und Potential sich nicht mehr signifikant ändern. Im Fall der transienten Betrachtung entspricht eine Iteration gleichzeitig einem Zeitschritt. Das Verfahren ist als \emph{Gummel (Plug-in) Approach} etabliert und beispielsweise in \cite{gummel} beschrieben. Die folgenden Ausführungen orientieren sich an dieser Literaturquelle.
 
 Numerisch behandeln wir Gleichung \eqref{eq:poisson} mit dem Finite-Differenzen Verfahren. Das Rechengebiet $L$ wird diskretisiert gemäß
 \begin{align}
-  L_N \equiv {x_i | x_i = i h \forall i = 0,1,\dots,N\text{ mit }L=Nh}
+  L_N \equiv \{x_i | x_i = i h \,\forall\, i = 0,1,\dots,N\text{ mit }L=Nh\}
 \end{align}
 Aus der Taylorentwicklung einer Funktion $f:L \rightarrow \mathbb{R}$ folgt für die Ableitungen
 \begin{align}
@@ -178,9 +183,9 @@ Damit lässt sich mit $a_i\equiv (\epsilon_{i+1} - \epsilon_{i-1})/(4h^2\epsilon
 wobei berücksichtigt werden muss, dass $u_0$ und $u_N$ über die Randbedingungen nach Gleichung \eqref{eq:RB_PE} vorgegeben sind. Somit haben wir das LGS
 \begin{align}
   \left[ \begin{matrix}-2 & 1+a_1 & & & 0\\1-a_2 & \ddots & \ddots & & \\ & \ddots & \ddots & \ddots & \\& & \ddots & \ddots &  1+a_{N-2} \\0 & &  & 1-a_{N-1} & -2  \end{matrix}  \right]
-  \left[ \begin{matrix}V_1             \\                          \\ \vdots                       \\                           \\V_{N-1}  \end{matrix}  \right]
+  \left[ \begin{matrix}u_1             \\                          \\ \vdots                       \\                           \\u_{N-1}  \end{matrix}  \right]
   = \left[ \begin{matrix}\text{rhs}_1  \\                          \\ \vdots                       \\                         \\\text{rhs}_{N-1}  \end{matrix}  \right]
-   - \left[ \begin{matrix}(1-a)V_0     \\0                         \\ \vdots                      \\0                        \\(1+a_{N-1})V_N  \end{matrix}  \right]
+   - \left[ \begin{matrix}(1-a_1)u_0     \\0                         \\ \vdots                      \\0                        \\(1+a_{N-1})u_N  \end{matrix}  \right]
 \end{align}
 zu lösen. An dieser Stelle halten wir kurz inne und fragen uns, ob wir nicht eine "bessere" Vorhersage für $u^{(n+1)}$ treffen können, sodass wir eine schnellere Konvergenz der Iteration erreichen können. Diese Überlegung führt uns auf das verallgemeinerte Newton-Raphson-Verfahren.
 Die linke Seite von Gleichung \eqref{eq:discretePE} definieren wir als Funktion $P_i(u_1,\dots,u_N)$ und wenden hierauf das Newton-Raphson-Verfahren an. Ausgehend von einem Startwert $\vb{u}^{(0)}$ erhalten wir das Fixpunktproblem
@@ -190,21 +195,37 @@ Die linke Seite von Gleichung \eqref{eq:discretePE} definieren wir als Funktion 
 \end{align}
 wobei wir die Vektorschreibweise
 \begin{align}
-  \vb{f} = \left( f_1,\dots,f_N\right)^T = \left( f(x_1),\dots,f(x_N)\right)^T
+  \vb{f} = \left( f_0,\dots,f_N\right)^T = \left( f(x_0),\dots,f(x_N)\right)^T
 \end{align}
 eingeführt haben und $\mathrm{D}$ der Differentiationsoperator ist, in diesem Fall also die Jacobik Matrix von $P$.
 \begin{align}
   \left(\mathrm{D}\vb{P}|_{\vb{u}^{(n)}}\right)_{i,j} &= \pd{P_i}{u_j^{(n)}} \\ &\stackrel{\eqref{eq:discretePE}}{=}
   (1+a_i)\delta_{i+1,j} - 2 \delta_{i,j} + (1-a_i)\delta_{i-1,j} + \frac{e^2h^2}{\epsilon_i}\pd{n_i^{(n)}}{u_j^{(n)}}
 \end{align}
-An dieser Stelle ist anzumerken, dass nun auch die Dichte $n$ einen Iterationsindex $(n)$ bekommen hat. Dies ist auf die eingangs beschriebene alternierende Iteration zurückzuführen, in welcher abwechselnd $n^{(n)}$ und $u^{(n)}$ in einem einzigen Iterationsschritt $n$ berechnet werden. Ferner ist die Ableitung $\pd{n_i^{(n)}}{u_j^{(n)}}$ zunächst nicht bekannt.
-Es ist überhaupt eine Abweichung $\pd{n_i^{(n)}}{u_j^{(n)}} \neq 0$, die den Unterschied zwischen Newton-Iteration und direktem Lösen bewirkt.
-\todo{Ableitung aus klassischem Ansatz -> S.172}
+An dieser Stelle ist anzumerken, dass nun auch die Dichte $n$ einen Iterationsindex $(n)$ bekommen hat. Dies ist auf die eingangs beschriebene alternierende Iteration zurückzuführen, in welcher abwechselnd $n^{(n)}$ und $u^{(n)}$ in einem einzigen Iterationsschritt $(n)$ berechnet werden. Ferner ist die Ableitung $\pd{n_i^{(n)}}{u_j^{(n)}}$ zunächst nicht bekannt.
+Es ist überhaupt eine Abweichung $\pd{n_i^{(n)}}{u_j^{(n)}} \neq 0$, die den Unterschied zwischen Newton-Iteration und direktem Lösen bewirkt. Im Allgemeinen liegt keine exakte Form dieser Ableitung vor, da hierzu ja gerade die \lvn zu lösen ist. Es lässt sich jedoch eine Abschätzung vornehmen, welche schnell und kostengünstig ist, sodass das Newton-Verfahren einen echten Vorteil gegenüber dem direkten Iterieren hat. Dazu bedient man sich eines klassischen Gleichgewichts-Resultats und nimmt mit
+\begin{align}
+  n(u) = N_0\exp\left(\frac{u-u_0}{k_B T}\right)
+  \label{eq:maxwell_boltzmann}
+\end{align}
+eine Maxwell-Boltzmann-Statistik an. Dies ist wohlgemerkt eine Annahme und es lassen sich ebenso andere Annehmen, z.B. eine Fermi-Dirac-Statistik, wählen. Jedoch zeigt sich in der Praxis, dass diese Wahl zuverlässig zu einer Konvergenz des Verfahrens führt. Falls nicht stationär, sondern transient gelöst werden soll, sollte jedoch das Newton-Verfahren nicht verwendet werden, da ein Iterationsschritt hier einem Zeitschritt entspricht und die Annahme \eqref{eq:maxwell_boltzmann} heuristischer Natur ist. Somit würde physikalisches Verhalten implizit aufgeprägt werden, statt dass dieses durch die vorhandenen zwei Gleichungen beschrieben wird.
+
+Für den stationären Fall folgt aus Annahme \eqref{eq:maxwell_boltzmann} für das diskretisierte System
+\begin{align}
+  \pd{n_i}{u_j} = \frac{n_i}{k_B T}\delta_{i,j} \; .
+\end{align}
 Statt die Jacobi-Matrix invertieren zu müssen, schreiben wir Gleichung \eqref{eq:fixpunkt_gummel} um.
 \begin{align}
   \mathrm{D}\vb{P}|_{\vb{u}^{(n)}}(\vb{u}^{(n+1)} - \vb{u}^{(n)}) = -  \vb{P}(\vb{u^{(n)}})
 \end{align}
-Wir lösen das LGS für $(\vb{u}^{(n+1)} - \vb{u}^{(n)})$ und erhalten
+Explizit ausgeschrieben
+\begin{align}
+  \left(\mathrm{D}\vb{P}|_{\vb{u}^{(n)}}\right)_{i,j} &=
+    (1+a_i)\delta_{i+1,j} + ( \frac{e^2h^2}{\epsilon_i}\frac{n_i}{k_B T} - 2) \delta_{i,j} + (1-a_i)\delta_{i-1,j} \\
+  \left( \vb{P}(\vb{u^{(n)}}) \right)_{i} &=
+   u_{i+1}^{(n)}\cdot(1+a_i) -2 u_i^{(n)} + u_{i-1}^{(n)}\cdot(1-a_i) - e^2h^2\frac{(N_{D,i} - n_i^{(n)})}{\epsilon_i}
+\end{align}
+mit $i,j = 1,\dots,N-1$. Wir lösen das LGS für $(\vb{u}^{(n+1)} - \vb{u}^{(n)})$ und erhalten
 \begin{align}
   \vb{u}^{(n+1)} = (\vb{u}^{(n+1)} - \vb{u}^{(n)}) + \vb{u}^{(n)} \; .
 \end{align}
