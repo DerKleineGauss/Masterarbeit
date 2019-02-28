@@ -1,11 +1,26 @@
 \chapter{Einleitung}
 Quantenstrukturen, wie sie heutzutage hergestellt werden können, eröffnen neue Möglichkeiten im Bereich der ultraschnellen Elektronik und Photonik. Solche Strukturen lassen sich in aller Regel als \emph{offene} Systeme beschreiben. Es findet ein Austausch von lokal erhaltenen Fermionen -- die Erhaltung wird durch eine lokale Kontinuitätsgleichung beschrieben -- mit der Umgebung statt. Die Umgebung besteht dabei aus mindestens zwei verschiedenen Teilchen-Reservoirs. In diesem Fall kann also ein Nicht-Gleichgewichtszustand erreicht werden, beispielsweise durch das Anlegen einer Spannung. Das zu untersuchende System besitzt eine endliche Ausdehnung im Raum. Es muss im Nicht-Gleichgewichtsfall folglich ein Strom durch die Oberfläche als Rand des Systems fließen. Wir beschränken uns hier auf eindimensionale Quantenstrukturen, für die also die interessante Physik in einer Dimension stattfindet. Dabei wollen wir den Strom der Teilchen, also den quantenmechanischen Transport beschreiben. Dies geschieht allgemein in verschiedenen Anwendungsfällen (Hydrodynamik, Aerodynamik, Elektronik, Neutronentransport, \dots) mit Hilfe einer die Dynamik beschreibenden Differentialgleichung. Hierfür werden Randbedingungen benötigt. Eben diese Randbedingungen definieren den offenen (oder auch geschlossenen) Charakter des Systems.
 
-\chapter{Entwicklung}
+\chapter{Problemstellung}
 
 \section{Zum Dichteoperator}
-\todo{Datta}
-Wir konzentrieren uns im folgenden lediglich auf ein Modell unabhängiger Elektronen, sodass es genügt, den Einteilchen-Dichteoperator zu betrachten.
+Aus Ingenieurs-Sicht ist es sehr natürlich, nach der Elektronendichte $n(\vb{x})$ in einem System zu fragen. Quantenmechanisch ist diese Größe eine Observable, also der Erwartungswert eines hermitschen Operators bezüglich des Hilbertraums der $L^2$-Funktionen. Anschaulich ist klar, dass sich die Elektronendichte aus zwei Wahrscheinlichkeiten zusammensetzt. Erstens benötigen wir die Wahrscheinlichkeit dafür, dass ein Zustand mit Energie $\epsilon$ besetzt ist. Diese wird mit der  Aufenthaltswahrscheinlichkeit, dass am Ort $\vb{x}$ überhaupt ein Teilchen vorhanden ist, multipliziert. Im Gleichgewicht ergibt sich mit $\epsilon_{\alpha}$ als Eigenwerte und $\Phi_{\alpha}$ als Eigenvektoren des Hamiltonoperators \cite{datta}
+\begin{align}
+  n(\vb{r}) = \sum_{\alpha} \sum_{\beta} C_{\alpha} C_{\beta}^*\Phi_{\alpha}(\vb{r}) \Phi_{\beta}^*(\vb{r})
+\end{align}
+mit $|C_{\alpha}|^2 = f(\epsilon_{\alpha}-\mu)$, der mittleren Besetzungszahl für wechselwirkungsfreie Teilchen, gegeben durch
+\begin{align}
+  f(E) = \frac{1}{1+\exp(\beta E)} \; .
+\end{align}
+Wir bezeichnen mit $\tilde{\rho}(\alpha,\beta) = f_a\delta_{a,\beta}$ den diagonalen Dichteoperator in der Energie-Darstellung und schreiben allgemein
+\begin{align}
+  \rho(\vb{r},\vb{r}') \equiv \sum_{\alpha} \sum_{\beta} \tilde{\rho}(\alpha,\beta)\Phi_{\alpha}(\vb{r})\Phi^*_{\beta}(\vb{r}') \; ,
+\end{align}
+sodass die Elektronendichte sich aus dem Dichteoperator in Ortsdarstellung aus
+\begin{align}
+  n(\vb{r}) = \rho(\vb{r},\vb{r})
+\end{align}
+ergibt. Wir konzentrieren uns im folgenden lediglich auf ein Modell unabhängiger Elektronen, sodass es genügt, den Einteilchen-Dichteoperator zu betrachten.
 
 \section{Herleitung der Liouville-von-Neumann Gleichung}
 Die Liouville-von-Neumann Gleichung erhält man aus der Liouville-Gleichung wie folgt.
@@ -141,26 +156,6 @@ Für lokal konstantes $\beta$ erhalten wir daher in Übereinstimmung mit \cite{f
 \end{align}
 
 
-\section{Potential}
-Das Verfahren soll am Beispiel einer resonanten Tunneldiode (RTD) getestet werden. Dessen durch die Materialkomposition GaAs/AlGaAs resultierender Potentialverlauf ist in Abbildung \ref{fig:pot1} gezeigt.
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\textwidth]{plots/potential.pdf}
-  \caption{Potentialverlauf der RTD.}
-  \label{fig:pot1}
-\end{figure}
-Die eingezeichneten Längen wählen wir wie in (paper) zu
-\begin{align}
-  L_1 &= \SI{6}{\nano\meter}\\
-  L_2 &= \SI{5}{\nano\meter}\\
-  L_U &= \SI{30}{\nano\meter} \; .
-\end{align}
-Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt. Auch hier lassen sich wieder zwei Fälle unterscheiden.
-\begin{itemize}
-  \item Der Gleichgewichtsfall $U=0$. Hier kann als Randbedingung auf beiden Seiten die Fermi-Dirac-Statistik \ref{eq:fd_statistic} angenommen werden.
-  \item Der Nicht-Gleichgewichtsfall $U>0$. Hier sind lediglich die \emph{inflow}-Bedingungen für positive Geschwindigkeiten am linken- und negative Geschwindigkeiten am rechten Rand des Rechengebietes bekannt.
-\end{itemize}
-
 \section{Strom- und Ladungsträgerdichte}
 Aus der Dichtematrix $\rho(r,q,t)$ in Schwerpunkt- und Relativkoordinaten lassen sich Strom- und Ladungsträgerdichte ableiten. Es gilt
 \begin{align}
@@ -170,16 +165,28 @@ Aus der Dichtematrix $\rho(r,q,t)$ in Schwerpunkt- und Relativkoordinaten lassen
 \end{align}
 
 \section{Selbstkonsistentes Potential}
-Das Potential in dem Liouville-Operator \eqref{eq:Liouville-Operator} setzt sich zusammen aus dem Hartree Potential $u(x,y,z)$ sowie dem Heterostuktur Potential $V_s(x,y,z)$.
+Das Potential in dem Liouville-Operator \eqref{eq:Liouville-Operator} setzt sich zusammen aus dem Hartree Potential $u(x,y,z)$, dem Heterostuktur Potential $V_s(x,y,z)$ sowie dem äußeren Feld $-eU$.
 \begin{align}
-  V(\vb{x}) = u(\vb{x}) + V_s(\vb{x})
+  V(\vb{x}) = u(\vb{x}) + V_s(\vb{x}) - eU
 \end{align}
+Auch hier lassen sich wieder zwei Fälle unterscheiden.
+\begin{itemize}
+  \item Der Gleichgewichtsfall $U=0$. %Hier kann als Randbedingung auf beiden Seiten die Fermi-Dirac-Statistik \eqref{eq:fd_statistic} angenommen werden.
+  \item Der Nicht-Gleichgewichtsfall $U\neq 0$. %Hier sind lediglich die \emph{inflow}-Bedingungen für positive Geschwindigkeiten am linken- und negative Geschwindigkeiten am rechten Rand des Rechengebietes bekannt.
+\end{itemize}
+Da das Hartree Potential von der Konstellation der Elektronen abhängt und umgekehrt, wird es selbstkonsistent berechnet, wie im folgenden Abschnitt erläutert wird.
+
+\subsection{Hartree-Potential}
 Das Hartree Potential ist mit der Elektronendichte $n(\vb{x})$ durch die Poisson-Gleichung \cite{frensley}
 \begin{align}
   -\div \epsilon(\vb{x}) \grad u(\vb{x}) = e^2 (n(\vb{x}) - N_D(\vb{x})) \; ,
+  \label{eq:poisson_3d}
+\end{align}
+verknüpft, wobei $N_D(\vb{x})$ die ortsabhängige Dichte der Donatoren in der Heterostuktur und $\epsilon(\vb{x})$ die Permittivität bezeichnet. Akzeptoren und Löcher werden aufgrund der Dotierung $N_D \gg N_A$ vernachlässigt. Ferner nehmen wir aufgrund der eindimensionalen Problemstellung an, dass $u(\vb{x}) = u(x)$ und $\epsilon(\vb{x})=\epsilon(x)$ sodass die Poisson-Gleichung eindimensional wird.
+\begin{align}
+  -\partial_x (\epsilon(x)\partial_x u(x)) = e^2(n(x)-N_D(x))
   \label{eq:poisson}
 \end{align}
-verknüpft, wobei $N_D(\vb{x})$ die ortsabhängige Dichte der Donatoren in der Heterostuktur und $\epsilon(\vb{x})$ die Permittivität bezeichnet.
 Die Randbedingungen für $u$ ergeben sich aus der Forderung nach Ladungsneutralität in ausreichend großer Entfernung  \cite{frensley}
 \begin{align}
   u|_{\partial\Omega} = \mu(\vb{x})|_{\partial\Omega}-V_s(\vb{x})|_{\partial\Omega}-\frac{1}{\beta}\mathcal{F}_{1/2}^{-1}(N_D/N_C) \; .
@@ -255,6 +262,22 @@ mit $i,j = 1,\dots,N-1$. Wir lösen das LGS für $(\vb{u}^{(n+1)} - \vb{u}^{(n)}
 \begin{align}
   \vb{u}^{(n+1)} = (\vb{u}^{(n+1)} - \vb{u}^{(n)}) + \vb{u}^{(n)} \; .
 \end{align}
+
+\subsection{Heterostuktur-Potential}
+Das Verfahren soll am Beispiel einer resonanten Tunneldiode (RTD) getestet werden. Dessen durch die Materialkomposition GaAs/AlGaAs resultierender Potentialverlauf $V_s(x)$ ist in Abbildung \ref{fig:pot1} gezeigt.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{plots/potential.pdf}
+  \caption{Potentialverlauf der RTD.}
+  \label{fig:pot1}
+\end{figure}
+Die eingezeichneten Längen wählen wir wie in \cite{lukas1} zu
+\begin{align}
+  L_1 &= \SI{6}{\nano\meter}\\
+  L_2 &= \SI{5}{\nano\meter}\\
+  L_U &= \SI{30}{\nano\meter} \; .
+\end{align}
+Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt.
 
 
 
