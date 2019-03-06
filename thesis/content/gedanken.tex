@@ -55,7 +55,7 @@ folgt mit $H^{\dagger} = H$ und temporärer Unterdrückung der Zeitabhängigkeit
 Wir definieren noch
 \begin{align}
   \mathcal{L}(x,y) &\equiv \mathcal{L}(x) - \mathcal{L}^*(y)\\
-   \mathcal{L}(x,y,t)&= -\frac{\hbar^2}{2m}\left( \partial_x^2 - \partial_y^2 \right) + V(x,t) - V^*(y,t)
+   &= -\frac{\hbar^2}{2m}\left( \partial_x^2 - \partial_y^2 \right) + V(x) - V^*(y)
 \end{align}
 und erhalten die Liouville-von-Neumann Gleichung im Ortsraum
 \begin{equation}
@@ -316,3 +316,20 @@ die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{
   W\; :\; L(\HR,\HR)  \rightarrow & \text{Phasenraum}^* \\
    \hat{G} \mapsto & g(x,p) = \int_{-\infty}^{\infty} \bra{x-s/2}\hat{G} \ket{x+s/2} \E{ips/\hbar} \diff s
 \end{align}
+
+\section{Vortrag}
+\begin{align*}
+  q \longrightarrow k \\
+  \rho|_{q=\pm L_q/2} = ?\\
+  \rho|_{r=\pm L_r/2} = \hat{f}_{l,r}(q) \\
+  f(r,k) \\
+  \hat{\rho}(r,k) = \Phi \rho(r,q) \\
+  \rho(r,k>0)|_{r=- L_r/2} = \Phi \hat{f}_{l}(q) \\
+  \rho(r,k<0)|_{r=+ L_r/2} = \Phi \hat{f}_{r}(q) \\
+  f(r,k>0)|_{r=- L_r/2} = f_{l}(k) \\
+  f(r,k<0)|_{r=+ L_r/2} = f_{r}(k)
+\end{align*}
+
+\begin{empheq}[box=\widefbox]{align}
+  i \partial_t \rho(r,q,t)+\operatorname{div}(A\nabla \rho(r,q,t)) - B(r,q,t) \rho(r,q,t) = 0
+\end{empheq}
