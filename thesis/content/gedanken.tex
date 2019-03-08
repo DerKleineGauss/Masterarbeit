@@ -333,6 +333,46 @@ die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{
   u_h
 \end{align*}
 
+\begin{align*}
+  E:\, C^1(\bar{\Omega}) \rightarrow \mathbb{R} \\
+  \td{}{\epsilon}E(u+\epsilon v) = 0 \\
+  E(u) = \frac{\sigma}{2} \int_{\Omega}|\nabla u|^2 - \int_{\Omega} fu \\
+  \int_{\Omega} \nabla u \cdot \nabla v = \int_{\Omega} fv \qquad \forall v\in\mathbb{V}_0\\
+  \mathcal{B}(u,v) = \int_{\Omega} \nabla u \cdot \nabla v \qquad f(v) \equiv (f,v)_{L^2(\Omega)} \\
+  \mathcal{B}(u,v) = f(v)\\
+  u\in\mathbb{V}
+\end{align*}
+\begin{align*}
+  \mathbb{V}_N \subset \mathbb{V} \\
+  U_N \in \mathbb{V}_N \\
+  \mathcal{B}(U_N,V_N) = f(V_N) \qquad \forall V_N\in\mathbb{V}_N \\
+  \mathbb{V}_N \subset \mathbb{V} \; \Rightarrow \; \mathcal{B}(u - U_N,V_N) = 0 \\
+  \mathcal{B}(v,v) \geq \alpha \norm{v}_{\mathbb{V}}^2 \qquad \forall v\in\mathbb{V}\\
+  \mathcal{B}(u,v) \leq \norm{\mathcal{B}}\norm{u}_{\mathbb{V}}\norm{v}_{\mathbb{V}} \qquad \forall u,v\in\mathbb{V}\\
+  f\in\mathbb{V}^*
+\end{align*}
+\begin{align*}
+  \alpha\norm{U_N-u}_{\mathbb{V}}^2 &\leq \mathcal{B}(U_N-u,U_N-u) = \mathcal{B}(U_N-u,V-u) \\
+  &\leq\norm{\mathcal{B}}\norm{U_N-u}_{\mathbb{V}}\norm{V-u}_{\mathbb{V}} \qquad \forall V\in\mathbb{V}_N\\
+  \Rightarrow \;\; \norm{U_N-u}_{\mathbb{V}} \leq \frac{\norm{\mathcal{B}}}{\alpha}\inf_{V\in\mathbb{V}_N}\norm{V-u}_{\mathbb{V}}
+\end{align*}
+\begin{align*}
+  i \partial_t u + \div(A\nabla u) - Bu &= 0  \qquad &\forall \vb{x}\in\Omega \\
+  u &= u_D                  & \forall \vb{x}\in\Gamma_D \subset \partial\Omega \\
+  A\nabla u \vb{n} &= U_N   & \forall \vb{x}\in\Gamma_N \subset \partial\Omega\\
+  \int_{\Omega} i \partial_t u v + \div(A\nabla u) v - Buv = 0 \qquad \forall v \in \mathbb{V} \\
+  \int_{\Omega} i \partial_t u v - (A\nabla u)\cdot \nabla v - Buv + \int_{\partial\Omega}(A\nabla u)v\cdot n = 0 \qquad \forall v \in \mathbb{V} \\
+\end{align*}
+
+\begin{align}
+  \fes(\mathcal{T},\mathbb{P}_N,\mathbb{V}) \equiv \{ V\in\mathbb{V} \, | \, V_{|K} \in \mathbb{P}_N(K) \, \forall \, K\in\mathcal{T}\}
+\end{align}
+
+\begin{align*}
+  -\Delta u = f \qquad \mathrm{in }\, \Omega, \qquad u=0 \qquad \mathrm{auf }\; \partial\Omega \\
+  u \in \mathbb{V}:\qquad \int_{\Omega}\nabla u\cdot\nabla v = \int_{\Omega} fv\qquad \forall\, v\in\mathbb{V}_0 \\
+  s - \frac{d}{2} \geq l \qquad \Rightarrow \qquad H^s(\Omega) \hookrightarrow C^l(\bar{\Omega})
+\end{align*}
 
 \begin{empheq}[box=\widefbox]{align}
   i \partial_t \rho(r,q,t)+\operatorname{div}(A\nabla \rho(r,q,t)) - B(r,q,t) \rho(r,q,t) = 0
