@@ -317,6 +317,31 @@ die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{
    \hat{G} \mapsto & g(x,p) = \int_{-\infty}^{\infty} \bra{x-s/2}\hat{G} \ket{x+s/2} \E{ips/\hbar} \diff s
 \end{align}
 
+\section{Konsistenz}
+Unter Konsistenz verstehen wir, dass die Lösung der pDGL auch die von uns gewählte variationale Formulierung erfüllt.
+\begin{itemize}
+  \item
+Dies bedeutet in Sichtweise A (numerischer Fluss)
+\begin{align}
+  f^*(u,u) = f(u)
+\end{align}
+Hierbei ist $f(u)$ der Fluss, der den Teil nach partieller Integration beschreibt.
+\begin{align}
+  \int_{K} v\operatorname{div}(A\nabla u) = \int_K \nabla v \cdot \underbrace{(-A\nabla u)}_{\equiv f(u)} + \int_{\partial K} v A\nabla u \cdot n_K
+\end{align}
+Hingegen ist $f^*(u^+,u^-)$ der numerische Fluss, der anhand der Charakteristik der pDGL gewählt werden kann. Diese Wahl ist das Herzstück der DG-Methoden. Die Wahl sollte Stabilität und Konsistenz gewährleisten. Stabilität bedeutet hier, kleine Änderungen der Daten resultieren in kleinen Änderungen der (numerischen) Lösungen. Außerdem auch, dass die Zeitableitung beschränkt ist, genauer gesagt
+\begin{align}
+  \sum_{K=1}^{\#\mathcal{T}}\td{}{t}\norm{u_N}^2_{2;K} \leq 0
+\end{align}
+\item
+In Sichtweise B (Bilinearform) bedeutet Konsistenz erneut, dass die Lösung der pDGL die von uns gewählte variationale Formulierung, sprich die Galerkin-Gleichung, erfüllt.
+\begin{align}
+  \mathcal{B}_N(u,V) = F_N(V) \qquad \forall \, {V\in\mathbb{V}_N}
+\end{align}
+Wir können in unserer Bilinearform beliebig Sprünge ergänzen, denn für die exakte Lösung gilt Stetigkeit und daher $\llbracket u \rrbracket = 0$.
+\end{itemize}
+
+
 \section{Vortrag}
 \begin{align*}
   q \longrightarrow k \\
@@ -357,10 +382,10 @@ die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{
   \Rightarrow \;\; \norm{U_N-u}_{\mathbb{V}} \leq \frac{\norm{\mathcal{B}}}{\alpha}\inf_{V\in\mathbb{V}_N}\norm{V-u}_{\mathbb{V}}
 \end{align*}
 \begin{align*}
-  i \partial_t u + \div(A\nabla u) - Bu &= 0  \qquad &\forall \vb{x}\in\Omega \\
+  i \partial_t u + \operatorname{div}(A\nabla u) - Bu &= 0  \qquad &\forall \vb{x}\in\Omega \\
   u &= u_D                  & \forall \vb{x}\in\Gamma_D \subset \partial\Omega \\
   A\nabla u \vb{n} &= U_N   & \forall \vb{x}\in\Gamma_N \subset \partial\Omega\\
-  \int_{\Omega} i \partial_t u v + \div(A\nabla u) v - Buv = 0 \qquad \forall v \in \mathbb{V} \\
+  \int_{\Omega} i \partial_t u v + \operatorname{div}(A\nabla u) v - Buv = 0 \qquad \forall v \in \mathbb{V} \\
   \int_{\Omega} i \partial_t u v - (A\nabla u)\cdot \nabla v - Buv + \int_{\partial\Omega}(A\nabla u)v\cdot n = 0 \qquad \forall v \in \mathbb{V} \\
 \end{align*}
 
@@ -382,6 +407,55 @@ die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{
   U_N(x_i)
 \end{align*}
 
+\begin{align*}
+  \pd{u(x,t)}{t} + \pd{(au(x,t))}{x} = 0\;,\qquad x\in[0,\ell] = \Omega\\
+  u(x,0) = u_0(x)\\
+  u(0,t) = g(t) \qquad \mathrm{mit}\,a\geq 0
+\end{align*}
+
 \begin{empheq}[box=\widefbox]{align}
   i \partial_t \rho(r,q,t)+\operatorname{div}(A\nabla \rho(r,q,t)) - B(r,q,t) \rho(r,q,t) = 0
 \end{empheq}
+
+The numerical flux is chosen to ensure that information in the problem travels in the direction of the characteristic curves of the equation (upwinding). As mentioned in the comments, the numerical flux is necessary in order to couple the subproblems defined on each element.
+
+One way to get an intuition for the role of the numerical flux is to consider the following simple example.
+
+Consider the scalar advection equation (where for simplicity $a=1$)
+$$
+\frac{\partial u}{\partial t} + \frac{\partial u}{\partial x} = 0 \qquad\text{on $\Omega$},
+$$
+where the domain is given by $\Omega = [0,1]$. Because this is a hyperbolic equation, and information is propagating from left to right, we need to enforce a boundary condition at $x = 0$ (but not at $x = 1$). For concreteness, suppose we enforce the Dirichlet condition $u(0,t) = g_D$ for some given $g_D$.
+
+Suppose now we discretize this equation using the DG method, and we use two elements, $D_1 = [0,1/2]$ and $D_2 = [1/2,1]$. We could equally-well be discretizing the following set of two coupled PDEs,
+\begin{align*}
+\text{(PDE 1):} && v_t + v_x &= 0 \quad\text{auf $D_1=[0,\ell/2]$},\\
+\text{(PDE 2):} && w_t + w_x &= 0 \quad\text{auf $D_2=[\ell/2,\ell]$},
+\end{align*}
+where we will couple these equations to make them equivalent to the original equation.
+
+To make the above equations well-posed, we need to enforce boundary conditions. As before, each equation is hyperbolic, and information is traveling from left to right. Therefore, we need to enforce a boundary condition for (PDE 1) on the left endpoint of $D_1$, and a boundary condition for (PDE 2) on the left endpoint of $D_2$.
+
+The boundary condition on the left endpoint of $D_1$ must be chosen to be $v(0,t) = g_D$ in order to remain consistent with the original problem. We also look for smooth solutions, so the boundary condition on the left endpoint of $D_2$ must be chosen to enforce continuity. This condition reads $w(1/2,t) = v(1/2,t)$.
+
+The DG method in this case chooses the numerical fluxes precisely to enforce the above boundary conditions. If we multiply by a test function $\psi$ and integrate by parts over each element $D_k$, we obtain boundary terms of the form
+\begin{align*}
+  \int_{D_1} \psi v_t - \int_{D_1} \psi_x \, v + \int_{\partial D_1} \psi  v \hat{n}  &= 0\\
+  \int_{D_1} \psi_N v_{N,t} - \int_{D_1} \psi_{N,x}  v_N + \int_{\partial D_1} \psi_N  \,v_N^* \, \hat{n}  &= 0 \\
+\int_{\partial D_1} \hat{n} \cdot v \psi \, dx &= \left[ v\psi \right]_0^{\ell/2}\\
+\int_{\partial D_2} \hat{n} \cdot w \psi \, dx &= \left[ w\psi\right]_{\ell/2}^\ell \\
+\end{align*}
+In order to "weakly" enforce the boundary conditions, we replace $v$ and $w$ with the prescribed values at those points where boundary conditions are specified (i.e. the left endpoints of $D_1$ and $D_2$). This means we replace $v(0,t)$ by $g_D$ and $w(1/2,t)$ by $v(1/2,t)$ in the boundary integrals.
+
+In other words, we define $u_h^* = g_D$ at $x = 0$, and $u_h^* = v(1/2,t)$ at $x=1/2$, and we recover exactly the standard upwind flux that is used in the DG method.
+
+Looking at things this way, we can consider the numerical flux functions as weakly enforcing the boundary conditions on each element that are required to couple the equations in such a way that respects the characteristic structure of the equations.
+
+For equations more complicated than constant-coefficient advection, information may not propagate always in the same direction, and so the numerical flux must be determined by solving (or approximating the solution to) a Riemann problem at the interface. This is discussed for linear problems in Section 2.4 of Hesthaven's book.
+\begin{align*}
+  v_N^* = v_N^* (v_N^-, v_N^+) = \left\{  \begin{array}{l l} g(t), \; &x = 0 \\ \avg{v_N} + \frac{1}{2}\jump{v_N} = v_N^-(\ell/2, t) ,\; &x=\ell/2 \\ v_N^+(\ell,t),\; &x=\ell\end{array}  \right.
+\end{align*}
+\begin{align*}
+  \Leftrightarrow \qquad f^*(u,u) = f(u)\\
+  u \in H^1(\Omega)
+\end{align*}

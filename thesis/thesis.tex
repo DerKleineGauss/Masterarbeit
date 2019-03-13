@@ -147,6 +147,7 @@
 \usepackage[german]{todonotes}
 \usepackage{empheq}
 \newcommand*\widefbox[1]{\fbox{\hspace{1em}#1\hspace{1em}}}
+\usepackage{stmaryrd}   % doppelt Eckige Klammern mit \llbracket und \rrbracket
 %------------------------------------------------------------------------------
 %------------------------------  Macros:   ------------------------------------
 %------------------------------------------------------------------------------
@@ -214,6 +215,8 @@
 %------------------------------------------------------------------------------
 %------------------------------ New Commands: ---------------------------------
 %------------------------------------------------------------------------------
+\newcommand{\jump}[1]{\llbracket #1 \rrbracket}
+\newcommand{\avg}[1]{\{\{ #1 \}\} }
 \newcommand{\lvn}{Liouville-von-Neumann Gleichung }
 \newcommand*\diff{\mathop{}\!\mathrm{d}}
 \newcommand*\Diff[1]{\mathop{}\!\mathrm{d#1}}
