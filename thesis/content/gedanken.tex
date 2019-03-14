@@ -459,3 +459,39 @@ For equations more complicated than constant-coefficient advection, information 
   \Leftrightarrow \qquad f^*(u,u) = f(u)\\
   u \in H^1(\Omega)
 \end{align*}
+
+\section{Schema}
+\begin{align}
+  i \partial_t u(x,y,t)+\operatorname{div}(\underbrace{A\nabla u(x,y,t)}_{\equiv \vb{q}}) - \underbrace{ B(x,y,t) u(x,y,t)}_{\equiv g(u)} = 0 \\
+  \left\{ \begin{array}{c}  i \partial_t u+\operatorname{div}( \vb{q}) - g(u) = 0 \\  \frac{1}{2}\partial_y u =  q_x \\ \frac{1}{2}\partial_x u =  q_y  \end{array}\right.
+\end{align}
+Entwicklung in $\mathbb{V}_N$
+\begin{align}
+  \vb{x}\in K: \; u_N^K(\vb{x}) = \sum_{j=1}^{N_p} u_N^K(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \\
+  \vb{x}\in K: \; g_N^K(\vb{x}) = \sum_{j=1}^{N_p} g_N^K(\vb{\xi}_j^K, t)\ell_j^K(\vb{x})
+\end{align}
+\begin{align*}
+  i\int_K \partial_t \sum_{j=1}^{N_p} u_N^K(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \ell_i^K(\vb{x})
+  - \int_K \sum_{j=1}^{N_p} \vb{q}_N^K(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \cdot \nabla \ell_i^K(\vb{x}) \qquad \\
+  \; + \int_{\partial K} \sum_{j=1}^{N_p} \vb{q}^{*,K}(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \ell_i^K(\vb{x}) \cdot \hat{\vb{n}}
+  - \int_K \sum_{j=1}^{N_p} g_N^K(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \ell_i^K(\vb{x}) = 0 \\
+  \forall i = 1,\dots,N_p
+\end{align*}
+\begin{align*}
+  \int_K \sum_{j=1}^{N_p} \partial_{\nicefrac{y}{x}} \ell_j^K(\vb{x})\ell_i^K(\vb{x}) + \int_{\partial K} \hat{n}_{\nicefrac{y}{x}} \sum_{j=1}^{N_p} (u^{*,K}(\vb{\xi}_j^K) -     u_N^K(\vb{\xi}_j^K))\ell_j(\vb{x})\\
+   = 2 \int_K \sum_{j=1}^{N_p} (\vb{q}_N^K)_{\nicefrac{x}{y}} (\vb{\xi}_j^K, t) \ell_i^K(\vb{x})\ell_j^K(\vb{x})
+\end{align*}
+Massenmatrix
+\begin{align}
+  (M^K)_{i,j} \equiv \int_K \ell_i^K(\vb{x})\ell_j^K(\vb{x}) = J^K \int_{\hat{K}}\ell_i(\vb{x}) \ell_j(\vb{x}) \equiv J^K M
+\end{align}
+Steifigkeitsmatrix
+\begin{align}
+  (S^K_{\nicefrac{x}{y}})_{i,j} \equiv \int_K \partial_{\nicefrac{x}{y}} \ell_j^K(\vb{x})\ell_i^K(\vb{x}) = (M^K D_x)_{i,j}
+\end{align}
+Einsetzen :
+\begin{align}
+  iM^K\partial_t \vb{u}_N^K - (S^K_x)^T\vb{q}_{N,x}^K - (S^K_y)^T\vb{q}_{N,y}^K \\
+  + \int_{\partial K} \sum_{j=1}^{N_p} \vb{q}^{*,K}(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \ell_i^K(\vb{x}) \cdot \hat{\vb{n}}
+  - M^K\vb{g}_N^K = 0
+\end{align}
