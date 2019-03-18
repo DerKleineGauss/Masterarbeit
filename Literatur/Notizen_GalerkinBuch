@@ -1,0 +1,21 @@
+S. 7
+< An intelligent combination of the finite element and the finite volume methods, utilizing a space of basis and test functions that mimics the finite element method but satisfying the equation in a sense closer to the finite volume method, appears to offer many of the desired properties. This combination is exactly what leads to the discontinuous Galerkin finite element method. >
+
+S. 9
+< While the structure of the DG-FEM is very similar to that of the finite element method, there are several fundamental differences. In particular, the mass matrix is local rather than global and thus can be inverted at very little cost, yielding a semidiscrete scheme that is explicit. Furthermore, by carefully designin the numerical flux to reflect the underlying dynamics, one has more flexibility than in the classic FEM to ensure stability for wave-dominated problems. >
+Price : increase in the total degrees of freedom as a direct result of the decoupling of the elements.
+
+S. 26
+< A particularly interesting case is that alpha = 1, corresponding to purely central fluxes (der Sprungterm ist dann rausgenommen). In this case, we do not get any contributions from the internal boundaries; that is, for a periodic case, the energy is constant as for the original equation. >
+< important properties of DG methods:
+    The solutions are piecewise smooth, often polynomial, but discontinuous between elements
+    Boundary conditions and interface continuity are enforced only weakly
+    All operators are local (!)
+    The schemes are well suited to variable order and element sizes, as all information excahnge is across the interfaces only
+
+S. 27
+< ... Thus it is the order of the local approximation (N) that gives the fast convergence rate.>
+
+
+N               Ordnung der interpolierenden Polynome
+N_p  = N + 1 : local grid points, Anzahl Lagrange Polynome

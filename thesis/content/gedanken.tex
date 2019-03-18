@@ -465,10 +465,14 @@ For equations more complicated than constant-coefficient advection, information 
   i \partial_t u(x,y,t)+\operatorname{div}(\underbrace{A\nabla u(x,y,t)}_{\equiv \vb{q}}) - \underbrace{ B(x,y,t) u(x,y,t)}_{\equiv g(u)} = 0 \\
   \left\{ \begin{array}{c}  i \partial_t u+\operatorname{div}( \vb{q}) - g(u) = 0 \\  \frac{1}{2}\partial_y u =  q_x \\ \frac{1}{2}\partial_x u =  q_y  \end{array}\right.
 \end{align}
-Entwicklung in $\mathbb{V}_N$
+Entwicklung in
+\begin{equation}
+  \mathbb{V}_N = \bigoplus\limits_{K\in\mathcal{T}}^{} \{\Psi_n(K)\}_{n=1}^{N_p}
+\end{equation}
 \begin{align}
-  \vb{x}\in K: \; u_N^K(\vb{x}) = \sum_{j=1}^{N_p} u_N^K(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \\
-  \vb{x}\in K: \; g_N^K(\vb{x}) = \sum_{j=1}^{N_p} g_N^K(\vb{\xi}_j^K, t)\ell_j^K(\vb{x})
+  \vb{x}\in K: \; u_N^K(\vb{x}) = \sum_{m=1}^{N_p}\hat{u}_N^K(t) \Psi_m(\vb{x})
+  = \sum_{n=1}^{N_p} u_N^K(\vb{\xi}_n^K, t)\ell_n^K(\vb{x}) \\
+  \underline{u}_N^K \equiv (u_N^K(\vb{\xi}_1^K, t),\dots, u_N^K(\vb{\xi}_{N_p}^K, t))^T
 \end{align}
 \begin{align*}
   i\int_K \partial_t \sum_{j=1}^{N_p} u_N^K(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \ell_i^K(\vb{x})
@@ -478,7 +482,7 @@ Entwicklung in $\mathbb{V}_N$
   \forall i = 1,\dots,N_p
 \end{align*}
 \begin{align*}
-  \int_K \sum_{j=1}^{N_p} \partial_{\nicefrac{y}{x}} \ell_j^K(\vb{x})\ell_i^K(\vb{x}) + \int_{\partial K} \hat{n}_{\nicefrac{y}{x}} \sum_{j=1}^{N_p} (u^{*,K}(\vb{\xi}_j^K) -     u_N^K(\vb{\xi}_j^K))\ell_j(\vb{x})\\
+  \int_K \sum_{j=1}^{N_p} u_N^K(\vb{\xi}_j^K) \partial_{\nicefrac{y}{x}} \ell_j^K(\vb{x})\ell_i^K(\vb{x}) + \int_{\partial K} \hat{n}_{\nicefrac{y}{x}} \sum_{j=1}^{N_p} (u^{*,K}(\vb{\xi}_j^K) -     u_N^K(\vb{\xi}_j^K))\ell_j(\vb{x})\\
    = 2 \int_K \sum_{j=1}^{N_p} (\vb{q}_N^K)_{\nicefrac{x}{y}} (\vb{\xi}_j^K, t) \ell_i^K(\vb{x})\ell_j^K(\vb{x})
 \end{align*}
 Massenmatrix
@@ -489,9 +493,48 @@ Steifigkeitsmatrix
 \begin{align}
   (S^K_{\nicefrac{x}{y}})_{i,j} \equiv \int_K \partial_{\nicefrac{x}{y}} \ell_j^K(\vb{x})\ell_i^K(\vb{x}) = (M^K D_x)_{i,j}
 \end{align}
+
+\rule{\textwidth}{0.4pt}
+ Einschub: Die letzte Gleichheit folgt aus folgendem:
+
+ Mit dem Zusammenhang zwischen nodaler Basis $\ell_i(\vb{x})$ und modaler Basis $\Psi_i(\vb{x})$ gemäß Seite 182
+ \begin{equation}
+   \ell_i = \sum_{j=1}^{N_p} (V^{T})^{-1}_{ij} \Psi_j
+ \end{equation}
+ und der logischen Tatsache, dass auch die Ableitung der modalen Basis (es handelt sich um ein Produkt von Lagrange-Polynomen, also letztlich ein Polynom vom Grad $N$) sich in selbiger entwickeln lassen gemäß
+ \begin{equation}
+   \partial_x \Psi_j(\vb{x}) = \sum_{m=1}^{N_p} a_{jm}\Psi_m(\vb{x})
+ \end{equation}
+ folgt
+ \begin{align*}
+   \sum_n \ell_n \partial_x \ell_j |_{r_n} &= \sum_{n,m,p} (V^{T})^{-1}_{nm} (V^{T})^{-1}_{jp}\Psi_m\partial \Psi_p |_{r_n} \\
+    &= \sum_{n,m,p,q} (V^{-1})_{mn}(V^{T})^{-1}_{jp} \Psi_m a_{pq} V_{nq}\\
+    &= \sum_{p,q}(V^{T})^{-1}_{jp}\Psi_q a_{pq} \\
+    &= \sum_p (V^{T})^{-1}_{jp} \partial_x \Psi_p\\
+    &= \partial_x \ell_j
+ \end{align*}
+ Daher gilt
+ \begin{align}
+   \int_K \partial_{\nicefrac{x}{y}} \ell_j(\vb{x})\ell_i(\vb{x}) &= \sum_n \int_K   \ell_n \partial_{\nicefrac{x}{y}} \ell_j |_{r_n} \ell_i \\
+   &= \sum_n \underbrace{\partial_{\nicefrac{x}{y}} \ell_j |_{r_n}}_{\equiv (D_x)_{nj}} \int_K \ell_n \ell_i \\
+   &= (M D_x)_{i,j}
+ \end{align}
+\rule{\textwidth}{0.4pt}
+
 Einsetzen :
 \begin{align}
-  iM^K\partial_t \vb{u}_N^K - (S^K_x)^T\vb{q}_{N,x}^K - (S^K_y)^T\vb{q}_{N,y}^K \\
-  + \int_{\partial K} \sum_{j=1}^{N_p} \vb{q}^{*,K}(\vb{\xi}_j^K, t)\ell_j^K(\vb{x}) \ell_i^K(\vb{x}) \cdot \hat{\vb{n}}
-  - M^K\vb{g}_N^K = 0
+  iM^K\partial_t \underline{u}_N^K - (S^K_x)^T (\underline{\vb{q}}_N^K)_x - (S^K_y)^T (\underline{\vb{q}}_N^K)_y
+  + \int_{\partial K}  \hat{\vb{n}} \cdot \underline{\vb{q}}^{*,K} \underline{\ell}^K(\vb{x}) \ell_i^K(\vb{x})
+  - M^K\underline{g}_N^K = 0
+\end{align}
+\begin{align}
+  S_y^K \underline{u}^K_N + \int_{\partial K} \hat{n}_{y}  (\underline{u}^{*,K} - \underline{u}_N^K)\underline{\ell}(\vb{x})
+  = 2 M^K (\underline{\vb{q}}_N^K)_x \\
+  S_x^K \underline{u}^K_N + \int_{\partial K} \hat{n}_{x}  (\underline{u}^{*,K} - \underline{u}_N^K)\underline{\ell}(\vb{x})
+  = 2 M^K (\underline{\vb{q}}_N^K)_y \\
+\end{align}
+Flüsse
+\begin{align}
+  \underline{u}^{*,K} = \avg{\underline{u_N^K}}\\
+  \underline{\vb{q}}^{*,K} = \avg{\underline{\nabla u_N^K}} - \tau\jump{\underline{u_N^K}}
 \end{align}

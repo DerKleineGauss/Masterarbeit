@@ -8,7 +8,7 @@ GlobalsLvN;
 GlobalsLvN_data;
 
 % Polynomial order used for approximation
-N = 4;
+N = 3;
 
 %% Read in Mesh , Initialize solver
 %h_stepsize = 1;
@@ -18,7 +18,7 @@ N = 4;
 %VX= 1e-9*nodes(:,1)';
 %VY= 1e-9*nodes(:,2)';
 % Read in Mesh - Regelm‰ﬂig
-h_stepsize = 5;
+h_stepsize = 3;
 [Nv, VX, VY, K, EToV, BCType] = regularGrid(h_stepsize*1e-9);
 % plotting the rechengebiet
 figure(figurecounter)
@@ -127,8 +127,8 @@ u = reshape(u, Np, K);
 %%%%% plot result
 figure(figurecounter)
 figurecounter = figurecounter + 1;
-[xq,yq] = meshgrid(-1:0.01:1, -1:0.02:1);
-vq = griddata(x,y,u,xq,yq,'cubic');
+[xq,yq] = meshgrid(-1:0.01:1, -1:0.01:1);
+vq = griddata(x,y,u,xq,yq,'linear');
 %vq = griddata(x,y,u,xq,yq,'cubic');
 mesh(xq,yq,vq);
 %plot3(x,y,u,'o');

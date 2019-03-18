@@ -29,13 +29,14 @@ for k1=1:K              % for each element
       Dx = rx(1,k1)*Dr + sx(1,k1)*Ds;  
       Dy = ry(1,k1)*Dr + sy(1,k1)*Ds;
       Dn1 = lnx*Dx  + lny*Dy ;
+      Dn1_1 = lny*Dx  + lnx*Dy ;
       
       mmE = lsJ*massEdge(:,:,f1);
 
       gtau = 90*2*(N+1)*(N+1)*hinv; % set penalty scaling, page 294 and usage of tau is on page 275
       switch(BCType(k1,f1))
 	    case {Dirichlet}
-	      bc(:,k1) = bc(:,k1) + (gtau*mmE(:,Fm1) - Dn1'*mmE(:,Fm1))*ubc(fidM);
+	      bc(:,k1) = bc(:,k1) + (gtau*mmE(:,Fm1) - Dn1_1'*mmE(:,Fm1))*ubc(fidM);
 		case {Neuman}
 	      bc(:,k1) = bc(:,k1) + mmE(:,Fm1)*qbc(fidM);
 		otherwise

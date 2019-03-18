@@ -4,7 +4,7 @@ GlobalsLvN;
 GlobalsLvN_data;
 
 % Polynomial order used for approximation
-N = 5;
+N = 3;
 
 % Read in Mesh
 [Nv, VX, VY, K, EToV] = MeshReaderGambitBC2D('block2.neu');

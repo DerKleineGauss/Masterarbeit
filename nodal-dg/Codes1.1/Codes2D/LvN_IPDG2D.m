@@ -31,7 +31,7 @@ for k1=1:K
   % Build local operators  
   Dx = rx(1,k1)*Dr + sx(1,k1)*Ds;   Dy = ry(1,k1)*Dr + sy(1,k1)*Ds;
 
-  OP11 = J(1,k1)*(Dy'*MassMatrix*Dx/2 + Dx'*MassMatrix*Dy/2);
+  OP11 = J(1,k1)*(Dy'*MassMatrix*Dx/2 + Dx'*MassMatrix*Dy/2 + MassMatrix*potential_factor(rows1(:,1), cols1(1,:)));
 
   % Build element-to-element parts of operator
   for f1=1:Nfaces
@@ -52,18 +52,20 @@ for k1=1:K
     
     Dn1 = lnx*Dx  + lny*Dy ;
     Dn2 = lnx*Dx2 + lny*Dy2;
+    Dn1_1 = lny*Dx  + lnx*Dy ;
+    Dn2_1 = lny*Dx2 + lnx*Dy2;
 
     mmE = lsJ*massEdge(:,:,f1);
 
     gtau = 90*2*(N+1)*(N+1)*hinv; % set penalty scaling
     switch(BCType(k1,f1))
       case {Dirichlet}
-        OP11 = OP11 + ( gtau*mmE - mmE*Dn1 - Dn1'*mmE ); % ok
+        OP11 = OP11 + ( gtau*mmE - mmE*Dn1 - Dn1_1'*mmE ); % ok
       case {Neuman}
         % nada 
       otherwise
         % interior face variational terms
-        OP11        = OP11 + 0.5*( gtau*mmE - mmE*Dn1 - Dn1'*mmE );
+        OP11        = OP11 + 0.5*( gtau*mmE - mmE*Dn1 - Dn1_1'*mmE );
 
         % off diagonal elements connecting the different elements k1 and k2
         % sharing the face f1  ---- > FLUX goes in here
@@ -73,7 +75,7 @@ for k1=1:K
         % set all columns in rows Fm1, with #Fm1 = Nfp (=6) and add
         % previously set values
         OP12(Fm1,:) = OP12(Fm1,:) - 0.5*(      mmE(Fm1,Fm1)*Dn2(Fm2,:) );
-        OP12(:,Fm2) = OP12(:,Fm2) - 0.5*(-Dn1'*mmE(:, Fm1) );
+        OP12(:,Fm2) = OP12(:,Fm2) - 0.5*(-Dn1_1'*mmE(:, Fm1) );
         OP(entries(:), :) = [rows1(:), cols2(:), OP12(:)];  % so eine Art mesh-grid durch rows und cols erzeugt
         entries = entries + Np*Np;
     end 
@@ -81,12 +83,14 @@ for k1=1:K
   OP(entries(:), :)   = [rows1(:), cols1(:), OP11(:)];
   % apply the f(r,q) term, which is not the identity - care about
   % commutation with MassMatrix must be taken
-  mM_times_factor = MassMatrix * potential_factor(rows1(:,1), cols1(1,:));
-  MM(entriesMM(:), :) = [rows1(:), cols1(:), J(1,k1)*mM_times_factor(:)];
+  %mM_times_factor = MassMatrix * potential_factor(rows1(:,1), cols1(1,:));
+  %MM(entriesMM(:), :) = [rows1(:), cols1(:), J(1,k1)*mM_times_factor(:)];
  % MM(entriesMM(:), :) = [rows1(:), cols1(:), J(1,k1)*MassMatrix(:)];
   entries = entries + Np*Np; entriesMM = entriesMM + Np*Np;
 end  
 
-OP   =   OP(1:max(entries)  -Np*Np,:);  OP   = myspconvert(OP, Np*K, Np*K, 1e-15);
-MM   =   MM(1:max(entriesMM)-Np*Np,:);  MM   = myspconvert(MM, Np*K, Np*K, 1e-15);
+OP   =   OP(1:max(entries)  -Np*Np,:);  
+OP   = myspconvert(OP, Np*K, Np*K, 1e-15);
+MM   =   MM(1:max(entriesMM)-Np*Np,:);  
+MM   = myspconvert(MM, Np*K, Np*K, 1e-15);
 return
