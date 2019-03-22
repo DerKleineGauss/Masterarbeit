@@ -1,3 +1,4 @@
+setLatex;
 close, clear()
 clc
 
@@ -49,8 +50,8 @@ delta= delta*gamma;
 N = 3;
 
 % Read in Mesh
-nx= 50;
-ny= 50;
+nx= 60;
+ny= 60;
 [nodes, EToV, BCType] = Mesh_s(Lr,Lq, nx, ny);
 %[nodes, EToV, BCType, cmdout] = Mesh(h, Lr,Lq, w, g);
 % [nodes, EToV, BCType, cmdout] = pmesh(h, L);
@@ -116,7 +117,13 @@ rhs = -MassMatrix*(J.*rhs) + Aqbc;
 u = A\rhs(:);
 u = reshape(u, Np, K);
 
-figure()
+figure(1)
+%hack
+%xi = sqrt(hbar^2 / m / (a0*e));
+x = x/gamma*2*1e9;
+y = y/gamma*2*1e9;
+u = u*2;
+%
 x1= x(:);
 x2= y(:);
 m1= min(x1);
@@ -129,13 +136,19 @@ dy= (m2-m1)/400;
 ylin= m1:dy:m2;
 [X, Y]= meshgrid(xlin, ylin);
 f= scatteredInterpolant(x(:), y(:),real(u(:)),'linear');
+%f= scatteredInterpolant(x(:), y(:),imag(u(:)),'linear');
 Z= f(X,Y);
 mesh(X,Y, f(X,Y))
+xlabel('$r / nm$')
+ylabel('$q / nm$')
+zlabel('$\rho(r,q)$')
 
+figure(2)
 rho_L= Z(abs(Y) <= NODETOL);
 xl= X(abs(Y) <= NODETOL);
-figure(3)
 plot(xl,rho_L)
+xlabel('$x / nm$')
+ylabel('$n(x)$')
 
 toc
 

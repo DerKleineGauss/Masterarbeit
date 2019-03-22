@@ -10,7 +10,7 @@ from table import (
 )
 
 m = const.physical_constants["electron mass"]
-m = m[0]
+m = m[0]*0.063  # effektive Masse
 e = const.physical_constants["elementary charge"]
 e = e[0]
 hbar = const.physical_constants["Planck constant over 2 pi"]
@@ -24,4 +24,4 @@ print(tau)
 print(xi)
 
 write('tex_files/tau.tex', make_SI(tau * 1e15, r'\second', exp='e-15', figures=2))
-write('tex_files/xi.tex', make_SI(xi * 1e10, r'\meter', exp='e-10', figures=2))
+write('tex_files/xi.tex', make_SI(xi * 1e9, r'\meter', exp='e-9', figures=2))
