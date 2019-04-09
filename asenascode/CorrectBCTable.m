@@ -6,7 +6,7 @@ function [] = CorrectBCTable(mapnodes,BCcode)
 
 Globals2D;
 
-VNUM = [1 2;2 3;3 1]; % face orientations
+VNUM = [1 2;2 3;3 4;4 1]; % face orientations
 
 for k = 1:K    
     % Test for each edge

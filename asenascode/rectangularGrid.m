@@ -1,9 +1,6 @@
 function [Nv, VX, VY, K, EToV, BCType] = rectangularGrid(L_q, L_r)
 Globals2D;
-%GlobalsLvN;
 % q -> x
-Kx = 4;
-Ky = 5;
 
 h_x = L_q / Kx;
 h_y = L_r / Ky;
