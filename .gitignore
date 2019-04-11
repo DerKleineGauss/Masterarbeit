@@ -3,6 +3,8 @@ build1/
 build2/
 __pychache__/
 
+sh.exe.stackdump
+
 *.asv
 *.aux
 *.glo

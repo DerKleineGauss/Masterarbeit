@@ -1,6 +1,6 @@
 % Purpose: declare global variables
 
-global Np Npx Npy Nfp N K Kx Ky
+global Np Npx Npy Nfp N Nx Ny K Kx Ky
 global r s 
 global Dr Ds LIFT Drw Dsw MassMatrix
 global Fx Fy nx ny jac Fscale J

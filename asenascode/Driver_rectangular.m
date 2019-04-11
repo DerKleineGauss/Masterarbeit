@@ -47,22 +47,16 @@ delta= delta*gamma;
 
 
 % Polynomial order used for approximation 
-N = 3;
+Nx = 3; Ny = 3;
+Nfaces = 4;
 
 % Read in Mesh
-nx= 5;
-ny= 5;
-[nodes, EToV, BCType] = Mesh_s(Lr,Lq, nx, ny);
-%[Nv, VX, VY, K, EToV, BCType] = rectangularGrid(h_stepsize*1e-9);
-%[nodes, EToV, BCType, cmdout] = Mesh(h, Lr,Lq, w, g);
-% [nodes, EToV, BCType, cmdout] = pmesh(h, L);
-Nv= size(nodes,1);
-K= size(EToV,1);
-VX= nodes(:,1)';
-VY= nodes(:,2)';
+Kx= 2;
+Ky= 5;
+[Nv, VX, VY, K, EToV, BCType] = rectangularGrid(Lq, Lr);
 
 % Initialize solver and construct grid and metric
-StartUp2D;
+StartUp2D_rectangular;
 
 % set up boundary conditions
 BuildBCMaps2D;
