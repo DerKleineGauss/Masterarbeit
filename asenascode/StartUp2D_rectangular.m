@@ -45,7 +45,7 @@ LIFT = Lift2D_rectangular();
 Fscale = sJ./(J(Fmask,:));
 
 % Build connectivity matrix
-[EToE, EToF] = tiConnect2D(EToV);
+[EToE, EToF] = tiConnect2D_rectangular(EToV);
 
 % Build connectivity maps
 BuildMaps2D;

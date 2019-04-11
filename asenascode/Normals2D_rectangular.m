@@ -25,6 +25,7 @@ nx(fid3, :) = -fyr(fid3, :); ny(fid3, :) =  fxr(fid3, :);
 % face 4
 nx(fid4, :) = -fys(fid4, :); ny(fid4, :) =  fxs(fid4, :);
 
+% cut off numerical zeros
 nx(abs(nx/max(nx(:))) < 1e-14)=0;
 ny(abs(ny/max(ny(:))) < 1e-14)=0;
 

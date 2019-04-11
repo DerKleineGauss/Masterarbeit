@@ -8,25 +8,25 @@ Emat = zeros(Np, Nfaces*Nfp);
 
 % face 1
 faceR = r(Fmask(:,1));
-V1D = Vandermonde1D(N, faceR); 
+V1D = Vandermonde1D(Nx, faceR); 
 massEdge1 = inv(V1D*V1D');
 Emat(Fmask(:,1),1:Nfp) = massEdge1;
 
 % face 2
 faceS = s(Fmask(:,2));
-V1D = Vandermonde1D(N, faceS);
+V1D = Vandermonde1D(Ny, faceS);
 massEdge2 = inv(V1D*V1D');
 Emat(Fmask(:,2),Nfp+1:2*Nfp) = massEdge2;
 
 % face 3
 faceR = r(Fmask(:,3));
-V1D = Vandermonde1D(N, faceR); 
+V1D = Vandermonde1D(Nx, faceR); 
 massEdge3 = inv(V1D*V1D');
 Emat(Fmask(:,3),2*Nfp+1:3*Nfp) = massEdge3;
 
 % face 3
 faceS = s(Fmask(:,4));
-V1D = Vandermonde1D(N, faceS); 
+V1D = Vandermonde1D(Ny, faceS); 
 massEdge4 = inv(V1D*V1D');
 Emat(Fmask(:,4),3*Nfp+1:4*Nfp) = massEdge4;
 
