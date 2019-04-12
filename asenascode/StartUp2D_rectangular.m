@@ -21,8 +21,8 @@ MassMatrix = invV'*invV;
 
 % build coordinates of all the nodes
 va = EToV(:,1)';
-vc = EToV(:,2)';
-vb = EToV(:,4)';  % change here!
+vb = EToV(:,2)';
+vc = EToV(:,4)';  % change here!
 x = 0.5*(-(r+s)*VX(va)+(1+r)*VX(vb)+(1+s)*VX(vc));
 y = 0.5*(-(r+s)*VY(va)+(1+r)*VY(vb)+(1+s)*VY(vc));
 
@@ -51,5 +51,5 @@ Fscale = sJ./(J(Fmask,:));
 BuildMaps2D;
 
 % Compute weak operators (could be done in preprocessing to save time)
-[Vr, Vs] = GradVandermonde2D(N, r, s);
+[Vr, Vs] = GradVandermonde2D_rectangular(Npx, Npy,r,s);
 Drw = (V*Vr')/(V*V'); Dsw = (V*Vs')/(V*V');

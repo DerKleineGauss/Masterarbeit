@@ -51,8 +51,8 @@ Nx = 3; Ny = 3;
 Nfaces = 4;
 
 % Read in Mesh
-Kx= 2;
-Ky= 5;
+Kx= 60;
+Ky= 60;
 [Nv, VX, VY, K, EToV, BCType] = rectangularGrid(Lq, Lr);
 
 % Initialize solver and construct grid and metric
@@ -67,7 +67,7 @@ B= functionB(x,y,a0, U,Lq,g,w,W0,n,delta, L_D);
 % plot3(x(:),y(:), B(:),'x')
 
 
-[A] = PoissonIPDG2D(sparse(1:K*Np, 1:K*Np, B(:), K*Np, K*Np));
+[A] = PoissonIPDG2D_rectangular(sparse(1:K*Np, 1:K*Np, B(:), K*Np, K*Np));
 
 % set up Dirichlet boundary conditions
 a= gamma*m*kB*Temp/(2*pi*hbar)^2;
@@ -101,7 +101,7 @@ qN = zeros(Nfp*Nfaces, K);
 %            ny(mapN).*(pi*sin(pi*Fx(mapN)).*cos(pi*Fy(mapN))) ;
 
 % evaluate boundary condition contribution to rhs
-Aqbc = PoissonIPDGbc2D(uD, qN);
+Aqbc = PoissonIPDGbc2D_rectangular(uD, qN);
 
 % set up right hand side forcing
 % rhs = -2*(pi^2)*sin(pi*x).*sin(pi*y);
