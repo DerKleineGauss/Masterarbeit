@@ -1,4 +1,4 @@
-function [Phi, p_DFT] = BuildPhi(Kx, Ky, Npx, Npy)
+function [Phi, p_DFT] = BuildPhi_x(Kx, Ky, Npx, Npy)
 
 % function [Phi] = BuildPhi(Kx, Ky, Npx, Npy)
 % Purpose: Build global Discrete Fourier Transformation matrix with respect
@@ -29,7 +29,7 @@ end
 
 % build OP_diag, which will be replicated throughout Phi and which
 % represents one row of elements
-[p_mesh, n_mesh] = meshgrid(p_linear,indices);
+[n_mesh, p_mesh] = meshgrid(indices, p_linear);
 all_exponentials = exp(-1i*p_mesh.*n_mesh);
 
 OP_diag = zeros(M*Npy, Kx*Np);

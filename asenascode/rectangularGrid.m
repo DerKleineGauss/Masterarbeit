@@ -1,11 +1,11 @@
-function [Nv, VX, VY, K, EToV, BCType] = rectangularGrid(L_q, L_r)
+function [Nv, VX, VY, K, EToV, BCType] = rectangularGrid(Lq, Lr)
 Globals2D;
-% q -> x
+% r -> x
 
-h_x = L_q / Kx;
-h_y = L_r / Ky;
+h_x = Lr/ Kx;
+h_y = Lq / Ky;
 
-[VX,VY] = meshgrid(-L_q/2:h_x:L_q/2, -L_r/2:h_y:L_r/2);
+[VX,VY] = meshgrid(-Lr/2:h_x:Lr/2, -Lq/2:h_y:Lq/2);
 VX = VX(:) ; VY = VY(:);
 
 K  = Kx*Ky;
@@ -26,7 +26,7 @@ Nv = length(VX);
 BCType = 0*EToV; % default is 0
 tol = 1e-12;
 mapSides =  find(abs(abs(VX)-max(VX(:))) < tol);
-mapTopBot = find(abs(abs(VY)-max(VY(:))) < tol & abs(abs(VX)-max(VX(:))) > tol);
+mapTopBot = find(abs(abs(VY)-max(VY(:))) < tol);
 CorrectBCTable(mapSides, Dirichlet);
 CorrectBCTable(mapTopBot, Dirichlet);
 

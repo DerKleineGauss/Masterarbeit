@@ -50,8 +50,8 @@ delta= delta*gamma;
 N = 3;
 
 % Read in Mesh
-nx= 5;
-ny= 5;
+nx= 25;
+ny= 25;
 [nodes, EToV, BCType] = Mesh_s(Lr,Lq, nx, ny);
 %[Nv, VX, VY, K, EToV, BCType] = rectangularGrid(h_stepsize*1e-9);
 %[nodes, EToV, BCType, cmdout] = Mesh(h, Lr,Lq, w, g);
@@ -153,12 +153,4 @@ ylabel('$n(x)$')
 
 toc
 
-tol=1e-14;
-constant_r_vec = uniquetol(x,tol);
-block_index = 0;
-for constant_r = constant_r_vec
-    block_index = block_index + 1;
-    mask = find(abs(x-constant_r)<tol);
-    N = length(mask);
-end
 

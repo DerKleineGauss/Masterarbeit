@@ -48,15 +48,21 @@ delta= delta*gamma;
 
 % Polynomial order used for approximation 
 Nx = 3; Ny = 3;
+Npx = Nx + 1; Npy = Ny + 1;
 Nfaces = 4;
 
 % Read in Mesh
-Kx= 60;
-Ky= 60;
+Kx= 5;
+Ky= 5;
 [Nv, VX, VY, K, EToV, BCType] = rectangularGrid(Lq, Lr);
 
 % Initialize solver and construct grid and metric
 StartUp2D_rectangular;
+
+% Set up DFT matrix Phi
+[Phi, p_DFT] = BuildPhi(Kx, Ky, Npx, Npy);
+%figure(10)
+%plot(p_DFT,y,'.')
 
 % set up boundary conditions
 BuildBCMaps2D;
@@ -73,21 +79,19 @@ B= functionB(x,y,a0, U,Lq,g,w,W0,n,delta, L_D);
 a= gamma*m*kB*Temp/(2*pi*hbar)^2;
 b= epsilon*hbar/kB/Temp;
 c= mu/kB/Temp;
-% bed= Lr/2-abs(Fx(mapD)) < NODETOL;
-% fh= @(k) a.*cos(Fy(mapD(bed)).*k).*log(1+exp(-b.*k.^2+c));
-% f= integral(fh,-2*c,2*c,'ArrayValued', true);
 bed= Lr/2-abs(Fx(mapD)) < NODETOL;
-fh= @(k) a.*cos(Fy(mapD(bed)).*k).*log(1+exp(-b.*k.^2+c));
+% bed1= abs(Lr/2-Fx(mapD)) < NODETOL;
+% bed2= abs(-Lr/2-Fx(mapD)) < NODETOL;
+fh= @(k) a.*cos(Fy(mapD(bed))*k).*log(1+exp(-b.*k^2+c));
 f= integral(fh,-2*c,2*c,'ArrayValued', true);
 
-% figure(101)
-% plot(Fy(mapD(bed)),f,'x')
+figure(101)
+plot(Fy(mapD(bed)),f,'x')
 
 
-rho_D= zeros(Nfp*Nfaces, K);
+uD= zeros(Nfp*Nfaces, K);
 
-rho_D(mapD(bed))= f;
-uD= rho_D;
+uD(mapD(bed))= f;
 
 
 % figure(2)
@@ -134,25 +138,18 @@ f= scatteredInterpolant(x(:), y(:),real(u(:)),'linear');
 %f= scatteredInterpolant(x(:), y(:),imag(u(:)),'linear');
 Z= f(X,Y);
 mesh(X,Y, f(X,Y))
-xlabel('$r / nm$')
-ylabel('$q / nm$')
+xlabel('$r / \xi$')
+ylabel('$q / \xi$')
 zlabel('$\rho(r,q)$')
 
 figure(2)
 rho_L= Z(abs(Y) <= NODETOL);
 xl= X(abs(Y) <= NODETOL);
 plot(xl,rho_L)
-xlabel('$x / nm$')
+xlabel('$x / \xi$')
 ylabel('$n(x)$')
 
-toc
+eigenwerte = eigs(A)
 
-tol=1e-14;
-constant_r_vec = uniquetol(x,tol);
-block_index = 0;
-for constant_r = constant_r_vec
-    block_index = block_index + 1;
-    mask = find(abs(x-constant_r)<tol);
-    N = length(mask);
-end
+toc
 
