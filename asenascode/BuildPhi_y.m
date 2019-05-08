@@ -15,7 +15,9 @@ end
 indices = linspace(-N_tilde, N_tilde, M);
 p_linear = indices * 2*pi/M;
 
-% p_DFT = zeros(Np,K);
+p_DFT = zeros(Np,K);
+temp = repmat(p_linear, 1, Npx*Kx);
+p_DFT(:) = temp(:);
 % for k1=1:K
 %     if (k1 == Kx)
 %         index_low = (Kx-1)*Npx + 1;
@@ -23,7 +25,7 @@ p_linear = indices * 2*pi/M;
 %         index_low = mod(k1-1,Kx)*Npx + 1;
 %     end
 %     index_high = index_low + Npx - 1;
-%   p_DFT(:,k1) = repmat(p_linear(index_low : index_high), 1, Npy); 
+%   p_DFT(:,k1) = repmat(p_linear, 1, Npx); 
 % end
 
 

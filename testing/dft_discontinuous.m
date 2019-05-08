@@ -1,6 +1,8 @@
+clear(); close all;
+
 Np = 2;
-K = 500;
-a = 3;
+K = 50;
+a = 10;
 
 %% discontinuous case
 x = zeros(K*Np,1);
@@ -22,54 +24,50 @@ end
 % figure(5)
 % plot(x,sin(a*x));
 y1 = fft(u);
-plotdft(y1,xmax,1)
+plotdft(y1,xmax,'discontinuous #k = #x')
 
-% try less k points
-N_k = K;%Np*K-K;  % number of points in k space
+%% try less k points
+N_k = Np*K-K;  % number of points in k space
+% N_k = K;  % number of points in k space
 k = 2*pi/xmax * (0:N_k-1);
 [X_mesh, K_mesh] = meshgrid(x,k);
 Phi = exp(-1i*K_mesh.*X_mesh) / sqrt(length(u));
 y3 = Phi*u;
 f = k;
-plotdft_with_f(y3, f, 2);
+plotdft_with_f(y3, f, 'discontinuous #k < #x');
+
 figure(8)
 subplot(2,1,1)
 plot(x, (Phi'*y3));
 title('\Phi^T \Phi u')
-
 subplot(2,1,2)
 plot(x,u);
 title('u')
 
+hopefully_id = Phi'*Phi;
+hopefully_id(abs(hopefully_id)<1e-12)=0;
+display(['||Phi^T Phi - id|| = ', num2str(normest(hopefully_id - eye(size(hopefully_id))))]);
 
-% try factor 1/2 where x_k=x_k+1 and same k value
-% N_k = length(u);
-% kmax = 2*pi/xmax;
-% k=zeros(N_k,1);
-% deltak = kmax / K / (Np-1);
-% for e=1:K
-%     kL = kmax*(e-1)/K;
-%     kR = kmax*e/K;
-%     k((e-1)*Np + 1 : e*Np) = kL: deltak :kR;
-% end
 
 %% continuous case
-xmax=2*pi*10;
-%N = Np*K-K;
-N=1200;
+N = Np*K;
+% N=1200;
 x2 = 0:xmax/N:xmax-(xmax/N);
 u2=sin(a*x2);
 y2 = fft(u2);
-plotdft(y2,xmax,5)
+plotdft(y2,xmax,'continuous case')
 
 
 function plotdft(y, xmax, fignr)
-    figure(fignr);
+    y = fftshift(y);
+    n = length(y);
+    figure('name', fignr, 'NumberTitle','off');
     m = abs(y);                               % Magnitude
     y(m<1e-6) = 0;
     p = unwrap(angle(y));                     % Phase
 
-    f = (0:length(y)-1)/xmax*2*pi;        % Frequency vector
+    f = (-n/2:n/2-1)/xmax*2*pi;        % Frequency vector
+    %f = fftshift(f);
 
     subplot(2,1,1)
     plot(f,m)
@@ -81,7 +79,8 @@ function plotdft(y, xmax, fignr)
 end
 
 function plotdft_with_f(y, f, fignr)
-    figure(fignr);
+    f = fftshift(f)-f(length(f)/2+1);
+    figure('name', fignr, 'NumberTitle','off');
     m = abs(y);                               % Magnitude
     y(m<1e-6) = 0;
     p = unwrap(angle(y));                     % Phase
