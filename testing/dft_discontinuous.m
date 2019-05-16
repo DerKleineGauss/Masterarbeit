@@ -1,7 +1,7 @@
 clear(); close all;
 
-Np = 2;
-K = 50;
+Np = 5;
+K = 500;
 a = 10;
 
 %% discontinuous case
@@ -56,6 +56,18 @@ x2 = 0:xmax/N:xmax-(xmax/N);
 u2=sin(a*x2);
 y2 = fft(u2);
 plotdft(y2,xmax,'continuous case')
+
+%% continuous case (Marius Problem)
+% N = 8000;
+% xmax = 2*pi;
+% xmax = 80*xmax;
+% x3 = 0:xmax/N:xmax-(xmax/N);
+% rands = (rand(N)-0.5)*2;
+% omega = 10;
+% omegas = omega + rands(1,:)*1e-2;
+% u2=sin(omegas.*x3);
+% y2 = fft(u2);
+% plotdft(y2,xmax,'continuous case')
 
 
 function plotdft(y, xmax, fignr)

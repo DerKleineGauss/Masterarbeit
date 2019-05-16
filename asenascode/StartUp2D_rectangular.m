@@ -28,9 +28,9 @@ y = 0.5*(-(r+s)*VY(va)+(1+r)*VY(vb)+(1+s)*VY(vc));
 
 % find all the nodes that lie on each edge
 fmask1   = find( abs(s+1) < NODETOL)';
-fmask2   = find( abs(r-1) < NODETOL)';  % change here
-fmask3   = find( abs(s-1) < NODETOL)';  % change here
-fmask4   = find( abs(r+1) < NODETOL)';  % change here
+fmask2   = find( abs(r-1) < NODETOL)';  % changed here
+fmask3   = find( abs(s-1) < NODETOL)';  % changed here
+fmask4   = find( abs(r+1) < NODETOL)';  % changed here
 Fmask  = [fmask1;fmask2;fmask3;fmask4]';
 Fx = x(Fmask(:), :); Fy = y(Fmask(:), :);
 

@@ -47,22 +47,24 @@ delta= delta*gamma;
 
 
 % Polynomial order used for approximation 
-Nx = 3; Ny = 3;
+Nx = 1; Ny = 1;
 Npx = Nx + 1; Npy = Ny + 1;
 Nfaces = 4;
 
 % Read in Mesh
-Kx= 5;
-Ky= 5;
+Kx= 2;
+Ky= 4;
 [Nv, VX, VY, K, EToV, BCType] = rectangularGrid(Lq, Lr);
 
 % Initialize solver and construct grid and metric
 StartUp2D_rectangular;
 
 % Set up DFT matrix Phi
-[Phi, p_DFT] = BuildPhi(Kx, Ky, Npx, Npy);
-%figure(10)
-%plot(p_DFT,y,'.')
+[Phi, p_DFT] = BuildPhi_y(x, y, Kx, Ky, Npx, Npy);
+p_DFT = reshape(p_DFT, Np, K);
+P_DFT=p_DFT(Fmask(:),:);    % face p's
+% figure(10)
+% plot_sorted(x(:), p_DFT)
 
 % set up boundary conditions
 BuildBCMaps2D;
@@ -75,34 +77,62 @@ B= functionB(x,y,a0, U,Lq,g,w,W0,n,delta, L_D);
 
 [A] = PoissonIPDG2D_rectangular(sparse(1:K*Np, 1:K*Np, B(:), K*Np, K*Np));
 
+%% boundary conditions
 % set up Dirichlet boundary conditions
 a= gamma*m*kB*Temp/(2*pi*hbar)^2;
 b= epsilon*hbar/kB/Temp;
 c= mu/kB/Temp;
-bed= Lr/2-abs(Fx(mapD)) < NODETOL;
-% bed1= abs(Lr/2-Fx(mapD)) < NODETOL;
-% bed2= abs(-Lr/2-Fx(mapD)) < NODETOL;
-fh= @(k) a.*cos(Fy(mapD(bed))*k).*log(1+exp(-b.*k^2+c));
-f= integral(fh,-2*c,2*c,'ArrayValued', true);
 
-figure(101)
-plot(Fy(mapD(bed)),f,'x')
+map_left_v = Lr/2 + x < NODETOL;
+map_right_v = Lr/2 - x < NODETOL;
+map_left_f = Lr/2 + Fx < NODETOL;
+map_right_f = Lr/2 - Fx < NODETOL;
 
+% old bc's in space regime
+% bed = Lr/2-abs(Fx(mapD)) < NODETOL;
+% fh= @(k) a.*cos(Fy(mapD(bed))*k).*log(1+exp(-b.*k^2+c));
+% f= integral(fh,-2*c,2*c,'ArrayValued', true);
+% 
+% figure(101)
+% plot_sorted(Fy(mapD(bed)),f)
+% 
+% uD= zeros(Nfp*Nfaces, K);
+% uD(mapD(bed))= f;
 
-uD= zeros(Nfp*Nfaces, K);
+% new bc's in k regime
+right_pos = find(Lr/2-VX < NODETOL & VY <= 0);
+left_pos  = find(Lr/2+VX < NODETOL & VY <= 0);
+right_neg = find(Lr/2-VX < NODETOL & VY >= 0);
+left_neg  = find(Lr/2+VX < NODETOL & VY >= 0);
+plot(VX,VY,'k.',VX(right_pos), VY(right_pos), 'ro', VX(left_pos), VY(left_pos), 'bo', ...
+    VX(right_neg), VY(right_neg), 'yx', VX(left_neg), VY(left_neg), 'gx');
+CorrectBCTable(left_neg, Neuman);
+CorrectBCTable(right_pos, Neuman);
+BuildBCMaps2D;
+plot(Fx(:),P_DFT(:),'k.',Fx(mapN),P_DFT(mapN),'ro', Fx(mapD),P_DFT(mapD),'gx');
+legend('all face points','Neumann face points', 'Dirichlet face points', 'Location','north')
 
-uD(mapD(bed))= f;
-
-
-% figure(2)
-% bed2= abs(Lr/2+Fx(mapD)) < NODETOL;
-% plot(Fy(mapD(bed2)), uD(mapD(bed2)),'x')
-
+fh_left = @(k) a.*cos(y(map_left_v )*k).*log(1+exp(-b.*k^2+c));
+fh_right= @(k) a.*cos(y(map_right_v)*k).*log(1+exp(-b.*k^2+c));
+% uD_v caontains values in "volume speak" generated with x and y instead Fx
+% and Fy (as is the case for the later defined uD_complete)
+uD_v = zeros(Np, K);
+uD_v(map_left_v) = integral(fh_left,-2*c,2*c,'ArrayValued', true);
+uD_v(map_right_v) = integral(fh_right,-2*c,2*c,'ArrayValued', true);
+% left and right sides must have same y values -> check here
+assert ( norm(uD_v(map_left_v) - uD_v(map_right_v)) < NODETOL)
+figure(111);
+plot_sorted(y(map_left_v), uD_v(map_left_v));
+% confirm we do not lose map control
+assert(norm(find(Phi*uD_v(:))-find(uD_v)) < NODETOL)
+% apply DFT to rhs
+uD_v = reshape(Phi*uD_v(:), Np, K);
+% go to needed definitions for each face as also done in StartUp2D for Fx
+uD_complete = uD_v(Fmask(:), :);
+uD = zeros(Nfp*Nfaces, K);
 
 % set up Neumann boundary conditions
 qN = zeros(Nfp*Nfaces, K);
-% qN(mapN) = nx(mapN).*(pi*cos(pi*Fx(mapN)).*sin(pi*Fy(mapN))) + ...
-%            ny(mapN).*(pi*sin(pi*Fx(mapN)).*cos(pi*Fy(mapN))) ;
 
 % evaluate boundary condition contribution to rhs
 Aqbc = PoissonIPDGbc2D_rectangular(uD, qN);
@@ -112,7 +142,7 @@ Aqbc = PoissonIPDGbc2D_rectangular(uD, qN);
 rhs= 0;
 rhs = -MassMatrix*(J.*rhs) + Aqbc;
 
-% solve system
+%% solve system
 u = A\rhs(:);
 u = reshape(u, Np, K);
 

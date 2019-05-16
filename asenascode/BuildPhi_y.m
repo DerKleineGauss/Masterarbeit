@@ -1,4 +1,4 @@
-function [Phi, p_DFT] = BuildPhi_y(Kx, Ky, Npx, Npy)
+function [Phi, p_DFT] = BuildPhi_y(x, y, Kx, Ky, Npx, Npy)
 
 % function [Phi] = BuildPhi(Kx, Ky, Npx, Npy)
 % Purpose: Build global Discrete Fourier Transformation matrix with respect
@@ -18,16 +18,16 @@ p_linear = indices * 2*pi/M;
 p_DFT = zeros(Np,K);
 temp = repmat(p_linear, 1, Npx*Kx);
 p_DFT(:) = temp(:);
-% for k1=1:K
-%     if (k1 == Kx)
-%         index_low = (Kx-1)*Npx + 1;
-%     else
-%         index_low = mod(k1-1,Kx)*Npx + 1;
-%     end
-%     index_high = index_low + Npx - 1;
-%   p_DFT(:,k1) = repmat(p_linear, 1, Npx); 
-% end
 
+% prepare row interchanging so that on the rhs there will be u^ (x_1,p?) ...
+% u^ (x_last, p_?)
+ordering = DFTrhsIndices(Kx, Ky, Npx, Npy, Np);
+
+% check: all points should reside on a vertical line
+% figure(82)
+% for i=1:Npx*Kx
+%     plot_sorted(x(ordering((i-1)*M + 1 : i*M)), y(ordering((i-1)*M + 1 : i*M)));
+% end
 
 % build OP_diag, which will be replicated throughout Phi and which
 % represents one row of elements
@@ -72,9 +72,22 @@ for kx=1:Kx
     entries = entries + length(map_nonzeros);
 end
 
+% rearrange (Zeilenvertauschung, damit rechts udach(x_1) bis udach(x_last) sortiert steht
+indices_p_DFT = 1:length(p_DFT(:));
+indices_p_DFT = ordering(indices_p_DFT);
+%p_DFT = p_DFT(indices_p_DFT);
+[wayne, I] = sort(indices_p_DFT);
+p_DFT = p_DFT(I);
+Phi_unsorted = sparse(indices_row, indices_col, values) / sqrt(M);
+indices_row = ordering(indices_row);
+
 Phi = sparse(indices_row, indices_col, values) / sqrt(M);
 
-spy(Phi);
+if (sum(abs(Phi_unsorted(2,:) - Phi(1+Npx,:))) > 1e-14)
+    warning('AHHHHHHHH');
+end
+
+% spy(Phi);
 
 test = normest(Phi*Phi' - speye(K*Np));
 if (test > 1e-14)
