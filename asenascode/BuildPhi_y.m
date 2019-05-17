@@ -1,4 +1,6 @@
-function [Phi, p_DFT] = BuildPhi_y(x, y, Kx, Ky, Npx, Npy)
+function [Phi, p_DFT] = BuildPhi_y()
+
+Globals2D;
 
 % function [Phi] = BuildPhi(Kx, Ky, Npx, Npy)
 % Purpose: Build global Discrete Fourier Transformation matrix with respect
@@ -83,15 +85,17 @@ indices_row = ordering(indices_row);
 
 Phi = sparse(indices_row, indices_col, values) / sqrt(M);
 
-if (sum(abs(Phi_unsorted(2,:) - Phi(1+Npx,:))) > 1e-14)
-    warning('AHHHHHHHH');
-end
+if (testing)
+    if (sum(abs(Phi_unsorted(2,:) - Phi(1+Npx,:))) > 1e-14)
+        warning('AHHHHHHHH');
+    end
 
-% spy(Phi);
+    % spy(Phi);
 
-test = normest(Phi*Phi' - speye(K*Np));
-if (test > 1e-14)
-    warning('The DFT matrix seems to not be orthogonal. Norm of (Q^T Q - I) is %e', test);
+    test = normest(Phi*Phi' - speye(K*Np));
+    if (test > 1e-14)
+        warning('The DFT matrix seems to not be orthogonal. Norm of (Q^T Q - I) is %e', test);
+    end
 end
 
 return

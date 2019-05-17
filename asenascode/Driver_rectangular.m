@@ -5,7 +5,7 @@ clc
 tic
 % Driver script for solving the 2D Poisson equation
 Globals2D;
-
+testing = true;
 
 %% Konstanten
 h= 5e-9;
@@ -52,27 +52,30 @@ Npx = Nx + 1; Npy = Ny + 1;
 Nfaces = 4;
 
 % Read in Mesh
-Kx= 2;
-Ky= 4;
+Kx= 50;
+Ky= 50;
 [Nv, VX, VY, K, EToV, BCType] = rectangularGrid(Lq, Lr);
 
 % Initialize solver and construct grid and metric
 StartUp2D_rectangular;
 
 % Set up DFT matrix Phi
-[Phi, p_DFT] = BuildPhi_y(x, y, Kx, Ky, Npx, Npy);
+[Phi, p_DFT] = BuildPhi_y();
 p_DFT = reshape(p_DFT, Np, K);
 P_DFT=p_DFT(Fmask(:),:);    % face p's
-% figure(10)
-% plot_sorted(x(:), p_DFT)
-
-% set up boundary conditions
-BuildBCMaps2D;
+% adapt boundarys
+adaptBoundaryMap(Lr)
+if(testing)
+    figure(10)
+    plot_sorted(x(:), p_DFT(:))
+end
 
 B= functionB(x,y,a0, U,Lq,g,w,W0,n,delta, L_D);
 
-% figure(4)
-% plot3(x(:),y(:), B(:),'x')
+if(testing)
+    figure(4)
+    plot3(x(:),y(:), B(:),'x')
+end
 
 
 [A] = PoissonIPDG2D_rectangular(sparse(1:K*Np, 1:K*Np, B(:), K*Np, K*Np));
@@ -82,11 +85,6 @@ B= functionB(x,y,a0, U,Lq,g,w,W0,n,delta, L_D);
 a= gamma*m*kB*Temp/(2*pi*hbar)^2;
 b= epsilon*hbar/kB/Temp;
 c= mu/kB/Temp;
-
-map_left_v = Lr/2 + x < NODETOL;
-map_right_v = Lr/2 - x < NODETOL;
-map_left_f = Lr/2 + Fx < NODETOL;
-map_right_f = Lr/2 - Fx < NODETOL;
 
 % old bc's in space regime
 % bed = Lr/2-abs(Fx(mapD)) < NODETOL;
@@ -100,36 +98,7 @@ map_right_f = Lr/2 - Fx < NODETOL;
 % uD(mapD(bed))= f;
 
 % new bc's in k regime
-right_pos = find(Lr/2-VX < NODETOL & VY <= 0);
-left_pos  = find(Lr/2+VX < NODETOL & VY <= 0);
-right_neg = find(Lr/2-VX < NODETOL & VY >= 0);
-left_neg  = find(Lr/2+VX < NODETOL & VY >= 0);
-plot(VX,VY,'k.',VX(right_pos), VY(right_pos), 'ro', VX(left_pos), VY(left_pos), 'bo', ...
-    VX(right_neg), VY(right_neg), 'yx', VX(left_neg), VY(left_neg), 'gx');
-CorrectBCTable(left_neg, Neuman);
-CorrectBCTable(right_pos, Neuman);
-BuildBCMaps2D;
-plot(Fx(:),P_DFT(:),'k.',Fx(mapN),P_DFT(mapN),'ro', Fx(mapD),P_DFT(mapD),'gx');
-legend('all face points','Neumann face points', 'Dirichlet face points', 'Location','north')
-
-fh_left = @(k) a.*cos(y(map_left_v )*k).*log(1+exp(-b.*k^2+c));
-fh_right= @(k) a.*cos(y(map_right_v)*k).*log(1+exp(-b.*k^2+c));
-% uD_v caontains values in "volume speak" generated with x and y instead Fx
-% and Fy (as is the case for the later defined uD_complete)
-uD_v = zeros(Np, K);
-uD_v(map_left_v) = integral(fh_left,-2*c,2*c,'ArrayValued', true);
-uD_v(map_right_v) = integral(fh_right,-2*c,2*c,'ArrayValued', true);
-% left and right sides must have same y values -> check here
-assert ( norm(uD_v(map_left_v) - uD_v(map_right_v)) < NODETOL)
-figure(111);
-plot_sorted(y(map_left_v), uD_v(map_left_v));
-% confirm we do not lose map control
-assert(norm(find(Phi*uD_v(:))-find(uD_v)) < NODETOL)
-% apply DFT to rhs
-uD_v = reshape(Phi*uD_v(:), Np, K);
-% go to needed definitions for each face as also done in StartUp2D for Fx
-uD_complete = uD_v(Fmask(:), :);
-uD = zeros(Nfp*Nfaces, K);
+uD = rhs_dft(a,b,c, Lr, Phi);
 
 % set up Neumann boundary conditions
 qN = zeros(Nfp*Nfaces, K);
@@ -143,7 +112,8 @@ rhs= 0;
 rhs = -MassMatrix*(J.*rhs) + Aqbc;
 
 %% solve system
-u = A\rhs(:);
+u_hat = (Phi*A*Phi')\rhs(:);
+u = Phi' * u_hat;
 u = reshape(u, Np, K);
 
 figure(1)
@@ -179,7 +149,7 @@ plot(xl,rho_L)
 xlabel('$x / \xi$')
 ylabel('$n(x)$')
 
-eigenwerte = eigs(A)
+%eigenwerte = eigs(A)
 
 toc
 

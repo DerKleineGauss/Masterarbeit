@@ -3,7 +3,7 @@
 global Np Npx Npy Nfp N Nx Ny K Kx Ky
 global r s 
 global Dr Ds LIFT Drw Dsw MassMatrix
-global Fx Fy nx ny jac Fscale J
+global Fx Fy P_DFT nx ny jac Fscale J
 global vmapM vmapP vmapB mapB Fmask
 global BCType mapI mapO mapW mapF mapC mapS mapM mapP mapD mapN
 global vmapI vmapO vmapW vmapO vmapC vmapS vmapD vmapN
@@ -12,6 +12,7 @@ global rk4a rk4b rk4c
 global Nfaces EToE EToF EToV
 global V invV
 global x y p_DFT NODETOL VX VY
+global testing
 
 % Some curved mesh and cubature quadrature specific data
 global cub gauss straight curved
