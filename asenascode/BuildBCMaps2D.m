@@ -1,23 +1,25 @@
-function BuildBCMaps2D()
+function [params_out] = BuildBCMaps2D(params)
 
-% function BuildMaps2DBC
-% Purpose: Build specialized nodal maps for various types of
-%          boundary conditions, specified in BCType. 
+  % function BuildMaps2DBC
+  % Purpose: Build specialized nodal maps for various types of
+  %          boundary conditions, specified in BCType.
 
-Globals2D;
+  Nfp = params.Nfp;
+  BCType = params.BCType;
 
-% create label of face nodes with boundary types from BCType
-bct    = BCType';
-bnodes = ones(Nfp, 1)*bct(:)';
-bnodes = bnodes(:);
+  % create label of face nodes with boundary types from BCType
+  bct    = BCType';
+  bnodes = ones(Nfp, 1)*bct(:)';
+  bnodes = bnodes(:);
 
-% find location of boundary nodes in face and volume node lists
-mapI = find(bnodes==In);           vmapI = vmapM(mapI);
-mapO = find(bnodes==Out);          vmapO = vmapM(mapO);
-mapW = find(bnodes==Wall);         vmapW = vmapM(mapW);
-mapF = find(bnodes==Far);          vmapF = vmapM(mapF);
-mapC = find(bnodes==Cyl);          vmapC = vmapM(mapC);
-mapD = find(bnodes==Dirichlet);    vmapD = vmapM(mapD);
-mapN = find(bnodes==Neuman);       vmapN = vmapM(mapN);
-mapS = find(bnodes==Slip);         vmapS = vmapM(mapS);
+  % find location of boundary nodes in face and volume node lists
+  params.mapI = find(bnodes==params.In);           params.vmapI = params.vmapM(params.mapI);
+  params.mapO = find(bnodes==params.Out);          params.vmapO = params.vmapM(params.mapO);
+  params.mapW = find(bnodes==params.Wall);         params.vmapW = params.vmapM(params.mapW);
+  params.mapF = find(bnodes==params.Far);          params.vmapF = params.vmapM(params.mapF);
+  params.mapC = find(bnodes==params.Cyl);          params.vmapC = params.vmapM(params.mapC);
+  params.mapD = find(bnodes==params.Dirichlet);    params.vmapD = params.vmapM(params.mapD);
+  params.mapN = find(bnodes==params.Neuman);       params.vmapN = params.vmapM(params.mapN);
+  params.mapS = find(bnodes==params.Slip);         params.vmapS = params.vmapM(params.mapS);
+  params_out = params;
 return;

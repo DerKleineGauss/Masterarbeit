@@ -1,9 +1,16 @@
-function [nx, ny, sJ] = Normals2D_rectangular()
+function [nx, ny, sJ] = Normals2D_rectangular(params)
 
 % function [nx, ny, sJ] = Normals2D_rectangular()
 % Purpose : Compute outward pointing normals at elements faces and surface Jacobians
 
-Globals2D;
+x = params.x;
+y = params.y;
+Dr = params.Dr;
+Ds = params.Ds;
+Nfp = params.Nfp;
+Fmask = params.Fmask;
+K = params.K;
+
 xr = Dr*x; yr = Dr*y; xs = Ds*x; ys = Ds*y; J = xr.*ys-xs.*yr;
 
 % interpolate geometric factors to face nodes

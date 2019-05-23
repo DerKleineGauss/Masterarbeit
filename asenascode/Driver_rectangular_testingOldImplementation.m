@@ -5,7 +5,7 @@ clc
 tic
 % Driver script for solving the 2D Poisson equation
 Globals2D;
-testing = false;
+
 
 %% Konstanten
 h= 5e-9;
@@ -48,77 +48,67 @@ delta= delta*gamma;
 
 % Polynomial order used for approximation 
 Nx = 3; Ny = 3;
-Npx = Nx + 1; Npy = Ny + 1;
 Nfaces = 4;
 
 % Read in Mesh
-Kx= 50;
-Ky= 50;
+Kx= 40;
+Ky= 40;
 [Nv, VX, VY, K, EToV, BCType] = rectangularGrid(Lq, Lr);
 
 % Initialize solver and construct grid and metric
 StartUp2D_rectangular;
 
-% Set up DFT matrix Phi
-[Phi, p_DFT] = BuildPhi_y();
-p_DFT = reshape(p_DFT, Np, K);
-P_DFT=p_DFT(Fmask(:),:);    % face p's
-% adapt boundarys
-% adaptBoundaryMap(Lr)
-if(testing)
-    figure(10)
-    plot_sorted(x(:), p_DFT(:))
-end
+% set up boundary conditions
+BuildBCMaps2D;
 
 B= functionB(x,y,a0, U,Lq,g,w,W0,n,delta, L_D);
 
-if(testing)
-    figure(4)
-    plot3(x(:),y(:), B(:),'x')
-end
+% figure(4)
+% plot3(x(:),y(:), B(:),'x')
 
 
 [A] = PoissonIPDG2D_rectangular(sparse(1:K*Np, 1:K*Np, B(:), K*Np, K*Np));
 
-%% boundary conditions
 % set up Dirichlet boundary conditions
 a= gamma*m*kB*Temp/(2*pi*hbar)^2;
 b= epsilon*hbar/kB/Temp;
 c= mu/kB/Temp;
-
-% old bc's in space regime
-bed = Lr/2-abs(Fx(mapD)) < NODETOL;
+% bed= Lr/2-abs(Fx(mapD)) < NODETOL;
+% fh= @(k) a.*cos(Fy(mapD(bed)).*k).*log(1+exp(-b.*k.^2+c));
+% f= integral(fh,-2*c,2*c,'ArrayValued', true);
+bed= Lr/2-abs(Fx(mapD)) < NODETOL;
 fh= @(k) a.*cos(Fy(mapD(bed)).*k).*log(1+exp(-b.*k.^2+c));
 f= integral(fh,-2*c,2*c,'ArrayValued', true);
 
-if (testing)
-    figure(101);
-    plot_sorted(Fy(mapD(bed)),f);
-end
+% figure(101)
+% plot(Fy(mapD(bed)),f,'x')
 
-uD= zeros(Nfp*Nfaces, K);
-uD(mapD(bed))= f;
 
-% % new bc's in k regime
-% uD = rhs_dft(a,b,c, Lr, Phi);
+rho_D= zeros(Nfp*Nfaces, K);
+
+rho_D(mapD(bed))= f;
+uD= rho_D;
+
+
+% figure(2)
+% bed2= abs(Lr/2+Fx(mapD)) < NODETOL;
+% plot(Fy(mapD(bed2)), uD(mapD(bed2)),'x')
+
 
 % set up Neumann boundary conditions
 qN = zeros(Nfp*Nfaces, K);
+% qN(mapN) = nx(mapN).*(pi*cos(pi*Fx(mapN)).*sin(pi*Fy(mapN))) + ...
+%            ny(mapN).*(pi*sin(pi*Fx(mapN)).*cos(pi*Fy(mapN))) ;
 
 % evaluate boundary condition contribution to rhs
 Aqbc = PoissonIPDGbc2D_rectangular(uD, qN);
-% Aqbc = Phi * Aqbc(:);
-% Aqbc = reshape(Aqbc, Np, K);
 
 % set up right hand side forcing
 % rhs = -2*(pi^2)*sin(pi*x).*sin(pi*y);
 rhs= 0;
 rhs = -MassMatrix*(J.*rhs) + Aqbc;
 
-%% solve system
-% u_hat = (Phi*A*Phi')\rhs(:);
-% u = Phi' * u_hat;
-
+% solve system
 u = A\rhs(:);
 u = reshape(u, Np, K);
 
@@ -144,18 +134,25 @@ f= scatteredInterpolant(x(:), y(:),real(u(:)),'linear');
 %f= scatteredInterpolant(x(:), y(:),imag(u(:)),'linear');
 Z= f(X,Y);
 mesh(X,Y, f(X,Y))
-xlabel('$r / \xi$')
-ylabel('$q / \xi$')
+xlabel('$r / nm$')
+ylabel('$q / nm$')
 zlabel('$\rho(r,q)$')
 
 figure(2)
 rho_L= Z(abs(Y) <= NODETOL);
 xl= X(abs(Y) <= NODETOL);
 plot(xl,rho_L)
-xlabel('$x / \xi$')
+xlabel('$x / nm$')
 ylabel('$n(x)$')
 
-%eigenwerte = eigs(A)
-
 toc
+
+tol=1e-14;
+constant_r_vec = uniquetol(x,tol);
+block_index = 0;
+for constant_r = constant_r_vec
+    block_index = block_index + 1;
+    mask = find(abs(x-constant_r)<tol);
+    N = length(mask);
+end
 

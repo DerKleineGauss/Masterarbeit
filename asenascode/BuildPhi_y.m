@@ -1,13 +1,15 @@
-function [Phi, p_DFT] = BuildPhi_y()
-
-Globals2D;
+function [Phi, p_DFT] = BuildPhi_y(params)
 
 % function [Phi] = BuildPhi(Kx, Ky, Npx, Npy)
 % Purpose: Build global Discrete Fourier Transformation matrix with respect
 % to y variable
 
-Np = Npx*Npy;
-K = Kx*Ky;
+Np = params.Np;
+Npx = params.Npx;
+Npy = params.Npy;
+K = params.K;
+Kx = params. Kx;
+Ky = params. Ky;
 
 M = Ky*Npy;
 N_tilde = (M-1)/2;
@@ -85,7 +87,7 @@ indices_row = ordering(indices_row);
 
 Phi = sparse(indices_row, indices_col, values) / sqrt(M);
 
-if (testing)
+if (params.testing)
     if (sum(abs(Phi_unsorted(2,:) - Phi(1+Npx,:))) > 1e-14)
         warning('AHHHHHHHH');
     end

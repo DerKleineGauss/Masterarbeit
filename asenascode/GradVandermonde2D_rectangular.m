@@ -1,10 +1,17 @@
-function [V2Dr,V2Ds] = GradVandermonde2D_rectangular(Npx, Npy,r,s)
+function [V2Dr,V2Ds] = GradVandermonde2D_rectangular(params)
 
 % function [V2Dr,V2Ds] = GradVandermonde2D_rectangular(N,r,s)
 % Purpose : Initialize the gradient of the modal basis (i,j) at (r,s) at order Nx, Ny
 
-V2Dr = zeros(length(r),Npx*Npy);
-V2Ds = zeros(length(r),Npx*Npy);
+Npx = params.Npx;
+Npy = params.Npy;
+r = params.r;
+s = params.s;
+Np = params.Np;
+V2D = zeros(Np,Np);
+
+V2Dr = zeros(length(r),Np);
+V2Ds = zeros(length(r),Np);
 
 % Initialize matrices
 sk = 1;

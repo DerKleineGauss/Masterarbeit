@@ -1,15 +1,26 @@
-function [mapM, mapP, vmapM, vmapP, vmapB, mapB] = BuildMaps2D()
+function [mapM, mapP, vmapM, vmapP, vmapB, mapB] = BuildMaps2D(params)
 
 % function [mapM, mapP, vmapM, vmapP, vmapB, mapB] = BuildMaps2D
 % Purpose: Connectivity and boundary tables in the K # of Np elements
 
-Globals2D;
+Np = params.Np;
+Nfaces = params.Nfaces;
+Nfp = params.Nfp;
+Fmask = params.Fmask;
+K = params.K;
+EToE = params.EToE;
+EToF = params.EToF;
+EToV = params.EToV;
+x = params.x;
+y = params.y;
+VX = params.VX;
+VY = params.VY;
 
 % number volume nodes consecutively
 nodeids = reshape(1:K*Np, Np, K);
-vmapM   = zeros(Nfp, Nfaces, K); vmapP   = zeros(Nfp, Nfaces, K); 
+vmapM   = zeros(Nfp, Nfaces, K); vmapP   = zeros(Nfp, Nfaces, K);
 mapM    = (1:K*Nfp*Nfaces)';     mapP    = reshape(mapM, Nfp, Nfaces, K);
- 
+
 % find index of face nodes with respect to volume node ordering
 for k1=1:K
   for f1=1:Nfaces
@@ -23,15 +34,15 @@ for k1=1:K
     % find neighbor
     k2 = EToE(k1,f1);
     f2 = EToF(k1,f1);
-    
+
     % reference length of edge
     v1 = EToV(k1,f1);
     v2 = EToV(k1, 1+mod(f1,Nfaces));
     refd = sqrt( (VX(v1)-VX(v2))^2 + (VY(v1)-VY(v2))^2 );
 
-    % find find volume node numbers of left and right nodes 
+    % find find volume node numbers of left and right nodes
     vidM = vmapM(:,f1,k1);
-    vidP = vmapM(:,f2,k2); 
+    vidP = vmapM(:,f2,k2);
     x1 = x(vidM);
     y1 = y(vidM);
     x2 = x(vidP);
@@ -43,13 +54,13 @@ for k1=1:K
 
     % Compute distance matrix
     D = (x1 -x2').^2 + (y1-y2').^2;
-    [idM, idP] = find(sqrt(abs(D))<NODETOL*refd);
+    [idM, idP] = find(sqrt(abs(D))<params.NODETOL*refd);
     vmapP(idM,f1,k1) = vidP(idP);
     mapP(idM,f1,k1) = idP + (f2-1)*Nfp+(k2-1)*Nfaces*Nfp;
   end
 end
 
 % reshape vmapM and vmapP to be vectors and create boundary node list
-vmapP = vmapP(:); vmapM = vmapM(:); mapP = mapP(:); 
+vmapP = vmapP(:); vmapM = vmapM(:); mapP = mapP(:);
 mapB = find(vmapP==vmapM); vmapB = vmapM(mapB);
 return

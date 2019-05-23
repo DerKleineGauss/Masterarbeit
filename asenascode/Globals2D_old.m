@@ -1,5 +1,5 @@
 % Purpose: declare global variables
-
+problem = struct;
 global Np Npx Npy Nfp N Nx Ny K Kx Ky
 global r s 
 global Dr Ds LIFT Drw Dsw MassMatrix
