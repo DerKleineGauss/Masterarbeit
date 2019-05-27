@@ -61,5 +61,11 @@ params.Fscale = params.sJ./(params.J(params.Fmask,:));
 [Vr, Vs] = GradVandermonde2D_rectangular(params);
 params.Drw = (params.V*Vr')/(params.V*params.V'); params.Dsw = (params.V*Vs')/(params.V*params.V');
 
+% Build loc2glb
+params.loc2glb = zeros(params.Np, params.K);
+for k1=1:params.K
+  params.loc2glb(:,k1) = ((k1-1)*Np+1:k1*Np)';
+end
+
 out_params = params;
 end

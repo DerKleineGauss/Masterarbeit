@@ -34,7 +34,6 @@ params = StartUp2D_rectangular(params);
 params.p_DFT = reshape(params.p_DFT, params.Np, params.K);
 params.P_DFT = params.p_DFT(params.Fmask(:),:);    % face p's
 % adapt boundarys
-% [params]=adaptBoundaryMap(params);
 [params] = BuildBCMaps2D(params);
 
 if(params.testing)

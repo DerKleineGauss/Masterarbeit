@@ -36,6 +36,7 @@ classdef GlobalParams
     sJ
     Fmask
     BCType
+    loc2glb
     mapB
     mapI
     mapO
