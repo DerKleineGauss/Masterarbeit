@@ -8,17 +8,17 @@ tic
 params = GlobalParams;
 params.testing = false;
 
-%% Umskalierung
+% Rescaling
 epsilon= params.constants.e / params.constants.hbar;
 gamma= sqrt(epsilon*2*params.constants.m/params.constants.hbar);
 [params.Lr_scaled, params.Lq_scaled, params.L_D_scaled, params.w_scaled, params.g_scaled, params.delta_scaled] = params.scale(gamma);
 
 % Polynomial order used for approximation, Grid size
-params.Nx = 3;
-params.Ny = 3;
+params.Nx = 2;
+params.Ny = 2;
 params.Nfaces = 4;
-params.Kx= 50;
-params.Ky= 50;
+params.Kx= 2;
+params.Ky= 2;
 % derived values
 params.Npx = params.Nx + 1; params.Npy = params.Ny + 1; params.Nfp = params.Npx;
 params.Np = params.Npx * params.Npy;
@@ -48,43 +48,41 @@ if(params.testing)
     plot3(params.x(:),params.y(:), B(:),'x')
 end
 
-[A] = PoissonIPDG2D_rectangular(params, sparse(1:params.K*params.Np, 1:params.K*params.Np, B(:), params.K*params.Np, params.K*params.Np));
+[A, D] = PoissonIPDG2D_rectangular(params, sparse(1:params.K*params.Np, 1:params.K*params.Np, B(:), params.K*params.Np, params.K*params.Np));
 
+[D_l_pos, D_l_neg, D_r_pos, D_r_neg] = SplitDmatrix(params, D, Phi);
 %% boundary conditions
 % set up Dirichlet boundary conditions
 [a, b, c] = params.get_abc(gamma, epsilon);
 
-% old bc's in space regime
-bed = params.Lr_scaled/2-abs(params.Fx(params.mapD)) < params.NODETOL;
-fh= @(k) a.*cos(params.Fy(params.mapD(bed))*k).*log(1+exp(-b.*k^2+c));
-f= integral(fh,-2*c,2*c,'ArrayValued', true);
-
-if (params.testing)
-    figure(101)
-    plot_sorted(params.Fy(params.mapD(bed)),f)
-end
-
-uD= zeros(params.Nfp*params.Nfaces, params.K);
-uD(params.mapD(bed))= f;
+% % old bc's in space regime
+% bed = params.Lr_scaled/2-abs(params.x(params.vmapD)) < params.NODETOL;
+% fh= @(k) a.*cos(params.y(params.vmapD(bed))*k).*log(1+exp(-b.*k^2+c));
+% f= integral(fh,-2*c,2*c,'ArrayValued', true);
+% 
+% if (params.testing)
+%     figure(101)
+%     plot_sorted(params.y(params.vmapD(bed)),f)
+% end
+% 
+% uD= zeros(params.Np, params.K);
+% uD(params.vmapD(bed))= f;
 
 % new bc's in k regime
-% uD = rhs_dft(params, a,b,c, Phi);
+rhs = rhs_dft(params, a,b,c, Phi, D_l_pos, D_r_neg, D_l_neg, D_r_pos);
 
 % set up Neumann boundary conditions
 qN = zeros(params.Nfp*params.Nfaces, params.K);
 
-% evaluate boundary condition contribution to rhs
-Aqbc = PoissonIPDGbc2D_rectangular(params, uD, qN);
-
-% set up right hand side forcing
-% rhs = -2*(pi^2)*sin(pi*x).*sin(pi*y);
-rhs= 0;
-rhs = -params.MassMatrix*(params.J.*rhs) + Aqbc;
+% adapt left hand side to match fourier transform and subtract unknown
+% dirichlet boundary conditions
+% A = A*Phi' - D_l_neg - D_r_pos;
+A = A*Phi';
 
 %% solve system
-% u_hat = (Phi*A*Phi')\(Phi*rhs(:));
-% u = Phi' * u_hat;
-u = A\rhs(:);
+u_hat = A\rhs;
+% Phi*u =: u_hat  -->  u=Phi' * u_hat
+u = Phi' * u_hat;
 u = reshape(u, params.Np, params.K);
 
 figure(1)

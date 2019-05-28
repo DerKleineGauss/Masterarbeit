@@ -1,4 +1,4 @@
-function [OP] = PoissonIPDG2D_rectangular(params, B)
+function [OP, D] = PoissonIPDG2D_rectangular(params, B)
 
 % Purpose: Set up the discrete Poisson matrix directly
 %          using LDG. The operator is set up in the weak form
@@ -100,10 +100,10 @@ for k1=1:K
         %fprintf('BCType(k1,f1): %d\n',BCType(k1,f1))
         switch(BCType(k1,f1))
             case {Dirichlet}
-                OP11 = OP11 + ( gtau*mmE - mmE*Dn1 - Dn3'*mmE ); % ok
+                OP11 = OP11 + ( gtau*mmE - Dn3'*mmE ); % ok
                 OPD= zeros(Np);
-                % OPD(:,Fm1)= gtau*mmE(:,Fm1) - Dn3'*mmE(:,Fm1)+ mmE*Dn1(:,Fm1);
-                OPD(:,Fm1) = gtau*mmE(:,Fm1) - Dn3'*mmE(:,Fm1);
+                OPD(:,Fm1)= gtau*mmE(:,Fm1) - Dn3'*mmE(:,Fm1)+ mmE*Dn1(:,Fm1);
+%                 OPD(:,Fm1) = gtau*mmE(:,Fm1) - Dn3'*mmE(:,Fm1);
                 dindices_row(dentries(:)) = rows1(:);
                 dindices_col(dentries(:)) = cols1(:);
                 dvalues(dentries(:)) = OPD(:);
