@@ -14,7 +14,7 @@ gamma= sqrt(epsilon*2*params.constants.m/params.constants.hbar);
 
 % Order of polymomials used for approximation 
 params.N = 2;
-params.K = 3;
+params.K = 6;
 params.Npy = 3;
 
 % Generate simple mesh
