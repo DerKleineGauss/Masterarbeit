@@ -1,7 +1,7 @@
 function [B] = functionB(params)
 
-r = params.x;
-q = params.y;
+r = params.x_interface;
+q = params.y_interface;
 
 a0 = params.constants.a0;
 U = params.constants.U;

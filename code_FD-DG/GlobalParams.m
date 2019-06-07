@@ -4,6 +4,7 @@ classdef GlobalParams
     constants = PhysicalConstants;
     Np
     Npy % number of interfaces coordinates in y space originating from FD method
+    Ny  % number of cells in y space originating from FD method
     Nfp
     N
     nx  % normals in x
@@ -62,8 +63,10 @@ classdef GlobalParams
     V
     invV
     x
+    x_interface
     hx
     y
+    y_interface
     hy
     NODETOL = 1e-12;
     VX
@@ -89,6 +92,8 @@ classdef GlobalParams
     w_scaled
     g_scaled
     delta_scaled
+    epsilon
+    gamma
   end
   methods
     function [Lr, Lq, L_D, w, g, delta] = scale(obj, gamma)

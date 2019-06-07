@@ -667,8 +667,11 @@ Die gesamte Argumentation funktioniert genau so, wenn A bereits diagonal ist. Wi
 Es folgt wie oben gezeigt der numerische Fluss
 \begin{align}
   (\Lambda v)^* = \Lambda\avg{v} + \frac{1}{2}|\Lambda|\jump{v} \; ,
+  \label{eq:FLUX}
 \end{align}
 und nun lassen sich die Randbedingungen aus Kapitel \ref{sec:RB} auf einfache Weise einbauen, was im nächsten Kapitel geschehen soll.
+
+
 
 \section{FD-DG-Schema}
 \label{sec:FD-DG-Schema}
@@ -678,36 +681,44 @@ Wir behandeln zunächst die $q$-Richtung mit Hilfe eines finitie Differenzen (FD
   \label{eq:FDschema}
 \end{align}
 Die Matrizen $A$ und $C(r)$ sind dabei gegeben durch
-\begin{align}
-  A =
-  \left[ \begin{matrix}
-    0    & -i/2   &         & 0     \\
-    +i/2 & \ddots & \ddots  &       \\
-         & \ddots & \ddots  &  -i/2 \\
-    0    &        & +i/2    & 0
-  \end{matrix}  \right]
-\end{align}
-\begin{align}
-  C(r) = \frac{\Delta q}{4}
-  \left[ \begin{matrix}
-    B(r,q_{\nicefrac{3}{2}}) + B(r,q_{\nicefrac{1}{2}})    & B(r,q_{\nicefrac{3}{2}})   &         & 0     \\
-    B(r,q_{\nicefrac{3}{2}})                               & \ddots                     & \ddots  &       \\
-         & \ddots & \ddots                                 &  B(r,q_{N_q-\nicefrac{1}{2}}) \\
-    0    &        & B(r,q_{N_q-\nicefrac{1}{2}})           & B(r,q_{N_q+\nicefrac{1}{2}}) + B(r,q_{N_q-\nicefrac{1}{2}})
-  \end{matrix}  \right]
-\end{align}
+% \begin{align}
+%   A =
+%   \left[ \begin{matrix}
+%     0    & -i/2   &         & 0     \\
+%     +i/2 & \ddots & \ddots  &       \\
+%          & \ddots & \ddots  &  -i/2 \\
+%     0    &        & +i/2    & 0
+%   \end{matrix}  \right]
+% \end{align}
+% \begin{align}
+%   C(r) = \frac{\Delta q}{4}
+%   \left[ \begin{matrix}
+%     B(r,q_{\nicefrac{3}{2}}) + B(r,q_{\nicefrac{1}{2}})    & B(r,q_{\nicefrac{3}{2}})   &         & 0     \\
+%     B(r,q_{\nicefrac{3}{2}})                               & \ddots                     & \ddots  &       \\
+%          & \ddots & \ddots                                 &  B(r,q_{N_q-\nicefrac{1}{2}}) \\
+%     0    &        & B(r,q_{N_q-\nicefrac{1}{2}})           & B(r,q_{N_q+\nicefrac{1}{2}}) + B(r,q_{N_q-\nicefrac{1}{2}})
+%   \end{matrix}  \right]
+% \end{align}
+\begin{align*}
+  A_{i,i} &= 0  &\forall \, i&=1,\dots,N_q \\
+  A_{i,i+1} &= -\frac{i}{2}   \qquad  A_{i+1, i} = +\frac{i}{2} &\forall i&=1,\dots,N_q-1 \\
+  C_{i,i}(r) &= \frac{\Delta q}{4} (B(r, q_{i+\nicefrac{1}{2}}) + B(r, q_{i-\nicefrac{1}{2}}))  &\forall \, i&=1,\dots,N_q \\
+  C_{i,i+1}(r) &= \frac{\Delta q}{4} B(r, q_{i+\nicefrac{1}{2}}) \qquad C_{i+1,i}(r) = \frac{\Delta q}{4} B(r, q_{i+\nicefrac{1}{2}})  &\forall \, i&=1,\dots,N_q-1
+\end{align*}
 und haben die Dimension $N_q \times N_q$, wobei $N_q$ die Anzahl der Zellen in $q$-Richtung ist. Es gibt dementsprechend $N_q+1$ Knoten oder auch Interfaces genannt. Im Potentialterm sollte das CAP berücksichtigt werden. Ferner sind die Randbedingungen $u|_{q=\pm L_q/2} = 0$ verwendet worden.
 
 Vergleichen wir Gleichung \eqref{eq:FDschema} mit der vektoriellen Advektionsgleichung
 \begin{align}
-  u_t + f_x(u) = 0 \\
+  u_t + f_x(u) = 0 \qquad \text{mit} \qquad
   f(u) = Au \; ,
 \end{align}
 so ist es nach dem oben gesagten sinnvoll, das entwickelte FD-Schema einer Transformation zu unterziehen, um die Matrix $A$ zu diagonalisieren. Die Eigenwerte und Eigenvektoren der tridiagonalen Toeplitz Matrix $A$ sind bekannt. Es gilt
+\begin{gather}
 \begin{align}
-  \lambda_p = -2\sqrt{-(i/2)^2}\cos\left(\frac{p\pi}{N_q+1}\right) \\
-  r^p = \left( \left( \frac{i/2}{-i/2} \right)^{1/2} \sin \left( \frac{1 p\pi }{N_q+1} \right), \ldots , \left( \frac{i/2}{-i/2} \right)^{N_q/2} \sin \left( \frac{N_q p \pi}{N_q+1} \right) \right) \; .
+  \lambda_p &= -2\sqrt{-(i/2)^2}\cos\left(\frac{p\pi}{N_q+1}\right) \\
+  r^p &= \left( \left( \frac{i/2}{-i/2} \right)^{1/2} \sin \left( \frac{1 p\pi }{N_q+1} \right), \ldots , \left( \frac{i/2}{-i/2} \right)^{N_q/2} \sin \left( \frac{N_q p \pi}{N_q+1} \right) \right) \; .
 \end{align}
+\end{gather}
 Damit folgt
 \begin{align}
   \Delta q v_t(r,t) + \Lambda v_r(r,t) + i \underbrace{R^{-1}C(r)R}_{\equiv G(r)} v(r,t) = 0 \; .
@@ -715,16 +726,16 @@ Damit folgt
 \end{align}
 Um nun das DG-Verfahren anzuwenden, wird mit einer Testfunktion $\ell_i$ multipliziert und über Zelle $K$ integriert. Wir erhalten für die $j$-te Gleichung des Systems
 \begin{align*}
-  \Delta q \int_K \partial_t v_j(r,t)\ell_i(r) + \lambda_j \int_K \partial_r v_j(r,t) \ell_i(r) + i \sum_{m=1}^{N_q} G^K_{jm}(r) v_m(r,t) \ell_i(r) = 0
+  \Delta q \int_K \partial_t v_j(r,t)\ell_i(r) + \lambda_j \int_K \partial_r v_j(r,t) \ell_i(r) + i \sum_{m=1}^{N_q} \int_K G_{jm}(r) v_m(r,t) \ell_i(r) = 0
 \end{align*}
 und nach partieller Integration des Flussterms
 \begin{align*}
-  \Delta q \int_K \partial_t v_j(r,t)\ell_i(r) - \lambda_j \int_K v_j(r,t) &\partial_r\ell_i(r) + i \sum_{m=1}^{N_q} \int_K G^K_{jm}(r) v_m(r,t) \ell_i(r)\\
-      &= - \oint_{\partial K}  \hat{n} (\lambda_j v_j)^*(r,t)\ell_i(r) \; ,
+  \Delta q \int_K \partial_t v_j(r,t)\ell_i(r) - \lambda_j \int_K v_j(r,t) &\partial_r\ell_i(r) + i \sum_{m=1}^{N_q} \int_K G_{jm}(r) v_m(r,t) \ell_i(r)\\
+      &= - \oint_{\partial K}  \hat{n} (\lambda_j v_j)^*(r,t)\ell_i(r) \;  \qquad \forall\, i=1,\dots,N_p \;,
 \end{align*}
 wobei wie üblich der numerische Fluss $(\lambda_j v_j)^*(r) = (\lambda_j v_j)^*(r^+, r^-)$ sowie der nach außen zeigende Normalenvektor $\hat{n}$ eingeführt worden ist. Jetzt wird eine schwache Lösung dieser Gleichung gesucht und dazu $v_j$ im Raum der Testfunktionen $V_N$ entwickelt. Das Vorgehen ist in Kapitel \ref{sec:DG-Schema} erläutert. Es ist zu beachten, dass der Potentialterm $G(r)u(r)$ günstigerweise entkoppelt wird, sodass
 \begin{align}
-  G_{jm}^K(r)v_m^K(r) = \sum_{k=1}^{N_p} G_{jm}^K(\xi_k)v_m^K(\xi_k) \ell_k(r) = \left(\text{diag}(\underline{G}_{jm}^K) \underline{v}_m^K\right) \cdot \underline{ \ell }
+  G_{jm}(r|_K)v_m(r|_K)  = \sum_{k=1}^{N_p} G_{jm}^K(\xi_k)v_m^K(\xi_k) \ell_k(r) = \left(\text{diag}(\underline{G}_{jm}^K) \underline{v}_m^K\right) \cdot \underline{ \ell }
 \end{align}
 gilt. Mit den Definitionen von Massematrix, Gleichung \eqref{eq:massenmatrix}, und Steifigkeitsmatrix, Gleichung \eqref{eq:steifigkeitsmatrix}, folgt
 \begin{align*}
@@ -732,15 +743,19 @@ gilt. Mit den Definitionen von Massematrix, Gleichung \eqref{eq:massenmatrix}, u
   &= - \oint_{\partial K}  \hat{n} (\lambda_j v_j)^*(r,t)\underline{\ell}(r) \; .
 \end{align*}
 Multiplizieren wir noch von links mit $(M^K)^{-1}$, erhalten wir das Schema
+\begin{gather}
 \begin{align}
-  \Delta q \partial_t \underline{v}_j^K - &\lambda_j (M^K)^{-1}S^T\underline{v}_j^K + i\sum_{m=1}^{N_q} \left(\text{diag}(\underline{G}_{jm}^K) \underline{v}_m^K\right) \\
+  \Delta q \partial_t \underline{v}_j^K - &\lambda_j (M^K)^{-1}S^T\underline{v}_j^K + i\sum_{m=1}^{N_q} \text{diag}(\underline{G}_{jm}^K) \underline{v}_m^K \\
   &= - \oint_{\partial K}  \hat{n} (\lambda_j v_j)^*(r,t) (M^K)^{-1}\underline{\ell}(r) \; .
 \end{align}
+\end{gather}
 
 
 Wir ignorieren zunächst die Tatsache, dass die \lvn in der Form nach Gleichung \eqref{eq:lvn_diagonalisiert} aufgrund des Potentialterms $C(r)$ nicht die einfache Form der Advektionsgleichung annimmt und schreiben für die Randbedingungen gemäß den Überlegungen in Kapiteln \ref{sec:RB} und \ref{sec:rhc}
 \begin{align}
-  v(r_1, t)^+ = (R^{-1})^+ \hat{f}_l  \\
-  v(r_{K\,N_p},t)^+ = (R^{-1})^- \hat{f}_r
+  v(r_l^{K=1}, t)^{in} = (R^{-1})^+ \hat{f}_l  \\
+  v(r_r^{K=K_r},t)^{in} = (R^{-1})^- \hat{f}_r
 \end{align}
-Hierbei ist $\hat{f}_{l/r} = \hat{f}_{l/r}(q)$ die an den diskreten  Knoten ($q$-Richtung) ausgewertete Fourier-Transformierte der eingeführten Fermi-Dirac Verteilung $f_{l/r}(k)$, siehe auch \cite{lukas1}.
+Hierbei ist $\hat{f}_{l/r} = \hat{f}_{l/r}(q)$ die an den diskreten  Knoten ($q$-Richtung) ausgewertete Fourier-Transformierte der eingeführten Fermi-Dirac Verteilung $f_{l/r}(k)$, siehe auch \cite{lukas1}. Die Matrix $R$ wird gemäß des Vorzeichens der Eigenwerte in den Teil der rechtslaufenden Wellen $R^+$ korrespondierend zu positiven Eigenwerten sowie den Teil der linkslaufenden Wellen $R^-$ korrespondierend zu negativen Eigenwerten aufgeteilt, sodass $R=R^+ + R^-$ bzw. $R^{-1} = (R^{-1})^+ + (R^{-1})^-$ gilt. Für die auslaufenden Wellen verwenden wir jeweils den Wert im inneren des Rechengebietes, sodass der Sprung Null ergibt. \todo{Ist das gleichbedeutend mit Neumann-RB?}
+
+Für die Wahl des numerischen Flusses bedienen wir uns des Resultates aus Kapitel \ref{sec:rhc} und wählen ihn gemäß Gleichung \eqref{eq:FLUX}.
