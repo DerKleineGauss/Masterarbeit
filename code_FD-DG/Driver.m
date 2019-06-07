@@ -13,13 +13,13 @@ params.gamma= sqrt(params.epsilon*2*params.constants.m/params.constants.hbar);
 [params.Lr_scaled, params.Lq_scaled, params.L_D_scaled, params.w_scaled, params.g_scaled, params.delta_scaled] = params.scale(params.gamma);
 
 % Order of polymomials used for approximation (x direction)
-params.N = 3;
+params.N = 5;
 % Number of elements for DG discretization (x direction)
-params.K = 23;
-% Number of interfaces (y direction)
-params.Npy = 29;
+params.K = 50;
 % Number of cells (y direction)
-params.Ny = params.Npy - 1;
+params.Ny = 50;
+% Number of interfaces (y direction)
+params.Npy = params.Ny+  1;
 
 % Generate simple mesh
 xmin = -params.Lr_scaled/2;
