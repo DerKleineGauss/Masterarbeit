@@ -29,11 +29,11 @@ xlabel('$r / \xi$')
 ylabel('$q / \xi$')
 zlabel('$\rho(r,q)$')
 
-figure(2)
-rho_L= Z(abs(Y) <= params.NODETOL);
-xl= X(abs(Y) <= params.NODETOL);
-plot(xl,rho_L)
-xlabel('$x / \xi$')
-ylabel('$n(x)$')
+% figure(2)
+% rho_L= Z(abs(Y) <= params.NODETOL);
+% xl= X(abs(Y) <= params.NODETOL);
+% plot(xl,rho_L)
+% xlabel('$x / \xi$')
+% ylabel('$n(x)$')
 
 %eigenwerte = eigs(A)

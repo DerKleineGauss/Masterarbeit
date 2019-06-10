@@ -1,4 +1,4 @@
-function [A, rhs, R] = LVN_systemmatrix(params, B)
+function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
     % returns systemmatrix A, right hand side rhs containing boundary
     % conditions and additionally transformation matrix R for diagonalizing
     % the FD scheme
@@ -120,11 +120,14 @@ function [A, rhs, R] = LVN_systemmatrix(params, B)
     % matrix caring about time derivation term
     T_glob = hy * speye(systemsize);
     
-    % set up systemmatrix A
-    A = L_glob + G_glob - flux;
     
     % build rhs consisting of inflow boundary conditions
-%     [D_l, D_r] = SplitDmatrix(params, D);
-    [rhs] = flux_rhs(params, D);
+%     [D_l_pos, D_l_neg, D_r_pos, D_r_neg] = SplitDmatrix(params, D, R, eigs_A);
+    [D_l, D_r] = SplitDmatrix(params, D);
+    [rhs] = flux_rhs(params, D_l, D_r, R, eigs_A);
+    
+    % set up systemmatrix A
+%     A = L_glob + G_glob - flux - D_l_neg - D_r_pos;
+    Systemmatrix = L_glob + G_glob - flux ;
     
 end

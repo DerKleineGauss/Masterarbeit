@@ -6,4 +6,5 @@ for i=1:outer_dim
         out(:,i) = out(:,i) + R(i,j)*in(:,j);
     end
 end
+out = out(:);
 end
