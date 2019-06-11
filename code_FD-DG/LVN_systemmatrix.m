@@ -1,7 +1,7 @@
 function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
     % returns systemmatrix A, right hand side rhs containing boundary
     % conditions and additionally transformation matrix R for diagonalizing
-    % the FD scheme
+    % the FD scheme. Uses strong formulation.
 
     % x <-> r
     % y <-> q
@@ -37,7 +37,6 @@ function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
     end
     R = 1/sqrt(norm_Q) * R;
     R = R';     % we choose R so that A = R \Lambda R' , u=Rv with v being the new variable
-
     Lambda = diag(eigs_A);
     Lambda_invers = zeros(Npy-1);
     for k=1:Npy-1
@@ -50,9 +49,9 @@ function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
             display(['|| A - R \Lambda R_invers || = ' , num2str(norm(Test))]);
             display(['|| (A - \lambda_1 * id)*r_1 || = ', num2str(norm((A-eigs_A(1)*eye(Npy-1))*R(:,1)) )])
         end
-
+    
     % interior face variational terms
-    [flux, D] = FluxMatrix (params, Lambda);
+    [flux, D] = FluxMatrix_strong (params, Lambda);
 
     % next build G (from C (from B))
     G = zeros(K*Np, Ny, Ny);
@@ -66,12 +65,12 @@ function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
     end
 
     %% build global matrices T_gl, S_gl, G_gl
+    
     % L
     Dx_all_K = zeros(K*Np, Np);
     for k1=1:K
         Dx_all_K((k1-1)*Np + 1 : k1*Np, :) = rx(1, k1)*Dr;
     end
-    % global node numbering
     indices_row = zeros(K*Np*Ny,1);
     indices_col = indices_row;
     values_L_glob = indices_row;
@@ -84,7 +83,7 @@ function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
             rows_inner = rows((k1-1)*Np + 1 : k1*Np)*ones(1,Np);
             cols_inner = rows_inner';
             Dx = Dx_all_K((k1-1)*Np + 1 : k1*Np, :);    % = rx(1, k1)*Dr (but saves computational time)
-            values_L_glob(entries) = - Lambda(cell_y,cell_y) * Dx;   % L is Blockdiagonal
+            values_L_glob(entries) = Lambda(cell_y,cell_y) * Dx;   % L is Blockdiagonal
             indices_row(entries) = rows_inner;
             indices_col(entries) = cols_inner;
             entries = entries + Np*Np;
@@ -113,8 +112,12 @@ function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
     G_glob = G_glob(1:max(entries)  -Np*K,:);
     G_glob = myspconvert(G_glob, systemsize, systemsize, 1e-15);
     
-%     spyc_grid(real(G_glob),'cool',Np,K*Np)
-%     spyc_grid(imag(G_glob),'cool',Np,K*Np)
+    if (params.testing)    
+        figure('name', "Real part of G_glob");
+        spyc_grid(real(G_glob),'cool',Np,K*Np)
+        figure('name', "Imag part of G_glob");
+        spyc_grid(imag(G_glob),'cool',Np,K*Np)
+    end
 
 
     % matrix caring about time derivation term
@@ -127,7 +130,8 @@ function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
     [rhs] = flux_rhs(params, D_l, D_r, R, eigs_A);
     
     % set up systemmatrix A
-%     A = L_glob + G_glob - flux - D_l_neg - D_r_pos;
+%     Systemmatrix = L_glob + G_glob - flux - D_l - D_r;    % ist quatsch
+%     weil wir keine Werte von auﬂerhalb nehmen, die wir nicht kennen.
     Systemmatrix = L_glob + G_glob - flux ;
     
 end

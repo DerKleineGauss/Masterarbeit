@@ -13,11 +13,11 @@ params.gamma= sqrt(params.epsilon*2*params.constants.m/params.constants.hbar);
 [params.Lr_scaled, params.Lq_scaled, params.L_D_scaled, params.w_scaled, params.g_scaled, params.delta_scaled] = params.scale(params.gamma);
 
 % Order of polymomials used for approximation (x direction)
-params.N = 5;
+params.N = 3;
 % Number of cells for DG discretization (x direction)
 params.K = 50;
 % Number of cells (y direction)
-params.Ny = 60;
+params.Ny = 100;
 % Number of interfaces (y direction)
 params.Npy = params.Ny+  1;
 
@@ -66,5 +66,6 @@ u = strangeMatrixMultiplication(R , v);
 u = reshape(u,params.Np*params.K, params.Ny);
 
 plot_solution(params, u);
+% plot(params.x, u);
 
 toc

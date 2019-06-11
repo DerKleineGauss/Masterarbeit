@@ -19,10 +19,10 @@ function [D_l, D_r] = SplitDmatrix(params, D)
     
     D_l = sparse(systemsize, systemsize);
     D_r = sparse(systemsize, systemsize);
-    D_l_pos = sparse(systemsize, systemsize);
-    D_l_neg = sparse(systemsize, systemsize);
-    D_r_pos = sparse(systemsize, systemsize);
-    D_r_neg = sparse(systemsize, systemsize);
+%     D_l_pos = sparse(systemsize, systemsize);
+%     D_l_neg = sparse(systemsize, systemsize);
+%     D_r_pos = sparse(systemsize, systemsize);
+%     D_r_neg = sparse(systemsize, systemsize);
     
     D_l(:,map_l) = D(:,map_l) ;
 %     D_l_pos(:, map_pos) = D_l * RT(:, map_pos);
