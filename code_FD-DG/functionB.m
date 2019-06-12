@@ -4,7 +4,7 @@ r = params.x_interface;
 q = params.y_interface;
 
 a0 = params.constants.a0;
-U = params.constants.U;
+U = params.U;
 W0 = params.constants.W0;
 n = params.constants.n;
 

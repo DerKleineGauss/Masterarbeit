@@ -7,7 +7,6 @@ classdef PhysicalConstants
     g= 5.5e-9;
     hbar= 1.054571800e-34;
     e= 1.6021766208e-19;
-    U= 0;
     W0= 1;
     n= 1;
     a0= 0.1768;
