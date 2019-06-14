@@ -13,15 +13,16 @@ params.gamma= sqrt(params.epsilon*2*params.constants.m/params.constants.hbar);
 [params.Lr_scaled, params.Lq_scaled, params.L_D_scaled, params.w_scaled, params.g_scaled, params.delta_scaled] = params.scale(params.gamma);
 
 % Order of polymomials used for approximation (x direction)
-params.N = 4;
+params.N = 2;
 % Number of cells for DG discretization (x direction)
 params.K = 60;
 % Number of cells (y direction)
-params.Ny = 60;
+params.Ny = 50;
 % Number of interfaces (y direction)
 params.Npy = params.Ny+  1;
 % Voltage
-params.U = -0.05;
+% params.U = 0.25;
+params.U = 0;
 
 if (params.K * params.Ny * params.N > 150)
     params.testing = false;

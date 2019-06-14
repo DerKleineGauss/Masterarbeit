@@ -2,9 +2,9 @@ classdef PhysicalConstants
   properties (Constant)
     Lr= 106e-9/2;
     Lq= 152e-9/2;
-    L_D= 30e-9/2;
-    w= 5e-9;
-    g= 5.5e-9;
+    L_D= 40e-9/2;
+    w= 4e-9;
+    g= 6e-9;
     hbar= 1.054571800e-34;
     e= 1.6021766208e-19;
     W0= 1;

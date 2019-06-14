@@ -742,16 +742,50 @@ gilt. Mit den Definitionen von Massematrix, Gleichung \eqref{eq:massenmatrix}, u
   \Delta q \partial_t M^K \underline{v}_j^K - &\lambda_j S^T\underline{v}_j^K + i\sum_{m=1}^{N_q} M^K \left(\text{diag}(\underline{G}_{jm}^K) \underline{v}_m^K\right) \\
   &= - \oint_{\partial K}  \hat{n} (\lambda_j v_j)^*(r,t)\underline{\ell}(r) \; .
 \end{align*}
-Multiplizieren wir noch von links mit $(M^K)^{-1}$, erhalten wir das Schema
+Multiplizieren wir noch von links mit $(M^K)^{-1}$, erhalten wir das Schema in schwacher Form
 \begin{gather}
 \begin{align}
   \Delta q \partial_t \underline{v}_j^K - &\lambda_j (M^K)^{-1}S^T\underline{v}_j^K + i\sum_{m=1}^{N_q} \text{diag}(\underline{G}_{jm}^K) \underline{v}_m^K \\
   &= - \oint_{\partial K}  \hat{n} (\lambda_j v_j)^*(r,t) (M^K)^{-1}\underline{\ell}(r) \; .
 \end{align}
 \end{gather}
+Eine weitere partielle Integration führt auf die starke Form
+\begin{gather}
+\begin{align}
+  \Delta q \partial_t \underline{v}_j^K + &\lambda_j (M^K)^{-1}S\underline{v}_j^K + i\sum_{m=1}^{N_q} \text{diag}(\underline{G}_{jm}^K) \underline{v}_m^K \\
+  &=  \oint_{\partial K}  (v_j(r,t) - (\lambda_j v_j)^*(r,t)) \hat{n}  (M^K)^{-1}\underline{\ell}(r) \; ,
+\end{align}
+\end{gather}
+wobei der Unterschied links in der Transponierung der Steifigkeitsmatrix sowie dem Vorzeichen des Diffusionsterms zu beachten ist. Auf der rechten Seite ist die Funktion $v_j(r,t)$ jeweils an den inneren Intervallgrenzen auszuwerten.
+
+Für die Implementierung konkretisieren wir die rechte Seite der Gleichung nun und unterdrücken dazu temporär den Index $j$, welcher den Ort $q$ beschreibt. Dazu definieren wir zunächst
+\begin{align}
+  \underline{e_r} &\equiv (M^K)^{-1}\left.\underline{\ell}(r) \right|_{r_{K+\nicefrac{1}{2}}} = (M^K)^{-1}  \cdot (0,\dots,0,1)^T \\
+  \underline{e_l} &\equiv (M^K)^{-1}\left.\underline{\ell}(r) \right|_{r_{K-\nicefrac{1}{2}}} = (M^K)^{-1}  \cdot (1,0,\dots,0)^T \\
+  u^{r, -} &\equiv \underline{u}_{K+\nicefrac{1}{2}}^- \qquad \text{innerer Wert} \\
+  u^{l, +} &\equiv \underline{u}_{K-\nicefrac{1}{2}}^+ \qquad \text{äußerer Wert} \\
+\end{align}
+und analog $u^{r, +}$ und $u^{l, -}$. Damit erhalten wir
+\begin{align*}
+  \oint_{\partial K}  &(v(r,t) - (\lambda v)^*(r,t)) \hat{n}  (M^K)^{-1}\underline{\ell}(r) \\
+  & = \left[  \lambda u^{r, -} - \lambda\frac{u^{r, -} + u^{r, +}}{2} - \frac{1}{2}|\lambda|(u^{r, -} - u^{r, +})   \right] \underline{e_r} \\
+  &\;\;- \left[  \lambda u^{l, -} - \lambda\frac{u^{l, -} + u^{l, +}}{2} + \frac{1}{2}|\lambda|(u^{l, -} - u^{l, +})   \right] \underline{e_l} \\
+  & =    \left[   \lambda\frac{u^{r,-} - u^{r,+}}{2} - \frac{1}{2}|\lambda|(u^{r, -} - u^{r, +}) \right] \underline{e_r} \\
+  &\;\;- \left[   \lambda\frac{u^{l,-} - u^{l,+}}{2} + \frac{1}{2}|\lambda|(u^{l, -} - u^{l, +}) \right] \underline{e_l} \\
+  & = \left( \frac{1}{2}\lambda - \frac{1}{2}|\lambda| \right) (u^{r,-} - u^{r, +})\underline{e_r} - \left( \frac{1}{2}\lambda + \frac{1}{2}|\lambda| \right) (u^{l,-} - u^{l, +})\underline{e_l}
+\end{align*}
+Wir definieren noch
+\begin{align}
+  a_j \equiv \frac{1}{2}\lambda_j + \frac{1}{2}|\lambda_j| \\
+  b_j \equiv \frac{1}{2}\lambda_j - \frac{1}{2}|\lambda_j|
+\end{align}
+und erhalten schließlich mit der Definition des Sprungs (Hesthaven Buch)
+\begin{align}
+  \oint_{\partial K}  &(v(r,t) - (\lambda v)^*(r,t)) \hat{n}  (M^K)^{-1}\underline{\ell}(r) = b_j \hat{n}_r\jump{u}_r\underline{e_r} - a_j\hat{n}_k\jump{u}_l\underline{e_l}
+\end{align}
 
 
-Wir ignorieren zunächst die Tatsache, dass die \lvn in der Form nach Gleichung \eqref{eq:lvn_diagonalisiert} aufgrund des Potentialterms $C(r)$ nicht die einfache Form der Advektionsgleichung annimmt und schreiben für die Randbedingungen gemäß den Überlegungen in Kapiteln \ref{sec:RB} und \ref{sec:rhc}
+Um die Randbedingungen einzubauen, ignorieren wir zunächst die Tatsache, dass die \lvn in der Form nach Gleichung \eqref{eq:lvn_diagonalisiert} aufgrund des Potentialterms $C(r)$ nicht die einfache Form der Advektionsgleichung annimmt und schreiben für die Randbedingungen gemäß den Überlegungen in Kapiteln \ref{sec:RB} und \ref{sec:rhc}
 \begin{align}
   v(r_l^{K=1}, t)^{in} = (R^{-1})^+ \hat{f}_l  \\
   v(r_r^{K=K_r},t)^{in} = (R^{-1})^- \hat{f}_r
