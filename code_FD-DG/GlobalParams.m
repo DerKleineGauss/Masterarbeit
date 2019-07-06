@@ -65,13 +65,15 @@ classdef GlobalParams
     invV
     x
     x_interface
-    hx
     y
     y_interface
     hy
+    hx
     NODETOL = 1e-12;
     VX
     testing
+    FinalTime
+    rampTime
     % Some curved mesh and cubature quadrature specific data
     cub
     gauss

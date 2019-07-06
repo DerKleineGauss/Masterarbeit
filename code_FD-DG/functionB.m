@@ -1,10 +1,10 @@
-function [B] = functionB(params)
+function [B] = functionB(params, time)
 
 r = params.x_interface;
 q = params.y_interface;
 
 a0 = params.constants.a0;
-U = params.U;
+U = voltage(time, params.U, params.rampTime);
 W0 = params.constants.W0;
 n = params.constants.n;
 

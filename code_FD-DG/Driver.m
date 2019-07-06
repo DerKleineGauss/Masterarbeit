@@ -15,14 +15,17 @@ params.gamma= sqrt(params.epsilon*2*params.constants.m/params.constants.hbar);
 % Order of polymomials used for approximation (x direction)
 params.N = 2;
 % Number of cells for DG discretization (x direction)
-params.K = 60;
+params.K = 40;
 % Number of cells (y direction)
 params.Ny = 50;
 % Number of interfaces (y direction)
 params.Npy = params.Ny+  1;
 % Voltage
 % params.U = 0.25;
-params.U = 0;
+params.U = 0.25;
+params.rampTime = 2;
+% final time
+params.FinalTime = 20;
 
 if (params.K * params.Ny * params.N > 150)
     params.testing = false;
@@ -34,6 +37,7 @@ end
 xmin = -params.Lr_scaled/2;
 xmax = +params.Lr_scaled/2;
 [params.VX, params.EToV] = MeshGen1D(xmin, xmax, params.K);
+params.hx = (params.VX(1,2)-params.VX(1,1)) / params.N;
 
 ymin = -params.Lq_scaled/2;
 ymax = +params.Lq_scaled/2;
@@ -48,26 +52,19 @@ params = StartUp1D(params);
 [params.y_interface, params.x_interface] = meshgrid(params.y_interface,params.x);
 [params.y, params.x] = meshgrid(params.y, params.x);
 
+%% get initial equilibrium solution in v
 % set potential
-B= functionB(params);
-if(params.testing)
-    figure(4)
-    plot3(params.x_interface(:),params.y_interface(:), real(B(:)),'x')
-    figure(5)
-    plot3(params.x_interface(:),params.y_interface(:), imag(B(:)),'x')
-end
-
+B= functionB(params, -1);
 [A, rhs, R] = LVN_systemmatrix(params, B);
-
-% Set initial conditions
-% u = sin(x);
-
 % Solve Problem
 v = A\rhs;
 v = reshape(v,params.Np*params.K, params.Ny);
+
+%% solve time stepping and transform v -> u
+v = timeStepping(params, v(:));
+v = reshape(v,params.Np*params.K, params.Ny);
 u = strangeMatrixMultiplication(R , v);
 u = reshape(u,params.Np*params.K, params.Ny);
-
 plot_solution(params, u);
 % plot(params.x, u);
 
