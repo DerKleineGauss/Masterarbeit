@@ -28,8 +28,6 @@ function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
         C  =  diag(  B(r_index,1:end-1) + B(r_index,2:end)  ) ...
             + diag(B(r_index,2:end-1), -1) ...
             + diag(B(r_index,2:end-1), +1);
-        C(1,Ny) = B(r_index,1);
-        C(Ny,1) = B(r_index,Npy);
         C = C*hy/4;
         G(r_index,:,:) = R'*C*R ;
     end

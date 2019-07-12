@@ -1,10 +1,9 @@
-function [V1D] = Vandermonde1D(params)
+function [V1D] = Vandermonde1D(params, r)
 
 % function [V1D] = Vandermonde1D(N,r)
 % Purpose : Initialize the 1D Vandermonde Matrix, V_{ij} = phi_j(r_i);
 
 N = params.N;
-r = params.r;
 
 V1D = zeros(length(r),N+1);
 for j=1:N+1

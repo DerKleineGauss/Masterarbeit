@@ -6,6 +6,8 @@ tic
 
 params = GlobalParams;
 params.testing = true;
+moviename = 'Tfinal_150.avi';
+params.makeMovie = true;
 
 % Rescaling
 params.epsilon= params.constants.e / params.constants.hbar;
@@ -15,17 +17,16 @@ params.gamma= sqrt(params.epsilon*2*params.constants.m/params.constants.hbar);
 % Order of polymomials used for approximation (x direction)
 params.N = 2;
 % Number of cells for DG discretization (x direction)
-params.K = 40;
+params.K = 60;
 % Number of cells (y direction)
-params.Ny = 50;
+params.Ny = 80;
 % Number of interfaces (y direction)
 params.Npy = params.Ny+  1;
 % Voltage
-% params.U = 0.25;
-params.U = 0.25;
-params.rampTime = 2;
+params.U = -0.25;
+params.rampTime = 0.2;
 % final time
-params.FinalTime = 20;
+params.FinalTime = 150;
 
 if (params.K * params.Ny * params.N > 150)
     params.testing = false;
@@ -61,11 +62,12 @@ v = A\rhs;
 v = reshape(v,params.Np*params.K, params.Ny);
 
 %% solve time stepping and transform v -> u
-v = timeStepping(params, v(:));
+v = timeStepping(params, v(:), moviename);
 v = reshape(v,params.Np*params.K, params.Ny);
 u = strangeMatrixMultiplication(R , v);
 u = reshape(u,params.Np*params.K, params.Ny);
-plot_solution(params, u);
+plot_solution(params, u, true);
+plot_solution(params, u, false);
 % plot(params.x, u);
 
 toc

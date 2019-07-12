@@ -2,6 +2,7 @@ classdef GlobalParams
   properties
     % Purpose: declare global variables
     constants = PhysicalConstants;
+    makeMovie
     U   % voltage
     Np
     Npy % number of interfaces coordinates in y space originating from FD method

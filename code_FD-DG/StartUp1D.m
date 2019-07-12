@@ -12,7 +12,7 @@ function [out_params] = StartUp1D(params)
     params.r = JacobiGL(0,0,params.N);
 
     % Build reference element matrices
-    params.V  = Vandermonde1D(params); params.invV = inv(params.V);
+    params.V  = Vandermonde1D(params, params.r); params.invV = inv(params.V);
     params.MassMatrix = params.invV'*params.invV;
     params.Dr = Dmatrix1D(params);
 

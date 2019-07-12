@@ -1,4 +1,4 @@
-function plot_solution(params, u)
+function plot_solution(params, u, realteil)
 
 figure(1)
 %hack
@@ -21,19 +21,27 @@ m2= max(x2);
 dy= (m2-m1)/400;
 ylin= m1:dy:m2;
 [X, Y]= meshgrid(xlin, ylin);
-% figure('name', 'real part of rho');
-% f= scatteredInterpolant(x(:), y(:),real(u(:)),'linear');
-figure('name', 'imag part of rho');
-f= scatteredInterpolant(x(:), y(:),imag(u(:)),'linear');
+if (realteil==true)
+    figure('name', 'real part of rho');
+    f= scatteredInterpolant(x(:), y(:),real(u(:)),'linear');
+else
+    figure('name', 'imag part of rho');
+    f= scatteredInterpolant(x(:), y(:),imag(u(:)),'linear');
+end
 Z= f(X,Y);
 mesh(X,Y, f(X,Y))
 xlabel('$r / \xi$')
 ylabel('$q / \xi$')
 zlabel('$\rho(r,q)$')
 
-figure('name', "Dichte")
-rho_L= Z(abs(Y) <= params.NODETOL);
-xl= X(abs(Y) <= params.NODETOL);
-plot(xl,rho_L)
-xlabel('$x / \xi$')
-ylabel('$n(x)$')
+if (realteil==true)
+    figure('name', "Dichte")
+    rho_L= Z(abs(Y) <= params.NODETOL);
+    xl= X(abs(Y) <= params.NODETOL);
+    yyaxis left
+    semilogy(xl,rho_L)
+    xlabel('$x / \xi$')
+    ylabel('$n(x)$')
+    yyaxis right
+    plot(xlin, Potential(xlin, params.FinalTime, params))
+end
