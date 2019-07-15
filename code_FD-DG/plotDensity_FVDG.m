@@ -1,4 +1,4 @@
-function [] = plotDensity_FVDG(v, params, R, n_linspace, fid, timelocal)
+function [] = plotDensity_FVDG(v, params, R, n_linspace, fid, timelocal, color)
 
 % function [] = plotDensity_FVDG(v, params, R, n_interpol)
 % Purpose : Plot density function of finite volume / dg solution v which is
@@ -8,18 +8,11 @@ function [] = plotDensity_FVDG(v, params, R, n_linspace, fid, timelocal)
 %           fid:        id of figure to get with fid =figure;
 
 Lx = params.Lr_scaled;
-Ly = params.Lq_scaled;
 Kx = params.K;
-
-y = params.y;
-x = params.x;
-y_interface = params.y_interface;
+plot_logarithmic = params.plot_logarithmic;
 
 Np = params.Np;
-Npy = params.Npy;   % number of nodes
 Ny = params.Ny;       % equals 'N_q' in Lukas Paper : the number of cells
-
-hy = params.hy;
 
 v = reshape(v,params.Np*params.K, params.Ny);
 u = strangeMatrixMultiplication(R , v);
@@ -34,10 +27,8 @@ rhoint= 0*xlin;
 
 hx= params.VX(2)-params.VX(1);
 
-
-
 cellx= int64((xlin+Lx/2-mod(xlin+Lx/2,hx))/hx+1);
-% cellx(end)= cellx(end)-1;
+cellx(end)= cellx(end)-1;
 
 offx= 0;
 for j=1:Kx
@@ -55,13 +46,19 @@ for j=1:Kx
 end
 
 figure(fid)
-clf(fid)
+% clf(fid)
 yyaxis left
-plot(xlin,real(rhoint),'.')
+if (plot_logarithmic)
+    semilogy(xlin,real(rhoint),'.', 'color', color)
+    semilogy(xlin,real(rhoint), 'color', color)
+else
+    ylim([-1e23 6e23])
+    plot(xlin,real(rhoint),'.', 'color', color)
+    plot(xlin,real(rhoint), 'color', color)
+end
 hold on
-plot(xlin,real(rhoint))
 yyaxis right
 plot(xlin, Potential(xlin, timelocal, params))
-hold off
+% hold off
 
 end

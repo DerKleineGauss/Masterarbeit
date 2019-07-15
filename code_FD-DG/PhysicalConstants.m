@@ -13,10 +13,11 @@ classdef PhysicalConstants
     m0= 9.10938356e-31;
     kB= 1.38064852e-23;
     Temp= 300;
+    N_D = 1e24;             % Donatorkonzentration
   end
   properties
     delta= 0.2*PhysicalConstants.Lq;
     m= 0.063*PhysicalConstants.m0;
-    mu= 0.0467*PhysicalConstants.e;    
+    mu= 0.0467*PhysicalConstants.e;
   end
 end
