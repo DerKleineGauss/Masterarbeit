@@ -25,11 +25,17 @@ function [out_params] = StartUp1D(params)
 
     % calculate geometric factors
     [params.rx,params.J] = GeometricFactors1D(params);
+    if (params.N == 0)
+        params.J = 0*params.x + params.hx/2;
+    end
 
     % Compute masks for edge nodes
     fmask1 = find( abs(params.r+1) < params.NODETOL)'; 
     fmask2 = find( abs(params.r-1) < params.NODETOL)';
     params.Fmask  = [fmask1;fmask2]';
+    if (params.N == 0)
+        params.Fmask = 1;
+    end
     params.Fx = params.x(params.Fmask(:), :);
 
     % Build surface normals and inverse metric at surface
@@ -40,7 +46,9 @@ function [out_params] = StartUp1D(params)
     [params.EToE, params.EToF] = Connect1D(params);
 
     % Build connectivity maps
-    [params] = BuildMaps1D(params);
+    if (params.N > 0)
+        [params] = BuildMaps1D(params);
+    end
     
     for k1=1:params.K
       params.loc2glb(:,k1) = ((k1-1)*params.Np+1:k1*params.Np)';

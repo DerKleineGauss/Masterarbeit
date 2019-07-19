@@ -31,8 +31,7 @@ function [y] = n_electron(mu, params)
 %test = linspace(E_c, 20/beta+mu, 1000);
 %plot(test,fermiTimesDensity(test,mu));
 %%
-% E_c = params.E_c;
-E_c = 0;
+E_c = params.constants.E_c;
 beta = 1/params.constants.kB/params.constants.Temp;
 m= params.constants.m;
 hbar = params.constants.hbar;

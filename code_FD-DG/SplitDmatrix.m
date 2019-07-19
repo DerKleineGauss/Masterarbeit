@@ -14,6 +14,11 @@ function [D_l, D_r] = SplitDmatrix(params, D)
     map_l = find(Lr/2 + x < NODETOL);
     map_r = find(Lr/2 - x < NODETOL);
     
+    if (params.N == 0)
+        map_l = find(Lr/2 + (x-params.hx/2) < NODETOL);
+        map_r = find(Lr/2 - (x+params.hx/2) < NODETOL);
+    end
+    
 %     map_pos = find(eigs_A>0);
 %     map_neg = find(eigs_A<0);
     

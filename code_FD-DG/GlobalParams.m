@@ -3,8 +3,11 @@ classdef GlobalParams
     % Purpose: declare global variables
     constants = PhysicalConstants;
     makeMovie
+    movieName
+    saveResults
     plot_logarithmic
     mode
+    timestepping
     withCAP
     U   % voltage
     Np
@@ -111,10 +114,11 @@ classdef GlobalParams
       g= obj.constants.g*gamma;
       delta= obj.constants.delta*gamma;
     end
-    function [a, b, c] = get_abc(obj, gamma, epsilon)
+    function [a, b, c_l, c_r] = get_abc(obj, gamma, epsilon)
       a= gamma*obj.constants.m*obj.constants.kB*obj.constants.Temp/(2*pi*obj.constants.hbar)^2;
       b= epsilon*obj.constants.hbar/obj.constants.kB/obj.constants.Temp;
-      c= obj.constants.mu/obj.constants.kB/obj.constants.Temp;
+      c_l= obj.constants.mu_l/obj.constants.kB/obj.constants.Temp;
+      c_r= obj.constants.mu_r/obj.constants.kB/obj.constants.Temp;
     end
   end
 end

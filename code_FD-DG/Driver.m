@@ -5,49 +5,14 @@ tic
 % Driver script for solving the LVN equation
 
 %% set parameters
-params = GlobalParams;
-params.testing = true;
-% result and plot parameters
-moviename = 'results/Tfinal_1.avi';
-params.makeMovie = true;
-params.plot_logarithmic = true;
+params = getDefaultParams();
 
-% Rescaling
-params.epsilon= params.constants.e / params.constants.hbar;
-params.gamma= sqrt(params.epsilon*2*params.constants.m/params.constants.hbar);
-[params.Lr_scaled, params.Lq_scaled, params.L_D_scaled, params.w_scaled, params.g_scaled, params.delta_scaled] = params.scale(params.gamma);
-
-% Order of polymomials used for approximation (x direction)
-params.N = 2;
-% Number of cells for DG discretization (x direction)
-params.K = 80;
-% Number of cells (y direction)
-params.Ny = 80;
-% Number of interfaces (y direction)
-params.Npy = params.Ny+  1;
-% Voltage
-params.U = -0.25;
-params.rampTime = 0.2;
-% final time
-params.FinalTime = 1;
-% time stepping mode ( one of rk4 , rk2ssp , )
-params.mode = 'rk2ssp';
-
-if (params.K * params.Ny * params.N > 150)
-    params.testing = false;
-else
-    params.testing = true;
-end
-
-% BC related params
-params.withCAP = true;
-params.constants.mu = newtonRaphson(@nullstellenSucheMu, 1.5*params.constants.e, params);
 
 %% Generate simple mesh
 xmin = -params.Lr_scaled/2;
 xmax = +params.Lr_scaled/2;
 [params.VX, params.EToV] = MeshGen1D(xmin, xmax, params.K);
-params.hx = (params.VX(1,2)-params.VX(1,1)) / params.N;
+params.hx = (params.VX(1,2)-params.VX(1,1)) ;
 
 ymin = -params.Lq_scaled/2;
 ymax = +params.Lq_scaled/2;
@@ -62,13 +27,6 @@ params = StartUp1D(params);
 [params.y_interface, params.x_interface] = meshgrid(params.y_interface,params.x);
 [params.y, params.x] = meshgrid(params.y, params.x);
 
-%% get initial equilibrium solution in v
-% set potential
-B= functionB(params, -1);
-[A, rhs, R] = LVN_systemmatrix(params, B);
-% Solve Problem
-v = A\rhs;
-v = reshape(v,params.Np*params.K, params.Ny);
 %% get hopefully final equilibrium solution in v
 B= functionB(params, params.FinalTime);
 [A, rhs, R] = LVN_systemmatrix(params, B);
@@ -76,13 +34,30 @@ B= functionB(params, params.FinalTime);
 v_final = A\rhs;
 v_final = reshape(v_final,params.Np*params.K, params.Ny);
 
-%% solve time stepping and transform v -> u
-v = timeStepping(params, v(:), moviename, v_final);
-v = reshape(v,params.Np*params.K, params.Ny);
-u = strangeMatrixMultiplication(R , v);
-u = reshape(u,params.Np*params.K, params.Ny);
-plot_solution(params, u, true);
-plot_solution(params, u, false);
-% plot(params.x, u);
+%% initial and timestepping
+if (params.timestepping)
+    % get initial equilibrium solution in v
+    % set potential
+    B= functionB(params, -1);
+    [A, rhs, R] = LVN_systemmatrix(params, B);
+    % Solve Problem
+    v = A\rhs;
+    v = reshape(v,params.Np*params.K, params.Ny);
+
+    % solve time stepping and transform v -> u
+    v = timeStepping(params, v(:), v_final);
+    v = reshape(v,params.Np*params.K, params.Ny);
+    u = strangeMatrixMultiplication(R , v);
+    u = reshape(u,params.Np*params.K, params.Ny);
+    plot_solution(params, u, true);
+    plot_solution(params, u, false);
+else
+    u = strangeMatrixMultiplication(R , v_final);
+    u = reshape(u,params.Np*params.K, params.Ny);
+    plot_solution(params, u, true);
+    plot_solution(params, u, false);
+    fid = figure('name', "Dichte");
+    plotDensity_FVDG(v_final, params, R, 300, fid, params.FinalTime, 'b');
+end
 
 toc
