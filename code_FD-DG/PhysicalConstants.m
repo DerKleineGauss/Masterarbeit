@@ -7,8 +7,8 @@ classdef PhysicalConstants
 %     g= 6e-9;
 %     a0= 0.1768 ;
     
-    Lr= 36e-9;
-    Lq= 230e-9;
+    Lr= 46e-9;
+    Lq= 130e-9;
     L_D= 52e-9/2;
     w= 2e-9;
     g= 2.5e-9;
