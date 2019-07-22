@@ -1,6 +1,7 @@
 build/
 build1/
 build2/
+results/
 __pychache__/
 
 sh.exe.stackdump
