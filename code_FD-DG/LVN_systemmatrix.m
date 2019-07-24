@@ -81,9 +81,9 @@ function [Systemmatrix, rhs, R] = LVN_systemmatrix(params, B)
     G_glob = myspconvert(G_glob, systemsize, systemsize, 1e-15);
     
     if (params.testing)    
-        figure('name', "Real part of G_glob");
+        figure('name', 'Real part of G_glob');
         spyc_grid(real(G_glob),'cool',Np,K*Np)
-        figure('name', "Imag part of G_glob");
+        figure('name', 'Imag part of G_glob');
         spyc_grid(imag(G_glob),'cool',Np,K*Np)
     end
     

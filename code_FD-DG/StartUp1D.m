@@ -41,14 +41,6 @@ function [out_params] = StartUp1D(params)
     % Build surface normals and inverse metric at surface
     [params.nx] = Normals1D(params);
     params.Fscale = 1./(params.J(params.Fmask,:));
-
-    % Build connectivity matrix
-    [params.EToE, params.EToF] = Connect1D(params);
-
-    % Build connectivity maps
-    if (params.N > 0)
-        [params] = BuildMaps1D(params);
-    end
     
     for k1=1:params.K
       params.loc2glb(:,k1) = ((k1-1)*params.Np+1:k1*params.Np)';

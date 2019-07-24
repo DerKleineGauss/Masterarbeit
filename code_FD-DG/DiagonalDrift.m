@@ -10,7 +10,7 @@ function [eigs_A, R] = DiagonalDrift(params)
     R = zeros(Npy-1);
     norm_R=0;
     if(mod(Npy,2) == 0)
-        error("Number of nodes (cells) must in y direction be odd (even).");
+        error('Number of nodes (cells) must in y direction be odd (even).');
     end
 
     k=1:Nq;

@@ -56,7 +56,7 @@ else
     u = reshape(u,params.Np*params.K, params.Ny);
     plot_solution(params, u, true);
     plot_solution(params, u, false);
-    fid = figure('name', "Dichte");
+    fid = figure('name', 'Dichte');
     plotDensity_FVDG(v_final, params, R, 300, fid, params.FinalTime, 'b');
 end
 
