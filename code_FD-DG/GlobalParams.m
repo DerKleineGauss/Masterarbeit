@@ -115,10 +115,13 @@ classdef GlobalParams
       delta= obj.constants.delta*gamma;
     end
     function [a, b, c_l, c_r] = get_abc(obj, gamma, epsilon)
-      a= gamma*obj.constants.m*obj.constants.kB*obj.constants.Temp/(2*pi*obj.constants.hbar)^2;
-      b= epsilon*obj.constants.hbar/obj.constants.kB/obj.constants.Temp;
+      a= gamma*obj.constants.m*obj.constants.kB*obj.constants.Temp/2/(pi*obj.constants.hbar)^2;
+      b= epsilon*obj.constants.hbar/obj.constants.kB/obj.constants.Temp / 2;
       c_l= obj.constants.mu_l/obj.constants.kB/obj.constants.Temp;
       c_r= obj.constants.mu_r/obj.constants.kB/obj.constants.Temp;
+    end
+    function [t_fs] = characteristicTimeToFs(obj, t_ch)
+      t_fs = t_ch / obj.epsilon * 1e15;
     end
   end
 end

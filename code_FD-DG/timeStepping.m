@@ -13,9 +13,11 @@ resv = zeros(params.Np*params.K* params.Ny, 1);
 
 % compute time step size
 dt   = 1/(maxSpeed*params.hy)*params.hx / (2*params.N+1);  
-dt = 2*dt;
+
 if (strcmp(params.mode,'rk2ssp'))
-    dt = dt*0.25;
+    dt = dt*1;
+elseif (strcmp(params.mode,'rk4'))
+    dt = dt*2;
 end
 Nsteps = ceil(params.FinalTime/dt); dt = params.FinalTime/Nsteps;
 
@@ -88,19 +90,22 @@ for tstep=1:Nsteps
             end
 
             rhsv = (-L_glob - G_glob)*v_temp + rhs;
+            
+            plotDensity_FVDG(rhsv, params, R, 300, fid, timelocal, 'b');
+            
             v_temp = v_temp + dt*rhsv;
         end
         v = 0.5*(v_temp + v);
     end
     % Increment time
     time = time+dt;
-    if mod((tstep-1),1)==0 && params.makeMovie
+    if mod((tstep-1),5)==0 && params.makeMovie
         n_linspace = 300;
         clf(fid);
 %         if (params.plot_logarithmic)
 %             semilogy(1:10,1:10);
 %         end
-
+        title(['t=',num2str(params.characteristicTimeToFs(time)),'fs'])
         plotDensity_FVDG(v, params, R, n_linspace, fid, timelocal, 'b');
         hold on
         plotDensity_FVDG(v_final_stationary, params, R, n_linspace, fid, timelocal, 'r');
