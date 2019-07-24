@@ -734,6 +734,7 @@ und nach partieller Integration des Flussterms
 \begin{align*}
   \Delta q \int_K \partial_t v_j(r,t)\ell_i(r) - \lambda_j \int_K v_j(r,t) &\partial_r\ell_i(r) + i \sum_{m=1}^{N_q} \int_K G_{jm}(r) v_m(r,t) \ell_i(r)\\
       &= - \oint_{\partial K}  \hat{n} (\lambda_j v_j)^*(r,t)\ell_i(r) \;  \qquad \forall\, i=1,\dots,N_p \;,
+      \label{eq:weakform_roh}
 \end{align*}
 wobei wie üblich der numerische Fluss $(\lambda_j v_j)^*(r) = (\lambda_j v_j)^*(r^+, r^-)$ sowie der nach außen zeigende Normalenvektor $\hat{n}$ eingeführt worden ist. Jetzt wird eine schwache Lösung dieser Gleichung gesucht und dazu $v_j$ im Raum der Testfunktionen $V_N$ entwickelt. Das Vorgehen ist in Kapitel \ref{sec:DG-Schema} erläutert. Es ist zu beachten, dass der Potentialterm $G(r)u(r)$ günstigerweise entkoppelt wird, sodass
 \begin{align}
@@ -795,3 +796,39 @@ Um die Randbedingungen einzubauen, ignorieren wir zunächst die Tatsache, dass d
 Hierbei ist $\hat{f}_{l/r} = \hat{f}_{l/r}(q)$ die an den diskreten  Knoten ($q$-Richtung) ausgewertete Fourier-Transformierte der eingeführten Fermi-Dirac Verteilung $f_{l/r}(k)$, siehe auch \cite{lukas1}. Die Matrix $R$ wird gemäß des Vorzeichens der Eigenwerte in den Teil der rechtslaufenden Wellen $R^+$ korrespondierend zu positiven Eigenwerten sowie den Teil der linkslaufenden Wellen $R^-$ korrespondierend zu negativen Eigenwerten aufgeteilt, sodass $R=R^+ + R^-$ bzw. $R^{-1} = (R^{-1})^+ + (R^{-1})^-$ gilt. Für die auslaufenden Wellen verwenden wir jeweils den Wert im inneren des Rechengebietes, sodass der Sprung Null ergibt. \todo{Ist das gleichbedeutend mit Neumann-RB?}
 
 Für die Wahl des numerischen Flusses bedienen wir uns des Resultates aus Kapitel \ref{sec:rhc} und wählen ihn gemäß Gleichung \eqref{eq:FLUX}.
+
+\subsection{Existenz der stationären Lösung}
+Um die Bilinearform herzuleiten, summieren wir Gleichung \eqref{eq:weakform_roh} über alle $K$ und integrieren noch einmal partiell, um auf die starke Form zu kommen.
+\begin{align*}
+  \sum_{D^k\in\mathcal{T}} \Delta q \int_{D^k} v^h_t(x,t)\cdot\ell^h(x) - \Lambda \int_{D^k} v^h(x,t) \cdot \ell^h_x(x) - i \int_{D^k} G(x) v^h(x,t) \cdot \ell^h(x)\\
+      = \sum_{D^k\in\mathcal{T}}\oint_{\partial D^k}  \hat{n} (\Lambda v^h(x,t) -(\Lambda v^h)^*(x,t))\cdot \ell^h(x)
+\end{align*}
+Hier haben wir außerdem in Anlehnung an das Paper $r$ durch $x$ ersetzt und schreiben nun nicht komponentenweise, sondern in Matrix-Vektor-Form, dh. ${v^h(x,t):\,  \Omega_x \times [0,T] \rightarrow \mathbb{R}^N_q}$. $\Lambda$ ist die Diagonalmatrix mit $\Lambda_{i,j} = \delta_{i,j}\lambda_i$.
+
+Die rechte Seite lässt sich unter Verwendung des hergeleiteten numerischen Flusses wie folgt umschreiben. Wir verwenden zunächst
+\begin{align*}
+  \hat{n}^- (\Lambda v -(\Lambda v)^*) &= \hat{n}^- \left( \Lambda v^- - \frac{1}{2}\Lambda(v^- + v^+) - \frac{1}{2}|\Lambda|\hat{n}^-(v^- - v^+) \right) \\
+    &= \hat{n}^- \left(\frac{1}{2}\Lambda \hat{n}^-\jump{v} - \frac{1}{2}|\Lambda|\jump{v} \right) \\
+    &= \frac{1}{2}(\Lambda - \hat{n}^- |\Lambda|)\jump{v} \\
+    &\equiv F\jump{v} \; .
+\end{align*}
+Jetzt schreiben wir die Summe über alle Elemente in die Summe über alle Kanten um und müssen dabei berücksichtigen, dass jede Kante zwei Summanden bekommt, nämlich von Zelle 1 und von Zelle 2, siehe Bildchen.
+\begin{figure}[hbt]
+\centering
+\includegraphics[width=.5\textwidth]{plots/skizze_edge.pdf}
+% \caption{Geometry and notation for the DG scheme.}
+% \label{fig:DGgrid}
+\end{figure}
+Damit gilt
+\begin{align*}
+  \sum_{D^k\in\mathcal{T}}\oint_{\partial D^k}  \hat{n} (\Lambda v^h -(\Lambda v^h)^*)\cdot\ell^h \\
+  = \sum_{e\in\Gamma_I} \oint_{e} (F_1\jump{u}_1\cdot\ell_1 + F_2\jump{u}_2\cdot\ell_2)  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^{h,-} \\
+  = \sum_{e\in\Gamma_I} \oint_{e} (F_1\jump{u}_e\cdot\ell_1 + F_2\jump{u}_e\cdot\ell_2)  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^{h,-} \\
+  = \sum_{e\in\Gamma_I} \oint_{e} \frac{1}{2}\Lambda  \jump{u}_e \cdot(\ell_1 + \ell_2) +  (- \hat{n}_1^- |\Lambda|\jump{u}_e \cdot\ell_1^- - \hat{n}_2^- |\Lambda|\jump{u}_e \cdot\ell_2^- ) + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^h \\
+  =\sum_{e\in\Gamma_I} \oint_{e} \Lambda  \jump{u}_e \cdot\avg{\ell}_e  - |\Lambda|\jump{u}_e \cdot( \hat{n}_1^- \ell_1^- + \hat{n}_1^+  \ell_1^+)  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^{h,-} \\
+  =\sum_{e\in\Gamma_I} \oint_{e} \Lambda  \jump{u}_e \cdot\avg{\ell}_e  - |\Lambda| \jump{u}_e \cdot \jump{\ell}_e  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^{h,-} \\
+  =\sum_{e\in\Gamma_I} \oint_{e} \underbrace{(\Lambda  \avg{\ell}_e  - |\Lambda| \jump{\ell}_e)}_{\equiv c_e(\cdot\ell)} \cdot \jump{u}_e  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\ell^{h,-}
+\end{align*}
+In der letzten Zeile wird genutzt, dass $\Lambda$ reell und diagonal ist, weshalb $\Lambda^\dagger = \Lambda$, sodass sich das Skalarprodukt ${<x,\Lambda y> = <\Lambda x, y>}$ schreiben lässt.
+
+Wir interessieren uns zunächst für den stationären Fall $v_t = 0$ und schreiben 
