@@ -798,12 +798,12 @@ Hierbei ist $\hat{f}_{l/r} = \hat{f}_{l/r}(q)$ die an den diskreten  Knoten ($q$
 Für die Wahl des numerischen Flusses bedienen wir uns des Resultates aus Kapitel \ref{sec:rhc} und wählen ihn gemäß Gleichung \eqref{eq:FLUX}.
 
 \subsection{Existenz der stationären Lösung}
-Um die Bilinearform herzuleiten, summieren wir Gleichung \eqref{eq:weakform_roh} über alle $K$ und integrieren noch einmal partiell, um auf die starke Form zu kommen.
+Zum Beweis der Existenz wollen wir den Satz von Banach–Nečas–Babuška anwenden \cite{buch_ma}.  Um die Bilinearform herzuleiten, summieren wir Gleichung \eqref{eq:weakform_roh} über alle $K$ und integrieren noch einmal partiell, um auf die starke Form zu kommen.
 \begin{align*}
-  \sum_{D^k\in\mathcal{T}} \Delta q \int_{D^k} v^h_t(x,t)\cdot\ell^h(x) - \Lambda \int_{D^k} v^h(x,t) \cdot \ell^h_x(x) - i \int_{D^k} G(x) v^h(x,t) \cdot \ell^h(x)\\
+  \sum_{D^k\in\mathcal{T}} \Delta q \int_{D^k} v^h_t(x,t)\cdot\ell^h(x) + \Lambda \int_{D^k} v^h_x(x,t) \cdot \ell^h(x) + i \int_{D^k} G(x) v^h(x,t) \cdot \ell^h(x)\\
       = \sum_{D^k\in\mathcal{T}}\oint_{\partial D^k}  \hat{n} (\Lambda v^h(x,t) -(\Lambda v^h)^*(x,t))\cdot \ell^h(x)
 \end{align*}
-Hier haben wir außerdem in Anlehnung an das Paper $r$ durch $x$ ersetzt und schreiben nun nicht komponentenweise, sondern in Matrix-Vektor-Form, dh. ${v^h(x,t):\,  \Omega_x \times [0,T] \rightarrow \mathbb{R}^N_q}$. $\Lambda$ ist die Diagonalmatrix mit $\Lambda_{i,j} = \delta_{i,j}\lambda_i$.
+Hier haben wir außerdem in Anlehnung an das Paper $r$ durch $x$ ersetzt und schreiben nun nicht komponentenweise, sondern in Matrix-Vektor-Form, dh. ${v^h(x,t):\,  \Omega_x \times [0,T] \rightarrow \mathbb{R}^{N_q}}$. $\Lambda$ ist die Diagonalmatrix mit $\Lambda_{i,j} = \delta_{i,j}\lambda_i$.
 
 Die rechte Seite lässt sich unter Verwendung des hergeleiteten numerischen Flusses wie folgt umschreiben. Wir verwenden zunächst
 \begin{align*}
@@ -822,13 +822,64 @@ Jetzt schreiben wir die Summe über alle Elemente in die Summe über alle Kanten
 Damit gilt
 \begin{align*}
   \sum_{D^k\in\mathcal{T}}\oint_{\partial D^k}  \hat{n} (\Lambda v^h -(\Lambda v^h)^*)\cdot\ell^h \\
-  = \sum_{e\in\Gamma_I} \oint_{e} (F_1\jump{u}_1\cdot\ell_1 + F_2\jump{u}_2\cdot\ell_2)  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^{h,-} \\
-  = \sum_{e\in\Gamma_I} \oint_{e} (F_1\jump{u}_e\cdot\ell_1 + F_2\jump{u}_e\cdot\ell_2)  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^{h,-} \\
-  = \sum_{e\in\Gamma_I} \oint_{e} \frac{1}{2}\Lambda  \jump{u}_e \cdot(\ell_1 + \ell_2) +  (- \hat{n}_1^- |\Lambda|\jump{u}_e \cdot\ell_1^- - \hat{n}_2^- |\Lambda|\jump{u}_e \cdot\ell_2^- ) + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^h \\
-  =\sum_{e\in\Gamma_I} \oint_{e} \Lambda  \jump{u}_e \cdot\avg{\ell}_e  - |\Lambda|\jump{u}_e \cdot( \hat{n}_1^- \ell_1^- + \hat{n}_1^+  \ell_1^+)  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^{h,-} \\
-  =\sum_{e\in\Gamma_I} \oint_{e} \Lambda  \jump{u}_e \cdot\avg{\ell}_e  - |\Lambda| \jump{u}_e \cdot \jump{\ell}_e  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\cdot\ell^{h,-} \\
-  =\sum_{e\in\Gamma_I} \oint_{e} \underbrace{(\Lambda  \avg{\ell}_e  - |\Lambda| \jump{\ell}_e)}_{\equiv c_e(\cdot\ell)} \cdot \jump{u}_e  + \sum_{e\in\Gamma_D} \oint_{e} F\jump{u}_e\ell^{h,-}
+  = \sum_{e\in\Gamma_I}  (F_1\jump{u}_1\cdot\ell_1 + F_2\jump{u}_2\cdot\ell_2)  + \sum_{e\in\Gamma_D}  F\jump{u}_e\cdot\ell^{h,-}_e \\
+  = \sum_{e\in\Gamma_I}  (F_1\jump{u}_e\cdot\ell_1 + F_2\jump{u}_e\cdot\ell_2)  + \sum_{e\in\Gamma_D}  F\jump{u}_e\cdot\ell^{h,-}_e \\
+  = \sum_{e\in\Gamma_I}  \frac{1}{2}\Lambda  \jump{u}_e \cdot(\ell_1 + \ell_2) +  \frac{1}{2}(- \hat{n}_1^- |\Lambda|\jump{u}_e \cdot\ell_1^- - \hat{n}_2^- |\Lambda|\jump{u}_e \cdot\ell_2^- ) + \sum_{e\in\Gamma_D}  F\jump{u}_e\cdot\ell^h_e \\
+  =\sum_{e\in\Gamma_I}  \Lambda  \jump{u}_e \cdot\avg{\ell}_e  - \frac{1}{2}|\Lambda|\jump{u}_e \cdot( \hat{n}_1^- \ell_1^- + \hat{n}_1^+  \ell_1^+)  + \sum_{e\in\Gamma_D}  F\jump{u}_e\cdot\ell^{h,-}_e \\
+  =\sum_{e\in\Gamma_I}  \Lambda  \jump{u}_e \cdot\avg{\ell}_e  - \frac{1}{2}|\Lambda| \jump{u}_e \cdot \jump{\ell}_e  + \sum_{e\in\Gamma_D}  F\jump{u}_e\cdot\ell^{h,-}_e \\
+  =\sum_{e\in\Gamma_I}  \underbrace{(\Lambda  \avg{\ell}_e  - \frac{1}{2}|\Lambda| \jump{\ell}_e)}_{\equiv -c_e(\ell)} \cdot \jump{u}_e  + \sum_{e\in\Gamma_D}  F\jump{u}_e\cdot \ell^{h,-}_e \\
+  =\sum_{e\in\Gamma_I}  (-c_e(\ell)) \cdot \jump{u}_e  + \sum_{e\in\Gamma_D}  F n_e^- u_e^- \cdot \ell^{h,-}_e + \sum_{e\in\Gamma_D} F n_e^+ g\cdot \ell^{h,-}_e
 \end{align*}
-In der letzten Zeile wird genutzt, dass $\Lambda$ reell und diagonal ist, weshalb $\Lambda^\dagger = \Lambda$, sodass sich das Skalarprodukt ${<x,\Lambda y> = <\Lambda x, y>}$ schreiben lässt.
+In der vorletzten Zeile wird genutzt, dass $\Lambda$ reell und diagonal ist, weshalb $\Lambda^\dagger = \Lambda$, sodass sich das Skalarprodukt ${<x,\Lambda y> = <\Lambda x, y>}$ schreiben lässt.
 
-Wir interessieren uns zunächst für den stationären Fall $v_t = 0$ und schreiben 
+Wir interessieren uns zunächst für den stationären Fall $v_t = 0$ und schreiben die Terme ohne die Randbedingung $g$ auf die linke Seite. Damit erhalten wir die Bilinearform
+\begin{align}
+  a_\text{weak}^s(v^h, \ell) &=  \sum_{D^k} \Lambda \int_{D^k} v^h(x,t) \cdot \ell^h_x(x) + \sum_{D^k} i \int_{D^k} G(x) v^h(x,t) \cdot \ell^h(x) \\
+  & \, + \sum_{e\in\Gamma_I}  c_e(\ell) \cdot \jump{v^h}_e - \sum_{e\in\Gamma_D}  F n_e^- u_e^- \cdot \ell^{h,-}
+\end{align}
+Für Koerzivität untersuchen wir $a_\text{weak}^s(v^h, v^h)$ und teilen die vier Summanden in vier Schritte a) bis d) auf.\\
+a)
+\begin{align*}
+  \sum_{D^k} \Lambda \int_{D^k} v_x \cdot v &=  \sum_{D^k}\int_{D^k} v^{\dagger} \Lambda v_x \\
+  &=  \frac{1}{2}  \sum_{D^k}\int_{D^k} \partial_x (v^{\dagger} \Lambda v) \\
+  &=  \frac{1}{2}  \sum_{D^k}\oint_{\partial D^k} \hat{n} (v^{\dagger} \Lambda v) \\
+  &=  \frac{1}{2}  \left( \sum_{e\in\Gamma_I} \sum_j \lambda_j \jump{v_j^2}_e
+     + \sum_{e\in\Gamma_D} \hat{n}_e^-  (v^-_e)^{\dagger}\Lambda v^-_e \right) \\
+  &=   \sum_{e\in\Gamma_I} \avg{v}_e^{\dagger}\Lambda\jump{v}_e
+     + \frac{1}{2}   \sum_{e\in\Gamma_D} \hat{n}_e^-  (v^-_e)^{\dagger}\Lambda v^-_e
+\end{align*}
+Hier ist im letzten Schritt die Relation $\jump{u^{\dagger}v} = \jump{u}^{\dagger}\avg{v} + \avg{u}^{\dagger}\jump{v}$ eingegangen.
+
+b)
+\begin{align*}
+  \sum_{D^k} i \int_{D^k} G v \cdot v &= \sum_{D^k} i \int_{D^k} v^{\dagger} G v
+\end{align*}
+c)
+\begin{align*}
+  \sum_{e\in\Gamma_I}  c_e(v) \cdot \jump{v}_e &= \sum_{e\in\Gamma_I} (-\Lambda  \avg{v}_e  + \frac{1}{2}|\Lambda| \jump{v}_e) \cdot \jump{v}_e \\
+  &= \sum_{e\in\Gamma_I} -\avg{v}_e^{\dagger} \Lambda \jump{v}_e + \frac{1}{2}\jump{v}_e^{\dagger} |\Lambda|\jump{v}_e
+\end{align*}
+d)
+\begin{align*}
+  - \sum_{e\in\Gamma_D}  F n_e^- v_e^- \cdot v_e^- &= - \sum_{e\in\Gamma_D} \frac{1}{2}(v_e^-)^{\dagger}(\Lambda - \hat{n}_e^- |\Lambda|)v_e^-
+\end{align*}
+
+Addieren wir alles auf, so hebt sich Term a) mit Teilen der Terme c) und d) weg. Es verbleibt
+\begin{align*}
+  a_\text{weak}^s(v^h, v^h) = \sum_{D^k} i \int_{D^k} v^{\dagger} G v
+    + \sum_{e\in\Gamma_I} \frac{1}{2}\jump{v}_e^{\dagger} |\Lambda|\jump{v}_e
+    + \sum_{e\in\Gamma_D} \frac{1}{2}\hat{n}_e^- (v_e^-)^{\dagger} |\Lambda|v_e^-
+\end{align*}
+Wir definieren das Skalarprodukt
+\begin{align}
+  \sP{u}{v}{D^k} \equiv \int_{D^k} u^{\dagger} v \diff x
+\end{align}
+und haben mit den Definitionen $S\equiv -iG$ und $T\equiv |\Lambda|/2$ sowie den auf dem Rand eindeutig definierten Werten von $\hat{n}$ und $v$
+\begin{align}
+  a_\text{weak}^s(v^h, v^h) &= -\sum_{D^k} \sP{v}{Sv}{D^k}
+    + \sum_{e\in\Gamma_I} \sP{\jump{v}}{T\jump{v}}{e}
+    + \sum_{e\in\Gamma_D} \hat{n} \sP{v}{T v}{e}\\
+    &= -\sum_{D^k} \sP{v}{Sv}{D^k}
+    + \sum_{e\in\Gamma_I} \No{\sqrt{T}\jump{v}}{e}^2
+    + \sum_{e\in\Gamma_D} \hat{n} \No{\sqrt{T}v}{e}^2
+\end{align}
