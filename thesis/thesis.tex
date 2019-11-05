@@ -147,6 +147,8 @@
 \usepackage{empheq}
 \newcommand*\widefbox[1]{\fbox{\hspace{1em}#1\hspace{1em}}}
 \usepackage{stmaryrd}   % doppelt Eckige Klammern mit \llbracket und \rrbracket
+\usepackage{makeidx}
+\makeindex
 %------------------------------------------------------------------------------
 %------------------------------  Macros:   ------------------------------------
 %------------------------------------------------------------------------------
@@ -302,11 +304,11 @@
 \tableofcontents
 %
 \mainmatter
-\input{content/gedanken.tex}
+% \input{content/gedanken.tex}
 % % Hier beginnt der Inhalt mit Seite 1 in arabischen Ziffern
-% \input{content/01_einleitung.tex}
+\input{content/01_einleitung.tex}
 % % {\let\clearpage\relax \chapter{bar}}
-% \input{content/02_theorie.tex}
+\input{content/02_theorie.tex}
 % \input{content/03_ergebnisse.tex}
 % \input{content/04_zusammenfassung.tex}
 %
@@ -316,6 +318,7 @@
 %
 \backmatter
 \printbibliography
+\printindex
 %
 % \cleardoublepage
 % \input{content/eid_versicherung.tex}
