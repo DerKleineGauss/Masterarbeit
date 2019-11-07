@@ -15,17 +15,26 @@ definiert. Da Orthogonalität der $\ket{k}$ nicht gefordert ist, ist das System 
 \begin{equation*}
   \expval{A} = \sum_k w_k \bra{k}A\ket{k} \; .
 \end{equation*}
-Um diesen Erwartungswert in einer beliebigen vollständigen Orthonormalbasis $\{\ket{l}\}$ darzustellen, wird die quantenmechanische Identität $\mathbb{1}=\sum_l \ket{l}\bra{l}$ eingeschoben. Dann lässt sich die Information über das Ensemble elegant in einem neuen Operator $\rho$, dem sogenannten Dichteoperator separieren. Es gilt
+Um diesen Erwartungswert in einer beliebigen vollständigen Orthonormalbasis $\{\ket{l}\}$ darzustellen, wird die quantenmechanische Identität $\mathbb{1}=\sum_l \ket{l}\bra{l}$ eingeschoben. Dann lässt sich die Information über das Ensemble elegant in einem neuen Operator $\hat{\rho}$, dem sogenannten Dichteoperator separieren. Es gilt
 \begin{align}
   \expval{A} &= \sum_l \sum_k  w_k \bra{k}A\ket{l}\bra{l}\ket{k} \\
-   &= \sum_l \bra{l}\rho A\ket{l} = \text{Sp}(\rho A)
+   &= \sum_l \bra{l}\hat{\rho} A\ket{l} = \text{Sp}(\hat{\rho} A)
    \label{eq:expval}
 \end{align}
 mit
 \begin{equation}
-  \rho \equiv \sum_k w_k\ket{k}\bra{k} \; .
+  \hat{\rho} \equiv \sum_k w_k\ket{k}\bra{k} \; .
 \end{equation}
-Der so definierte Operator $\rho$ hängt lediglich von der Zeit ab. Es lässt sich ferner die Dichtematrix ${\rho : H^* \times H \times \mathbb{R} \rightarrow \mathbb{C}}$ definieren als Darstellung des Dichteoperators in der Ortsbasis $\{\ket{x}\}$. Für ein einzelnes Teilchen beispielsweise ist letztere die Menge der Eigenvektoren des Orstoperators
+Aus der Definition der $\ket{k}$ und der $w_k$ folgen drei wichtige Eigenschaften.
+
+\begin{tabular}{l l l}
+  1)  & $\hat{\rho}=\hat{\rho}^{\dagger}$ & hermitesch \\
+  2)  & $\forall \,\Psi\in H \; :\; \bra{\Psi} \hat{\rho} \ket{\Psi} \geq 0$ & positiv-semidefinit \\
+  3)  & $\text{Sp}(\hat{\rho})=1 = \expval{1}$ & normiert \\
+\end{tabular}
+
+Der Operator $\hat{\rho}$ hängt lediglich von der Zeit ab.
+Es lässt sich ferner die Dichtematrix ${\rho : H^* \times H \times \mathbb{R} \rightarrow \mathbb{C}}$ definieren als Darstellung des Dichteoperators in der Ortsbasis $\{\ket{x}\}$. Für ein einzelnes Teilchen beispielsweise ist letztere die Menge der Eigenvektoren des Orstoperators
 \begin{equation*}
   X:D_X \rightarrow L^2(\mathbb{R}^3;\mathbb{C}) \, : \, \Psi \mapsto x\Psi
 \end{equation*}
@@ -34,14 +43,14 @@ zu den (i.A. komplexen) Eigenwerten $x$. Hierbei ist $D_X$ die Domäne
   D_X = \{\Psi \in L^2(\mathbb{R}^3) \, | \, x\Psi \in L^2(\mathbb{R}^3)
 \end{equation*}
 des selbstadjungierten Operators $X$. Mit anderen Worten ist für eine Teilchenzahl $N$ der Zustand $\ket{x}$ derjenige Zustand, für den der Aufenthaltsort jedes Teilchens exakt bekannt (mit $x$ zusammengefasst) und wegen der Unschärferelation der Impuls vollständig unbekannt ist.
+
+Die Dichtematrix ist definiert durch
 %Hierbei ist $S(\mathbb{R}^3)*$ der Raum der komplexwertigen temperierten Distributionen.
 % S^* ist Dualraum des "Schwartz-Raums", welcher wiederum in allen Sobolew-Räumen enthalten ist. (Wiki) Der Raum der Testfunktionen lässt sich stetig in den Schwartz-Raum einbetten und liegt in diesem dicht.
-
-
 \begin{equation}
-  \rho(x,y,t) \equiv \bra{x}\rho(t)\ket{y} \; .
+  \rho(x,y,t) \equiv \bra{x}\hat{\rho}(t)\ket{y} \; .
 \end{equation}
-Der Begriff einer Matrix folgt hierbei nicht der streng mathematischen Definition, denn die $\ket{x}$ stellen als Kontinuum eine uneigentliche Basis dar.
+Der Begriff einer Matrix folgt hierbei nicht der streng mathematischen Definition, denn die $\ket{x}$ stellen als Kontinuum eine uneigentliche Basis dar. Für die Spurbildung ist folglich ein Integral über $D_X$ auszuführen, statt einer Summation.
 
 Für die Berechnung des Erwartungswertes einer Observablen $O$ ist stets eine Projektion auf die Diagonale $x=y$ notwendig, siehe Gleichung \eqref{eq:expval}. Es sei bereits hier angemerkt, dass die in der Literatur auftretende \index{hydrodynamische Näherung} hydrodynamische Näherung diese Projektion vor der Lösung der Bewegungsgleichung durchführt \cite{wiedenhaus}. Damit gehen die in der Dichtematrix enthaltenen quantenmechanischen Ortskorrelationen nicht weiter in die Rechnung ein. In der vorliegenden Arbeit wird die Projektion erst nach der Lösung der Bewegungsgleichung durchgeführt.
 % WIEDENHAUS S. 36
@@ -51,6 +60,10 @@ Für die Berechnung des Erwartungswertes einer Observablen $O$ ist stets eine Pr
 % im k-Raum (Abschnitt 6.2). Die L¨osung des dynamischen Problems erfolgt
 % dann erst nach der Projektion. So werden von vornherein Informationen ausgeblendet,
 % die f¨ur ein klassisches Problem nicht relevant sind, um dieses zu vereinfachen.
+
+
+
+
 
 Im Gleichgewicht ergibt sich mit $\epsilon_{\alpha}$ als Eigenwerte und $\Psi_{\alpha}$ als Eigenvektoren des Hamiltonoperators \cite{datta}
 \begin{align}
