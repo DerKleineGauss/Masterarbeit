@@ -4,6 +4,7 @@ Die Dynanmik des btrachteten Quantensystems wird mit Hilfe der \lvn (LNG) beschr
 
 \section{Physikalische Problemstellung}
 \subsection{Dichteoperator und Dichtematrix} \index{Dichteoperator} \index{Dichtematrix}
+\label{sec:2_1}
 Aus Sicht des Entwicklers elektronischer Bauelemente ist es naheliegend, nach der Elektronendichte $n(\vb{r})$ sowie der Stromdichte $j(\vb{r})$ des Systems zu fragen. Quantenmechanisch sind diese Größen Observablen, also Erwartungswerte hermitscher Operatoren bezüglich des Hilbertraums der $L^2$-Funktionen. Anschaulich ist klar, dass sich die Elektronendichte aus zwei Wahrscheinlichkeiten zusammensetzt. Erstens wird die Wahrscheinlichkeit dafür benötigt, dass ein Zustand mit Energie $\epsilon$ besetzt ist. Diese wird mit der Aufenthaltswahrscheinlichkeit, dass am Ort $\vb{x}$ überhaupt ein Teilchen vorhanden ist, multipliziert.
 
 Dieser intuitive Zusammenhang wird in der Quantenstatistik mit Hilfe des sogenannten Dichteoperators beschrieben. Dazu wird der Begriff des \index{quantenmechanisches Ensemble}quantenmechanischen Ensembles benötigt. Ein Hilbertraum $H$ sei durch eine Menge $\{\ket{k}\}$ von Zuständen mit den Eigenschaften
@@ -11,19 +12,20 @@ Dieser intuitive Zusammenhang wird in der Quantenstatistik mit Hilfe des sogenan
   \item{i)} $\bra{k}\ket{k} = 1$
   \item{ii)} $\{\ket{k}\}$ vollständig, dh. $\ket{\Psi}=\sum_k \alpha_k\ket{k} \qquad \forall \, \ket{\Psi}\in H$ und $\ket{k}\in\{\ket{k}\}$
 \end{itemize}
-definiert. Da Orthogonalität der $\ket{k}$ nicht gefordert ist, ist das System eventuell übervollständig. Ein Ensemble besteht nun aus einer großen Anzahl von Kopien des Systems, jede präpariert in einem der Zustände $\ket{k}$. Es bezeichne $w_k$ den Bruchteil der Kopien im Zustand $\ket{k}$. Per Definition ist also $w_k\geq 0$ und $\sum_k w_k = 1$. Der Erwartungswert eines Operators ${A:H\rightarrow H}$ lässt sich nun sinnvoll schreiben gemäß
+definiert. Da Orthogonalität der $\ket{k}$ nicht gefordert ist, ist das System eventuell übervollständig. Ein Ensemble besteht nun aus einer großen Anzahl von Kopien des Systems, jede präpariert in einem der Zustände $\ket{k}$. Es bezeichne $w_k$ den Bruchteil der Kopien im Zustand $\ket{k}$. Per Definition ist also $w_k\geq 0$ und $\sum_k w_k = 1$. Der Erwartungswert eines Operators ${\hat{A}:H\rightarrow H}$ lässt sich nun sinnvoll schreiben gemäß
 \begin{equation*}
-  \expval{A} = \sum_k w_k \bra{k}A\ket{k} \; .
+  \expval{\hat{A}} = \sum_k w_k \bra{k}\hat{A}\ket{k} \; .
 \end{equation*}
-Um diesen Erwartungswert in einer beliebigen vollständigen Orthonormalbasis $\{\ket{l}\}$ darzustellen, wird die quantenmechanische Identität $\mathbb{1}=\sum_l \ket{l}\bra{l}$ eingeschoben. Dann lässt sich die Information über das Ensemble elegant in einem neuen Operator $\hat{\rho}$, dem sogenannten Dichteoperator separieren. Es gilt
+Um diesen Erwartungswert in einer beliebigen vollständigen Orthonormalbasis $\{\ket{l}\}$ darzustellen, wird die quantenmechanische Identität $\hat{1}=\sum_l \ket{l}\bra{l}$ eingeschoben. Dann lässt sich die Information über das Ensemble elegant in einem neuen Operator $\hat{\rho}$, dem sogenannten Dichteoperator separieren. Es gilt
 \begin{align}
-  \expval{A} &= \sum_l \sum_k  w_k \bra{k}A\ket{l}\bra{l}\ket{k} \\
-   &= \sum_l \bra{l}\hat{\rho} A\ket{l} = \text{Sp}(\hat{\rho} A)
+  \expval{\hat{A}} &= \sum_l \sum_k  w_k \bra{k}\hat{A}\ket{l}\bra{l}\ket{k} \\
+   &= \sum_l \bra{l}\hat{\rho} \hat{A}\ket{l} = \text{Sp}(\hat{\rho} \hat{A})
    \label{eq:expval}
 \end{align}
 mit
 \begin{equation}
   \hat{\rho} \equiv \sum_k w_k\ket{k}\bra{k} \; .
+  \label{eq:dichteoperator}
 \end{equation}
 Aus der Definition der $\ket{k}$ und der $w_k$ folgen drei wichtige Eigenschaften.
 
@@ -33,20 +35,87 @@ Aus der Definition der $\ket{k}$ und der $w_k$ folgen drei wichtige Eigenschafte
   3)  & $\text{Sp}(\hat{\rho})=1 = \expval{1}$ & normiert \\
 \end{tabular}
 
+Der nach Gleichung \eqref{eq:dichteoperator} definierte Dichteoperator enthält vollständige Information über das System. In Vielteilchensystemen ist die Berechnung infolge begrenzter Rechenkapazität jedoch nicht möglich und es werden -- wie üblich in der Physik -- Näherungen zur Beschreibung eines Systems benötigt.
+
+\subsection{Reduzierter Dichteoperator}\index{Reduzierter Dichteoperator}
+Im Allgemeinen setzt sich der N-Teilchen-Hamiltonoperator aus Einteilchen-, Zweiteilchen- bis zu N-Teilchen-Operatoren zusammen, die auf den jeweiligen Unterräumen des Fockraums \index{Fockraum}
+\begin{equation*}
+  H = H^1 \oplus H^2 \oplus \dots \oplus H^N
+\end{equation*}
+agieren. Wechselwirkung zwischen Teilchen setzt naturgemäß mindestens zwei Teilchen voraus, sodass Einteilchen-Operatoren ausschließlich in $H^1$ leben. Beispiele für Einteilchenoperatoren sind kinetische Energie $\hat{T}$, Teilchenzahl $\hat{N}$ oder Stromdichte $\hat{j}$. Die potentielle Energie eines jeden Teilchens hängt jedoch im Allgemeinen von den Orten und Geschwindigkeiten aller Teilchen ab und ist daher ein $N$-Teilchen-Operator. Zur Vereinfachung dieses komplizierten Zusammenhangs wird häufig eine \index{Mean-Field-Näherung} Mean-Field-Näherung getroffen, wonach die wechselwirkenden Teilchen als freie Teilchen in einem externen Feld betrachtet werden. Dann enthält der Hamiltonoperator lediglich Einteilchen-Operatoren $\hat{A}_{(1)}$.
+
+Erwartungswerte werden erneut nach Formel \eqref{eq:expval} errechnet. Es ist nun jedoch sinnvoll, die Spur in der Besetzungszahl-Basis zu notieren. Dazu werden Orts- und Impulseigenzustände (vgl. Anhang \ref{sec:A_1}) als Basis des Fockraums eingeführt gemäß
+\begin{align*}
+  &\ket{r_a,r_b, \dots, r_l} \equiv \ket{r_a}_1 \ket{r_b}_2 \times \dots \times \ket{r_l}_N  & &\text{Ortseigenzustände} \\
+  &\ket{k_a,k_b, \dots, k_l} \equiv \ket{k_a}_1 \ket{k_b}_2 \times \dots \times \ket{k_l}_N  & &\text{Impulseigenzustände} \; ,
+\end{align*}
+wobei die $r_i$ bzw. $k_i$ auch den Spin beinhalten und im Falle von Fermionen wegen des Pauli-Prinzips stets $r_i\neq r_j$ bzw. $k_i \neq k_j$ für $i\neq j$ gilt. Die Notation auf der rechten Seite ist so zu verstehen, dass das nummerirte Teilchen 2 den Ort $r_b$ besetzt.
+Der Übergang zur Besetzungszahl-Darstellung wird auch als \index{zweite Quantisierung} zweite Quantisierung bezeichnet und ist beispielsweise in \cite{czycholl} erläutert. Die Basis-Zustände sind $\ket{n_1,n_2,\dots,n_{\infty}}$, wobei die $n_{\alpha}$ die Anzahl Teilchen mit Quantenzahlen $\{a\}$ (zum Beispiel Spin und Impuls) bezeichnen.  Im $N$-Teilchen System ist $\sum_{\alpha} n_{\alpha} = N$. Für Fermionen gilt ferner $n_{\alpha} \in \{0,1\}$.
+
+Da ein Einteilchenoperator nur in $H^1$ agiert, können quantenmechanische Vollständigkeitsrelationen aus eben jenem Unterraum eingeführt werden. Dann ergibt sich für den Operator $\hat{A}^N_{(1)}$
+\begin{align*}
+  \hat{A}^N_{(1)} = \sum_{j=1}^N \hat{A}_j = \sum_{j=1}^N \sum_{k_a} \sum_{k_b} \ket{k_a}_{j} \prescript{}{j}{\bra{k_a}}\hat{A}_j \ket{k_b}_{j} \prescript{}{j}{\bra{k_b}} \; .
+\end{align*}
+Für identische Teilchen kann das Matrixelement von $\hat{A}_j$ nicht von $j$ abhängen, sodass mit $\hat{A}_j \equiv \hat{A}$
+\begin{equation*}
+  \hat{A}^N_{(1)} = \sum_{k_a} \sum_{k_b} \bra{k_a}\hat{A} \ket{k_b} \sum_{j=1}^N \ket{k_a}_{j}  \prescript{}{j}{\bra{k_b}}
+\end{equation*}
+folgt. In zweiter Quantisierung $\hat{A}^N_{(1)} \rightarrow \hat{A}^{nb}_{(1)}$ ergibt sich hieraus sowohl für Bosonen als auch Fermionen \cite{modern}
+\begin{align*}
+  \hat{A}^{nb}_{(1)} = \sum_{k_a \, k_b} \bra{k_a}\hat{A} \ket{k_b} \hat{a}^{\dagger}_{k_a}\hat{a}_{k_b} \; ,
+\end{align*}
+wobei $\hat{a}_{k_a}^{(\dagger)}$ Vernichtungs- (Erzeugungs-) operator eines Teilchens mit Impuls (und Spin) $k_a$ ist. Durch Spurbildung in der Teilchenzahlbasis ergibt sich hieraus der Erwartungswert
+\begin{align*}
+  \expval{\hat{A}_{(1)}(t)} &= \text{Sp}(\hat{A}_{(1)}\hat{\rho}(t)) \\
+  &= \sum_{\substack{\{n_{\alpha}\} \\ \sum_{\alpha} n_{\alpha} = N}} \sum_{k_a \, k_b} \bra{k_a}\hat{A} \ket{k_b}
+  \bra{\{n_{\alpha}\}} \hat{a}^{\dagger}_{k_a}\hat{a}_{k_b} \hat{\rho^{nb}(t)}  \ket{\{n_{\alpha}\}} \; .
+\end{align*}
+Der letzte Term entspricht dem Fockraum-Matrixelement eines Einteilchen-Dichteoperators. Die Spur hierüber wird daher als \emph{reduzierte Dichtematrix} (in Impulsdarstellung) $\bra{k_a}\hat{\rho}_{(1)}(t)\ket{k_b}$ bezeichnet:
+\begin{equation*}
+  \bra{k_a}{\hat{\rho}}_{(1)}(t)\ket{k_b} = \text{Sp} (\hat{a}^{\dagger}_{k_a}\hat{a}_{k_b} \hat{\rho}^{nb}(t))
+  = \sum_{\substack{\{n_{\alpha}\} \\ \sum_{\alpha} n_{\alpha} = N}} \bra{\{n_{\alpha}\}} \hat{a}^{\dagger}_{k_a}\hat{a}_{k_b} \hat{\rho}^{nb}(t) \ket{\{n_{\alpha}\}}
+\end{equation*}
+Das Einfügen der Vollständigkeitsrelation $\int \diff r \ket{r}\bra{r} = \hat{1}$ führt auf die Ortsdarstellung
+\begin{equation}
+  \expval{\hat{A}_{(1)}(t)} = \int \diff r_a \int \diff r_b \bra{r_a}\hat{A}\ket{r_b} \bra{r_b}\hat{\rho}_{(1)}(t) \ket{r_a}
+  \label{eq:expval_red}
+\end{equation}
+mit der reduzierten Dichtematrix (in Ortsdarstellung)
+\begin{equation}
+\begin{aligned}
+  \bra{r_b}\hat{\rho}_{(1)}(t) \ket{r_a} &= \text{Sp}(\hat{\Psi}^{\dagger}(r_a)\hat{\Psi}(r_b)\hat{\rho}^{nb}(t)) \\
+   &= \sum_{\substack{\{n_{\alpha}\} \\ \sum_{\alpha} n_{\alpha} = N}} \bra{\{n_{\alpha}\}} \hat{\Psi}^{\dagger}(r_a)\hat{\Psi}(r_b)\hat{\rho}^{nb}(t) \ket{\{n_{\alpha}\}} \; ,
+\end{aligned}
+\end{equation}
+wobei die Feldoperatoren $\hat{\Psi}(r) \equiv \sum_{k} \bra{r}\ket{k}\hat{a}_k$ Verwendung finden.
+
+Um nun zum Ausgangspunkt von Kapitel \ref{sec:2_1} zurückzukehren, ist es sinnvoll, die Observable der Teilchenzahl $\hat{N}$  in Formel \eqref{eq:expval_red} einzusetzen. Für Fermionen muss wegen der Definition des Orts-Eigenzustands (vgl. Anhang \ref{sec:A_1}) $\hat{N}\ket{r}=1\ket{r}$ gelten. Dann folgt
+\begin{align*}
+  \expval{\hat{N}(t)} &= \int \diff r_a \int \diff r_b \, \delta(r_a-r_b) \bra{r_b}\hat{\rho}_{(1)}(t) \ket{r_a} \\
+   &= \int \diff r \bra{r}\hat{\rho}_{(1)}(t) \ket{r} = N(t) \; ,
+\end{align*}
+sodass die Diagonalelemente des reduzierten Dichteoperators mit der Teilchendichte $\expval{n(r,t)}$ identifiziert werden können:
+\begin{equation}
+  \expval{n(r,t)} = \bra{r}\hat{\rho}_{(1)}(t) \ket{r} = \text{Sp}(\hat{\Psi}^{\dagger}(r)\hat{\Psi}(r)\hat{\rho}^{nb}(t))
+\end{equation}
+Die Normierung ist für den reduzierten Dichteoperator offenbar eine andere als im Falle des vollständigen Dichteoperators, wo $\text{Sp}(\hat{\rho})=1$ gilt. Dieser diffizile Unterschied wird in der Literatur häufig unterschlagen.
+
+
+
+Die Wellenfunktion in Ortsdarstellung
+\begin{equation*}
+  \Psi^N(r_1, \dots , r_N, t) = \bra{r_1, \dots , r_N}\ket{\Psi^N(t)}
+\end{equation*}
+lässt sich ebenfalls faktorisieren, falls die Teilchen nicht wechselwirken:
+\begin{equation*}
+  \Psi^N_0(r_1, \dots , r_N, t) = \bra{r_1, \dots , r_N}\ket{\Psi(t)}_1\times \dots \times \ket{\Psi(t)}_N
+\end{equation*}
+
 Der Operator $\hat{\rho}$ hängt lediglich von der Zeit ab.
-Es lässt sich ferner die Dichtematrix ${\rho : H^* \times H \times \mathbb{R} \rightarrow \mathbb{C}}$ definieren als Darstellung des Dichteoperators in der Ortsbasis $\{\ket{x}\}$. Für ein einzelnes Teilchen beispielsweise ist letztere die Menge der Eigenvektoren des Orstoperators
-\begin{equation*}
-  X:D_X \rightarrow L^2(\mathbb{R}^3;\mathbb{C}) \, : \, \Psi \mapsto x\Psi
-\end{equation*}
-zu den (i.A. komplexen) Eigenwerten $x$. Hierbei ist $D_X$ die Domäne
-\begin{equation*}
-  D_X = \{\Psi \in L^2(\mathbb{R}^3) \, | \, x\Psi \in L^2(\mathbb{R}^3)
-\end{equation*}
-des selbstadjungierten Operators $X$. Mit anderen Worten ist für eine Teilchenzahl $N$ der Zustand $\ket{x}$ derjenige Zustand, für den der Aufenthaltsort jedes Teilchens exakt bekannt (mit $x$ zusammengefasst) und wegen der Unschärferelation der Impuls vollständig unbekannt ist.
+Es lässt sich ferner die Dichtematrix ${\rho : H^* \times H \times \mathbb{R} \rightarrow \mathbb{C}}$ definieren als Darstellung des Dichteoperators in der Ortsbasis $\{\ket{x}\}$.
 
 Die Dichtematrix ist definiert durch
-%Hierbei ist $S(\mathbb{R}^3)*$ der Raum der komplexwertigen temperierten Distributionen.
-% S^* ist Dualraum des "Schwartz-Raums", welcher wiederum in allen Sobolew-Räumen enthalten ist. (Wiki) Der Raum der Testfunktionen lässt sich stetig in den Schwartz-Raum einbetten und liegt in diesem dicht.
+
 \begin{equation}
   \rho(x,y,t) \equiv \bra{x}\hat{\rho}(t)\ket{y} \; .
 \end{equation}

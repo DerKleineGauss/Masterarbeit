@@ -5,3 +5,18 @@
 % \input{files/Tabelle_Jperp_0.4_texformat.tex}
 % \input{files/Tabelle_Jperp_0.6_texformat.tex}
 % \input{files/Tabelle_Jperp_0.8_texformat.tex}
+
+\chapter{Ortsbasis}
+\label{sec:A_1}
+Für ein einzelnes Teilchen beispielsweise ist letztere die Menge der Eigenvektoren des Orstoperators
+\begin{equation*}
+  X:D_X \rightarrow L^2(\mathbb{R}^3;\mathbb{C}) \, : \, \Psi \mapsto x\Psi
+\end{equation*}
+zu den (i.A. komplexen) Eigenwerten $x$. Hierbei ist $D_X$ die Domäne
+\begin{equation*}
+  D_X = \{\Psi \in L^2(\mathbb{R}^3) \, | \, x\Psi \in L^2(\mathbb{R}^3)
+\end{equation*}
+des selbstadjungierten Operators $X$. Mit anderen Worten ist für eine Teilchenzahl $N$ der Zustand $\ket{x}$ derjenige Zustand, für den der Aufenthaltsort jedes Teilchens exakt bekannt (mit $x$ zusammengefasst) und wegen der Unschärferelation der Impuls vollständig unbekannt ist.
+%Hierbei ist $S(\mathbb{R}^3)*$ der Raum der komplexwertigen temperierten Distributionen.
+% S^* ist Dualraum des "Schwartz-Raums", welcher wiederum in allen Sobolew-Räumen enthalten ist. (Wiki) Der Raum der Testfunktionen lässt sich stetig in den Schwartz-Raum einbetten und liegt in diesem dicht.
+die $\ket{x}$ stellen als Kontinuum eine uneigentliche Basis dar. Für die Spurbildung ist folglich ein Integral über $D_X$ auszuführen, statt einer Summation.
