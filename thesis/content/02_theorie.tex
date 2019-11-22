@@ -220,6 +220,7 @@ angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und
 Ausgehend von der Einteilchen-Dichtematrix in Schwerpunkt- und Relativkoordinaten (siehe Gleichungen \eqref{eq:gedrehteKoordinaten} und \eqref{eq:def_dichtematrix}) führt eine Fourier-Transformation bezüglich der Relativkoordinate auf die sogenannte \emph{Wigner-Funktion}\index{Wigner-Funktion}
 \begin{equation}
   f_{(1)}(k,r,t) \equiv \int \diff q e^{ik\cdot q}\bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{r-\frac{q}{2}}
+  \label{eq:fourier_wigner}
 \end{equation}
 die von Wigner \cite{wigner} 1932 eingeführt worden ist. Im klassischen Limes ($\hbar \rightarrow 0$) geht die Wigner-Funktion in die aus der klassischen Physik bekannte Wahrscheinlichkeitsdichte im Phasenraum über. Die Position eines Teilchens wird dann mit $r$ aus Gleichung \eqref{eq:gedrehteKoordinaten} und der Impuls mit $p=\hbar k$ identifiziert.
 
@@ -245,32 +246,28 @@ Die Dynamik des in der Einleitung skizzierten Systems muss irreversibel in der Z
 \begin{align}
   H- H^{\dagger} = \frac{\hbar}{i}\int_s \vb{j}\diff\vb{s} = 0
 \end{align}
-Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der LvNG auf. Da jedoch ein offenes System modelliert werden soll, muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodruch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
+Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der LvNG auf. Da jedoch ein offenes System modelliert werden soll, muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
 
-Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die Stabilität des Systems sicherstellen. Ein hierfür geeigneter Ansatz wird erstmals in \cite{frensley2} getroffen, indem die Reservoire in Analogie zu einem schwarzen Körper gesehen werden. In das Reservoir eintretende Teilchen werden vollständig absorbiert. Umgekehrt "strahlt" das Reservoir Teilchen entsprechend der thermischen Gleichgewichts-Verteilung in das System ein. Damit ist klar, dass Randbedingungen für Inflow-Teilchen mit positiver Geschwindigkeit am linken Rand und solche mit negativer Geschwindigkeit am rechten Rand der Domäne gesetzt sind, während für Outflow-Teilchen keine Randbedingung vorgegeben ist. Teilchen müssen also nach ihrer Geschwindigkeit unterschieden werden können.
+Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die Stabilität des Systems sicherstellen. Ein hierfür möglicherweise geeigneter Ansatz wird erstmals in \cite{frensley2} getroffen, indem die Reservoire in Analogie zu einem schwarzen Körper gesehen werden. In das Reservoir eintretende Teilchen werden vollständig absorbiert. Umgekehrt "strahlt" das Reservoir Teilchen entsprechend der thermischen Gleichgewichts-Verteilung in das System ein, siehe Abbildung \ref{fig:modell}.
+\todo{Abbildung reservoire/system}
+Damit ist klar, dass Randbedingungen für Inflow-Teilchen mit positiver Geschwindigkeit am linken Rand und solche mit negativer Geschwindigkeit am rechten Rand der Domäne gesetzt sind, während für Outflow-Teilchen keine Randbedingung vorgegeben ist. Teilchen müssen also nach ihrer Geschwindigkeit unterschieden werden können.
 Es ist daher ein natürliches Vorgehen, nach einer Wahrscheinlichkeitsverteilung im Phasenraum zu fragen, siehe Kapitel \ref{sec:wigner}.
 Positive und negative Geschwindigkeiten lassen sich einfach durch das Vorzeichen von $k$ unterscheiden, sodass sich die Randbedingungen konkretisieren lassen.
 \begin{align}
-  f_{(1)}(-L/2,k)|_{k>0} &= f_l(\epsilon{k}) \\
-  f_{(1)}(+L/2,k)|_{k<0} &= f_r(\epsilon{k})
+  f_{(1)}(k,-L/2)|_{k>0} &= f_l({k}) \\
+  f_{(1)}(k,+L/2)|_{k<0} &= f_r({k})
 \end{align}
-Die Gleichgewichts-Verteilung der Reservoire $f_{l,r}(k)$ ergibt sich aus der Fermi-Dirac-Statistik wie folgt durch Integration über die zwei senkrecht zu $k\equiv k_z$ stehenden Wellenzahlen.
+Die Gleichgewichts-Verteilung der Reservoire $f_{l,r}(k)$ ergibt sich aus der Fermi-Dirac-Statistik durch Integration über die zwei senkrecht zu $k\equiv k_z$ stehenden Wellenzahlen:
 \begin{align}
-  \frac{\expval{N}}{A_{\perp}} &= 2\frac{1}{A_{\perp}}\sum_{\vb{k}}\frac{1}{1+\exp(\beta(\epsilon(\vb{k}) - \mu))} \\
-    &= 2\frac{1}{A_{\perp}}  \frac{A_{\perp}}{(2\pi)^2} \sum_{k_z}\int_{-\infty}^{\infty} \diff k_y \int_{-\infty}^{\infty} \diff k_x \frac{1}{1+\exp(\beta(k_x^2 + k_y^2 + k_z^2)\frac{\hbar^2}{2m} - \mu)} \\
-    &= \frac{2}{(2\pi)^2} \sum_{k_z} \int_0^{2\pi} \diff \varphi \int_0^{\infty} \diff k_{\perp} k_{\perp} \frac{1}{1+\exp(\beta(k_{\perp}^2 + k_z^2)\frac{\hbar^2}{2m} - \beta \mu)}
+  f_{l,r} (k) = \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k^2\hbar^2}{2m} + \mu))) \; .
 \end{align}
-Wir substituieren $\epsilon = (k^2_{\perp} + k_z^2)\frac{\hbar^2}{2m} - \mu$ und somit $\diff k_\perp = \frac{m}{\hbar^2 k}\diff \epsilon$. Für das Integral nutzen wir $\td{}{x}\ln(1+\exp(-\beta x)) = -\beta / (1+\exp(\beta x))$ und folgern weiter
+Die Rechnung findet sich in Anhang \ref{sec:A_2} wieder. Hieraus folgt für die reduzierte Dichtematrix
 \begin{align}
-  \frac{\expval{N}}{A_{\perp}} &= \frac{4\pi}{(2\pi)^2} \frac{m}{\hbar^2} \sum_{k_z} \int_{\epsilon(0)}^{{\epsilon(\infty)}} \diff \epsilon \frac{1}{1+\exp(\beta\epsilon)} \\
-    &= \frac{m}{\pi\hbar^2}\left( \frac{-1}{\beta}\right) \sum_{k_z} \left.\ln(1+\exp(\beta(k_{\perp}^2 + k_z^2)\frac{\hbar^2}{2m} + \beta\mu))\right|_0^{\infty} \\
-    &= \sum_{k_z} \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k_z^2\hbar^2}{2m} + \mu)))
+  \rho_{(1)}(r=\pm L/2, q, t) =
 \end{align}
-Für lokal konstantes $\beta$ erhalten wir daher in Übereinstimmung mit \cite{frensley2} die Randbedingungen
-\begin{align}
-  f_{l,r} (k) = \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k^2\hbar^2}{2m} + \mu_{l,r}))) \; .
-\end{align}
-\todo{Wie bauen wir das in die \lvn in Ortsdarstellung ein, ohne zum Wigner-Formalismus überzugehen?}
+da Dichtematrix und Wigner-Funktion über eine Fourier-Transformation gekoppelt sind, siehe Gleichung \eqref{eq:fourier_wigner}.
+
+Die Arbeit von Rosati et al. \cite{failure} weist darauf hin, dass
 
 \subsection{Potential}
 

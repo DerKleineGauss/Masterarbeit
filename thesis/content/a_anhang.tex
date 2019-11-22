@@ -20,3 +20,22 @@ des selbstadjungierten Operators $X$. Mit anderen Worten ist für eine Teilchenz
 %Hierbei ist $S(\mathbb{R}^3)*$ der Raum der komplexwertigen temperierten Distributionen.
 % S^* ist Dualraum des "Schwartz-Raums", welcher wiederum in allen Sobolew-Räumen enthalten ist. (Wiki) Der Raum der Testfunktionen lässt sich stetig in den Schwartz-Raum einbetten und liegt in diesem dicht.
 die $\ket{x}$ stellen als Kontinuum eine uneigentliche Basis dar. Für die Spurbildung ist folglich ein Integral über $D_X$ auszuführen, statt einer Summation.
+
+\chapter{Integration der Fermi-Dirac-Statistik}
+\label{sec:A_2}
+Im Folgenden wird die Teilchendichte (Teilchenzahl pro Fläche) für freie Elektronen im großkanonischen Ensemble mit chemischem Potential $\mu$ hergeleitet. Dabei ist die Fermi-Dirac-Statistik über alle möglichen Impulse $\vec{k}=(k_x,k_y,k_z)$ aufzusummieren.
+\begin{align}
+  \frac{\expval{N}}{A_{\perp}} &= 2\frac{1}{A_{\perp}}\sum_{\vb{k}}\frac{1}{1+\exp(\beta(\epsilon(\vb{k}) - \mu))} \\
+    &= 2\frac{1}{A_{\perp}}  \frac{A_{\perp}}{(2\pi)^2} \sum_{k_z}\int_{-\infty}^{\infty} \diff k_y \int_{-\infty}^{\infty} \diff k_x \frac{1}{1+\exp(\beta(k_x^2 + k_y^2 + k_z^2)\frac{\hbar^2}{2m} - \mu)} \\
+    &= \frac{2}{(2\pi)^2} \sum_{k_z} \int_0^{2\pi} \diff \varphi \int_0^{\infty} \diff k_{\perp} k_{\perp} \frac{1}{1+\exp(\beta(k_{\perp}^2 + k_z^2)\frac{\hbar^2}{2m} - \beta \mu)}
+\end{align}
+Substitution von $\epsilon = (k^2_{\perp} + k_z^2)\frac{\hbar^2}{2m} - \mu$ und somit $\diff k_\perp = \frac{m}{\hbar^2 k}\diff \epsilon$ sowie der Zusammenhang $\td{}{x}\ln(1+\exp(-\beta x)) = -\beta / (1+\exp(\beta x))$ liefern
+\begin{align}
+  \frac{\expval{N}}{A_{\perp}} &= \frac{4\pi}{(2\pi)^2} \frac{m}{\hbar^2} \sum_{k_z} \int_{\epsilon(0)}^{{\epsilon(\infty)}} \diff \epsilon \frac{1}{1+\exp(\beta\epsilon)} \\
+    &= \frac{m}{\pi\hbar^2}\left( \frac{-1}{\beta}\right) \sum_{k_z} \left.\ln(1+\exp(\beta(k_{\perp}^2 + k_z^2)\frac{\hbar^2}{2m} + \beta\mu))\right|_0^{\infty} \\
+    &= \sum_{k_z} \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k_z^2\hbar^2}{2m} + \mu)))
+\end{align}
+Für lokal konstantes $\beta$ folgt daher in Übereinstimmung mit \cite{frensley2} die Beschreibung der Reservoire gemäß
+\begin{align}
+  f_{l,r} (k) = \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k^2\hbar^2}{2m} + \mu_{l,r}))) \; .
+\end{align}
