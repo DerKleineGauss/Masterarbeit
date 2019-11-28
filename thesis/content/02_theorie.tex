@@ -149,6 +149,11 @@ Zur Untersuchung der LvNG werden zwei Fälle unterschieden, worauf im Folgenden 
   \item Der \emph{stationäre Fall}\index{stationärer Fall} mit $\partial_t \rho_{(1)}(x,y,t) = 0$, auch Gleichgewicht genannt. Hier gilt $\left[\hat{\rho} , \hat{H}\right]=0$.
   \item der allgemeinere \emph{transiente Fall}\index{transienter Fall} $\partial_t \rho_{(1)}(x,y,t) \neq 0$.
 \end{itemize}
+Wie üblich wird im Folgenden freie-Teilchen-Näherung in $x$- und $y$- Richtung angenommen. Dann lässt sich mit $\lambda^2 = \hbar^2/2mk_B T$ die Dichtematrix separieren \cite{grubin1993transport} gemäß
+\begin{equation}
+  \rho(\vb{r},\vb{r}') = \rho({z},{z}') \exp\left( \frac{(x-x')^2 + (y-y')^2}{4\lambda^2}\right) \; .
+\end{equation}
+Der Fokus liegt also auf einem Modell unabhängiger Elektronen in einer Dimension, sodass es genügt, die Einteilchen-Dichtematrix zu betrachten.
 Aufgrund der Struktur der Gleichung ist es sinnvoll, Schwerpunkt- und Relativkoordinaten
 \begin{equation}
   \begin{aligned}
@@ -173,7 +178,8 @@ wobei im letzten Schritt der Satz von Schwarz genutzt wird. Damit ergibt sich de
 \end{align*}
 Hier ist nun offensichtlich, dass die Symmetrie $\mathcal{L}(r,q,t)=-\mathcal{L}^*(r,-q,t)$ zugrunde liegt. Der Liouvilleoperator ist also antisymmetrisch bezüglich der Relativkoordinate. Mit der Umbenennung
 \begin{align*}
-  \{ \rho_{(1)}, r, q, t\} \longrightarrow \{\tilde{u},\tilde{x}, \tilde{y}, \tilde{t}\}
+  \rho_{(1)}\left(r+\frac{q}{2}, r-\frac{q}{2}, t\right) &\longrightarrow \tilde{u}(r,q,t) \\
+  \{ r, q, t\} &\longrightarrow \{\tilde{x}, \tilde{y}, \tilde{t}\}
 \end{align*}
 sowie der Definition
 \begin{align*}
@@ -219,16 +225,21 @@ angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und
 \subsubsection{Wigner-Gleichung}\index{Wigner-Gleichung}\label{sec:wigner}
 Ausgehend von der Einteilchen-Dichtematrix in Schwerpunkt- und Relativkoordinaten (siehe Gleichungen \eqref{eq:gedrehteKoordinaten} und \eqref{eq:def_dichtematrix}) führt eine Fourier-Transformation bezüglich der Relativkoordinate auf die sogenannte \emph{Wigner-Funktion}\index{Wigner-Funktion}
 \begin{equation}
-  f_{(1)}(k,r,t) \equiv \int \diff q e^{ik\cdot q}\bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{r-\frac{q}{2}}
+  f_{(1)}(k,r,t) \equiv \int \diff q e^{ikq}\bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{r-\frac{q}{2}}
   \label{eq:fourier_wigner}
 \end{equation}
-die von Wigner \cite{wigner} 1932 eingeführt worden ist. Im klassischen Limes ($\hbar \rightarrow 0$) geht die Wigner-Funktion in die aus der klassischen Physik bekannte Wahrscheinlichkeitsdichte im Phasenraum über. Die Position eines Teilchens wird dann mit $r$ aus Gleichung \eqref{eq:gedrehteKoordinaten} und der Impuls mit $p=\hbar k$ identifiziert.
+die von Wigner \cite{wigner} 1932 eingeführt worden ist. Die inverse Abbildung ist durch
+\begin{equation}
+  \bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{r-\frac{q}{2}} = \int \frac{\diff k}{2\pi}e^{-ikq} f_{(1)}(k,r,t)
+  \label{eq:fourier_wigner_invers}
+\end{equation}
+gegeben. Im klassischen Limes ($\hbar \rightarrow 0$) geht die Wigner-Funktion in die aus der klassischen Physik bekannte Wahrscheinlichkeitsdichte im Phasenraum über. Die Position eines Teilchens wird dann mit $r$ aus Gleichung \eqref{eq:gedrehteKoordinaten} und der Impuls mit $p=\hbar k$ identifiziert.
 
 In dieser anschaulichen Darstellung ergeben sich Erwartungswerte intuitiv durch Gewichtung der Observablen mit der Verteilungsfunktion und Integration. So lassen sich Teilchendichte und -strom gemäß
-\begin{align*}
-  n(r,t) = \int \frac{\diff k}{(2\pi)^3}f_{(1)}(k,r,t) \\
-  j(r,t) = \int \frac{\diff k}{(2\pi)^3}\hbar k f_{(1)}(k,r,t)
-\end{align*}
+\begin{align}
+  n(r,t) = \int \frac{\diff k}{2\pi}f_{(1)}(k,r,t) \label{eq:wigner_n}\\
+  j(r,t) = \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,r,t)
+\end{align}
 schreiben \cite{modern}. Die LvNG für die Wigner-Funktion lautet dann \cite{frensley2, failure}
 \begin{equation}
   \partial_t f_{(1)}(k,r,t) = -\frac{\hbar k}{m}\partial_r f_{(1)}(k,r,t) - \frac{1}{\hbar} \int \frac{\diff k'}{2\pi}I(k-k',r,t)f_{(1)}(k',r,t)
@@ -252,36 +263,98 @@ Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die St
 \todo{Abbildung reservoire/system}
 Damit ist klar, dass Randbedingungen für Inflow-Teilchen mit positiver Geschwindigkeit am linken Rand und solche mit negativer Geschwindigkeit am rechten Rand der Domäne gesetzt sind, während für Outflow-Teilchen keine Randbedingung vorgegeben ist. Teilchen müssen also nach ihrer Geschwindigkeit unterschieden werden können.
 Es ist daher ein natürliches Vorgehen, nach einer Wahrscheinlichkeitsverteilung im Phasenraum zu fragen, siehe Kapitel \ref{sec:wigner}.
-Positive und negative Geschwindigkeiten lassen sich einfach durch das Vorzeichen von $k$ unterscheiden, sodass sich die Randbedingungen konkretisieren lassen.
-\begin{align}
-  f_{(1)}(k,-L/2)|_{k>0} &= f_l({k}) \\
-  f_{(1)}(k,+L/2)|_{k<0} &= f_r({k})
-\end{align}
-Die Gleichgewichts-Verteilung der Reservoire $f_{l,r}(k)$ ergibt sich aus der Fermi-Dirac-Statistik durch Integration über die zwei senkrecht zu $k\equiv k_z$ stehenden Wellenzahlen:
+Positive und negative Geschwindigkeiten lassen sich einfach durch das Vorzeichen von $k$ unterscheiden, sodass sich die Randbedingungen konkretisieren lassen:
+\begin{equation}
+  \begin{aligned}
+    f_{(1)}(k,-L/2)|_{k>0} &= f_l({k}) \\
+    f_{(1)}(k,+L/2)|_{k<0} &= f_r({k})
+  \end{aligned}
+  \label{eq:rb1}
+\end{equation}
+Die Gleichgewichts-Verteilung der Reservoire $f_{l,r}(k)$ folgt aus der Fermi-Dirac-Statistik durch Integration über die zwei freien Richtungen $k_x$ und $k_y$. Die Berechnung findet sich im Anhang \ref{sec:A_2} wieder. Es folgt
 \begin{align}
   f_{l,r} (k) = \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k^2\hbar^2}{2m} + \mu))) \; .
+  \label{eq:rb2}
 \end{align}
-Die Rechnung findet sich in Anhang \ref{sec:A_2} wieder. Hieraus folgt für die reduzierte Dichtematrix
-\begin{align}
-  \rho_{(1)}(r=\pm L/2, q, t) =
-\end{align}
-da Dichtematrix und Wigner-Funktion über eine Fourier-Transformation gekoppelt sind, siehe Gleichung \eqref{eq:fourier_wigner}.
+und wegen Gleichung \eqref{eq:fourier_wigner_invers} für die reduzierte Dichtematrix
+\begin{equation}
+  \begin{aligned}
+    \rho_{(1)}(r=\pm L/2, q, t) = \int \frac{\diff k}{2\pi} e^{ikq} f(k,\pm L/2) \\
+    &=  \int \frac{\diff k}{2\pi} \cos(kq) f_{\nicefrac{l}{r}} (k) \; .
+  \end{aligned}
+\end{equation}
+Für die Outflow-Bereiche $\{ k<0, r=-L/2 \}$ und $\{ k>0, r=+L/2 \}$ trifft \eqref{eq:rb1} keine Aussage, sodass jede numerische Methode zwangsläufig ein upwind-Schema bezüglich der $r$-Diskretisierung verwenden muss. Hierin bestätigt sich auch der Charakter der zugrundeliegenden Differentialgleichung \eqref{eq:wigner}: es wird der Transport von Elektronen beschrieben.
 
-Die Arbeit von Rosati et al. \cite{failure} weist darauf hin, dass
+Eine mögliche Wahl für Randbedingungen bezüglich der Relativkoordinate für die LvNG sind Dirichlet-Randbedingungen:
+\begin{equation}
+  \begin{aligned}
+    \rho_{(1)}(r, q=\pm L_q/2, t) = 0
+  \end{aligned}
+\end{equation}
+Numerische Resultate zeigen für diese Wahl jedoch mitunter unphysikalische Interferenzmuster, da es an den Rändern zu Reflexion kommt \cite{lukas1}. Ein Vorschlag ist daher, eine absorbierende Schicht (\emph{complex absorbing potential}\index{complex absorbing potential} -- CAP) der Dicke $\delta$ einzuführen. Dabei wird der Driftterm $B(x,y,t)$ aus Gleichung \eqref{eq:lvn} um einen komplexen Teil erweitert:
+\begin{align}
+  B(x,y,t) = \frac{V\left(x+\frac{y}{2},t\right) - V^*\left(x-\frac{y}{2},t\right)}{V_0} + iW(y) \qquad \text{mit} \\
+W(y)=
+\begin{cases}
+W_0 \left(y-\frac{L_y}{2}+\delta \right)^2, & \text{falls}~\frac{L_y}{2}-\delta \le y \le \frac{L_y}{2}\\
+W_0 \left(y+\frac{L_y}{2}-\delta \right)^2, & \text{falls}~-\frac{L_y}{2} \le y \le -\frac{L_y}{2}+\delta\\
+0 & \text{otherwise}
+\end{cases}
+\end{align}
+
+Die bislang beschriebenen Randbedingungen (Gleichung \eqref{eq:rb1} bzw. \eqref{eq:rb2}) sind als konventionelle oder auch U-Randbedingungen bekannt \cite{failure}. Daneben gibt es weitere Ansätze, wie absorbierende Randbedingungen \cite{arnold1994absorbing, lukas2, lukas1} und Struktur-adaptive Randbedingungen \cite{jiang2014device}. Der Grund für die Suche nach anderen Randbedingungen liegt zum Einen in der Annahme, dass an den Kontakten keinerlei Rückkopplung der Struktur  für die Elektronen zu spüren ist. Im Grenzfall einer unendlich ausgedehnten Struktur ist dies sicherlich gut begründet. Numerische Berechnungen erfordern jedoch stets ein endliches Rechengebiet. Ferner sind physikalische Strukturen immer endlich und durch echte Volumina gekennzeichnet. Korrekte Randbedingungen setzen demnach das Wissen über den Zustand des Systems voraus \cite{ringhofer}.
+Kriman et al. \cite{kriman1987scattering} haben gezeigt, dass Quanteneffekte über einige thermische Wellenlängen abklingen. In \cite{ringhofer} wird für eine typische GaAs Struktur bei $\SI{300}{\kelvin}$ eine Abklinglänge von ca. $\SI{100}{\nano\meter}$ angegeben.
+
+Zweitens ist nicht geklärt, wie Randbedingungen bezüglich der Relativkoordinate in der Ortsraumformulierung zu setzen sind. Die meisten Arbeiten beschäftigen sich mit der Wigner-Gleichung \eqref{eq:wigner}. Im Gegensatz zur LvNG taucht keine zweite Ableitung auf, sodass bezüglich der $k$-Richtung keine Randbedingungen benötigt werden \cite{frensley2}.
+Es ist also insbesondere die Thematik der Randbedingungen, worin sich die beiden Formalismen unterscheiden, wodurch also die Äquivalenz von Wigner- und Schrödingerformalismus aufgehoben wird \cite{li2014stationary}.
+
+Die Arbeit von Rosati et al. \cite{failure} weist darauf hin, dass die von Frensley eingeführten Inflow-Randbedingungen zwar semiklassisch zulässig sind, jedoch ihre Verwendung für quantenmechanische Probleme im Allgemeinen nicht gerechtfertigt ist. Dies lässt sich auf die Tatsache zurückführen, dass die semiklassische Boltzmann-Gleichung lokal in $k$ ist, während das quantenmechanische Pendant -- die Wigner-Gleichung -- nicht-lokal in $k$ ist, denn durch die Faltung in Gleichung \eqref{eq:wigner} entsteht eine Kopplung zwischen $k$ und allen anderen $k$-Punkten.
+Die Autoren  des Artikels gehen unter Bezug auf den Wigner-Formalismus zwei grundlegenden Fragen nach.
+\begin{itemize}
+  \item Ist die Lösung der Differentialgleichung mit den gegebenen Randbedingungen physikalisch akzeptabel? Für die Dichtematrix bedeutet dies insbesondere, dass sie zu positiver Ladungsträgerdichte führen muss.
+  \item Ist die Lösung eindeutig?
+\end{itemize}
+Während die semiklassische Boltzmann-Gleichung aufgrund ihres lokalen Charakters eine eindeutige Lösung besitzt, ist dies für die Wigner-Gleichung nicht der Fall. Abbildung \ref{fig:nonuniqueness} zeigt exemplarisch verschiedene stationäre Lösungen für den analytisch lösbaren Fall eines $\delta$-Potentials.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{files/nonuniqueness.png}
+  \caption{Nicht-Eindeutigkeit der Wigner-Gleichung für den Fall eines $\delta$-Potentials, \cite{failure}.}
+  \label{fig:pot1}
+\end{figure}
+Die Lösungen ergeben sich dabei aus einer Linearkombination von generischen vorwärts- und rückwärts-Streuzuständen, resultierend aus der Zeitumkehrbarkeit.
+
+
 
 \subsection{Potential}
 
 
 \subsection{Annahmen}
 % Wiedenhause: Gestreute und gebundene Zustände, Seite 98
+% coherent limit : keine Dissipation -- failure paper
 
+% Frensley
+% In the
+% present case, it is assumed that such a Markovian approximation
+% exists. Physically, we would expect that the ideal
+% reservoir behavior would be obtained when the correlation
+% time of the reservoir is very short, ' or equivalently, that
+% the scattering rate in the reservoir is very high.
 
+% These equations require
+% values for the potential v(x) at positions x &0 and x & l.
+% For this purpose the potential was assumed to extend into
+% the reservoirs with a constant value equal to that at the
+% system-reservoir boundary.
 
-Nehmen wir freie-Teilchen-Näherung in $y$- und $z$- Richtung an mit $\lambda^2 = \hbar^2/2mk_B T$, so lässt sich die Dichtematrix separieren \cite{grubin1993transport} gemäß
-\begin{equation}
-  \rho(\vb{r},\vb{r}') = \rho(\vb{x},\vb{x}') \exp\left( \frac{(y-y')^2 + (z-z')^2}{4\lambda^2}\right) \; .
-\end{equation}
-Wir konzentrieren uns daher im folgenden lediglich auf ein Modell unabhängiger Elektronen in einer Dimension, sodass es genügt, die Einteilchen-Dichtematrix zu betrachten.
+% A consequence of the abrupt change in band structure
+% at a heterojunction is that the effective mass also changes
+% abruptly. This must be taken into account in the construction
+% of the effective-mass Hamiltonian, ' and this
+% effect is readily incorporated into a density-matrix calculation.
+% '
+
+% Energy dissipation
+% occurs through the loss of energetic electrons to the reservoirs.
 
 
 % \section{Herleitung der Liouville-von-Neumann Gleichung}
@@ -441,17 +514,17 @@ Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt.
 
 
 
-\section{Wigner Funktion}
-\label{sec:wignerfunktion}
-Es ist mit $\bra{x}\ket{\Psi} = \Psi(x)$
-\begin{equation}
-  P(x,p) \equiv \frac{1}{\pi\hbar} \int_{-\infty}^{\infty} \bra{x+y}\hat{\rho} \ket{x-y} \E{2ipy/\hbar} \diff y
-\end{equation}
-die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{\rho}$. Die Wigner Transformation ist eine invertierbare Abbildung
-\begin{align}
-  W\; :\; L(\HR,\HR)  \rightarrow & \text{Phasenraum}^* \\
-   \hat{G} \mapsto & g(x,p) = \int_{-\infty}^{\infty} \bra{x-s/2}\hat{G} \ket{x+s/2} \E{ips/\hbar} \diff s
-\end{align}
+% \section{Wigner Funktion}
+% \label{sec:wignerfunktion}
+% Es ist mit $\bra{x}\ket{\Psi} = \Psi(x)$
+% \begin{equation}
+%   P(x,p) \equiv \frac{1}{\pi\hbar} \int_{-\infty}^{\infty} \bra{x+y}\hat{\rho} \ket{x-y} \E{2ipy/\hbar} \diff y
+% \end{equation}
+% die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{\rho}$. Die Wigner Transformation ist eine invertierbare Abbildung
+% \begin{align}
+%   W\; :\; L(\HR,\HR)  \rightarrow & \text{Phasenraum}^* \\
+%    \hat{G} \mapsto & g(x,p) = \int_{-\infty}^{\infty} \bra{x-s/2}\hat{G} \ket{x+s/2} \E{ips/\hbar} \diff s
+% \end{align}
 
 \section{Stand der Forschung}
 
