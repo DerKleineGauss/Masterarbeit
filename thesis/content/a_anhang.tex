@@ -6,7 +6,8 @@
 % \input{files/Tabelle_Jperp_0.6_texformat.tex}
 % \input{files/Tabelle_Jperp_0.8_texformat.tex}
 
-\chapter{Ortsbasis}
+\chapter{Anhang}
+\section{Ortsbasis}
 \label{sec:A_1}
 Für ein einzelnes Teilchen beispielsweise ist letztere die Menge der Eigenvektoren des Orstoperators
 \begin{equation*}
@@ -21,9 +22,9 @@ des selbstadjungierten Operators $X$. Mit anderen Worten ist für eine Teilchenz
 % S^* ist Dualraum des "Schwartz-Raums", welcher wiederum in allen Sobolew-Räumen enthalten ist. (Wiki) Der Raum der Testfunktionen lässt sich stetig in den Schwartz-Raum einbetten und liegt in diesem dicht.
 die $\ket{x}$ stellen als Kontinuum eine uneigentliche Basis dar. Für die Spurbildung ist folglich ein Integral über $D_X$ auszuführen, statt einer Summation.
 
-\chapter{Integration der Fermi-Dirac-Statistik}
+\section{Integration der Fermi-Dirac-Statistik}
 \label{sec:A_2}
-Im Folgenden wird die Teilchendichte (Teilchenzahl pro Fläche) für bezüglich $x$- und $y$- Richtung freie Elektronen im großkanonischen Ensemble mit chemischem Potential $\mu$ hergeleitet. Dabei ist die Fermi-Dirac-Statistik gemäß Gleichung \eqref{eq:wigner_n} über alle möglichen Impulse $\vec{k}=(k_x,k_y,k_z)$ zu integrieren. Allerdings ist die Dispersionsrelation bzgl. $k_z$ nicht bekannt, weshalb diese Variable zunächst als Freiheitsgrad beibehalten wird. 
+Im Folgenden wird die Teilchendichte (Teilchenzahl pro Fläche) für bezüglich $x$- und $y$- Richtung freie Elektronen im großkanonischen Ensemble mit chemischem Potential $\mu$ hergeleitet. Dabei ist die Fermi-Dirac-Statistik gemäß Gleichung \eqref{eq:wigner_n} über alle möglichen Impulse $\vec{k}=(k_x,k_y,k_z)$ zu integrieren. Allerdings ist die Dispersionsrelation bzgl. $k_z$ nicht bekannt, weshalb diese Variable zunächst als Freiheitsgrad beibehalten wird.
 \begin{align*}
   \frac{\expval{N}}{A_{\perp}} &= 2\frac{1}{A_{\perp}}\sum_{\vb{k}}\frac{1}{1+\exp(\beta(\epsilon(\vb{k}) - \mu))} \\
     &= 2\frac{1}{A_{\perp}}  \frac{A_{\perp}}{(2\pi)^2} \sum_{k_z}\int_{-\infty}^{\infty} \diff k_y \int_{-\infty}^{\infty} \diff k_x \frac{1}{1+\exp(\beta(k_x^2 + k_y^2 + k_z^2)\frac{\hbar^2}{2m} - \mu)} \\
@@ -39,3 +40,5 @@ Für lokal konstantes $\beta$ folgt daher in Übereinstimmung mit \cite{frensley
 \begin{align}
   f_{l,r} (k) = \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k^2\hbar^2}{2m} + \mu_{l,r}))) \; .
 \end{align}
+
+\section{Chemisches Potential }

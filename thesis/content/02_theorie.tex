@@ -1,9 +1,8 @@
-\chapter{Theorie}
+\chapter{Physikalische Problemstellung}
 
-Die Dynanmik des btrachteten Quantensystems wird mit Hilfe der \lvn (LNG) beschrieben. Sie bedient sich dem aus der Quantenstatistik bekannten Konzept des Dichteoperators für ein physikalisches System. Daher wird zunächst der Dichteoperator  eingeführt. Eine alternative Formulierung der Dynamik folgt aus einer Fourier-Transformation bezüglich der Relativkoordinate und führt auf den sog. Wigner-Formalismus. Etliche Veröffentlichungen betreffen die Implementierung dieser sogenannten Wigner-Gleichung. Daher wird auf Unterschiede insbesondere hinsichtlich der Randbedingungen eingegangen. In der vorliegenden Arbeit verbleibt jedoch der Fokus auf der Ortsraumformulierung. Es folgen zwei physikalisch motivierte Abschnitte, um einerseits das Potential, andererseits die getroffenen Annahmen zu diskutieren. Schließlich wird ein kurzer Überblick über den Stand der Forschung gegeben.
+Die Dynanmik des btrachteten Quantensystems wird mit Hilfe der \lvn (LNG) beschrieben. Sie bedient sich dem aus der Quantenstatistik bekannten Konzept des Dichteoperators für ein physikalisches System. Daher wird zunächst der Dichteoperator  eingeführt. Eine alternative Formulierung der Dynamik folgt aus einer Fourier-Transformation bezüglich der Relativkoordinate und führt auf den sog. Wigner-Formalismus. Etliche Veröffentlichungen betreffen die Implementierung dieser sogenannten Wigner-Gleichung. Daher wird auf Unterschiede insbesondere hinsichtlich der Randbedingungen eingegangen. In der vorliegenden Arbeit verbleibt jedoch der Fokus auf der Ortsraumformulierung. Es folgen zwei physikalisch motivierte Abschnitte, um einerseits das Potential, andererseits die getroffenen Annahmen zu diskutieren.
 
-\section{Physikalische Problemstellung}
-\subsection{Dichteoperator} \index{Dichteoperator}
+\section{Dichteoperator} \index{Dichteoperator}
 \label{sec:2_1}
 Aus Sicht des Entwicklers elektronischer Bauelemente ist es naheliegend, nach der Elektronendichte $n(\vb{r})$ sowie der Stromdichte $j(\vb{r})$ des Systems zu fragen. Quantenmechanisch sind diese Größen Observablen, also Erwartungswerte hermitscher Operatoren bezüglich des Hilbertraums der $L^2$-Funktionen. Anschaulich ist klar, dass sich die Elektronendichte aus zwei Wahrscheinlichkeiten zusammensetzt. Erstens wird die Wahrscheinlichkeit dafür benötigt, dass ein Zustand mit Energie $\epsilon$ besetzt ist. Diese wird mit der Aufenthaltswahrscheinlichkeit, dass am Ort $\vb{x}$ überhaupt ein Teilchen vorhanden ist, multipliziert.
 
@@ -37,7 +36,7 @@ Aus der Definition der $\ket{k}$ und der $w_k$ folgen drei wichtige Eigenschafte
 
 Der nach Gleichung \eqref{eq:dichteoperator} definierte Dichteoperator enthält vollständige Information über das System. In Vielteilchensystemen ist die Berechnung infolge begrenzter Rechenkapazität jedoch nicht möglich und es werden -- wie üblich in der Physik -- Näherungen zur Beschreibung eines Systems benötigt.
 
-\subsection{Reduzierter Dichteoperator}\index{Reduzierter Dichteoperator}
+\section{Reduzierter Dichteoperator}\index{Reduzierter Dichteoperator}
 Im Allgemeinen setzt sich der N-Teilchen-Hamiltonoperator aus Einteilchen-, Zweiteilchen- bis zu N-Teilchen-Operatoren zusammen, die auf den jeweiligen Unterräumen des \emph{Fockraums} \index{Fockraum}
 \begin{equation*}
   H = H^1 \oplus H^2 \oplus \dots \oplus H^N
@@ -105,10 +104,10 @@ Die Normierung ist für den reduzierten Dichteoperator offenbar eine andere als 
 
 Für die Berechnung von praktisch relevanten Erwartungswerten (Teilchenzahl, Stromdichte) ist eine Projektion auf die Diagonale $r_a=r_b$ notwendig, siehe Gleichung \eqref{eq:expval_n}. Es sei bereits hier angemerkt, dass die in der Literatur auftretende \index{hydrodynamische Näherung} \emph{hydrodynamische Näherung} diese Projektion vor der Lösung der Bewegungsgleichung durchführt \cite{wiedenhaus}. Damit gehen die in der Dichtematrix enthaltenen quantenmechanischen Ortskorrelationen nicht weiter in die Rechnung ein. In der vorliegenden Arbeit wird die Projektion erst nach der Lösung der Bewegungsgleichung durchgeführt.
 
-\subsection{Dynamik}
+\section{Dynamik}
 Die Dynamik eines fermionischen Systems ergibt sich aus der von-Neumann-Gleichung. Sie lässt sich sowohl im Ortsraum, als auch im Frequenzraum formulieren. Das Augenmerk dieser Arbeit richtet sich dabei auf die Ortsraumformulierung, namentlich die \lvn. Zur Vollständigkeit und zur besseren Diskussion der verschiedenen Methoden wird auch die Frequenzraumformulierung vorgestellt, namentlich die Wigner-Gleichung. Das Modell für das konkrete, physikalische Problem wird dann in beiden Fällen durch die Randbedingungen eingebaut.
 
-\subsubsection{\lvn}\index{\lvn}
+\subsection{\lvn}\index{\lvn}
 Die Dynamik der reduzierten Dichtematrix \eqref{eq:def_dichtematrix} wird mit Hilfe der von-Neumann Gleichung
 \begin{equation*}
     \partial_t \hat{\rho}(t) = - \frac{i}{\hbar}[\hat{H}(t), \hat{\rho}(t)]
@@ -224,7 +223,7 @@ angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und
   \end{aligned}
 \end{equation}
 
-\subsubsection{Wigner-Gleichung}\index{Wigner-Gleichung}\label{sec:wigner}
+\subsection{Wigner-Gleichung}\index{Wigner-Gleichung}\label{sec:wigner}
 Ausgehend von der Einteilchen-Dichtematrix in Schwerpunkt- und Relativkoordinaten (siehe Gleichungen \eqref{eq:gedrehteKoordinaten} und \eqref{eq:def_dichtematrix}) führt eine Fourier-Transformation bezüglich der Relativkoordinate auf die sogenannte \emph{Wigner-Funktion}\index{Wigner-Funktion}
 \begin{equation}
   f_{(1)}(k,r,t) \equiv \int \diff q e^{ikq}\bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{r-\frac{q}{2}}
@@ -253,13 +252,94 @@ mit dem Integralkern (auch Wignerpotential genannt)
 \end{equation*}
 und ist als Wigner-Gleichung bekannt. Das Integral auf der rechten Seite entspricht dabei einer Faltung zwischen Potentialterm und Wigner-Funktion bezüglich der Impulskoordinate $k$.
 
-\subsubsection{Randbedingungen}
+
+\section{Modellierung}
+\label{sec:modellierung}
+Ziel dieses Abschnittes ist es, eine resonante Tunneldiode (RTD) \index{resonante Tunneldiode} zu modellieren, sodass die bis hierhin entwickelte Theorie in einem praktischen Anwendungsfall zum Einsatz gebracht werden kann.
+
+Eine RTD nutzt den quantenmechanischen Effekt des Tunnelns aus, weshalb letztlich ein negativer differentieller Widerstand in Teilen der Strom-Spannungs-Kennlinie festzustellen ist. Aufgebaut ist die Diode aus einer Abfolge von GaAs- und AlGaAs-Schichten, wodurch zwei Potentialbarrieren entstehen, zwischen denen sich ein Quantentopf ausbildet, siehe Abbildung \ref{fig:Heterostuktur}. Letzterer ist durch die Ausprägung diskreter Energieniveaus gekennzeichnet, welche sich aus der Lösung der Schrödingergleichung ergeben (siehe auch Abschnitt \ref{sec:TFmethod}). Entspricht die Energie der injizierten Elektronen gerade einem der diskreten Energiewerte des Quantentopfes kommt es zum resonanten Tunneln, sodass der Stromfluss stark ansteigt. Wird die Energie weiter erhöht, bricht der Stromfluss wieder ein, da die Resonanzbedingung nicht erfüllt ist. Wie üblich wird diese Charakteristik durch thermische Energie geglättet, sodass eine Strom-Spannungs-Kennlinie wie diejenige in Abbildung \ref{fig:IVkurve} entsteht.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.55\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{files/AlGaAs.png}
+        \caption[]{{ }}
+        \label{fig:Heterostuktur}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{files/IVkurve.png}
+        \caption[]{{ }}
+        \label{fig:IVkurve}
+    \end{subfigure}
+    \caption[]
+    {Aufbau mit Potentialverlauf (a) und Strom-Spannungs-Kennlinie einer RTD (b), \cite{wiedenhaus}.}
+    % \label{fig:Schaltungen}
+\end{figure*}
+Die RTD wird im Folgenden als offenes System modelliert, durch das also Elektronen hindurchfließen können. Es wird durch zwei Kontakte in einen Schaltkreis integriert, welche als Reservoire modelliert werden. Das Modell wird nun charakterisiert durch die folgenden, vereinfachenden Anforderungen.
+\begin{enumerate}[label=(\roman*)]
+  \item Innerhalb der Struktur können Elektronen weder erzeugt noch vernichtet werden.
+  \item Elektronen können in den Reservoiren absorbiert und erzeugt werden.
+  \item Es finden keine inelastischen Streuprozesse statt, sondern ausschließlich elastische.
+  \item Es gibt keinerlei Energiedissipation in Form von Elektron-Phonon-Wechselwirkung.
+  \item Die Reservoire werden als ideale elektrische Kontakte angenommen. Sie gleichen in ihren Eigenschaften denen eines schwarzen Strahlers.
+  \item Der Potentialverlauf bezüglich der beiden lateralen Richtungen $x$ und $y$ wird parabolisch genähert, sodass eine Beschreibung mit Hilfe der effektiven Masse möglich ist.
+\end{enumerate}
+Anforderungen (iii) und (iv) entsprechen dem sog. kohärenten Grenzfall \cite{failure}. In diesem Fall ist Anforderung (ii) sogar zwingend, denn sonst ließe sich ein endlicher Widerstand gemäß Abbildung \ref{fig:IVkurve} nicht erklären \cite{landauer}. Anforderung (i) muss zu einer Kontinuitätsgleichung im Inneren der Struktur führen, welche bestenfalls durch ein numerisches Schema sichergestellt werden soll. \todo{Referenz auf späteres Kapitel - kontigl. frensley.pdf Gl. 14}
+
+
+Betrachtet wird deshalb die \emph{single-band, effective-mass Schrödingergleichung} \cite{frensley3}.
+
+\begin{enumerate}[label=(\roman*)]
+  \item Mean-Field-Näherungen -> A single-particle Schr¨odinger equation can only describe a situation in which the
+electrons move perfectly coherently throughout the device \cite{frensley3}
+  \item Effektive Masse konstant
+  \item
+\end{enumerate}
+% Wiedenhause: Gestreute und gebundene Zustände, Seite 98
+% coherent limit : keine Dissipation -- failure paper
+
+% Streuungen, vor allem Phononen-Streuungen, sind ein wichtiger Mechanismus in
+% RTDs. Das ideale Simulationsverfahren f¨ur dieses Ph¨anomen ist ein Formalismus,
+% der Green-Funktionen nutzt. An erster Stelle ist hier das Programm NEMO [3]
+% zu nennen, welches hervorragend die hier entwickelten Ans¨atze erg¨anzen d¨urfte,
+% zurzeit jedoch leider aus rechtlichen Gr¨unden noch unter Verschluss ist. Im QHDModell
+% muss darauf vertraut werden, dass diese Streuungen ausreichend mit einem
+% Relaxationszeitansatz erfasst werden.
+
+% Frensley
+% In the
+% present case, it is assumed that such a Markovian approximation
+% exists. Physically, we would expect that the ideal
+% reservoir behavior would be obtained when the correlation
+% time of the reservoir is very short, ' or equivalently, that
+% the scattering rate in the reservoir is very high.
+
+% These equations require
+% values for the potential v(x) at positions x &0 and x & l.
+% For this purpose the potential was assumed to extend into
+% the reservoirs with a constant value equal to that at the
+% system-reservoir boundary.
+
+% A consequence of the abrupt change in band structure
+% at a heterojunction is that the effective mass also changes
+% abruptly. This must be taken into account in the construction
+% of the effective-mass Hamiltonian, ' and this
+% effect is readily incorporated into a density-matrix calculation.
+% '
+
+% Energy dissipation
+% occurs through the loss of energetic electrons to the reservoirs.
+
+
+\subsection{Randbedingungen}
 \label{sec:RB}
 Die Dynamik des in der Einleitung skizzierten Systems muss irreversibel in der Zeit sein. Andernfalls sind instabile Lösungen in der Zeit zulässig \cite{frensley2}. Solche instabilen Lösungen lassen sich anhand des Eigenwertspektrums des Liouvilleoperators aus Gleichung \eqref{eq:lvn_first} erkennen. Es lässt sich zeigen, dass für geschlossene, konservative Systeme $\mathcal{L}$ hermitsch ist als Folge der Hermitizität des Hamiltonoperators $H$ \cite{frensley2}.
 \begin{align}
   H- H^{\dagger} = \frac{\hbar}{i}\int_s \vb{j}\diff\vb{s} = 0
 \end{align}
-Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der LvNG auf. Da jedoch ein offenes System modelliert werden soll, muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
+Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der LvNG auf. Da jedoch ein offenes System modelliert werden soll (siehe Abschnitt \ref{sec:modellierung}), muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
 
 Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die Stabilität des Systems sicherstellen. Ein hierfür möglicherweise geeigneter Ansatz wird erstmals in \cite{frensley2} getroffen, indem die Reservoire in Analogie zu einem schwarzen Körper gesehen werden. In das Reservoir eintretende Teilchen werden vollständig absorbiert. Umgekehrt "strahlt" das Reservoir Teilchen entsprechend der thermischen Gleichgewichts-Verteilung in das System ein, siehe Abbildung \ref{fig:modell}.
 \todo{Abbildung reservoire/system}
@@ -285,6 +365,7 @@ und wegen Gleichung \eqref{eq:fourier_wigner_invers} für die reduzierte Dichtem
                                 &= \int \frac{\diff k}{2\pi} \cos(kq) f_{\nicefrac{r}{l}} (k) \; .
   \end{aligned}
 \end{equation}
+Das chemische Potential $\mu$ ergibt sich dabei aus der Forderung nach Ladungsträgerneutralität im thermischen Gleichgewicht. Die Herleitung ist im Anhang \ref{A_3} gezeigt.\\
 Für die Outflow-Bereiche $\{ k<0, r=-L/2 \}$ und $\{ k>0, r=+L/2 \}$ trifft \eqref{eq:rb1} keine Aussage, sodass jede numerische Methode zwangsläufig ein upwind-Schema bezüglich der $r$-Diskretisierung verwenden muss. Hierin bestätigt sich auch der Charakter der zugrundeliegenden Differentialgleichung \eqref{eq:wigner}: es wird der Transport von Elektronen beschrieben.
 
 Eine mögliche Wahl der Randbedingungen bezüglich der Relativkoordinate für die LvNG sind Dirichlet-Randbedingungen:
@@ -316,10 +397,10 @@ Es ist also insbesondere die Thematik der Randbedingungen, worin sich die beiden
 
 Die Arbeit von Rosati et al. \cite{failure} weist darauf hin, dass die von Frensley eingeführten Inflow-Randbedingungen zwar semiklassisch zulässig sind, jedoch ihre Verwendung für quantenmechanische Probleme im Allgemeinen nicht gerechtfertigt ist. Dies lässt sich auf die Tatsache zurückführen, dass die semiklassische Boltzmann-Gleichung lokal in $k$ ist, während das quantenmechanische Pendant -- die Wigner-Gleichung -- nicht-lokal in $k$ ist, denn durch die Faltung in Gleichung \eqref{eq:wigner} entsteht eine Kopplung zwischen $k$ und allen anderen $k$-Punkten.
 Die Autoren  des Artikels gehen unter Bezug auf den Wigner-Formalismus zwei grundlegenden Fragen nach.
-\begin{itemize}
+\begin{enumerate}[label=(\roman*)]
   \item Ist die Lösung der Differentialgleichung mit den gegebenen Randbedingungen physikalisch akzeptabel? Für die Dichtematrix bedeutet dies insbesondere, dass sie zu positiver Ladungsträgerdichte führen muss.
   \item Ist die Lösung eindeutig?
-\end{itemize}
+\end{enumerate}
 Während die semiklassische Boltzmann-Gleichung aufgrund ihres lokalen Charakters eine eindeutige Lösung besitzt, ist dies für die Wigner-Gleichung nicht der Fall. Abbildung \ref{fig:nonuniqueness} zeigt exemplarisch verschiedene stationäre Lösungen für den analytisch lösbaren Fall eines $\delta$-Potentials.
 \begin{figure}
   \centering
@@ -329,7 +410,7 @@ Während die semiklassische Boltzmann-Gleichung aufgrund ihres lokalen Charakter
 \end{figure}
 Die Lösungen ergeben sich dabei aus einer Linearkombination von generischen Vorwärts- und Rückwärts-Streuzuständen, resultierend aus der Zeitumkehr-Symmetrie der stationären Gleichung. Letztere äußert sich auch in der energetischen Zweifach-Entartung der Streuzustände. Eine kurze Rechnung zeigt nämmlich, dass wegen der Antisymmetrie des Wignerpotentials sowie der Gruppengeschwindigkeit $v(k) = \hbar k/m$ bezüglich $k$ für jede Lösung $f_{(1)}(k,r)$ auch ${g_{(1)}(k,r) = f_{(1)}(-k,r)}$ Lösung der stationären Wigner-Gleichung ist. Die Randbedingungen geben zwar eine eindeutige Überlagerung, also einen eindeutigen Satz von Koeffizienten $\{a(k)\}$  aller Vorwärts-Streuzustände vor. Da jedoch die Rückwärts-Streuzustände im Allgemeinen linear unabhängig von den Vorwärts-Streuzuständen sind, ist mit denselben Randbedingungen ein doppelt so großer Satz $\{a(k),b(k)\}$ von Koeffizienten zu finden. Das zuvor eindeutige Problem ist in diesem Fall nicht mehr eindeutig lösbar. In der Abbildung sind drei verschiedene Verhältnisse $c=b(k)/a(k)$ zu sehen, darunter auch eine unphysikalische Lösung mit negativer Teilchendichte. Für ausschließlich lokalisierte Zustände, wie sie bei parabolischen oder Quantentopf-Potentialen (mit unendlich großen Barrieren) entstehen, lässt sich jedoch nicht zwischen Vorwärts- und Rückwärts-Streuzuständen unterscheiden sodass eine eindeutige Lösung der Wigner-Gleichung zu erwarten ist \cite{failure}.
 
-Es ist anzumerken, dass dieselbe Argumentation nicht funktioniert im allgemeinen Fall der transienten Wigner-Gleichung. Dieses Anfangsproblem ist hingegen eindeutig lösbar, wie die Arbeit in \cite{dimov2015boundary} zeigt. Es ist daher zu schlussfolgern, dass die Vorgabe einer Anfangsbedingung zu einer spezifischen Lösung aus der unendlichen Menge möglicher stationärer Lösungen führt, und somit die Anfangsbedingung das entscheidende Kriterium für eine physikalische akzetable Problemstellung darstellt. Die Wigner-Gleichung erhält in Bezug auf den Anfangszustand darüber hinaus sogar die Eigenschaft i) \cite{dimov2015boundary}.
+Es ist anzumerken, dass dieselbe Argumentation  im allgemeinen Fall der transienten Wigner-Gleichung nicht funktioniert. Dieses Anfangsproblem ist hingegen eindeutig lösbar, wie die Ausarbeitung in \cite{dimov2015boundary} zeigt. Es ist daher zu schlussfolgern, dass die Vorgabe einer Anfangsbedingung zu einer spezifischen Lösung aus der unendlichen Menge möglicher stationärer Lösungen führt, und somit die Anfangsbedingung das entscheidende Kriterium für eine physikalisch akzetable Problemstellung darstellt. Die Wigner-Gleichung erhält in Bezug auf den Anfangszustand darüber hinaus sogar die Eigenschaft (i) \cite{dimov2015boundary}.
 
 Die vorangegangenen Gedanken lassen sich auf die LvNG übertragen. Insbesondere die Inversionssymmetrie der stationären Lösung soll im Folgenden gezeigt werden. Es sei $u(x,y)$ Lösung der stationären LvNG \eqref{eq:lvn_stat}. Dann ist wegen $B(x,y)=-B(x,-y)$ auch $v(x,y)\equiv u(x,-y)$ Lösung, denn
 \begin{align*}
@@ -341,36 +422,7 @@ Die vorangegangenen Gedanken lassen sich auf die LvNG übertragen. Insbesondere 
 
 Abschließend ist zu sagen, dass die gesamte Thematik der Randbedingungen Gegenstand aktueller Forschung ist und die hier gezeigten Aspekte nur einen kleinen Bruchteil der Komplexität darstellen. So verkompliziert sich die gesamte Fragestellung beispielsweise dramatisch, wenn die Mean-Field-Näherung fallengelassen wird und auch nicht-kohärente Effekte berücksichtigt werden. Eine gute Übersicht bieten die Arbeiten von Rossi \cite{buchRossi} und Frensley \cite{frensley}. Für die konkrete numerische Implementierung wird auf die vergleichsweise simplen Resultate \eqref{eq:rb1}, \eqref{eq:rb3} sowie für Versuchszwecke Gleichung \eqref{eq:cap} zurückgegriffen.
 
-\subsection{Potential}
 
-
-\subsection{Annahmen}
-% Wiedenhause: Gestreute und gebundene Zustände, Seite 98
-% coherent limit : keine Dissipation -- failure paper
-
-% Frensley
-% In the
-% present case, it is assumed that such a Markovian approximation
-% exists. Physically, we would expect that the ideal
-% reservoir behavior would be obtained when the correlation
-% time of the reservoir is very short, ' or equivalently, that
-% the scattering rate in the reservoir is very high.
-
-% These equations require
-% values for the potential v(x) at positions x &0 and x & l.
-% For this purpose the potential was assumed to extend into
-% the reservoirs with a constant value equal to that at the
-% system-reservoir boundary.
-
-% A consequence of the abrupt change in band structure
-% at a heterojunction is that the effective mass also changes
-% abruptly. This must be taken into account in the construction
-% of the effective-mass Hamiltonian, ' and this
-% effect is readily incorporated into a density-matrix calculation.
-% '
-
-% Energy dissipation
-% occurs through the loss of energetic electrons to the reservoirs.
 
 
 % \section{Herleitung der Liouville-von-Neumann Gleichung}
