@@ -104,6 +104,74 @@ Die Normierung ist für den reduzierten Dichteoperator offenbar eine andere als 
 
 Für die Berechnung von praktisch relevanten Erwartungswerten (Teilchenzahl, Stromdichte) ist eine Projektion auf die Diagonale $r_a=r_b$ notwendig, siehe Gleichung \eqref{eq:expval_n}. Es sei bereits hier angemerkt, dass die in der Literatur auftretende \index{hydrodynamische Näherung} \emph{hydrodynamische Näherung} diese Projektion vor der Lösung der Bewegungsgleichung durchführt \cite{wiedenhaus}. Damit gehen die in der Dichtematrix enthaltenen quantenmechanischen Ortskorrelationen nicht weiter in die Rechnung ein. In der vorliegenden Arbeit wird die Projektion erst nach der Lösung der Bewegungsgleichung durchgeführt.
 
+
+\section{Modellierung}
+\label{sec:modellierung}
+Ziel dieses Abschnittes ist es, eine resonante Tunneldiode (RTD) \index{resonante Tunneldiode} zu modellieren, sodass die bis hierhin entwickelte Theorie in einem praktischen Anwendungsfall zum Einsatz gebracht werden kann.
+
+Eine RTD nutzt den quantenmechanischen Effekt des Tunnelns aus, weshalb letztlich ein negativer differentieller Widerstand in Teilen der Strom-Spannungs-Kennlinie festzustellen ist. Aufgebaut ist die Diode aus einer Abfolge von GaAs- und AlGaAs-Schichten, wodurch zwei Potentialbarrieren entstehen, zwischen denen sich ein Quantentopf ausbildet, siehe Abbildung \ref{fig:Heterostuktur}. Letzterer ist durch die Ausprägung diskreter Energieniveaus gekennzeichnet, welche sich aus der Lösung der Schrödingergleichung ergeben (siehe auch Abschnitt \ref{sec:TFmethod}). Entspricht die Energie der injizierten Elektronen gerade einem der diskreten Energiewerte des Quantentopfes kommt es zum resonanten Tunneln, sodass der Stromfluss stark ansteigt. Wird die Energie weiter erhöht, bricht der Stromfluss wieder ein, da die Resonanzbedingung nicht erfüllt ist. Wie üblich wird diese Charakteristik durch thermische Energie geglättet, sodass eine Strom-Spannungs-Kennlinie wie diejenige in Abbildung \ref{fig:IVkurve} entsteht.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.55\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{files/AlGaAs.png}
+        \caption[]{{ }}
+        \label{fig:Heterostuktur}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{files/IVkurve.png}
+        \caption[]{{ }}
+        \label{fig:IVkurve}
+    \end{subfigure}
+    \caption[]
+    {Aufbau mit Potentialverlauf (a) und Strom-Spannungs-Kennlinie einer RTD (b), \cite{wiedenhaus}.}
+    % \label{fig:Schaltungen}
+\end{figure*}
+Die RTD wird im Folgenden als offenes System modelliert, durch das also Elektronen hindurchfließen können. Es wird durch zwei Kontakte in einen Schaltkreis integriert, welche als Reservoire modelliert werden. Das Modell wird nun charakterisiert durch die folgenden, vereinfachenden Anforderungen.
+\begin{enumerate}[label=(\roman*)]
+  \item Innerhalb der Struktur können Elektronen weder erzeugt noch vernichtet werden.
+  \item Elektronen können in den Reservoiren absorbiert und erzeugt werden.
+  \item Es finden keine inelastischen Streuprozesse statt, sondern ausschließlich elastische. Daher gibt es keinerlei Energiedissipation in Form von Elektron-Phonon-Wechselwirkung. Streumechanismen können im Wigner-Formalismus mit einem Kollisions-Operator beschrieben werden, näheres ist in der Literatur \cite{wiedenhaus} zu finden.
+  \item Die Reservoire werden als ideale elektrische Kontakte angenommen. Sie gleichen in ihren Eigenschaften denen eines schwarzen Strahlers, siehe Kapitel \ref{sec:RB}. Innerhalb der Reservoire sind die Elektronen im thermischen Gleichgewicht mit konstanter Temperatur und Fermi-Niveau. Ein Stromfluss zwischen Reservoir und Quantenstruktur stellt für das Reservoir eine vernachlässigbare Störung dar \cite{frensley3}. Physikalisch ergibt sich das ideale Reservoir, wenn die Streurate in diesem sehr hoch ist bzw. die Korrelationszeit kurz ist \cite{frensley3}.
+  \item Die Halbleiterschichten sind unendlich ausgedehnt, sodass die Wellenfunktionen die Form ebener Wellen annehmen in diesen Richtungen.
+  \item Der Einfluss des zugrundeliegenden Kristallgitters, durch das sich die Elektronen bewegen, wird mit Hilfe der effektiven Masse beschrieben. Die effektive Masse wird in dieser Arbeit für alle Richtungen (also auch bezüglich der $z$-Richtung) als konstant angenommen, wohlwissend dass dies eine sehr grobe Näherung darstellt\footnote{Der Effekt einer nicht-konstanten effektiven Masse bezüglich $z$-Richtung wird gegenwärtig in einer anderen Arbeit am Lehrstuhl untersucht \todo{Referenz}.}. Insbesondere ist durch die abrupte Änderung der Bandstruktur infolge des Heteroübergangs eine $z$-Abhängigkeit zu erwarten.
+\end{enumerate}
+Anforderung (iii) entspricht dem sog. kohärenten Grenzfall \cite{failure}. In diesem ist Anforderung (ii) sogar zwingend, denn sonst ließe sich ein endlicher Widerstand gemäß Abbildung \ref{fig:IVkurve} nicht erklären \cite{landauer}. Anforderung (i) muss zu einer Kontinuitätsgleichung im Inneren der Struktur führen, welche bestenfalls durch ein numerisches Schema sichergestellt wird. \todo{Referenz auf späteres Kapitel - kontigl. frensley.pdf Gl. 14}
+
+Kohärente, stationäre Zustände lassen sich mit Hilfe der \emph{single-band, effective-mass Schrödingergleichung} \cite{frensley3}
+\begin{equation}
+  \begin{aligned}
+    E\Psi(x) = -\frac{\hbar^2}{2}\partial_x \frac{1}{m^*(x)}\partial_x\Psi(x) + V(x)\Psi(x)    \\
+    \approx -\frac{\hbar^2}{2m^*}\partial_x^2\Psi(x) + V(x)\Psi(x)
+  \end{aligned}
+  \label{eq:schroedinger}
+\end{equation}
+beschreiben. Hierin beschreiben $V(x)$ das Potential und $m^*\approx 0,063m_e$ die effektive Masse von GaAs. Das Potential beinhaltet den Potentialverlauf der Heterostuktur $V_s(x,y,z)$, das äußere Feld $-eU$ sowie das selbstkonsistente Hartree-Potential$u(x,y,z)$:
+\begin{align}
+  V({x}) = u({x}) + V_s({x}) - eU
+\end{align}
+Hier lassen sich zwei Fälle unterscheiden.
+\begin{itemize}
+  \item Der Gleichgewichtsfall $U=0$. %Hier kann als Randbedingung auf beiden Seiten die Fermi-Dirac-Statistik \eqref{eq:fd_statistic} angenommen werden.
+  \item Der Nicht-Gleichgewichtsfall $U\neq 0$. %Hier sind lediglich die \emph{inflow}-Bedingungen für positive Geschwindigkeiten am linken- und negative Geschwindigkeiten am rechten Rand des Rechengebietes bekannt.
+\end{itemize}
+Da das Hartree Potential von der Konstellation der Elektronen abhängt und umgekehrt, wird es selbstkonsistent berechnet, wie im Anhang \ref{sec:A_4} erläutert wird.
+
+
+% Wiedenhause: Gestreute und gebundene Zustände, Seite 98
+% coherent limit : keine Dissipation -- failure paper
+
+% Streuungen, vor allem Phononen-Streuungen, sind ein wichtiger Mechanismus in
+% RTDs. Das ideale Simulationsverfahren f¨ur dieses Ph¨anomen ist ein Formalismus,
+% der Green-Funktionen nutzt. An erster Stelle ist hier das Programm NEMO [3]
+% zu nennen, welches hervorragend die hier entwickelten Ans¨atze erg¨anzen d¨urfte,
+% zurzeit jedoch leider aus rechtlichen Gr¨unden noch unter Verschluss ist. Im QHDModell
+% muss darauf vertraut werden, dass diese Streuungen ausreichend mit einem
+% Relaxationszeitansatz erfasst werden.
+
+
 \section{Dynamik}
 Die Dynamik eines fermionischen Systems ergibt sich aus der von-Neumann-Gleichung. Sie lässt sich sowohl im Ortsraum, als auch im Frequenzraum formulieren. Das Augenmerk dieser Arbeit richtet sich dabei auf die Ortsraumformulierung, namentlich die \lvn. Zur Vollständigkeit und zur besseren Diskussion der verschiedenen Methoden wird auch die Frequenzraumformulierung vorgestellt, namentlich die Wigner-Gleichung. Das Modell für das konkrete, physikalische Problem wird dann in beiden Fällen durch die Randbedingungen eingebaut.
 
@@ -145,7 +213,7 @@ mit dem Liouvilleoperator $\tilde{\mathcal{L}}(x,y,t)$. Dieselbe Gleichung ergä
 
 Zur Untersuchung der LvNG werden zwei Fälle unterschieden, worauf im Folgenden referenziert werden wird:
 \begin{itemize}
-  \item Der \emph{stationäre Fall}\index{stationärer Fall} mit $\partial_t \rho_{(1)}(x,y,t) = 0$, auch Gleichgewicht genannt. Hier gilt $\left[\hat{\rho} , \hat{H}\right]=0$.
+  \item Der \emph{stationäre Fall}\index{stationärer Fall} mit $\partial_t \rho_{(1)}(x,y,t) = 0$. Hier gilt ${\left[\hat{\rho} , \hat{H}\right]=0}$.
   \item der allgemeinere \emph{transiente Fall}\index{transienter Fall} $\partial_t \rho_{(1)}(x,y,t) \neq 0$.
 \end{itemize}
 Wie üblich wird im Folgenden freie-Teilchen-Näherung in $x$- und $y$- Richtung angenommen. Dann lässt sich mit $\lambda^2 = \hbar^2/2mk_B T$ die Dichtematrix separieren \cite{grubin1993transport} gemäß
@@ -161,7 +229,15 @@ Aufgrund der Struktur der Gleichung ist es sinnvoll, Schwerpunkt- und Relativkoo
   \end{aligned}
   \label{eq:gedrehteKoordinaten}
 \end{equation}
-einzuführen. Ableitungen transformieren sich gemäß
+einzuführen. \todo{Frensley
+% Frensley
+% These equations require
+% values for the potential v(x) at positions x &0 and x & l.
+% For this purpose the potential was assumed to extend into
+% the reservoirs with a constant value equal to that at the
+% system-reservoir boundary.
+}
+Ableitungen transformieren sich gemäß
 \begin{equation*}
   \begin{aligned}
     \partial_r \partial_q  &= \partial_r \left( \frac{\partial}{\partial x} \frac{\partial x}{\partial q} + \frac{\partial}{\partial y} \frac{\partial y}{\partial q}\right) \\
@@ -253,85 +329,6 @@ mit dem Integralkern (auch Wignerpotential genannt)
 und ist als Wigner-Gleichung bekannt. Das Integral auf der rechten Seite entspricht dabei einer Faltung zwischen Potentialterm und Wigner-Funktion bezüglich der Impulskoordinate $k$.
 
 
-\section{Modellierung}
-\label{sec:modellierung}
-Ziel dieses Abschnittes ist es, eine resonante Tunneldiode (RTD) \index{resonante Tunneldiode} zu modellieren, sodass die bis hierhin entwickelte Theorie in einem praktischen Anwendungsfall zum Einsatz gebracht werden kann.
-
-Eine RTD nutzt den quantenmechanischen Effekt des Tunnelns aus, weshalb letztlich ein negativer differentieller Widerstand in Teilen der Strom-Spannungs-Kennlinie festzustellen ist. Aufgebaut ist die Diode aus einer Abfolge von GaAs- und AlGaAs-Schichten, wodurch zwei Potentialbarrieren entstehen, zwischen denen sich ein Quantentopf ausbildet, siehe Abbildung \ref{fig:Heterostuktur}. Letzterer ist durch die Ausprägung diskreter Energieniveaus gekennzeichnet, welche sich aus der Lösung der Schrödingergleichung ergeben (siehe auch Abschnitt \ref{sec:TFmethod}). Entspricht die Energie der injizierten Elektronen gerade einem der diskreten Energiewerte des Quantentopfes kommt es zum resonanten Tunneln, sodass der Stromfluss stark ansteigt. Wird die Energie weiter erhöht, bricht der Stromfluss wieder ein, da die Resonanzbedingung nicht erfüllt ist. Wie üblich wird diese Charakteristik durch thermische Energie geglättet, sodass eine Strom-Spannungs-Kennlinie wie diejenige in Abbildung \ref{fig:IVkurve} entsteht.
-\begin{figure*}
-    \centering
-    \begin{subfigure}[b]{0.55\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{files/AlGaAs.png}
-        \caption[]{{ }}
-        \label{fig:Heterostuktur}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{files/IVkurve.png}
-        \caption[]{{ }}
-        \label{fig:IVkurve}
-    \end{subfigure}
-    \caption[]
-    {Aufbau mit Potentialverlauf (a) und Strom-Spannungs-Kennlinie einer RTD (b), \cite{wiedenhaus}.}
-    % \label{fig:Schaltungen}
-\end{figure*}
-Die RTD wird im Folgenden als offenes System modelliert, durch das also Elektronen hindurchfließen können. Es wird durch zwei Kontakte in einen Schaltkreis integriert, welche als Reservoire modelliert werden. Das Modell wird nun charakterisiert durch die folgenden, vereinfachenden Anforderungen.
-\begin{enumerate}[label=(\roman*)]
-  \item Innerhalb der Struktur können Elektronen weder erzeugt noch vernichtet werden.
-  \item Elektronen können in den Reservoiren absorbiert und erzeugt werden.
-  \item Es finden keine inelastischen Streuprozesse statt, sondern ausschließlich elastische.
-  \item Es gibt keinerlei Energiedissipation in Form von Elektron-Phonon-Wechselwirkung.
-  \item Die Reservoire werden als ideale elektrische Kontakte angenommen. Sie gleichen in ihren Eigenschaften denen eines schwarzen Strahlers.
-  \item Der Potentialverlauf bezüglich der beiden lateralen Richtungen $x$ und $y$ wird parabolisch genähert, sodass eine Beschreibung mit Hilfe der effektiven Masse möglich ist.
-\end{enumerate}
-Anforderungen (iii) und (iv) entsprechen dem sog. kohärenten Grenzfall \cite{failure}. In diesem Fall ist Anforderung (ii) sogar zwingend, denn sonst ließe sich ein endlicher Widerstand gemäß Abbildung \ref{fig:IVkurve} nicht erklären \cite{landauer}. Anforderung (i) muss zu einer Kontinuitätsgleichung im Inneren der Struktur führen, welche bestenfalls durch ein numerisches Schema sichergestellt werden soll. \todo{Referenz auf späteres Kapitel - kontigl. frensley.pdf Gl. 14}
-
-
-Betrachtet wird deshalb die \emph{single-band, effective-mass Schrödingergleichung} \cite{frensley3}.
-
-\begin{enumerate}[label=(\roman*)]
-  \item Mean-Field-Näherungen -> A single-particle Schr¨odinger equation can only describe a situation in which the
-electrons move perfectly coherently throughout the device \cite{frensley3}
-  \item Effektive Masse konstant
-  \item
-\end{enumerate}
-% Wiedenhause: Gestreute und gebundene Zustände, Seite 98
-% coherent limit : keine Dissipation -- failure paper
-
-% Streuungen, vor allem Phononen-Streuungen, sind ein wichtiger Mechanismus in
-% RTDs. Das ideale Simulationsverfahren f¨ur dieses Ph¨anomen ist ein Formalismus,
-% der Green-Funktionen nutzt. An erster Stelle ist hier das Programm NEMO [3]
-% zu nennen, welches hervorragend die hier entwickelten Ans¨atze erg¨anzen d¨urfte,
-% zurzeit jedoch leider aus rechtlichen Gr¨unden noch unter Verschluss ist. Im QHDModell
-% muss darauf vertraut werden, dass diese Streuungen ausreichend mit einem
-% Relaxationszeitansatz erfasst werden.
-
-% Frensley
-% In the
-% present case, it is assumed that such a Markovian approximation
-% exists. Physically, we would expect that the ideal
-% reservoir behavior would be obtained when the correlation
-% time of the reservoir is very short, ' or equivalently, that
-% the scattering rate in the reservoir is very high.
-
-% These equations require
-% values for the potential v(x) at positions x &0 and x & l.
-% For this purpose the potential was assumed to extend into
-% the reservoirs with a constant value equal to that at the
-% system-reservoir boundary.
-
-% A consequence of the abrupt change in band structure
-% at a heterojunction is that the effective mass also changes
-% abruptly. This must be taken into account in the construction
-% of the effective-mass Hamiltonian, ' and this
-% effect is readily incorporated into a density-matrix calculation.
-% '
-
-% Energy dissipation
-% occurs through the loss of energetic electrons to the reservoirs.
-
 
 \subsection{Randbedingungen}
 \label{sec:RB}
@@ -422,6 +419,8 @@ Die vorangegangenen Gedanken lassen sich auf die LvNG übertragen. Insbesondere 
 
 Abschließend ist zu sagen, dass die gesamte Thematik der Randbedingungen Gegenstand aktueller Forschung ist und die hier gezeigten Aspekte nur einen kleinen Bruchteil der Komplexität darstellen. So verkompliziert sich die gesamte Fragestellung beispielsweise dramatisch, wenn die Mean-Field-Näherung fallengelassen wird und auch nicht-kohärente Effekte berücksichtigt werden. Eine gute Übersicht bieten die Arbeiten von Rossi \cite{buchRossi} und Frensley \cite{frensley}. Für die konkrete numerische Implementierung wird auf die vergleichsweise simplen Resultate \eqref{eq:rb1}, \eqref{eq:rb3} sowie für Versuchszwecke Gleichung \eqref{eq:cap} zurückgegriffen.
 
+\section{Verfahren}
+Die Berechnung von reinen Zuständen ist unter Annahme der Stetigkeit von $\Psi(x)$ und $\Psi'(x)$ für den Gleichgewichtsfall anhand Gleichung \eqref{eq:schroedinger} analytisch möglich. Dazu wird als Lösung eine Linearkombination von rechts- und linkslaufender ebener Welle angenommen. Dies führt zu der sogenannten \emph{Transfer Function Method}\index{Transfer Function Method}, welche jedoch numerisch bedingte Schwachpunkte aufweist \cite{frensley3}. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode vorgeht und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method (QTBM) bekannt.
 
 
 
@@ -465,17 +464,7 @@ Aus der Dichtematrix $\rho(r,q,t)$ in Schwerpunkt- und Relativkoordinaten lassen
   \label{eq:dichte}
 \end{align}
 
-\section{Selbstkonsistentes Potential}
-Das Potential in dem Liouville-Operator \eqref{eq:Liouville-Operator} setzt sich zusammen aus dem Hartree Potential $u(x,y,z)$, dem Heterostuktur Potential $V_s(x,y,z)$ sowie dem äußeren Feld $-eU$.
-\begin{align}
-  V(\vb{x}) = u(\vb{x}) + V_s(\vb{x}) - eU
-\end{align}
-Auch hier lassen sich wieder zwei Fälle unterscheiden.
-\begin{itemize}
-  \item Der Gleichgewichtsfall $U=0$. %Hier kann als Randbedingung auf beiden Seiten die Fermi-Dirac-Statistik \eqref{eq:fd_statistic} angenommen werden.
-  \item Der Nicht-Gleichgewichtsfall $U\neq 0$. %Hier sind lediglich die \emph{inflow}-Bedingungen für positive Geschwindigkeiten am linken- und negative Geschwindigkeiten am rechten Rand des Rechengebietes bekannt.
-\end{itemize}
-Da das Hartree Potential von der Konstellation der Elektronen abhängt und umgekehrt, wird es selbstkonsistent berechnet, wie im folgenden Abschnitt erläutert wird.
+
 
 \subsection{Hartree-Potential}
 Das Hartree Potential ist mit der Elektronendichte $n(\vb{x})$ durch die Poisson-Gleichung \cite{frensley}
