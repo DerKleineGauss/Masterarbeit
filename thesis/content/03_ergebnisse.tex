@@ -1,26 +1,12 @@
 \chapter{Numerik}
 
-% frensley3 zu QTBM (S.11)
-% This requires that appropriate boundary conditions be formulatedan dap pliedt o
-% (35). Lent and Kirkner [18] have demonstrated how to do this in the context of a finite-element electron
-% waveguide calculation, andthe ir approach is calledthe Quantum Transmitting Boundary Method (QTBM).
-% In the continuous case, one derives the QTBM conditions by evaluating ψ andit s derivative ψ at xl and
-% xr using (30). One then solves for the incident amplitudes al and ar in terms of ψ and ψ, and imposes
-% the resulting expressions upon Schr¨odinger’s equation as inhomogeneous boundary conditions. Conditions
-% of this type, in which a linear combination of the function and its derivative are specified, are known as
-% Robbins conditions.This requires that appropriate boundary conditions be formulatedan dap pliedt o
-% (35). Lent and Kirkner [18] have demonstrated how to do this in the context of a finite-element electron
-% waveguide calculation, andthe ir approach is calledthe Quantum Transmitting Boundary Method (QTBM).
-% In the continuous case, one derives the QTBM conditions by evaluating ψ andit s derivative ψ at xl and
-% xr using (30). One then solves for the incident amplitudes al and ar in terms of ψ and ψ, and imposes
-% the resulting expressions upon Schr¨odinger’s equation as inhomogeneous boundary conditions. Conditions
-% of this type, in which a linear combination of the function and its derivative are specified, are known as
-% Robbins conditions.
 
-% Greens : R. Lake and S . Datta, Phys. Rev. B 45, 6670 (1992).
 
-\section{Transfer Function Methode}
-\label{sec:TFmethod}
-% frensley3 S.9
-% In practical calculations, the transmission matrix approach has proven to be less than satisfactory, because
-% it is prone to arithmetic overflow.
+\section{Mathematische Aspekte der \lvn}
+Die eindimensionale Wellenfunktion $\Psi(x)$ eines Teilchens ist ein Vektor des unendlich-dimensionalen Hilbertraums $L^2(\mathbb{R})$ mit dem üblichen Skalarprodukt
+\begin{align}
+  \bra{\Psi}\ket{\Phi} = \int_{\mathbb{R}} \Psi^*(x)\Phi(x) \diff x \; .
+\end{align}
+Beschränken wir uns auf ein Rechengebiet $L$, so ist entsprechend $\Psi(x) \,\in\,L^2(L)$. Diskretisieren wir ferner das System, so wird der Hilbertraum endlichdimensional mit Dimension $N$. Dann ist die Dichtematrix in Gleichung \eqref{eq:lvn} eine Matrix der Form $\mathbb{C}^N \times \mathbb{C}^N$ und der Liouville-Operator ein "Superoperator" \cite{frensley2} der Form $(\mathbb{C}^N \times \mathbb{C}^N)\times(\mathbb{C}^N \times \mathbb{C}^N)$.
+Letztlich wird numerisch gesehen $N^2$ der Anzahl Freiheitsgrade entsprechen und die \lvn wird wieder eine Matrix-Vektor-Gleichung sein. Dazu wird $u(x,y)$ nicht als Matrix, sondern als Vektor der Länge $N^2$ geschrieben.
+\todo{Eigenschaften von B(x,y) und A. Hermitizität von $\mathcal{L}$ (frensley).}

@@ -107,7 +107,7 @@ Für die Berechnung von praktisch relevanten Erwartungswerten (Teilchenzahl, Str
 
 \section{Modellierung}
 \label{sec:modellierung}
-Ziel dieses Abschnittes ist es, eine resonante Tunneldiode (RTD) \index{resonante Tunneldiode} zu modellieren, sodass die bis hierhin entwickelte Theorie in einem praktischen Anwendungsfall zum Einsatz gebracht werden kann.
+Ziel dieses Abschnittes ist es, eine \emph{resonante Tunneldiode} (RTD) \index{resonante Tunneldiode} zu modellieren, sodass die bis hierhin entwickelte Theorie in einem praktischen Anwendungsfall zum Einsatz gebracht werden kann.
 
 Eine RTD nutzt den quantenmechanischen Effekt des Tunnelns aus, weshalb letztlich ein negativer differentieller Widerstand in Teilen der Strom-Spannungs-Kennlinie festzustellen ist. Aufgebaut ist die Diode aus einer Abfolge von GaAs- und AlGaAs-Schichten, wodurch zwei Potentialbarrieren entstehen, zwischen denen sich ein Quantentopf ausbildet, siehe Abbildung \ref{fig:Heterostuktur}. Letzterer ist durch die Ausprägung diskreter Energieniveaus gekennzeichnet, welche sich aus der Lösung der Schrödingergleichung ergeben (siehe auch Abschnitt \ref{sec:TFmethod}). Entspricht die Energie der injizierten Elektronen gerade einem der diskreten Energiewerte des Quantentopfes kommt es zum resonanten Tunneln, sodass der Stromfluss stark ansteigt. Wird die Energie weiter erhöht, bricht der Stromfluss wieder ein, da die Resonanzbedingung nicht erfüllt ist. Wie üblich wird diese Charakteristik durch thermische Energie geglättet, sodass eine Strom-Spannungs-Kennlinie wie diejenige in Abbildung \ref{fig:IVkurve} entsteht.
 \begin{figure*}
@@ -129,26 +129,26 @@ Eine RTD nutzt den quantenmechanischen Effekt des Tunnelns aus, weshalb letztlic
     {Aufbau mit Potentialverlauf (a) und Strom-Spannungs-Kennlinie einer RTD (b), \cite{wiedenhaus}.}
     % \label{fig:Schaltungen}
 \end{figure*}
-Die RTD wird im Folgenden als offenes System modelliert, durch das also Elektronen hindurchfließen können. Es wird durch zwei Kontakte in einen Schaltkreis integriert, welche als Reservoire modelliert werden. Das Modell wird nun charakterisiert durch die folgenden, vereinfachenden Anforderungen.
+Die RTD wird im Folgenden als offenes System modelliert, durch das also Elektronen hindurchfließen können. Sie wird durch zwei Kontakte in einen Schaltkreis integriert, welche als Elektronen-Reservoire dargestellt werden. Das Modell wird nun charakterisiert durch die folgenden, vereinfachenden Anforderungen.
 \begin{enumerate}[label=(\roman*)]
   \item Innerhalb der Struktur können Elektronen weder erzeugt noch vernichtet werden.
   \item Elektronen können in den Reservoiren absorbiert und erzeugt werden.
   \item Es finden keine inelastischen Streuprozesse statt, sondern ausschließlich elastische. Daher gibt es keinerlei Energiedissipation in Form von Elektron-Phonon-Wechselwirkung. Streumechanismen können im Wigner-Formalismus mit einem Kollisions-Operator beschrieben werden, näheres ist in der Literatur \cite{wiedenhaus} zu finden.
   \item Die Reservoire werden als ideale elektrische Kontakte angenommen. Sie gleichen in ihren Eigenschaften denen eines schwarzen Strahlers, siehe Kapitel \ref{sec:RB}. Innerhalb der Reservoire sind die Elektronen im thermischen Gleichgewicht mit konstanter Temperatur und Fermi-Niveau. Ein Stromfluss zwischen Reservoir und Quantenstruktur stellt für das Reservoir eine vernachlässigbare Störung dar \cite{frensley3}. Physikalisch ergibt sich das ideale Reservoir, wenn die Streurate in diesem sehr hoch ist bzw. die Korrelationszeit kurz ist \cite{frensley3}.
   \item Die Halbleiterschichten sind unendlich ausgedehnt, sodass die Wellenfunktionen die Form ebener Wellen annehmen in diesen Richtungen.
-  \item Der Einfluss des zugrundeliegenden Kristallgitters, durch das sich die Elektronen bewegen, wird mit Hilfe der effektiven Masse beschrieben. Die effektive Masse wird in dieser Arbeit für alle Richtungen (also auch bezüglich der $z$-Richtung) als konstant angenommen, wohlwissend dass dies eine sehr grobe Näherung darstellt\footnote{Der Effekt einer nicht-konstanten effektiven Masse bezüglich $z$-Richtung wird gegenwärtig in einer anderen Arbeit am Lehrstuhl untersucht \todo{Referenz}.}. Insbesondere ist durch die abrupte Änderung der Bandstruktur infolge des Heteroübergangs eine $z$-Abhängigkeit zu erwarten.
+  \item Der Einfluss des zugrundeliegenden Kristallgitters, durch das sich die Elektronen bewegen, wird mit Hilfe der \emph{effektiven Masse}\index{effektive Masse} beschrieben. Die effektive Masse wird in dieser Arbeit für alle Richtungen (also auch bezüglich der $z$-Richtung) als konstant angenommen, wohlwissend dass dies eine sehr grobe Näherung darstellt\footnote{Der Effekt einer nicht-konstanten effektiven Masse bezüglich $z$-Richtung wird gegenwärtig in einer anderen Arbeit am Lehrstuhl untersucht.}\todo{Referenz in der Fußnote}. Insbesondere ist durch die abrupte Änderung der Bandstruktur infolge des Heteroübergangs eine $z$-Abhängigkeit zu erwarten.
 \end{enumerate}
 Anforderung (iii) entspricht dem sog. kohärenten Grenzfall \cite{failure}. In diesem ist Anforderung (ii) sogar zwingend, denn sonst ließe sich ein endlicher Widerstand gemäß Abbildung \ref{fig:IVkurve} nicht erklären \cite{landauer}. Anforderung (i) muss zu einer Kontinuitätsgleichung im Inneren der Struktur führen, welche bestenfalls durch ein numerisches Schema sichergestellt wird. \todo{Referenz auf späteres Kapitel - kontigl. frensley.pdf Gl. 14}
 
-Kohärente, stationäre Zustände lassen sich mit Hilfe der \emph{single-band, effective-mass Schrödingergleichung} \cite{frensley3}
+Kohärente, stationäre Zustände lassen sich mit Hilfe der \emph{single-band, effective-mass Schrödingergleichung}\index{Schrödingergleichung} \cite{frensley3}
 \begin{equation}
   \begin{aligned}
-    E\Psi(x) = -\frac{\hbar^2}{2}\partial_x \frac{1}{m^*(x)}\partial_x\Psi(x) + V(x)\Psi(x)    \\
-    \approx -\frac{\hbar^2}{2m^*}\partial_x^2\Psi(x) + V(x)\Psi(x)
+    E\Psi(x) &= -\frac{\hbar^2}{2}\partial_x \frac{1}{m^*(x)}\partial_x\Psi(x) + V(x)\Psi(x)    \\
+    &\approx -\frac{\hbar^2}{2m^*}\partial_x^2\Psi(x) + V(x)\Psi(x)
   \end{aligned}
   \label{eq:schroedinger}
 \end{equation}
-beschreiben. Hierin beschreiben $V(x)$ das Potential und $m^*\approx 0,063m_e$ die effektive Masse von GaAs. Das Potential beinhaltet den Potentialverlauf der Heterostuktur $V_s(x,y,z)$, das äußere Feld $-eU$ sowie das selbstkonsistente Hartree-Potential$u(x,y,z)$:
+beschreiben. Hierin sind $V(x)$ das Potential und $m^*\approx 0,063m_e$ die effektive Masse von GaAs. Das Potential beinhaltet den Potentialverlauf der Heterostuktur $V_s(x,y,z)$, das äußere Feld $-eU$ sowie das selbstkonsistente \emph{Hartree-Potential}\index{Hartree-Potential} $u(x,y,z)$:
 \begin{align}
   V({x}) = u({x}) + V_s({x}) - eU
 \end{align}
@@ -158,18 +158,22 @@ Hier lassen sich zwei Fälle unterscheiden.
   \item Der Nicht-Gleichgewichtsfall $U\neq 0$. %Hier sind lediglich die \emph{inflow}-Bedingungen für positive Geschwindigkeiten am linken- und negative Geschwindigkeiten am rechten Rand des Rechengebietes bekannt.
 \end{itemize}
 Da das Hartree Potential von der Konstellation der Elektronen abhängt und umgekehrt, wird es selbstkonsistent berechnet, wie im Anhang \ref{sec:A_4} erläutert wird.
+Der durch die Materialkomposition GaAs/AlGaAs resultierende Potentialverlauf $V_s(x)$ ist in Abbildung \ref{fig:pot1} gezeigt.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{plots/potential.pdf}
+  \caption{Potentialverlauf der RTD.}
+  \label{fig:pot1}
+\end{figure}
+Die eingezeichneten Längen werden wie in \cite{lukas1} zu
+\begin{align}
+  L_1 &= \SI{6}{\nano\meter}\\
+  L_2 &= \SI{5}{\nano\meter}\\
+  L_U &= \SI{30}{\nano\meter} \; .
+\end{align}
+gewählt. \todo{Achsenbeschriftung ändern} Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt.
 
-
-% Wiedenhause: Gestreute und gebundene Zustände, Seite 98
-% coherent limit : keine Dissipation -- failure paper
-
-% Streuungen, vor allem Phononen-Streuungen, sind ein wichtiger Mechanismus in
-% RTDs. Das ideale Simulationsverfahren f¨ur dieses Ph¨anomen ist ein Formalismus,
-% der Green-Funktionen nutzt. An erster Stelle ist hier das Programm NEMO [3]
-% zu nennen, welches hervorragend die hier entwickelten Ans¨atze erg¨anzen d¨urfte,
-% zurzeit jedoch leider aus rechtlichen Gr¨unden noch unter Verschluss ist. Im QHDModell
-% muss darauf vertraut werden, dass diese Streuungen ausreichend mit einem
-% Relaxationszeitansatz erfasst werden.
+Die quantenmechanische Beschreibung der Dynamik des Systems kann durch verschiedene Zugänge realisiert werden, siehe auch Kapitel \ref{sec:weitere_verfahren}. In der vorliegenden Arbeit wird dabei der Fokus auf die Liouville-von-Neumann-Gleichung gelegt. Wie in den vorangegangenen Kapiteln erläutert, ist mit Hilfe der Dichtematrix eine Beschreibung quantenmechanischer Ensembles, also gemischter Zustände möglich. Dieser Zugang scheint für die gewählten Anforderungen unnötig verkomplizierend zu sein, jedoch ermöglicht er eine spätere Berücksichtigung von nicht-kohärenten Wechselwirkungen \cite{wiedenhaus}.
 
 
 \section{Dynamik}
@@ -209,14 +213,14 @@ bzw. in der bekannteren Form mit Definition \eqref{eq:def_dichtematrix} die \lvn
   \partial_t \rho_{(1)}(x,y,t) = \underbrace{\left\{-\frac{i\hbar}{2m}(\nabla_x^2 - \nabla_y^2) + \frac{i}{\hbar}(V(x,t) - V^*(y,t)) \right\}}_{\equiv{\tilde{\mathcal{L}}(x,y,t)}} \rho_{(1)}(x,y,t)
   \label{eq:lvn_first}
 \end{equation}
-mit dem Liouvilleoperator $\tilde{\mathcal{L}}(x,y,t)$. Dieselbe Gleichung ergäbe sich für den Dichteoperator, wenn der Hilbertraum von vornherein ein Einteilchenraum wäre. Mit der vorangegangen Herleitung gelingt jedoch eine allgemeinere Formulierung, die auf die entscheidende Annahme (Gleichung \eqref{eq:Hpot}) hinweist. Weiterführende Arbeiten könnten an dieser Stelle beispielsweise Zweiteilchen-Wechselwirkungen mit einbeziehen.
+mit dem \emph{Liouvilleoperator}\index{Liouvilleoperator} $\tilde{\mathcal{L}}(x,y,t)$. Dieselbe Gleichung ergäbe sich für den Dichteoperator, wenn der Hilbertraum von vornherein ein Einteilchenraum wäre. Mit der vorangegangen Herleitung gelingt jedoch eine allgemeinere Formulierung, die auf die entscheidende Annahme (Gleichung \eqref{eq:Hpot}) hinweist. Weiterführende Arbeiten könnten an dieser Stelle beispielsweise Zweiteilchen-Wechselwirkungen mit einbeziehen.
 
 Zur Untersuchung der LvNG werden zwei Fälle unterschieden, worauf im Folgenden referenziert werden wird:
 \begin{itemize}
   \item Der \emph{stationäre Fall}\index{stationärer Fall} mit $\partial_t \rho_{(1)}(x,y,t) = 0$. Hier gilt ${\left[\hat{\rho} , \hat{H}\right]=0}$.
   \item der allgemeinere \emph{transiente Fall}\index{transienter Fall} $\partial_t \rho_{(1)}(x,y,t) \neq 0$.
 \end{itemize}
-Wie üblich wird im Folgenden freie-Teilchen-Näherung in $x$- und $y$- Richtung angenommen. Dann lässt sich mit $\lambda^2 = \hbar^2/2mk_B T$ die Dichtematrix separieren \cite{grubin1993transport} gemäß
+Wie im vorangegangen Kapitel erwähnt, wird im Folgenden freie-Teilchen-Näherung in $x$- und $y$- Richtung angenommen. Dann lässt sich mit $\lambda^2 = \hbar^2/2mk_B T$ die Dichtematrix separieren \cite{grubin1993transport} gemäß
 \begin{equation}
   \rho(\vb{r},\vb{r}') = \rho({z},{z}') \exp\left( \frac{(x-x')^2 + (y-y')^2}{4\lambda^2}\right) \; .
 \end{equation}
@@ -229,14 +233,7 @@ Aufgrund der Struktur der Gleichung ist es sinnvoll, Schwerpunkt- und Relativkoo
   \end{aligned}
   \label{eq:gedrehteKoordinaten}
 \end{equation}
-einzuführen. \todo{Frensley
-% Frensley
-% These equations require
-% values for the potential v(x) at positions x &0 and x & l.
-% For this purpose the potential was assumed to extend into
-% the reservoirs with a constant value equal to that at the
-% system-reservoir boundary.
-}
+einzuführen. Diese Koordinatendrehung erfordert es, das Potential auch außerhalb von $[-L_x/2, L_x/2]$ auszuwerten. Hierfür wird ein konstanter Wert angenommen, der demjenigen an dem entsprechenden Rand gleicht.
 Ableitungen transformieren sich gemäß
 \begin{equation*}
   \begin{aligned}
@@ -300,7 +297,7 @@ angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und
 \end{equation}
 
 \subsection{Wigner-Gleichung}\index{Wigner-Gleichung}\label{sec:wigner}
-Ausgehend von der Einteilchen-Dichtematrix in Schwerpunkt- und Relativkoordinaten (siehe Gleichungen \eqref{eq:gedrehteKoordinaten} und \eqref{eq:def_dichtematrix}) führt eine Fourier-Transformation bezüglich der Relativkoordinate auf die sogenannte \emph{Wigner-Funktion}\index{Wigner-Funktion}
+Ausgehend von der Einteilchen-Dichtematrix in Schwerpunkt- und Relativkoordinaten (siehe Gleichungen \eqref{eq:def_dichtematrix} und \eqref{eq:gedrehteKoordinaten}) führt eine Fourier-Transformation bezüglich der Relativkoordinate auf die sogenannte \emph{Wigner-Funktion}\index{Wigner-Funktion}
 \begin{equation}
   f_{(1)}(k,r,t) \equiv \int \diff q e^{ikq}\bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{r-\frac{q}{2}}
   \label{eq:fourier_wigner}
@@ -312,7 +309,7 @@ die von Wigner \cite{wigner} 1932 eingeführt worden ist. Die inverse Abbildung 
 \end{equation}
 gegeben. Im klassischen Limes ($\hbar \rightarrow 0$) geht die Wigner-Funktion in die aus der klassischen Physik bekannte Wahrscheinlichkeitsdichte im Phasenraum über. Die Position eines Teilchens wird dann mit $r$ aus Gleichung \eqref{eq:gedrehteKoordinaten} und der Impuls mit $p=\hbar k$ identifiziert.
 
-In dieser anschaulichen Darstellung ergeben sich Erwartungswerte intuitiv durch Gewichtung der Observablen mit der Verteilungsfunktion und Integration. So lassen sich Teilchendichte und -strom gemäß
+In dieser anschaulichen Darstellung ergeben sich Erwartungswerte intuitiv durch Gewichtung der Observablen mit der Verteilungsfunktion und anschließender Integration. So lassen sich Teilchendichte und -strom gemäß
 \begin{align}
   n(r,t) = \int \frac{\diff k}{2\pi}f_{(1)}(k,r,t) \label{eq:wigner_n}\\
   j(r,t) = \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,r,t)
@@ -326,15 +323,15 @@ mit dem Integralkern (auch Wignerpotential genannt)
 \begin{equation*}
   \mathcal{V}(k,r,t) = 2\int_0^{\infty} \diff q \sin(k\cdot q) (V(r+\frac{q}{2},t) - V^*(r-\frac{q}{2},t))
 \end{equation*}
-und ist als Wigner-Gleichung bekannt. Das Integral auf der rechten Seite entspricht dabei einer Faltung zwischen Potentialterm und Wigner-Funktion bezüglich der Impulskoordinate $k$.
+und ist als Wigner-Gleichung bekannt. Sie ist das quantenmechanische Analogon zur Boltzmann-Gleichung. Das Integral auf der rechten Seite entspricht dabei einer Faltung zwischen Potentialterm und Wigner-Funktion bezüglich der Impulskoordinate $k$.
 
 
 
 \subsection{Randbedingungen}
 \label{sec:RB}
-Die Dynamik des in der Einleitung skizzierten Systems muss irreversibel in der Zeit sein. Andernfalls sind instabile Lösungen in der Zeit zulässig \cite{frensley2}. Solche instabilen Lösungen lassen sich anhand des Eigenwertspektrums des Liouvilleoperators aus Gleichung \eqref{eq:lvn_first} erkennen. Es lässt sich zeigen, dass für geschlossene, konservative Systeme $\mathcal{L}$ hermitsch ist als Folge der Hermitizität des Hamiltonoperators $H$ \cite{frensley2}.
+Die Dynamik des in der Einleitung skizzierten Systems muss irreversibel in der Zeit sein. Andernfalls sind instabile Lösungen in der Zeit zulässig \cite{frensley2}. Solche instabilen Lösungen lassen sich anhand des Eigenwertspektrums des Liouvilleoperators aus Gleichung \eqref{eq:lvn_first} erkennen. Es lässt sich zeigen, dass für geschlossene, konservative Systeme $\mathcal{L}$ hermitsch ist als Folge der Hermitizität des Hamiltonoperators $H$ \cite{frensley2}. Es gilt
 \begin{align}
-  H- H^{\dagger} = \frac{\hbar}{i}\int_s \vb{j}\diff\vb{s} = 0
+  H- H^{\dagger} = \frac{\hbar}{i}\int_s \vb{j}\diff\vb{s} = 0 \; .
 \end{align}
 Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der LvNG auf. Da jedoch ein offenes System modelliert werden soll (siehe Abschnitt \ref{sec:modellierung}), muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
 
@@ -419,8 +416,54 @@ Die vorangegangenen Gedanken lassen sich auf die LvNG übertragen. Insbesondere 
 
 Abschließend ist zu sagen, dass die gesamte Thematik der Randbedingungen Gegenstand aktueller Forschung ist und die hier gezeigten Aspekte nur einen kleinen Bruchteil der Komplexität darstellen. So verkompliziert sich die gesamte Fragestellung beispielsweise dramatisch, wenn die Mean-Field-Näherung fallengelassen wird und auch nicht-kohärente Effekte berücksichtigt werden. Eine gute Übersicht bieten die Arbeiten von Rossi \cite{buchRossi} und Frensley \cite{frensley}. Für die konkrete numerische Implementierung wird auf die vergleichsweise simplen Resultate \eqref{eq:rb1}, \eqref{eq:rb3} sowie für Versuchszwecke Gleichung \eqref{eq:cap} zurückgegriffen.
 
-\section{Verfahren}
-Die Berechnung von reinen Zuständen ist unter Annahme der Stetigkeit von $\Psi(x)$ und $\Psi'(x)$ für den Gleichgewichtsfall anhand Gleichung \eqref{eq:schroedinger} analytisch möglich. Dazu wird als Lösung eine Linearkombination von rechts- und linkslaufender ebener Welle angenommen. Dies führt zu der sogenannten \emph{Transfer Function Method}\index{Transfer Function Method}, welche jedoch numerisch bedingte Schwachpunkte aufweist \cite{frensley3}. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode vorgeht und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method (QTBM) bekannt.
+\section{Weitere Verfahren}\label{sec:weitere_verfahren}
+Neben dem hier verwendeten Dichtematrix- bzw. Wigner-Formalismus gibt es einige weitere Möglichkeiten, die stationäre Lösung sowie die Zeitentwicklung für verschiedene Fälle (Gleichgewicht, Nahe-Gleichgewicht und Fern-vom-Gleichgewicht) zu berechnen. Der Artikel \cite{frensley3} bietet einen guten Überblick über die wichtigsten Verfahren. Eine vollständige Theorie gelingt demnach lediglich mit dem \emph{nonequilibrium Green's function (NEGF) approach}\index{nonequilibrium Green's function (NEGF)}, welcher auf den Keldysh-Formalismus zurückzuführen ist. Die Grundidee dabei ist eine diagrammatische Störungstheorie, welche sowohl Vorwärts- als auch Rückwärts-Konturen mit Hilfe von vier Greens-Funktionen berücksichtigt. Die konkrete, vollständige Berechnung mit Hilfe der NEGF gestaltet sich anscheinend schwierig. Die Veröffentlichungen konzentrieren sich zumeist auf Hybridverfahren (z.B. \cite{memory2, negf-dft}) oder Spezialfälle wie dem stationären Fall \cite{negf_datta}.
+An dieser Stelle soll lediglich festgehalten werden, dass in einer hierarchischen Betrachtungsweise der Dichtematrix-Formalismus weniger Information enthält, denn die Dichtematrix folgt aus einer Integration
+\begin{equation*}
+  \rho(x,y,t) = \int \frac{\diff E}{2\pi}G^{<}(x,y;E,t) \; .
+\end{equation*}
+Deshalb ist die LvNG lediglich dazu in der Lage, ein Markov-Verhalten zu beschreiben, wo also externe Wechselwirkung ausschließlich instantan in der Zeit erfolgt \cite{frensley3}. Als Beispiel für das Versagen des Dichtematrix-Formalismus wird die resonante Absorption oder Emission eines Phonons genannt, für die die Schwingungsperiode des Phonons die Mindestdauer der Wechselwirkung vorgibt. Ein Verfahren, dessen Verteilungsfunktion nicht alle drei Variablen -- Ort, Impuls und Geschwindigkeit -- wird für die entsprechend fehlende Variable eine Erhaltungsgleichung nicht berücksichtigen \cite{frensley3}. Im Falle der LvNG ist dies die Energieerhaltung, was jedoch mit der Modellierung des Systems vereinbar und sogar notwendig ist, siehe Kapitel \ref{sec:modellierung}. Es gibt Ansätze, diesem Umstand mit Hilfe eines "Gedächtnis-Terms" beizukommen \cite{memory1, memory2}.
+
+Ein Verfahren, welches den Spezialfall des stationären Problems im Gleichgewichtsfall beschreiben kann, soll im Folgenden erläutert werden, denn es dient für die numerischen Tests in \todo{Referenz Kapitel} als Referenz.
+
+\subsection{Transfer Function Methode}\index{Transfer Function Method}
+\label{sec:TFmethod}
+\todo{Idee: TF-Lösung für Überlagerung von l und r zeigen.}
+% frensley3 S.9
+% In practical calculations, the transmission matrix approach has proven to be less than satisfactory, because
+% it is prone to arithmetic overflow.
+Die Berechnung von reinen Zuständen ist unter Annahme der Stetigkeit von $\Psi(x)$ und $\Psi'(x)$ für den Gleichgewichtsfall anhand Gleichung \eqref{eq:schroedinger} analytisch möglich. Dazu wird als Lösung eine Linearkombination von rechts- und linkslaufender ebener Welle angenommen:
+\begin{equation}
+  \begin{aligned}
+    \Psi_k(x)=
+    \begin{cases}
+    a_{l,1}e^{ikx} + a_{l,2}e^{-ikx}              & x\in[-L/2,x_1] \\
+    c_{l,1}e^{i\kappa x} + c_{l,2}e^{-i\kappa x}  & x\in[x_1, x_2] \\
+    a_{m,1}e^{ikx} + a_{m,2}e^{-ikx}              & x\in[x_2,x_3] \\
+    c_{r,1}e^{i\kappa x} + c_{r,2}e^{-i\kappa x}  & x\in[x_3, x_4] \\
+    a_{l,1}e^{ikx} + a_{l,2}e^{-ikx}              & x\in[x_4, +L/2] \\
+    \end{cases}
+  \end{aligned}
+\end{equation}
+Hierbei ist $k=\sqrt{2mE/\hbar^2}$ und $\kappa=\sqrt{2m(V_0-E)/\hbar^2}$.
+Für das konkrete Problem einer RTD zeigt Abbildung \ref{fig:tf1} die benötigten Koeffizienten und Koordinaten.
+\todo{Abbildung}
+Mit Hilfe der erwähnten Stetigkeitsbedingung lassen sich acht der zehn Koeffizienten eliminieren, sodass sich mit $\vec{a}\equiv(a_1, a_2)^T$ letztlich
+\begin{equation}
+  \vec{a_r} = \underline{\underline{S}} \vec{a_l}
+\end{equation}
+schreiben lässt. Dabei hängt die Matrix $\underline{\underline{S}}$ von der Energie $E(k)$ ab und ihre Existenz ist für $k\neq 0$ sichergestellt.
+\todo{Der Fall $k=0$ repräsentiert gebundene Zustände, die } Die verbliebenen zwei Freiheitsgrade repräsentieren die Notwendigkeit der Randbedingungen. Nun ist es wichtig, die Anforderungen aus Kapitel \ref{sec:modellierung} zu berücksichtigen. Eingespeiste Elektronen kommen entweder von links, oder von rechts. Sie werden dabei vollständig dekorreliert angesehen, und daher muss ${a_{r,2}=1-a_{l,1}$ und $a_{l,1}\in\{0,1\}}$ gelten. Um nun aus der Energie-abhängigen Wellenfunktion die Dichtematrix zu errechnen, wird Gleichung \eqref{} verwendet.
+
+welche jedoch numerisch bedingte Schwachpunkte aufweist \cite{frensley3}. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode vorgeht und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method (QTBM) bekannt.
+
+% Streuungen, vor allem Phononen-Streuungen, sind ein wichtiger Mechanismus in
+% RTDs. Das ideale Simulationsverfahren f¨ur dieses Ph¨anomen ist ein Formalismus,
+% der Green-Funktionen nutzt. An erster Stelle ist hier das Programm NEMO [3]
+% zu nennen, welches hervorragend die hier entwickelten Ans¨atze erg¨anzen d¨urfte,
+% zurzeit jedoch leider aus rechtlichen Gr¨unden noch unter Verschluss ist. Im QHDModell
+% muss darauf vertraut werden, dass diese Streuungen ausreichend mit einem
+% Relaxationszeitansatz erfasst werden.
 
 
 
@@ -445,28 +488,30 @@ Die Berechnung von reinen Zuständen ist unter Annahme der Stetigkeit von $\Psi(
 % \end{align}
 
 
+% frensley3 zu QTBM (S.11)
+% This requires that appropriate boundary conditions be formulatedan dap pliedt o
+% (35). Lent and Kirkner [18] have demonstrated how to do this in the context of a finite-element electron
+% waveguide calculation, andthe ir approach is calledthe Quantum Transmitting Boundary Method (QTBM).
+% In the continuous case, one derives the QTBM conditions by evaluating ψ andit s derivative ψ at xl and
+% xr using (30). One then solves for the incident amplitudes al and ar in terms of ψ and ψ, and imposes
+% the resulting expressions upon Schr¨odinger’s equation as inhomogeneous boundary conditions. Conditions
+% of this type, in which a linear combination of the function and its derivative are specified, are known as
+% Robbins conditions.This requires that appropriate boundary conditions be formulatedan dap pliedt o
+% (35). Lent and Kirkner [18] have demonstrated how to do this in the context of a finite-element electron
+% waveguide calculation, andthe ir approach is calledthe Quantum Transmitting Boundary Method (QTBM).
+% In the continuous case, one derives the QTBM conditions by evaluating ψ andit s derivative ψ at xl and
+% xr using (30). One then solves for the incident amplitudes al and ar in terms of ψ and ψ, and imposes
+% the resulting expressions upon Schr¨odinger’s equation as inhomogeneous boundary conditions. Conditions
+% of this type, in which a linear combination of the function and its derivative are specified, are known as
+% Robbins conditions.
 
-\section{Mathematische Aspekte der \lvn}
-Die eindimensionale Wellenfunktion $\Psi(x)$ eines Teilchens ist ein Vektor des unendlich-dimensionalen Hilbertraums $L^2(\mathbb{R})$ mit dem üblichen Skalarprodukt
-\begin{align}
-  \bra{\Psi}\ket{\Phi} = \int_{\mathbb{R}} \Psi^*(x)\Phi(x) \diff x \; .
-\end{align}
-Beschränken wir uns auf ein Rechengebiet $L$, so ist entsprechend $\Psi(x) \,\in\,L^2(L)$. Diskretisieren wir ferner das System, so wird der Hilbertraum endlichdimensional mit Dimension $N$. Dann ist die Dichtematrix in Gleichung \eqref{eq:lvn} eine Matrix der Form $\mathbb{C}^N \times \mathbb{C}^N$ und der Liouville-Operator ein "Superoperator" \cite{frensley2} der Form $(\mathbb{C}^N \times \mathbb{C}^N)\times(\mathbb{C}^N \times \mathbb{C}^N)$. Letztlich wird numerisch gesehen $N^2$ der Anzahl Freiheitsgrade entsprechen und die \lvn wird wieder eine Matrix-Vektor-Gleichung sein. Dazu wird $u(x,y)$ nicht als Matrix, sondern als Vektor der Länge $N^2$ geschrieben.
-\todo{Eigenschaften von B(x,y) und A. Hermitizität von $\mathcal{L}$ (frensley).}
+% Greens : R. Lake and S . Datta, Phys. Rev. B 45, 6670 (1992).
 
 
 
-\section{Strom- und Ladungsträgerdichte}
-Aus der Dichtematrix $\rho(r,q,t)$ in Schwerpunkt- und Relativkoordinaten lassen sich Strom- und Ladungsträgerdichte ableiten. Es gilt nach \cite{lukas1} bzw. Gleichung \eqref{eq:dichteAusRho}
-\begin{align}
-  j(r,t) &= \frac{\hbar}{m}\Im{\partial_q \rho(r,q,t)|_{q=0}} \\
-  n(r,t) &= \Re{\rho(r,q,t)|_{q=0}} \; .
-  \label{eq:dichte}
-\end{align}
 
 
-
-\subsection{Hartree-Potential}
+\subsection{Hartree-Potential}\index{Hartree-Potential}
 Das Hartree Potential ist mit der Elektronendichte $n(\vb{x})$ durch die Poisson-Gleichung \cite{frensley}
 \begin{align}
   -\div \epsilon(\vb{x}) \grad u(\vb{x}) = e^2 (n(\vb{x}) - N_D(\vb{x})) \; ,
@@ -552,37 +597,3 @@ mit $i,j = 1,\dots,N-1$. Wir lösen das LGS für $(\vb{u}^{(n+1)} - \vb{u}^{(n)}
 \begin{align}
   \vb{u}^{(n+1)} = (\vb{u}^{(n+1)} - \vb{u}^{(n)}) + \vb{u}^{(n)} \; .
 \end{align}
-
-\subsection{Heterostuktur-Potential}
-Das Verfahren soll am Beispiel einer resonanten Tunneldiode (RTD) getestet werden. Dessen durch die Materialkomposition GaAs/AlGaAs resultierender Potentialverlauf $V_s(x)$ ist in Abbildung \ref{fig:pot1} gezeigt.
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\textwidth]{plots/potential.pdf}
-  \caption{Potentialverlauf der RTD.}
-  \label{fig:pot1}
-\end{figure}
-Die eingezeichneten Längen wählen wir wie in \cite{lukas1} zu
-\begin{align}
-  L_1 &= \SI{6}{\nano\meter}\\
-  L_2 &= \SI{5}{\nano\meter}\\
-  L_U &= \SI{30}{\nano\meter} \; .
-\end{align}
-Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt.
-
-
-
-% \section{Wigner Funktion}
-% \label{sec:wignerfunktion}
-% Es ist mit $\bra{x}\ket{\Psi} = \Psi(x)$
-% \begin{equation}
-%   P(x,p) \equiv \frac{1}{\pi\hbar} \int_{-\infty}^{\infty} \bra{x+y}\hat{\rho} \ket{x-y} \E{2ipy/\hbar} \diff y
-% \end{equation}
-% die Wigner-Funktion gleich der Wigner-transformierten des Dichteoperators $\hat{\rho}$. Die Wigner Transformation ist eine invertierbare Abbildung
-% \begin{align}
-%   W\; :\; L(\HR,\HR)  \rightarrow & \text{Phasenraum}^* \\
-%    \hat{G} \mapsto & g(x,p) = \int_{-\infty}^{\infty} \bra{x-s/2}\hat{G} \ket{x+s/2} \E{ips/\hbar} \diff s
-% \end{align}
-
-\section{Stand der Forschung}
-
-\todo{Idee: TF-Lösung für Überlagerung von l und r zeigen.}
