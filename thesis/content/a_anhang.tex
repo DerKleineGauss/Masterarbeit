@@ -42,3 +42,14 @@ Für lokal konstantes $\beta$ folgt daher in Übereinstimmung mit \cite{frensley
 \end{align}
 
 \section{Chemisches Potential }
+\label{sec:A_3}
+Das chemische Potential der Kontakte ergibt sich aus der Forderung nach Ladungsneutralität unter Kenntnis der Dotierung von Donatoren $N_D$ und Akzeptoren $N_A$. Für $n$-dotiertes GaAs gilt demnach
+\begin{equation}
+  0 = N_D - p + N_A - n \approx N_D - n(\mu) \equiv f(\mu)
+\end{equation}
+Die Elektronendichte folgt aus Zustandsdichte und Fermi-Dirac-Verteilung gemäß
+\begin{align}
+  n(\mu) &= \int\diff E \rho(E) f(E) \\
+   &= \int_{E_c}^{\infty}\frac{(2m)^{\nicefrac{3}{2}} }{2\pi^2\hbar^3}\sqrt{E-E_c} \frac{1}{1+e^{\beta(E-E_c-\mu)}}
+\end{align}
+Die Leitungsbandkantenenergie $E_c$ wird zu 0 gewählt. Das chemische Potential wird aus der Nullstellensuche $f(\mu)=0$ mit einem Newton-Raphson-Verfahren ermittelt. Numerisch ergibt sich für den Gleichgewichtsfall  $\mu\approx\SI{0.04617}{\electronvolt}$.
