@@ -1,6 +1,6 @@
 \chapter{Physikalische Problemstellung}
 
-Die Dynanmik des btrachteten Quantensystems wird mit Hilfe der \lvn (LNG) beschrieben. Sie bedient sich dem aus der Quantenstatistik bekannten Konzept des Dichteoperators für ein physikalisches System. Daher wird zunächst der Dichteoperator  eingeführt. Eine alternative Formulierung der Dynamik folgt aus einer Fourier-Transformation bezüglich der Relativkoordinate und führt auf den sog. Wigner-Formalismus. Etliche Veröffentlichungen betreffen die Implementierung dieser sogenannten Wigner-Gleichung. Daher wird auf Unterschiede insbesondere hinsichtlich der Randbedingungen eingegangen. In der vorliegenden Arbeit verbleibt jedoch der Fokus auf der Ortsraumformulierung. Es folgen zwei physikalisch motivierte Abschnitte, um einerseits das Potential, andererseits die getroffenen Annahmen zu diskutieren.
+Die Dynanmik des btrachteten Quantensystems wird mit Hilfe der \lvn (LvNG) beschrieben. Sie bedient sich dem aus der Quantenstatistik bekannten Konzept des Dichteoperators für ein physikalisches System. Daher wird zunächst der Dichteoperator  eingeführt. Eine alternative Formulierung der Dynamik folgt aus einer Fourier-Transformation bezüglich der Relativkoordinate und führt auf den sog. Wigner-Formalismus. Etliche Veröffentlichungen betreffen die Implementierung dieser sogenannten Wigner-Gleichung. Daher wird auf Unterschiede und Schwierigkeiten insbesondere hinsichtlich der Randbedingungen eingegangen. In der vorliegenden Arbeit verbleibt jedoch der Fokus auf der Ortsraumformulierung. Abschließend werden alternative Verfahren genannt und die Einordnung selbiger in den physikalischen Kontext.
 
 \section{Dichteoperator} \index{Dichteoperator}
 \label{sec:2_1}
@@ -158,20 +158,13 @@ Hier lassen sich zwei Fälle unterscheiden.
   \item Der Nicht-Gleichgewichtsfall $U\neq 0$. %Hier sind lediglich die \emph{inflow}-Bedingungen für positive Geschwindigkeiten am linken- und negative Geschwindigkeiten am rechten Rand des Rechengebietes bekannt.
 \end{itemize}
 Da das Hartree Potential von der Konstellation der Elektronen abhängt und umgekehrt, wird es selbstkonsistent berechnet, wie im Anhang \ref{sec:A_4} erläutert wird.
-Der durch die Materialkomposition GaAs/AlGaAs resultierende Potentialverlauf $V_s(x)$ ist in Abbildung \ref{fig:pot1} gezeigt.
+Der durch die Materialkomposition GaAs/AlGaAs resultierende Potentialverlauf $V_s(x)$ ist in Abbildung \ref{fig:pot1} gezeigt.\todo{Achsenbeschriftung ändern}
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{plots/potential.pdf}
   \caption{Potentialverlauf der RTD.}
   \label{fig:pot1}
 \end{figure}
-Die eingezeichneten Längen werden wie in \cite{lukas1} zu
-\begin{align}
-  L_1 &= \SI{6}{\nano\meter}\\
-  L_2 &= \SI{5}{\nano\meter}\\
-  L_U &= \SI{30}{\nano\meter} \; .
-\end{align}
-gewählt. \todo{Achsenbeschriftung ändern} Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt.
 
 Die quantenmechanische Beschreibung der Dynamik des Systems kann durch verschiedene Zugänge realisiert werden, siehe auch Kapitel \ref{sec:weitere_verfahren}. In der vorliegenden Arbeit wird dabei der Fokus auf die Liouville-von-Neumann-Gleichung gelegt. Wie in den vorangegangenen Kapiteln erläutert, ist mit Hilfe der Dichtematrix eine Beschreibung quantenmechanischer Ensembles, also gemischter Zustände möglich. Dieser Zugang scheint für die gewählten Anforderungen unnötig verkomplizierend zu sein, jedoch ermöglicht er eine spätere Berücksichtigung von nicht-kohärenten Wechselwirkungen \cite{wiedenhaus}.
 
@@ -311,8 +304,8 @@ gegeben. Im klassischen Limes ($\hbar \rightarrow 0$) geht die Wigner-Funktion i
 
 In dieser anschaulichen Darstellung ergeben sich Erwartungswerte intuitiv durch Gewichtung der Observablen mit der Verteilungsfunktion und anschließender Integration. So lassen sich Teilchendichte und -strom gemäß
 \begin{align}
-  n(r,t) = \int \frac{\diff k}{2\pi}f_{(1)}(k,r,t) \label{eq:wigner_n}\\
-  j(r,t) = \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,r,t)
+  n(r,t) &= \int \frac{\diff k}{2\pi}f_{(1)}(k,r,t) \label{eq:wigner_n}\\
+  j(r,t) &= \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,r,t)
 \end{align}
 schreiben \cite{modern}. Die LvNG für die Wigner-Funktion lautet dann \cite{frensley2, failure}
 \begin{equation}
@@ -336,7 +329,12 @@ Die Dynamik des in der Einleitung skizzierten Systems muss irreversibel in der Z
 Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der LvNG auf. Da jedoch ein offenes System modelliert werden soll (siehe Abschnitt \ref{sec:modellierung}), muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
 
 Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die Stabilität des Systems sicherstellen. Ein hierfür möglicherweise geeigneter Ansatz wird erstmals in \cite{frensley2} getroffen, indem die Reservoire in Analogie zu einem schwarzen Körper gesehen werden. In das Reservoir eintretende Teilchen werden vollständig absorbiert. Umgekehrt "strahlt" das Reservoir Teilchen entsprechend der thermischen Gleichgewichts-Verteilung in das System ein, siehe Abbildung \ref{fig:modell}.
-\todo{Abbildung reservoire/system}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{files/RTD_reservoire.pdf}
+  \caption{Veranschaulichung des Modells einer in einen elektrischen Schaltkreis integrierten RTD. In den Reservoiren werden Elektronen absorbiert und emittiert. Der in rot angedeutete \emph{Inflow} wird als Randbedingung gesetzt, während der Outflow (blau) sich durch die Transportcharakteristik der Bewegungsgleichung ergeben muss.}
+  \label{fig:modell}
+\end{figure}
 Damit ist klar, dass Randbedingungen für Inflow-Teilchen mit positiver Geschwindigkeit am linken Rand und solche mit negativer Geschwindigkeit am rechten Rand der Domäne gesetzt sind, während für Outflow-Teilchen keine Randbedingung vorgegeben ist. Teilchen müssen also nach ihrer Geschwindigkeit unterschieden werden können.
 Es ist daher ein natürliches Vorgehen, nach einer Wahrscheinlichkeitsverteilung im Phasenraum zu fragen, siehe Kapitel \ref{sec:wigner}.
 Positive und negative Geschwindigkeiten lassen sich einfach durch das Vorzeichen von $k$ unterscheiden, sodass sich die Randbedingungen konkretisieren lassen:
@@ -359,7 +357,7 @@ und wegen Gleichung \eqref{eq:fourier_wigner_invers} für die reduzierte Dichtem
                                 &= \int \frac{\diff k}{2\pi} \cos(kq) f_{\nicefrac{r}{l}} (k) \; .
   \end{aligned}
 \end{equation}
-Das chemische Potential $\mu$ ergibt sich dabei aus der Forderung nach Ladungsträgerneutralität im thermischen Gleichgewicht. Die Herleitung ist im Anhang \ref{A_3} gezeigt.\\
+Das chemische Potential $\mu$ ergibt sich dabei aus der Forderung nach Ladungsträgerneutralität im thermischen Gleichgewicht. Die Herleitung ist im Anhang \ref{sec:A_3} gezeigt.\\
 Für die Outflow-Bereiche $\{ k<0, r=-L/2 \}$ und $\{ k>0, r=+L/2 \}$ trifft \eqref{eq:rb1} keine Aussage, sodass jede numerische Methode zwangsläufig ein upwind-Schema bezüglich der $r$-Diskretisierung verwenden muss. Hierin bestätigt sich auch der Charakter der zugrundeliegenden Differentialgleichung \eqref{eq:wigner}: es wird der Transport von Elektronen beschrieben.
 
 Eine mögliche Wahl der Randbedingungen bezüglich der Relativkoordinate für die LvNG sind Dirichlet-Randbedingungen:
@@ -402,7 +400,7 @@ Während die semiklassische Boltzmann-Gleichung aufgrund ihres lokalen Charakter
   \caption{Nicht-Eindeutigkeit der Wigner-Gleichung für den Fall eines $\delta$-Potentials, \cite{failure}.}
   \label{fig:nonuniqueness}
 \end{figure}
-Die Lösungen ergeben sich dabei aus einer Linearkombination von generischen Vorwärts- und Rückwärts-Streuzuständen, resultierend aus der Zeitumkehr-Symmetrie der stationären Gleichung. Letztere äußert sich auch in der energetischen Zweifach-Entartung der Streuzustände. Eine kurze Rechnung zeigt nämmlich, dass wegen der Antisymmetrie des Wignerpotentials sowie der Gruppengeschwindigkeit $v(k) = \hbar k/m$ bezüglich $k$ für jede Lösung $f_{(1)}(k,r)$ auch ${g_{(1)}(k,r) = f_{(1)}(-k,r)}$ Lösung der stationären Wigner-Gleichung ist. Die Randbedingungen geben zwar eine eindeutige Überlagerung, also einen eindeutigen Satz von Koeffizienten $\{a(k)\}$  aller Vorwärts-Streuzustände vor. Da jedoch die Rückwärts-Streuzustände im Allgemeinen linear unabhängig von den Vorwärts-Streuzuständen sind, ist mit denselben Randbedingungen ein doppelt so großer Satz $\{a(k),b(k)\}$ von Koeffizienten zu finden. Das zuvor eindeutige Problem ist in diesem Fall nicht mehr eindeutig lösbar. In der Abbildung sind drei verschiedene Verhältnisse $c=b(k)/a(k)$ zu sehen, darunter auch eine unphysikalische Lösung mit negativer Teilchendichte. Für ausschließlich lokalisierte Zustände, wie sie bei parabolischen oder Quantentopf-Potentialen (mit unendlich großen Barrieren) entstehen, lässt sich jedoch nicht zwischen Vorwärts- und Rückwärts-Streuzuständen unterscheiden sodass eine eindeutige Lösung der Wigner-Gleichung zu erwarten ist \cite{failure}.
+Die Lösungen ergeben sich dabei aus einer Linearkombination von generischen Vorwärts- und Rückwärts-Streuzuständen, resultierend aus der Zeitumkehr-Symmetrie der stationären Gleichung. Letztere äußert sich auch in der energetischen Zweifach-Entartung der Streuzustände. Eine kurze Rechnung zeigt nämlich, dass wegen der Antisymmetrie des Wignerpotentials sowie der Gruppengeschwindigkeit $v(k) = \hbar k/m$ bezüglich $k$ für jede Lösung $f_{(1)}(k,r)$ auch ${g_{(1)}(k,r) = f_{(1)}(-k,r)}$ Lösung der stationären Wigner-Gleichung ist. Die Randbedingungen geben zwar eine eindeutige Überlagerung, also einen eindeutigen Satz von Koeffizienten $\{a(k)\}$  aller Vorwärts-Streuzustände vor. Da jedoch die Rückwärts-Streuzustände im Allgemeinen linear unabhängig von den Vorwärts-Streuzuständen sind, ist mit denselben Randbedingungen ein doppelt so großer Satz $\{a(k),b(k)\}$ von Koeffizienten zu finden. Das zuvor eindeutige Problem ist in diesem Fall nicht mehr eindeutig lösbar. In der Abbildung sind drei verschiedene Verhältnisse $c=b(k)/a(k)$ zu sehen, darunter auch eine unphysikalische Lösung mit negativer Teilchendichte. Für ausschließlich lokalisierte Zustände, wie sie bei parabolischen oder Quantentopf-Potentialen (mit unendlich großen Barrieren) entstehen, lässt sich jedoch nicht zwischen Vorwärts- und Rückwärts-Streuzuständen unterscheiden sodass eine eindeutige Lösung der Wigner-Gleichung zu erwarten ist \cite{failure}.
 
 Es ist anzumerken, dass dieselbe Argumentation  im allgemeinen Fall der transienten Wigner-Gleichung nicht funktioniert. Dieses Anfangsproblem ist hingegen eindeutig lösbar, wie die Ausarbeitung in \cite{dimov2015boundary} zeigt. Es ist daher zu schlussfolgern, dass die Vorgabe einer Anfangsbedingung zu einer spezifischen Lösung aus der unendlichen Menge möglicher stationärer Lösungen führt, und somit die Anfangsbedingung das entscheidende Kriterium für eine physikalisch akzetable Problemstellung darstellt. Die Wigner-Gleichung erhält in Bezug auf den Anfangszustand darüber hinaus sogar die Eigenschaft (i) \cite{dimov2015boundary}.
 
@@ -424,46 +422,51 @@ An dieser Stelle soll lediglich festgehalten werden, dass in einer hierarchische
 \end{equation*}
 Deshalb ist die LvNG lediglich dazu in der Lage, ein Markov-Verhalten zu beschreiben, wo also externe Wechselwirkung ausschließlich instantan in der Zeit erfolgt \cite{frensley3}. Als Beispiel für das Versagen des Dichtematrix-Formalismus wird die resonante Absorption oder Emission eines Phonons genannt, für die die Schwingungsperiode des Phonons die Mindestdauer der Wechselwirkung vorgibt. Ein Verfahren, dessen Verteilungsfunktion nicht alle drei Variablen -- Ort, Impuls und Geschwindigkeit -- wird für die entsprechend fehlende Variable eine Erhaltungsgleichung nicht berücksichtigen \cite{frensley3}. Im Falle der LvNG ist dies die Energieerhaltung, was jedoch mit der Modellierung des Systems vereinbar und sogar notwendig ist, siehe Kapitel \ref{sec:modellierung}. Es gibt Ansätze, diesem Umstand mit Hilfe eines "Gedächtnis-Terms" beizukommen \cite{memory1, memory2}.
 
-Ein Verfahren, welches den Spezialfall des stationären Problems im Gleichgewichtsfall beschreiben kann, soll im Folgenden erläutert werden, denn es dient für die numerischen Tests in \todo{Referenz Kapitel} als Referenz.
+Ein Verfahren, welches den Spezialfall des stationären Problems im Gleichgewichtsfall beschreiben kann, wird im folgenden Kapitel \ref{sec:TFmethod} erläutert werden, denn es dient für die numerischen Tests in \todo{Referenz Kapitel} als Referenz. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode die Schrödingergleichung löst und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method (QTBM) bekannt.
 
-\subsection{Transfer Function Methode}\index{Transfer Function Method}
+\subsection{Transfermatrix Methode}\index{Transfermatrix Method}
 \label{sec:TFmethod}
-\todo{Idee: TF-Lösung für Überlagerung von l und r zeigen.}
-% frensley3 S.9
-% In practical calculations, the transmission matrix approach has proven to be less than satisfactory, because
-% it is prone to arithmetic overflow.
 Die Berechnung von reinen Zuständen ist unter Annahme der Stetigkeit von $\Psi(x)$ und $\Psi'(x)$ für den Gleichgewichtsfall anhand Gleichung \eqref{eq:schroedinger} analytisch möglich. Dazu wird als Lösung eine Linearkombination von rechts- und linkslaufender ebener Welle angenommen:
 \begin{equation}
   \begin{aligned}
-    \Psi_k(x)=
+    \Psi_k(z)=
     \begin{cases}
-    a_{l,1}e^{ikx} + a_{l,2}e^{-ikx}              & x\in[-L/2,x_1] \\
-    c_{l,1}e^{i\kappa x} + c_{l,2}e^{-i\kappa x}  & x\in[x_1, x_2] \\
-    a_{m,1}e^{ikx} + a_{m,2}e^{-ikx}              & x\in[x_2,x_3] \\
-    c_{r,1}e^{i\kappa x} + c_{r,2}e^{-i\kappa x}  & x\in[x_3, x_4] \\
-    a_{l,1}e^{ikx} + a_{l,2}e^{-ikx}              & x\in[x_4, +L/2] \\
+    a_{l,1}e^{ikz} + a_{l,2}e^{-ikz}              & z\in[-L/2,z_1] \\
+    c_{l,1}e^{i\kappa z} + c_{l,2}e^{-i\kappa z}  & z\in[z_1, z_2] \\
+    a_{m,1}e^{ikz} + a_{m,2}e^{-ikz}              & z\in[z_2,z_3] \\
+    c_{r,1}e^{i\kappa z} + c_{r,2}e^{-i\kappa z}  & z\in[z_3, z_4] \\
+    a_{l,1}e^{ikz} + a_{l,2}e^{-ikz}              & z\in[z_4, +L/2] \\
     \end{cases}
   \end{aligned}
 \end{equation}
 Hierbei ist $k=\sqrt{2mE/\hbar^2}$ und $\kappa=\sqrt{2m(V_0-E)/\hbar^2}$.
-Für das konkrete Problem einer RTD zeigt Abbildung \ref{fig:tf1} die benötigten Koeffizienten und Koordinaten.
-\todo{Abbildung}
+Für das konkrete Problem einer RTD zeigt Abbildung \ref{fig:tf1} die Zuordnung der Koeffizienten und Koordinaten. \todo{ein Pfeil noch andersrum.}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{files/TF_variables.pdf}
+  \caption{Koeffizienten für hin- und rücklaufende Wellen mit angedeutetem Potentialverlauf der RTD.}
+  \label{fig:tf1}
+\end{figure}
 Mit Hilfe der erwähnten Stetigkeitsbedingung lassen sich acht der zehn Koeffizienten eliminieren, sodass sich mit $\vec{a}\equiv(a_1, a_2)^T$ letztlich
 \begin{equation}
   \vec{a_r} = \underline{\underline{S}} \vec{a_l}
 \end{equation}
-schreiben lässt. Dabei hängt die Matrix $\underline{\underline{S}}$ von der Energie $E(k)$ ab und ihre Existenz ist für $k\neq 0$ sichergestellt.
-\todo{Der Fall $k=0$ repräsentiert gebundene Zustände, die } Die verbliebenen zwei Freiheitsgrade repräsentieren die Notwendigkeit der Randbedingungen. Nun ist es wichtig, die Anforderungen aus Kapitel \ref{sec:modellierung} zu berücksichtigen. Eingespeiste Elektronen kommen entweder von links, oder von rechts. Sie werden dabei vollständig dekorreliert angesehen, und daher muss ${a_{r,2}=1-a_{l,1}$ und $a_{l,1}\in\{0,1\}}$ gelten. Um nun aus der Energie-abhängigen Wellenfunktion die Dichtematrix zu errechnen, wird Gleichung \eqref{} verwendet.
+schreiben lässt. Dabei hängt die Transfermatrix $\underline{\underline{S}}$ von der Energie $E(k)$ ab und ihre Existenz ist für $k\neq 0$ sichergestellt.
+\todo{Der Fall $k=0$  } Die verbliebenen zwei Freiheitsgrade repräsentieren die Notwendigkeit der Randbedingungen. Nun ist es wichtig, die Anforderungen aus Kapitel \ref{sec:modellierung} korrekt zu berücksichtigen. Eingespeiste Elektronen kommen entweder von links, oder von rechts. Sie werden dabei vollständig dekorreliert angesehen, daher muss ${a_{r,2}=1-a_{l,1}}$ und ${a_{l,1}\in\{0,1\}}$ gelten.
 
-welche jedoch numerisch bedingte Schwachpunkte aufweist \cite{frensley3}. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode vorgeht und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method (QTBM) bekannt.
-
-% Streuungen, vor allem Phononen-Streuungen, sind ein wichtiger Mechanismus in
-% RTDs. Das ideale Simulationsverfahren f¨ur dieses Ph¨anomen ist ein Formalismus,
-% der Green-Funktionen nutzt. An erster Stelle ist hier das Programm NEMO [3]
-% zu nennen, welches hervorragend die hier entwickelten Ans¨atze erg¨anzen d¨urfte,
-% zurzeit jedoch leider aus rechtlichen Gr¨unden noch unter Verschluss ist. Im QHDModell
-% muss darauf vertraut werden, dass diese Streuungen ausreichend mit einem
-% Relaxationszeitansatz erfasst werden.
+Um nun aus der Energie-abhängigen Wellenfunktion die Dichtematrix zu errechnen, wird Gleichung \eqref{eq:dichteoperator} verwendet:
+\begin{equation}
+  \rho(x,y) = \sum_k \omega_k \underbrace{\bra{x}\ket{k}}_{\equiv\Psi_k(x)}\bra{k}\ket{y}
+\end{equation}
+Der Übergang vom Ein- zum $N$-Teilchen System gelingt, indem nun die Normierung $\sum_k \omega_k = 1$ fallen gelassen und
+\begin{equation}
+  \sum_k \omega_k  \Psi_k(x) \Psi_k^{\dagger}(y) \rightarrow \int \diff k \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k^2\hbar^2}{2m} + \mu))) \Psi_k(x) \Psi_k^{\dagger}(y)
+\end{equation}
+angesetzt wird, vergleiche hierzu auch die Überlegung im Anhang \ref{sec:A_2}. Dazu wird die Wellenfunktion gemäß den obigen Überlegungen als gleichgewichtete Summe von linksseitig (${a_{l,1}=1}$) und rechtsseitig (${a_{r,2}=1}$) eingespeistem Elektron zu
+\begin{equation}
+  \Psi_k(x) = \frac{1}{\sqrt{2}}(\Psi_k^r(x) + \Psi_k^l(x))
+\end{equation}
+gewählt.
 
 
 
@@ -504,96 +507,3 @@ welche jedoch numerisch bedingte Schwachpunkte aufweist \cite{frensley3}. Eine n
 % the resulting expressions upon Schr¨odinger’s equation as inhomogeneous boundary conditions. Conditions
 % of this type, in which a linear combination of the function and its derivative are specified, are known as
 % Robbins conditions.
-
-% Greens : R. Lake and S . Datta, Phys. Rev. B 45, 6670 (1992).
-
-
-
-
-
-\subsection{Hartree-Potential}\index{Hartree-Potential}
-Das Hartree Potential ist mit der Elektronendichte $n(\vb{x})$ durch die Poisson-Gleichung \cite{frensley}
-\begin{align}
-  -\div \epsilon(\vb{x}) \grad u(\vb{x}) = e^2 (n(\vb{x}) - N_D(\vb{x})) \; ,
-  \label{eq:poisson_3d}
-\end{align}
-verknüpft, wobei $N_D(\vb{x})$ die ortsabhängige Dichte der Donatoren in der Heterostuktur und $\epsilon(\vb{x})$ die Permittivität bezeichnet. Akzeptoren und Löcher werden aufgrund der Dotierung $N_D \gg N_A$ vernachlässigt. Ferner nehmen wir aufgrund der eindimensionalen Problemstellung an, dass $u(\vb{x}) = u(x)$ und $\epsilon(\vb{x})=\epsilon(x)$ sodass die Poisson-Gleichung eindimensional wird.
-\begin{align}
-  -\partial_x (\epsilon(x)\partial_x u(x)) = e^2(n(x)-N_D(x))
-  \label{eq:poisson}
-\end{align}
-Die Randbedingungen für $u$ ergeben sich aus der Forderung nach Ladungsneutralität in ausreichend großer Entfernung  \cite{frensley}
-\begin{align}
-  u|_{\partial\Omega} = \mu(\vb{x})|_{\partial\Omega}-V_s(\vb{x})|_{\partial\Omega}-\frac{1}{\beta}\mathcal{F}_{1/2}^{-1}(N_D/N_C) \; .
-  \label{eq:RB_PE}
-\end{align}
-Hierin ist $\mu(\vb{x})$ das chemische Potential, $\beta=1/(k_BT)$ mit $T=\SI{300}{\kelvin}$, $N_C = 2(m^*/2\pi\hbar^2\beta)^{3/2}$ die "effektive Zustandsdichte" und $\mathcal{F}_{1/2}$ das Fermi-Dirac Integral der Ordnung $1/2$:
-\begin{align}
-  \mathcal{F}_j(x)=\frac{1}{\Gamma(j+1)}\int_0^{\infty}\frac{t^j}{\exp(t-x)+1}\diff t
-\end{align}
-Das Potential ergibt sich nach Gleichungen \eqref{eq:poisson} und \eqref{eq:dichteAusRho} aus dem Dichteoperator -- umgekehrt ergibt sich der Dichteoperator nach Gleichung \eqref{eq:lvn} aus dem Potential. Die Beziehung zwischen Potential und Dichte ist nicht-linear. Die gleichzeitige Lösung für Poisson- und \lvn zu finden erfordert daher Iteration. Das Problem wird \emph{selbstkonsistent} gelöst. Dazu wird $\eqref{eq:lvn}$ zunächst mit einem geeigneten \emph{initial guess} $V^{(0)}$ gelöst. Nun wird iteriert und alternierend gelöst, bis Dichte und Potential sich nicht mehr signifikant ändern. Im Fall der transienten Betrachtung entspricht eine Iteration gleichzeitig einem Zeitschritt. Das Verfahren ist als \emph{Gummel (Plug-in) Approach} etabliert und beispielsweise in \cite{gummel} beschrieben. Die folgenden Ausführungen orientieren sich an dieser Literaturquelle.
-
-Numerisch behandeln wir Gleichung \eqref{eq:poisson} mit dem Finite-Differenzen Verfahren. Das Rechengebiet $L$ wird diskretisiert gemäß
-\begin{align}
-  L_N \equiv \{x_i | x_i = i h \,\forall\, i = 0,1,\dots,N\text{ mit }L=Nh\}
-\end{align}
-Aus der Taylorentwicklung einer Funktion $f:L \rightarrow \mathbb{R}$ folgt für die Ableitungen
-\begin{align}
-  f'(x_i) &= \frac{f(x_{i+1}) - f(x_{i-1})}{2h} + \mathcal{O}(h^2) \\
-  f''(x_i) &= \frac{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})}{h^2} + \mathcal{O}(h^2) \; .
-\end{align}
-Wir schreiben kurz $f(x_i)\equiv f_i$.
-Damit lässt sich mit $a_i\equiv (\epsilon_{i+1} - \epsilon_{i-1})/(4h^2\epsilon_i)$ Gleichung \eqref{eq:poisson} umschreiben zu
-\begin{align}
-  u_{i+1}\cdot(1+a_i) -2 u_i + u_{i-1}\cdot(1-a_i) - \underbrace{e^2h^2\frac{(N_{D,i} - n_i)}{\epsilon_i}}_{\equiv \text{rhs}_i} = 0\; ,
-  \label{eq:discretePE}
-\end{align}
-wobei berücksichtigt werden muss, dass $u_0$ und $u_N$ über die Randbedingungen nach Gleichung \eqref{eq:RB_PE} vorgegeben sind. Somit haben wir das LGS
-\begin{align}
-  \left[ \begin{matrix}-2 & 1+a_1 & & & 0\\1-a_2 & \ddots & \ddots & & \\ & \ddots & \ddots & \ddots & \\& & \ddots & \ddots &  1+a_{N-2} \\0 & &  & 1-a_{N-1} & -2  \end{matrix}  \right]
-  \left[ \begin{matrix}u_1             \\                          \\ \vdots                       \\                           \\u_{N-1}  \end{matrix}  \right]
-  = \left[ \begin{matrix}\text{rhs}_1  \\                          \\ \vdots                       \\                         \\\text{rhs}_{N-1}  \end{matrix}  \right]
-   - \left[ \begin{matrix}(1-a_1)u_0     \\0                         \\ \vdots                      \\0                        \\(1+a_{N-1})u_N  \end{matrix}  \right]
-\end{align}
-zu lösen. An dieser Stelle halten wir kurz inne und fragen uns, ob wir nicht eine "bessere" Vorhersage für $u^{(n+1)}$ treffen können, sodass wir eine schnellere Konvergenz der Iteration erreichen können. Diese Überlegung führt uns auf das verallgemeinerte Newton-Raphson-Verfahren.
-Die linke Seite von Gleichung \eqref{eq:discretePE} definieren wir als Funktion $P_i(u_1,\dots,u_N)$ und wenden hierauf das Newton-Raphson-Verfahren an. Ausgehend von einem Startwert $\vb{u}^{(0)}$ erhalten wir das Fixpunktproblem
-\begin{align}
-  \vb{u}^{(n+1)} = \vb{u}^{(n)} - (\mathrm{D}\vb{P}|_{\vb{u}^{(n)}})^{-1} \vb{P}(\vb{u}^{(n)}) \; ,
-  \label{eq:fixpunkt_gummel}
-\end{align}
-wobei wir die Vektorschreibweise
-\begin{align}
-  \vb{f} = \left( f_0,\dots,f_N\right)^T = \left( f(x_0),\dots,f(x_N)\right)^T
-\end{align}
-eingeführt haben und $\mathrm{D}$ der Differentiationsoperator ist, in diesem Fall also die Jacobimatrix von $P$.
-\begin{align}
-  \left(\mathrm{D}\vb{P}|_{\vb{u}^{(n)}}\right)_{i,j} &= \pd{P_i}{u_j^{(n)}} \\ &\stackrel{\eqref{eq:discretePE}}{=}
-  (1+a_i)\delta_{i+1,j} - 2 \delta_{i,j} + (1-a_i)\delta_{i-1,j} + \frac{e^2h^2}{\epsilon_i}\pd{n_i^{(n)}}{u_j^{(n)}}
-\end{align}
-An dieser Stelle ist anzumerken, dass nun auch die Dichte $n$ einen Iterationsindex $(n)$ bekommen hat. Dies ist auf die eingangs beschriebene alternierende Iteration zurückzuführen, in welcher abwechselnd $n^{(n)}$ und $u^{(n)}$ in einem einzigen Iterationsschritt $(n)$ berechnet werden. Ferner ist die Ableitung $\pd{n_i^{(n)}}{u_j^{(n)}}$ zunächst nicht bekannt.
-Es ist überhaupt eine Abweichung $\pd{n_i^{(n)}}{u_j^{(n)}} \neq 0$, die den Unterschied zwischen Newton-Iteration und direktem Lösen bewirkt. Im Allgemeinen liegt keine exakte Form dieser Ableitung vor, da hierzu ja gerade die \lvn zu lösen ist. Es lässt sich jedoch eine Abschätzung vornehmen, welche schnell und kostengünstig ist, sodass das Newton-Verfahren einen echten Vorteil gegenüber dem direkten Iterieren hat. Dazu bedienen wir uns der Maxwell-Boltzmann-Statistik
-\begin{align}
-  n(u) = N_0\exp\left(\frac{u-u_0}{k_B T}\right)
-  \label{eq:maxwell_boltzmann}
-\end{align}
-als klassisches Gleichgewichts-Resultat. Dies ist wohlgemerkt eine Annahme und es lassen sich ebenso andere Annehmen, z.B. eine Fermi-Dirac-Statistik, wählen. Jedoch zeigt sich in der Praxis, dass diese Wahl zuverlässig zu einer Konvergenz des Verfahrens führt. Falls nicht stationär, sondern transient gelöst werden soll, sollte jedoch das Newton-Verfahren nicht verwendet werden, da ein Iterationsschritt hier einem Zeitschritt entspricht und die Annahme \eqref{eq:maxwell_boltzmann} heuristischer Natur ist. Somit würde physikalisches Verhalten implizit aufgeprägt werden, statt dass dieses durch die vorhandenen zwei Gleichungen beschrieben wird.
-
-Für den stationären Fall folgt aus Annahme \eqref{eq:maxwell_boltzmann} für das diskretisierte System
-\begin{align}
-  \pd{n_i}{u_j} = \frac{n_i}{k_B T}\delta_{i,j} \; .
-\end{align}
-Statt die Jacobi-Matrix invertieren zu müssen, schreiben wir Gleichung \eqref{eq:fixpunkt_gummel} um.
-\begin{align}
-  \mathrm{D}\vb{P}|_{\vb{u}^{(n)}}(\vb{u}^{(n+1)} - \vb{u}^{(n)}) = -  \vb{P}(\vb{u^{(n)}})
-\end{align}
-Explizit ausgeschrieben
-\begin{align}
-  \left(\mathrm{D}\vb{P}|_{\vb{u}^{(n)}}\right)_{i,j} &=
-    (1+a_i)\delta_{i+1,j} + ( \frac{e^2h^2}{\epsilon_i}\frac{n_i}{k_B T} - 2) \delta_{i,j} + (1-a_i)\delta_{i-1,j} \\
-  \left( \vb{P}(\vb{u^{(n)}}) \right)_{i} &=
-   u_{i+1}^{(n)}\cdot(1+a_i) -2 u_i^{(n)} + u_{i-1}^{(n)}\cdot(1-a_i) - e^2h^2\frac{(N_{D,i} - n_i^{(n)})}{\epsilon_i}
-\end{align}
-mit $i,j = 1,\dots,N-1$. Wir lösen das LGS für $(\vb{u}^{(n+1)} - \vb{u}^{(n)})$ und erhalten
-\begin{align}
-  \vb{u}^{(n+1)} = (\vb{u}^{(n+1)} - \vb{u}^{(n)}) + \vb{u}^{(n)} \; .
-\end{align}
