@@ -41,12 +41,17 @@
 \usepackage{blindtext}
 
 \usepackage[utf8]{inputenc}
+
+
 %------------------------------------------------------------------------------
 %------------------------ Für die Matheumgebung--------------------------------
 %------------------------------------------------------------------------------
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
+\newtheorem{satz}{Satz}[section]
+\newtheorem{definition}[satz]{Definition}
 \usepackage{mathtools}
 \usepackage{physics} % bra ket schreibweise mit $\bra{\Psi}\ket{\Psi}$   $\expval{A}{\Psi}$
 
@@ -213,12 +218,22 @@
 {\@@input #1 }
 \makeatother
 
+% quote with number and reference possibility
+\usepackage{environ}
+\newcounter{quote}
+\NewEnviron{myquote}{\vspace{1ex}\par
+\refstepcounter{quote}%
+\hfill\parbox{\dimexpr \textwidth-2cm}%
+{\centering\small\textit{\BODY}}%
+\hfill\llap{(\thequote)}\vspace{1ex}\par}
+
 
 %------------------------------------------------------------------------------
 %------------------------------ New Commands: ---------------------------------
 %------------------------------------------------------------------------------
 \newcommand{\jump}[1]{\llbracket #1 \rrbracket}
 \newcommand{\avg}[1]{\{ #1 \} }
+\newcommand{\NormTwo}[2]{\left\lVert\, #1 \,\right\rVert_{L^2(#2)}}
 \newcommand{\sP}[3]{\left(#1\, ,#2\right)_{#3}}
 \newcommand{\No}[2]{\left\lVert#1\right\rVert_{#2}}
 \newcommand{\lvn}{Liouville-von-Neumann Gleichung }

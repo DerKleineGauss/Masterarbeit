@@ -7,9 +7,9 @@ Partielle Differentialgleichungen (PDGn) n-ter Ordnung für skalares $u(x)$ sind
 Sie unterliegen Randbedingungen (für die Zeitvariable auch Anfangsbedingung genannt), die je nach Problemstellung auf Teilen des Randes formuliert sind. Beispielsweise ist die Auslenkung einer eingespannten Membran am Ortsrand fest, während in der Zeit lediglich für $t_0$ ein Randwert vorliegt (am linksseitigen Rand der Zeitdomäne).
 
 Die LvNG \eqref{eq:lvn} ist eine lineare PDG zweiter Ordnung in $d=2$ Dimensionen. Sie ist weder elliptisch, noch parabloisch, noch hyperbolisch\footnote{Dies ist ersichtlich anhand der Eigenwerte der Koeffizientenmatrix zweiter Ableitungen $T=\text{diag}(0,1,-1)$ für Gleichung \eqref{eq:lvn_first}}.
-Ferner bildet $u\in C^2(\Omega)$ in den Raum der komplexen Zahlen ab. Damit unterscheidet sich das Problem bereits grundlegend von den zumeist in der Literatur vorkommenden Problemstellungen. In diesem Kapitel soll ein Verfahren entwickelt werden, welches bislang noch nicht zur Anwendung gekommen ist im Kontext der LvNG: das \emph{Discontinuous-Galerkin}\index{Discontinuous-Galerkin Verfahren} (DG) Verfahren. Die Ausführungen orientieren sich an dem praxisnahen Buch von Hesthaven und Warburton \cite{buch}.
+Ferner bildet $u\in C^2(\Omega)$ in den Raum der komplexen Zahlen ab. Damit unterscheidet sich das Problem bereits grundlegend von den zumeist in der Literatur vorkommenden Problemstellungen. Die stationäre LvNG hingegen ist hyperbolisch. In diesem Kapitel soll ein Verfahren entwickelt werden, welches bislang noch nicht zur Anwendung gekommen ist im Kontext der LvNG: das \emph{Discontinuous-Galerkin}\index{Discontinuous-Galerkin Verfahren} (DG) Verfahren. Die Ausführungen orientieren sich an dem praxisnahen Buch von Hesthaven und Warburton \cite{buch}.
 
-Zunächst wird eine Übersicht über gängige Verfahren zur Lösung von PDGn gegeben. Das DG-Verfahren wird motiviert anhand der jeweiligen Vor- und Nachteile.
+Zunächst wird ein Überblick über verschiedene, gängige numerische Verfahren gegeben. Vor- und Nachteile werden skizziert, wenngleich die Numerik partieller Differentialgleichungen ein großes Forschungsgebiet ist und somit die verschiedenen angedeuteten Probleme sich möglicherweise nur in einer oberflächlichen Betrachtung als solche äußern.
 
 \section{Übersicht}
 Bei der Diskretisierung einer PDG sind zwei grundlegende Fragestellungen zu berücksichten:
@@ -44,6 +44,62 @@ Ein Nachteil ist hier für zeitabhängige Probleme die implizite Form der Massen
 
 Die Abbildung \ref{fig:vergleich_hest} zeigt schematisch die Vor- und Nachteile der genannten Verfahren. Zahlreiche Entwicklungen und Erweiterungen überwinden die Nachteile häufig und es gibt daneben eine Reihe weiterer Eigenschaften, die zumeist problemabhängig sind und daher in dieser Übersicht nicht erwähnt werden können.
 \todo{Scan}
+
+\section{Einführung in die DG Methoden}
+Die DG Methoden entstammen als erweiterte FE Methoden den abstrakten Varitationsproblemen. Motiviert wird ein solches Problem physikalisch durch die Minimierung einer Energie (mathematisch auch als Kostenfunktion bekannt). Für eine eingespannte Membran führt die Variationsrechnung beispielsweise zu den bekannten Euler-Lagrange Gleichungen. Das abstrakte Problem lautet stets:
+\begin{equation}\label{varprob}
+      \emph{Finde ein } u\in X\emph{ , sodass für alle } v\in X \emph{ gilt } a(u,v) = \ell(v).
+\end{equation}
+Hier ist $X$ ein Banach-Raum, $a:X\times X \rightarrow \mathbb{R}$ eine Bilinearform und ${\ell:X\rightarrow \mathbb{R}}$ ein lineares Funktional.
+Der mit Abstand wichtigste Satz in diesem abstrakten Setting ist der Satz von Lax-Milgram \cite{buchPietro} über die Existenz und Eindeutigkeit einer Lösung (\emph{well posedness}). Dazu werden die Begriffe Koerzivität und Stetigkeit benötigt.
+\begin{definition}[Koerzivität und Beschränktheit einer Bilinearform]
+  Sei $X$ ein Hilbertraum, $a \in \mathcal{L}(X\times X, \mathbb{R})$ und $b \in \mathcal{L}(X\times X, \mathbb{C})$. $a$ heißt koerzitiv auf $X$ falls es ein $\beta>0$ gibt sodass
+  \begin{equation}
+    \forall \, v \in X : \qquad \beta\norm{v}^2_X \leq a(v,v)
+  \end{equation}
+  $b$ heißt koerzitiv auf $X$ falls es ein $\beta>0$ gibt sodass
+  \begin{equation}
+    \forall \, v \in X : \qquad \beta\norm{v}^2_X \leq  \operatorname{Re}(b(v,v))
+  \end{equation}
+  a und äquivalent b heißen beschränkt falls es eine Konstante $C>0$ gibt sodass
+  \begin{equation}
+    \forall \, v,w \in X : \qquad C\norm{v}_X \norm{w}_X \geq |a(v,w)|
+  \end{equation}
+\end{definition}
+\begin{satz}[Lax-Milgram]\label{laxmilgram}
+  Sei $X$ ein Hilbertraum, $a \in \mathcal{L}(X\times X, \mathbb{R})$ und darüber hinaus ${\ell\in\mathcal{L}(X,\mathbb{R})=X^*}$. Dann ist das Variationsproblem \ref{varprob} well posed wenn die Bilinearform beschränkt und koerzitiv ist. Es gilt ferner die a priori Abschätzung
+  \begin{equation}
+    \norm{u}_X \leq \frac{1}{\beta} \norm{\ell}_{X^*}
+  \end{equation}
+\end{satz}
+ Für eine PDG ergibt sich die variationale Formulierung (auch als \emph{schwache Formulierung}\index{schwache Formulierung} bezeichnet) mit ${X=W^{k,p}(\Omega)}$ aus einer Multiplikation mit einer Testfunktion ${w\in X}$ und Integration über die offene bschränkte Menge ${\Omega \subset \mathbb{R}^d}$ mit Lipschitz-Rand $\Gamma = \partial\Omega$.
+ Dabei ist ${W^{k,p}(\Omega)}$ der Sobolev-Raum
+ \begin{equation*}
+   W^{k,p}(\Omega) \equiv \{ \varphi \in L^p(\Omega) \, : \, D^{\alpha}\varphi \in L^p(\Omega) \, \forall \, |\alpha| \leq k\}
+ \end{equation*}
+ mit Norm
+ \begin{equation*}
+   \norm{\Psi}_p = \left\{ \sum_{|\alpha|=k}\norm{D^{\alpha}\varphi}_p^p\right\}^{\nicefrac{1}{p}} \; .
+ \end{equation*}
+ Die \emph{schwache Lösung}\index{schwache Lösung} ist dann die Lösung dieser schwachen Form. Das Wort \emph{schwach} bezieht sich hierbei auf die schwächere Regularitätsanforderung, denn die Variationsformulierung kontrolliert die Ableitung nur in integraler Form, wie auch die Definition des Sobolev-Raums zeigt.
+
+ Im Falle der LvNG wird zunächst abstrakt der Rand in Dirichlet-Rand $\Gamma_D$ mit ${u(x,t)|_{\Gamma_D} = g(x)}$ und Rest ${\Gamma\textbackslash\Gamma_D}$ unterteilt. In zwei Dimensionen $d=2$ ergibt sich
+ \begin{align}
+              i \int_{\Omega} \partial_t u(x,t) v(x,t) + \int_{\Omega}\operatorname{div}(A\nabla u(x,t)) v(x,t) - \int_{\Omega}B(x,t) u(x,t) v(x,t) = 0 \\
+  \Rightarrow i \int_{\Omega} \partial_t u v - \int_{\Omega}(A\nabla u)\cdot\nabla v - \int_{\Omega}B u v + \int_{\Gamma\textbackslash\Gamma_D} n \cdot A\nabla u v = - \int_{\Gamma_D} n \cdot A\nabla g v \; .
+ \end{align}
+ Prinzipiell wird also alles, was nicht von der Lösung $u$ selbst abhängt, auf die rechte Seite geschrieben und als lineares Funktional $\ell(v)$ definiert.
+
+ Die FE Methoden verarbeiten das analytische Varitationsproblem durch eine geeignete Diskretisierung. Folgende Schritte werden dabei vorgenommen:
+\begin{enumerate}[label=(\roman*)]
+  \item Die abstrakten Sobolev-Räume werden durch endlich dimensionale Räume $X_{\mathcal{T}}$ approximiert.
+  \item Es werden Basisfunktionen für den Raum $X_{\mathcal{T}}$ definiert.
+  \item Das Gebiet $\Omega$ wird in Elemente $D^1,\dots, D^K$ einfacher Gestalt unterteilt. Hierdurch entsteht im zweidimensionalen die aus vielen Bildern bekannte Dreiecksstruktur komplizierter Oberflächen. Die Teilgebiete lassen sich durch einen Diffeomorphismus $F_k: \hat{K}\rightarrow D^k$ aus einem Referenzelement $\hat{K}$ erzeugen. So werden Integrale einmalig auf dem Referenzelement ausgewertet und dann über den Transformationssatz mit $F_k$ für das jeweilige Element ausgerechnet.
+\end{enumerate}
+Liegen nun Lösungs- und Testfunktionen in einem abgeschlossenen, nicht-leeren Teilraum von $X$, so folgt erneut Existenz und Eindeutigkeit aus Beschränktheit und Koerzivität der Bilinearform auf $X$, wie sich leicht zeigen lässt. %(Thm 2.17)
+Die diskrete Lösung $u^h$ wird auch als \emph{Galerkin Näherung}\index{Galerkin Näherung} bezeichnet, denn die Prozedur geht auf Ritz, Galerkin und Bubnov im Jahre 1915 zurück. Eine Antwort auf die erste Frage des vorangegangenen Abschnittes nach dem Zusammenhang zwischen $u$ und $u^h$ gibt das Lemma von Cea. Es trifft eine Abschätzung für $\norm{u^h-u}_X$ und besagt außerdem, dass dieser Fehler umso besser ist, je besser $X_{\mathcal{T}}$ den Raum $X$ approximiert.
+
+\todo{Residuum orthogonal zu Testfunktionen}
 
 
 \section{DG-Verfahren für die LvNG}
