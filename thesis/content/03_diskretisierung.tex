@@ -11,7 +11,7 @@ Ferner bildet $u\in C^2(\Omega)$ in den Raum der komplexen Zahlen ab. Damit unte
 
 Zunächst wird ein Überblick über verschiedene, gängige numerische Verfahren gegeben. Vor- und Nachteile werden skizziert, wenngleich die Numerik partieller Differentialgleichungen ein großes Forschungsgebiet ist und somit die verschiedenen angedeuteten Probleme sich möglicherweise nur in einer oberflächlichen Betrachtung als solche äußern.
 
-\section{Übersicht}
+\section{Übersicht}\label{sec:Übersicht}
 Bei der Diskretisierung einer PDG sind zwei grundlegende Fragestellungen zu berücksichten:
 \begin{enumerate}
   \item Auf welche Weise wird die Lösung $u(x,t)$ durch eine diskrete Lösung $u_h(x,t)$ genähert?
@@ -52,7 +52,7 @@ Die DG Methoden entstammen als erweiterte FE Methoden den abstrakten Varitations
 \end{equation}
 Hier ist $X$ ein Banach-Raum, $a:X\times X \rightarrow \mathbb{R}$ eine Bilinearform und ${\ell:X\rightarrow \mathbb{R}}$ ein lineares Funktional.
 Der mit Abstand wichtigste Satz in diesem abstrakten Setting ist der Satz von Lax-Milgram \cite{buchPietro} über die Existenz und Eindeutigkeit einer Lösung (\emph{well posedness}). Dazu werden die Begriffe Koerzivität und Stetigkeit benötigt.
-\begin{definition}[Koerzivität und Beschränktheit einer Bilinearform]
+\begin{definition}[Koerzivität und Beschränktheit einer Bilinearform] \label{def:koerz}
   Sei $X$ ein Hilbertraum, $a \in \mathcal{L}(X\times X, \mathbb{R})$ und $b \in \mathcal{L}(X\times X, \mathbb{C})$. $a$ heißt koerzitiv auf $X$ falls es ein $\beta>0$ gibt sodass
   \begin{equation}
     \forall \, v \in X : \qquad \beta\norm{v}^2_X \leq a(v,v)
@@ -92,32 +92,32 @@ Der mit Abstand wichtigste Satz in diesem abstrakten Setting ist der Satz von La
 
  Die FE Methoden verarbeiten das analytische Varitationsproblem durch eine geeignete Diskretisierung. Folgende Schritte werden dabei vorgenommen:
 \begin{enumerate}[label=(\roman*)]
-  \item Die abstrakten Sobolev-Räume werden durch endlich dimensionale Räume $X_{\mathcal{T}}$ approximiert.
-  \item Es werden Basisfunktionen für den Raum $X_{\mathcal{T}}$ definiert.
+  \item Die abstrakten Sobolev-Räume werden durch endlich dimensionale Räume $X\fin$ approximiert.
+  \item Es werden Basisfunktionen für den Raum $X\fin$ definiert.
   \item Das Gebiet $\Omega$ wird in Elemente $D^1,\dots, D^K$ einfacher Gestalt unterteilt. Hierdurch entsteht im zweidimensionalen die aus vielen Bildern bekannte Dreiecksstruktur komplizierter Oberflächen. Die Teilgebiete lassen sich durch einen Diffeomorphismus $F_k: \hat{K}\rightarrow D^k$ aus einem Referenzelement $\hat{K}$ erzeugen. So werden Integrale einmalig auf dem Referenzelement ausgewertet und dann über den Transformationssatz mit $F_k$ für das jeweilige Element ausgerechnet.
 \end{enumerate}
-Liegen nun Lösungs- und Testfunktionen in einem abgeschlossenen, nicht-leeren Teilraum $X_{\mathcal{T}}$ von $X$, so folgt erneut Existenz und Eindeutigkeit aus Beschränktheit und Koerzivität der Bilinearform auf $X$, wie sich leicht zeigen lässt. %(Thm 2.17)
-Die diskrete Lösung $u_{\mathcal{T}}$ wird auch als \emph{Galerkin Näherung}\index{Galerkin Näherung} bezeichnet, denn die Prozedur geht auf Ritz, Galerkin und Bubnov im Jahre 1915 zurück. Eine Antwort auf die erste Frage des vorangegangenen Abschnittes nach dem Zusammenhang zwischen $u$ und $u_{\mathcal{T}}$ gibt das Lemma von Cea. Es trifft eine Abschätzung für $\norm{u_{\mathcal{T}}-u}_X$ und besagt außerdem, dass dieser Fehler umso besser ist, je besser $X_{\mathcal{T}}$ den Raum $X$ approximiert.
+Liegen nun Lösungs- und Testfunktionen in einem abgeschlossenen, nicht-leeren Teilraum $X\fin$ von $X$, so folgt erneut Existenz und Eindeutigkeit aus Beschränktheit und Koerzivität der Bilinearform auf $X$, wie sich leicht zeigen lässt. %(Thm 2.17)
+Die diskrete Lösung $u\fin$ wird auch als \emph{Galerkin Näherung}\index{Galerkin Näherung} bezeichnet, denn die Prozedur geht auf Ritz, Galerkin und Bubnov im Jahre 1915 zurück. Eine Antwort auf die erste Frage des vorangegangenen Abschnittes nach dem Zusammenhang zwischen $u$ und $u\fin$ gibt das Lemma von Cea. Es trifft eine Abschätzung für $\norm{u\fin-u}_X$ und besagt außerdem, dass dieser Fehler umso besser ist, je besser $X\fin$ den Raum $X$ approximiert.
 
-Die DG-Methoden zählen jedoch zu den \emph{nicht-konformen}\index{nicht-konforme Methode} Methoden, die sich dadurch unterscheiden dass $X_{\mathcal{T}}\not\subset X$. Dann lautet die diskrete Approximation des Variationsproblems
+Die DG-Methoden zählen jedoch zu den \emph{nicht-konformen}\index{nicht-konforme Methode} Methoden, die sich dadurch unterscheiden dass $X\fin\not\subset X$. Dann lautet die diskrete Approximation des Variationsproblems
 \begin{equation}
-  \emph{Finde ein } u_{\mathcal{T}}\in X{\mathcal{T}}\emph{ , sodass für alle } v_{\mathcal{T}}\in X_{\mathcal{T}} \emph{ gilt } a_{\mathcal{T}}(u_{\mathcal{T}}, v_{\mathcal{T}}) = \ell_{\mathcal{T}}(v_{\mathcal{T}})
+  \emph{Finde ein } u\fin\in X{\mathcal{T}}\emph{ , sodass für alle } v\fin\in X\fin \emph{ gilt } a\fin(u\fin, v\fin) = \ell\fin(v\fin)
   \label{approx_varprob}
 \end{equation}
 und es gilt das zweite Strang-Lemma als Analogon zum Lemma von Cea.
 \begin{satz}[Zweites Strang-Lemma]\label{strang}
-  Sei $u$ Lösung des Variationsproblems \ref{varprob}, und $u_{\mathcal{T}}$ die Ritz-Approximation mit koerzitivem $a \in \mathcal{L}(X_{\mathcal{T}} \times X_{\mathcal{T}}, \mathbb{C})$ und $\ell_{\mathcal{T}} \in \mathcal{L}(X_{\mathcal{T}}, \mathbb{C})$. Dann gilt
+  Sei $u$ Lösung des Variationsproblems \ref{varprob}, und $u\fin$ die Ritz-Approximation mit koerzitivem $a \in \mathcal{L}(X\fin \times X\fin, \mathbb{C})$ und $\ell\fin \in \mathcal{L}(X\fin, \mathbb{C})$. Dann gilt
   \begin{equation}
     \begin{aligned}
-    \norm{u-u_{\mathcal{T}}}_{X_{\mathcal{T}}} \leq &\left(1 +\frac{C_{\mathcal{T}}}{\beta_{\mathcal{T}}}\right) \inf_{v_{\mathcal{T}} \in X_{\mathcal{T}}}\norm{u-v_{\mathcal{T}}}_{X_{\mathcal{T}}} \\
-    & +\frac{1}{\beta_{\mathcal{T}}} \sup_{w_{\mathcal{T}} \in X_{\mathcal{T}}: \norm{w_{\mathcal{T}}}=1} |a_{\mathcal{T}}(u,w_{\mathcal{T}})-\ell_{\mathcal{T}}(w_{\mathcal{T}})| \; .
+    \norm{u-u\fin}_{X\fin} \leq &\left(1 +\frac{C\fin}{\beta\fin}\right) \inf_{v\fin \in X\fin}\norm{u-v\fin}_{X\fin} \\
+    & +\frac{1}{\beta\fin} \sup_{w\fin \in X\fin: \norm{w\fin}=1} |a\fin(u,w\fin)-\ell\fin(w\fin)| \; .
   \end{aligned}
   \end{equation}
-  Hierbei sind $\beta_{\mathcal{T}}$ und $C_{\mathcal{T}}$ Koerzivitäts- bzw. Stetigkeitskonstanten des approximierten Variationsproblems \ref{approx_varprob}.
+  Hierbei sind $\beta\fin$ und $C\fin$ Koerzivitäts- bzw. Stetigkeitskonstanten des approximierten Variationsproblems \ref{approx_varprob}.
 \end{satz}
-Die Existenz und Eindeutigkeit der Ritz-Approximation $u_{\mathcal{T}}$ ergibt sich wieder aus dem Satz von Lax-Milgram. Alternativ folgt aufgrund der endlichen Dimensionalität des Raumes $X_{\mathcal{T}}$ in Anbetracht der Linearität des Problems \ref{approx_varprob} die Existenz aus der Eindeutigkeit. Hierzu genügt es, die Koerzivität von $a_{\mathcal{T}}$ zu zeigen vgl. Kapitel \todo{Referenz Koerzivität}.
+Die Existenz und Eindeutigkeit der Ritz-Approximation $u\fin$ ergibt sich wieder aus dem Satz von Lax-Milgram. Alternativ folgt aufgrund der endlichen Dimensionalität des Raumes $X\fin$ in Anbetracht der Linearität des Problems \ref{approx_varprob} die Existenz aus der Eindeutigkeit. Hierzu genügt es, die Koerzivität von $a\fin$ zu zeigen vgl. Kapitel \todo{Referenz Koerzivität}.
 
-Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Literaturquellen \cite{NLS} zunächst im folgenden Abschnitt \ref{sec:primal} das stationäre Problem als Variationsproblem formuliert und dessen \emph{well-posedness} gezeigt. Anschließend wird die Stabilität der Lösung untersucht, also das Vorzeichen der zeitlichen Änderung von $\norm{u_{\mathcal{T}}}$, siehe Abschnitt \ref{sec:stabilität}.
+Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Literaturquellen \cite{NLS} zunächst im folgenden Abschnitt \ref{sec:primal} das stationäre Problem als Variationsproblem formuliert und dessen \emph{well-posedness} gezeigt. Anschließend wird die Stabilität der Lösung untersucht, also das Vorzeichen der zeitlichen Änderung von $\norm{u\fin}$, siehe Abschnitt \ref{sec:stabilität}.
 
 \todo{Residuum orthogonal zu Testfunktionen}
 
@@ -135,24 +135,35 @@ Die Abbildung \ref{fig:methodeDerGeraden} veranschaulicht das Vorgehen.
   \caption{Zwei verschiedene Möglichkeiten, zur semidiskreten Form C zu gelangen. Der Weg über B entspricht dabei der \emph{Methode der Geraden}. Im Punkt C verbleibt ein System gewöhnlicher DGLn, welches mit einem geeigneten Zeitschrittverfahren gelöst wird.}
   \label{fig:methodeDerGeraden}
 \end{figure}
+In Anbetracht der Randbedingungen aus Kapitel \ref{sec:RB} ist das Hybdriverfahren ein intuitiverer Zugang, denn die Randbedingungen können nicht einfach als Dirichlet-Randbedingungen auf $\Gamma$ gesetzt werden. Stattdessen ist eine Unterscheidung hinsichtlich der Geschwindigkeit notwendig, was wiederum eine Diagonalisierung des Ableitungsoperators $\partial_y$ erfordert. Diese Diagonalisierung lässt sich mit der Methode der Geraden separieren von der $x$-Diskretisierung, vergleiche auch die Ausführungen in \cite{lukas1}. Die Diagonalisierung entspricht letztlich einer Fourier-Transformation (FT), denn im Impulsraum ist der Ableitungsoperator  diagonal. Eine DG-Diskretisierung bzgl. $y$ hätte dabei jedoch zur Folge, dass die FT für \emph{double-valued}\footnote{An double-valued Punkten ist der Funktionswert nicht eindeutig definiert. Es gibt jeweils einen zu Element 1 und einen zu Element 2 zugehörigen Wert, siehe auch Abbildung \ref{fig:notation_DG}.} Punkte ausgewertet werden muss.
 
-\subsection{DG/FV Hybridverfahren}
+Eine weitere Motivation für das Hybdriverfahren ist die Charakteristik der PDG nach erfolgter $y$-Diskretisierung. Dann liegt nämlich ein System von Advektions-Reaktions-Gleichungen vor, was wiederum den Transportcharakter der PDG offenbart. DG-Verfahren sind wie bereits in Abschnitt \ref{sec:Übersicht} angesprochen dank einer flexiblen Wahl des numerischen Flusses für eben solche Transportgleichungen ausgelegt.
+
+In einem vorbereitenden Einschub sollen im Folgenden einige wichtige Erkenntnisse aus der Theorie für Riemann Probleme hyperbolischer Systeme gezeigt werden. Sie werden später in Abschnitt \ref{sec:Hybridverfahren} benötigt, um einen korrekten numerischen Fluss zu formulieren.
+
+\subsection{Riemann Probleme in hyperbolischer Systemen}\label{sec:riemann}
+TODO
+
+\subsection{DG/FV Hybridverfahren}\label{sec:Hybridverfahren}
 In natürlichen Einheiten kann die bezüglich $y$ diskretisierte LvNG allgemein durch
 \begin{equation}
-  {A}^y u_t(x,t) + {B}^y u_x(x,t) + {C}^y(x)u(x,t) = 0
+  {A}^y u_t(x,t) + {B}^y u_x(x,t) + {C}^y(x,t)u(x,t) = 0
   \label{eq:qschema}
 \end{equation}
 geschrieben werden. Die Matrizen  ${A}^y$, ${B}^y$ und ${C}^y$ resultieren in diesem Abschnitt aus einem FV Verfahren, können aber ebenso anderen Verfahren entstammen.
 
-Dem FV Ansatz in \cite{lukas1} folgend wird das Intervall ${[-L_y/2,+L_y/2]}$ in $K_y$ Zellen unterteilt. Hieraus ergeben sich demnach $K+1$ \emph{interfaces} ${y_{\nicefrac{1}{2}}, y_{\nicefrac{3}{2}}, \dots, y_{K_y + \nicefrac{1}{2}} = -L_y/2, -L_y/2+\Delta y_1,\dots,+L_y/2}$.
+Dem FV Ansatz in \cite{lukas1} folgend wird das Intervall ${[-L_y/2,+L_y/2]}$ in $K_y$ Zellen unterteilt. Hieraus ergeben sich demnach $K_y+1$ \emph{interfaces}
+\begin{equation*}
+  {y_{\nicefrac{1}{2}}, y_{\nicefrac{3}{2}}, \dots, y_{K_y + \nicefrac{1}{2}} = -L_y/2, -L_y/2+\Delta y_1,\dots,+L_y/2} \; .
+\end{equation*}
 Hierbei ist $\Delta y_i$ das Volumen der i-ten Zelle. Der Ansatz führt zu simplen Matrizen der Dimension ${K_y\times K_y}$ mit nicht verschwindenden Einträgen gemäß
 \begin{equation}
   \begin{aligned}
   {A}^y_{i,i} &= \Delta y_i \\
   {B}^y_{i,i+1} &= -\frac{i}{2} \qquad
   {B}^y_{i+1, i} = +\frac{i}{2}  \\
-  {C}^y_{i,i}(x) &= \mathrm{i} \frac{\Delta y_i}{4} (B(x, y_{i+\nicefrac{1}{2}}) + B(x, y_{i-\nicefrac{1}{2}}))  \\
-  {C}^y_{i,i+1}(x) &= C^y_{i+1,i}(x) = \mathrm{i} \frac{\Delta y_i}{4} B(x, y_{i+\nicefrac{1}{2}})  \; .
+  {C}^y_{i,i}(x,t) &= \mathrm{i} \frac{\Delta y_i}{4} (B(x, y_{i+\nicefrac{1}{2}},t) + B(x, y_{i-\nicefrac{1}{2}},t))  \\
+  {C}^y_{i,i+1}(x,t) &= C^y_{i+1,i}(x,t) = \mathrm{i} \frac{\Delta y_i}{4} B(x, y_{i+\nicefrac{1}{2}},t)  \; .
   \end{aligned}
 \end{equation}
 Dieses Schema impliziert, dass $u(x,t)$ an den \emph{interfaces} als Mittelwert von rechts- und linksseitiger Zelle angenommen wird. Des weiteren sind  homogene Dirichlet Randbedingungen angenommen, also ${u(x,y_{\nicefrac{1}{2}}, t) = u(x,y_{K_y+\nicefrac{1}{2}}, t) = 0}$.
@@ -163,8 +174,88 @@ Die Matrix $B^y$ kann analytisch diagonalisiert werden. Es ist ${B^y = R\Lambda^
 \end{equation}
 und zugehörigen Eigenvektoren
 \begin{equation}
-  R_{m,n} = i^m \sin\left(\frac{mn\pi}{K_y +1} \right)   \qquad m,n = 1,\dots,K_y \; .
+  R_{m,n} = i^m \sin\left(\frac{mn\pi}{K_y +1} \right)   \qquad m,n = 1,\dots,K_y
 \end{equation}
+mti der Unitarität $R^{-1} = R^{\dagger}$.
+
+Der Einfachheit halber wird nun $\Delta y_i = h_y$ konstant gesetzt, sodass
+\begin{equation}
+  (A^y)^{-1}B^y = h_y^{-1}R\Lambda^y R^{-1}
+\end{equation}
+gilt. Mit der unitären Transformation
+\begin{equation}
+  v(x,t) \equiv R^{\dagger}u(x,t)
+\end{equation}
+sowie der Definition
+\begin{equation}
+  G(x,t) \equiv h_y^{-1} R^{\dagger}C^y(x,t)
+\end{equation}
+folgt die diagonalisierte PDG
+\begin{equation}
+  v_t(x,t) + \Lambda^y v_x(x,t) + G(x,t)v(x,t) = 0 \; .
+  \label{eq:diagLVN}
+\end{equation}
+Dies ist ein System von $K_y$ gekoppelten Advektions-Reaktions-Gleichungen mit Anfangsbedingung
+\begin{equation}
+  v(x,0) = (v(y_1,x,0),\dots,v(y_{K_y},x,0))^T = {v}_0(x) = R^{-1}u_0(x)
+\end{equation}
+und Fluss ${{f}({v}(x,t))=\Lambda^y {v}(x,t)}$. Sei ${\Omega_x = (-L_x/2,L_x/2)}$ ein beschränktes, offenes Gebiet mit Lipschitz Rand $\partial\Omega_x$ in  $\mathbb{R}$. Es wird durch die Vereinigung von $K_x$ nicht überlappenden Elementen ${D^k = [x_\ell^k,x_r^k]}$ trianguliert und diese Triangulierung sei mit $\mathcal{T}$ bezeichnet. Gesucht wird eine diskrete Lösung $v\fin$, welche Element des Finite-Elemente-Raumes
+\begin{equation}
+  V\fin = (V_{\mathcal{T},1})^{K_y} \equiv \left( \{ v \in L^1(\Omega_x) \;|\; v_h\rvert_{D^k} \in P_N(D^k) \, \forall \, k=1,\dots,K_x \} \right)^{K_y} \; ,
+  \label{eq:FES}
+\end{equation}
+wobei $P_N$ der ${N+1=N_p}$ -dimensionale Raum der Polynome vom Grad $N$ ist. $V_{\mathcal{T},1}$ ist Teilmenge des gebrochenen Sobolev-Raumes
+\begin{equation}
+    H^1(\mathcal{T}) = \{ v \in L^2(\Omega_x) \, : \, v|_{D^k} \in H^1(D^k) \, \forall \, D^k \in \mathcal{T} \} \; ,
+\end{equation}
+welcher wiederum \underline{nicht} Teilmenge des Lösungsrames $X=H^1(\Omega)$ ist. Dies zeigt die Nicht-Konformität der Methode. Dennoch ist auch $H^1(\mathcal{T})$ Hilbertraum und es lässt sich der Satz von Lax-Milgram anwenden.
+
+Der finite Elemente Raum \eqref{eq:FES} lässt Unstetigkeiten zu und diese werden gemäß Abbildung \ref{fig:notation_DG} gekennzeichnet. Werte am linken Rand eines Elementes bekommen den Index "+" und Werte am rechten Rand den Index "-".
+\begin{definition}[Sprung und Mittelwert]
+Es bezeichne $F=\cup_{D^k\in\mathcal{T}} \, \partial D^k$ die Menge aller Elementkanten. Auf inneren Kanten $e\in F_i=F  \textbackslash \partial\Omega_x$ werden
+\begin{equation}
+  \jump{u\fin}_e = u\fin^-|_e - u\fin^+|_e \qquad \avg{u\fin}_e = \frac{1}{2} (u\fin^-|_e + u\fin^+|_e)
+\end{equation}
+als Sprung $\jump{u\fin}_e$ und Mittelwert $\avg{u\fin}_e$ von $u\fin \in V\fin$ definiert. Auf den zwei äußeren Kanten $e\in F_e = F \textbackslash F_i$ wird diese Definition durch
+\begin{equation}
+  \jump{u\fin}_e \equiv \begin{cases} -u_{\mathcal{T},l}^+ \equiv -u\fin(x_{\nicefrac{1}{2}}^+) \; \text{, links}\\ u_{\mathcal{T},r}^- \equiv u\fin(x_{K_x+\nicefrac{1}{2}}^+) \; \text{, rechts} \end{cases}
+   \qquad \avg{u\fin}_e = \begin{cases} u_{\mathcal{T},l}^+ \; \text{, links}\\ u_{\mathcal{T},r}^- \; \text{, rechts}\\  \end{cases}
+\end{equation}
+erweitert. Ganz analog werden Sprung und Mittelwert für $u \in V_{\mathcal{T},1}$ definiert. Damit gilt für alle Kanten $e\in F$ und $u,v\in V\fin$ die Relation
+\begin{equation}
+  \jump{u^{\dagger}v} = \jump{u}^{\dagger}\avg{v} + \avg{u}^{\dagger}\jump{v}
+  \label{eq:jump_relation}
+\end{equation}
+\end{definition}
+Um nun das DG Schema zu entwickeln, wird die Gleichung \eqref{eq:diagLVN} in die variationale Formulierung \eqref{eq:approx_varprob} gebracht. Gesucht sind Bilinearform a und Linearform $\ell$, an die folgende Anforderungen gestellt werden:
+\begin{itemize}
+  \item \emph{Konsistenz}\index{Konsistenz}: Für die schwache Lösung der LvNG und jede Funktion $v\in L^2(\Omega)$, die elementweise in $H^1(D^k)$ ist, gilt ${a\fin(u,v)=\ell\fin(v)}$.
+  \item Beschränktheit und Koerzivität der Bilinearform nach Definition \ref{def:koerz}.
+\end{itemize}
+Der zweite Punkt ist diffizil und kann einzig durch eine gute Wahl des numerischen Flusses sichergestellt werden.
+Konsistenz hingegen wird erreicht, indem zu der analytischen Form \eqref{eq:diagLVN} lediglich Sprungterme hinzugefügt werden, welche für die schwache Lösung $u\in H^1(\Omega)$ verschwinden. Der Grund hierfür liegt im zweiten Sobolevschen Einbettungssatz \cite{buchPietro}. Demnach bettet $W^{m,p}(\Omega)$ stetig in $C^{l,\alpha}(\overline{\Omega})$ ein, falls die Sobolev-Zahl ${\text{sob}(W^{m,p})\geq l+\alpha}$.
+Insbesondere ist für $\Omega\in\mathbb{R}^1$ die Sobolevzahl $\text{sob}(H^1) = 1-\nicefrac{1}{2}$, weshalb $H^1$ stetig in $C^0$ einbettet. Für die schwache Lösung verschwinden also Sprungterme.
+
+Multiplikation der diagonalisierten LvNG \eqref{eq_diagLVN} mit einer Testfunktion $\varphi\in V\fin$, Integration über ein Element $D^k$ und anschließende partielle Integration liefert
+\begin{equation*}
+  \int_{D^k} (\varphi^{\dagger} \partial_t v - \partial_x \varphi^{\dagger} f(v) + \varphi^{\dagger} G v) + \int_{\partial D^k}\hat{n}\varphi^{\dagger}f = 0 \; .
+\end{equation*}
+mit dem nach außen zeigenden Normalenvektor $\hat{n}$. Durch Summation über alle $K_x$ Elemente folgt
+\begin{equation*}
+  \sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v - \partial_x \varphi^{\dagger} f(v) + \varphi^{\dagger} G v)
+  + \sum_{e\in F_i}\int_{e}\jump{\hat{n}\varphi^{\dagger}f} + \sum_{e\in F_e}\int_e \jump{\varphi^{\dagger}f}  = 0 \; .
+\end{equation*}
+Nun wird Relation \eqref{eq:jump_relation} und die Stetigkeit der schwachen Lösung $v$ genutzt (${\jump{v}=\jump{f}=0}$).
+\begin{equation*}
+  \sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v - \partial_x \varphi^{\dagger} f(v) + \varphi^{\dagger} G v)
+  + \sum_{e\in F_i}\int_{e}\jump{\hat{n}\varphi^{\dagger}} f + \sum_{e\in F_e}\int_e \jump{\varphi^{\dagger}} f  = 0
+\end{equation*}
+An dieser Stelle wird die schwache Lösung $v$ durch ihre diskrete Ritz-Approximation $v\fin$ ersetzt. Das führt dazu, dass der Fluss $f\fin = f(v\fin)$ nicht mehr eindeutig definiert ist auf den Elementkanten. Er wird durch den \emph{single-valued} \emph{numerischen Fluss}\index{numerischer Fluss} $\hat{f}$ ersetzt. Dieser ergibt sich in sinnvoller Weise aus der Lösung des Riemann-Problems aus Abschnitt \ref{sec:riemann}, denn die Situation im DG-Verfahren entspricht gerade einem solchen Problem. Aufgabe des numerischen Flusses ist es, die Randbedingungen in einer schwachen Weise zu erzwingen. So sollte beispielsweise für positive Geschwindigkeiten $\lambda_j$ (als Eigenwerte von $\Lambda$) am linken Rand
+\begin{equation*}
+  (\hat{f}(g, v^+_l))_j = \lambda_j g(x=-L_x/2)
+\end{equation*}
+gelten und damit dem Upwind Charakter der PDG Rechnung getragen werden. 
+Zunächst ist der numerische Fluss einfach eine Funktion$ \hat{f}(u^-,u^+)$, welche den analytischen Fluss $f$ approximiert.
 
 
 
@@ -178,7 +269,7 @@ und zugehörigen Eigenvektoren
 % \end{align}
 % gewählt. Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt.
 
-\todo{Idee: TF-Lösung für Überlagerung von l und r zeigen.}
+% \todo{Idee: TF-Lösung für Überlagerung von l und r zeigen.}
 
 % \section{Mathematische Aspekte der \lvn}
 % Die eindimensionale Wellenfunktion $\Psi(x)$ eines Teilchens ist ein Vektor des unendlich-dimensionalen Hilbertraums $L^2(\mathbb{R})$ mit dem üblichen Skalarprodukt
