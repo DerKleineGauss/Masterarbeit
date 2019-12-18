@@ -141,11 +141,90 @@ Eine weitere Motivation für das Hybdriverfahren ist die Charakteristik der PDG 
 
 In einem vorbereitenden Einschub sollen im Folgenden einige wichtige Erkenntnisse aus der Theorie für Riemann Probleme hyperbolischer Systeme gezeigt werden. Sie werden später in Abschnitt \ref{sec:Hybridverfahren} benötigt, um einen korrekten numerischen Fluss zu formulieren.
 
-\subsection{Riemann Probleme in hyperbolischer Systemen}\label{sec:riemann}
-TODO
+\subsection{Riemann Probleme in hyperbolischen Systemen}\label{sec:riemann}\index{Riemann Problem}
+Die folgenden Ausführungen orientieren sich an dem Buch von Leveque \cite{buchLeveque}.
+Das Riemann Problem für die skalare Adventkionsgleichung $u_t + f_x(u) = 0$ mit dem Fluss $f(u(x)) = s u(x)$ ist durch die diskontinuierliche Anfangswertbedingung
+\begin{equation}
+  u(x,0) = \begin{cases} u^- , \; x < 0 \\
+                         u^+ , \; x > 0
+           \end{cases}
+\end{equation}
+gestellt.  Die \emph{Rankine-Hugoniot-Bedingung}\index{Rankine-Hugoniot-Bedingung} lautet im skalaren Fall
+\begin{equation}
+  s(u^- - u^+) = (f^- - f^+) \; .
+  \label{eq:rhc}
+\end{equation}
+Die Größe s ist dabei die Geschwindigkeit, mit der sich die Diskontinuität ausbreitet (\emph{shock speed}). Im allgemeineren Fall eines linearen Systems mit $f(u) = A u$ wird angenommen, dass die Matrix $A$ reelle, disjunkte Eigenwerte $\lambda_1 < \lambda_2 < \dots < \lambda_m$ hat, das heißt $A$ ist diagonalisierbar gemäß
+\begin{equation}
+  A = R \Lambda R^{-1}
+\end{equation}
+mit $R=[r_1 \, r_2 \, \dots \, r_m]$ als Transformationsmatrix mit den zugehörigen Eigenvektoren. Die Eigenwertgleichung lautet
+\begin{equation}
+  Ar_p = \lambda_p r_p \qquad \forall \, p=1,\dots, m
+  \label{eq:EWeq_A}
+\end{equation}
+Durch die Zerlegung von $u^-$ und $u^+$ in die Eigenwertbasis gemäß
+\begin{equation*}
+  u^- = \sum_{p=1}^m \alpha_p r_p \qquad u^+ = \sum_{p=1}^m \beta_p r_p,
+\end{equation*}
+folgt mit $v = R^{-1}u$ und wegen der Charakteristik der Advektionsgleichung
+\begin{equation*}
+  v_p(x,t) = \begin{cases} \alpha_p , \; x - \lambda_p t < 0 \\
+                           \beta_p  , \; x - \lambda_p t > 0
+             \end{cases}
+\end{equation*}
+Bezeichnet $J(x,t)$ den größtmöglichen Index $p$, für den $x-\lambda_p t > 0$ gilt, so ist
+\begin{align}
+  u(x,t) = \sum_{p=1}^{J(x,t)} \beta_p r_p + \sum_{p={J(x,t)}+1}^m \alpha_p r_p \; .
+\end{align}
+Dieser Zusammenhang wird in Abbildung \ref{fig:torte} gezeigt.
+\todo{Tortendiagramm S-66}
+Die Lösung ist konstant innerhalb der einzelnen Segmente. Entlang der $p$-ten Charakteristik springt die Lösung jedoch. Mit der zu \ref{def:jump} äquivalenten Definition des Sprungs ${\jump{u}\equiv u^- - u^+}$ lässt sich
+\begin{equation}
+  -\jump{u_p} = (\beta_p - \alpha_p) r_p \; ,
+  \label{eq:TortenJump}
+\end{equation}
+schreiben, wie der Abbildung zu entnehmen ist. Hier ist wieder die Rankine-Hugoniot-Bedingung analog zu Gleichung \eqref{eq:rhc} ersichtlich, denn es ist mit $f(u) = A u$
+\begin{equation}
+  \begin{aligned}
+    \jump{f}_p &= A\jump{u}_p \stackrel{\eqref{eq:TortenJump}}{=} -(\beta_p - \alpha_p) A r_p \stackrel{\eqref{eq:EWeq_A}}{=}  -(\beta_p - \alpha_p) \lambda_p r_p \\
+    &= \lambda_p \jump{u}_p \; .
+  \end{aligned}
+\end{equation}
+Um nun den numerischen Fluss $f^*$ eines DG- oder FV Verfahrens zu bestimmen, ist $u$ an dem Ort $x=0$ auszuwerten (was in diesen Verfahren den Elementkanten entspricht). Daher könnnen entweder von $u^-$ ausgehend die Sprünge nach rechts oder von $u^+$ ausgehend die Sprünge nach links aufaddiert  werden. Folglich gilt
+\begin{align}
+  \label{eq:rhc_1}
+  u(x=0) &= u^- + \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p = u^+ - \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p \\
+  \Rightarrow \qquad u(x=0) &= \frac{u^- + u^+}{2} + \frac{1}{2}\left( \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p - \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p \right) \; .
+\end{align}
+Multiplikation mit $A=R\Lambda R^{-1} = R(\Lambda^+ + \Lambda^-)R^{-1}$ (hierbei enthält $\Lambda^{+(-)}$ ausschließlich die positiven (negativen) Eigenwerte von $\Lambda$) ergibt den numerischen Fluss
+\begin{align*}
+  f^* = A \avg{u} + \frac{1}{2}& (R(\Lambda^+ + \Lambda^-)R^{-1}) \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p \\
+                     - \frac{1}{2}& (R(\Lambda^+ + \Lambda^-)R^{-1}) \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p \\
+         = A \avg{u} + \frac{1}{2}&\left( R\Lambda^-R^{-1} \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p
+                    - R\Lambda^+R^{-1} \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p        \right) \; .
+\end{align*}
+Die letzte Gleichheit folgt aus $\sum_j (R^{-1})_{i,j} (r_p)_j = \delta_{i,p} e_p$ (mit $e_p$ als Einheitsvektor). Im Folgenden soll mit $|A|$ die Kurzschreibweise für $(|A|)_{i,j} = |A_{i,j}|$ verwendet werden. Dann lässt sich der Fluss weiter zusammenfassen:
+\begin{align}
+  f^* &= A \avg{u} + \frac{1}{2} \left( -R|\Lambda^-|R^{-1} \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p
+              - R\Lambda^+R^{-1} \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p        \right) \\
+        &= A \avg{u} - \frac{1}{2} \underbrace{(R|\Lambda^-|R^{-1} + R\Lambda^+R^{-1})}_{=R|\Lambda|R \equiv |A|}  \sum_p(\beta_p - \alpha_p)r_p   \\
+        &\stackrel{\eqref{eq:rhc_1}}{=} A \avg{u} - \frac{1}{2} |A| (u^+-u^-) \\
+        &= A \avg{u} + \frac{1}{2} |A| \jump{u}
+\end{align}
+Die gesamte Argumentation funktioniert auch, wenn A bereits diagonal ist. Am Ausgangspunkt der vektoriellen Advektionsgleichung wird direkt eine Transformation $u=Rv$ durchgeführt, sodass
+\begin{align}
+  v_t + \Lambda v_x = 0 \; .
+\end{align}
+Es folgt dann wie oben gezeigt der numerische Fluss
+\begin{align}
+  f^* = (\Lambda v)^* = \Lambda\avg{v} + \frac{1}{2}|\Lambda|\jump{v} \; .
+  \label{eq:FLUX}
+\end{align}
+
 
 \subsection{DG/FV Hybridverfahren}\label{sec:Hybridverfahren}
-In natürlichen Einheiten kann die bezüglich $y$ diskretisierte LvNG allgemein durch
+In natürlichen Einheiten kann die bezüglich $y$ diskretisierte LvNG \eqref{eq:lvn} allgemein durch
 \begin{equation}
   {A}^y u_t(x,t) + {B}^y u_x(x,t) + {C}^y(x,t)u(x,t) = 0
   \label{eq:qschema}
@@ -211,7 +290,7 @@ wobei $P_N$ der ${N+1=N_p}$ -dimensionale Raum der Polynome vom Grad $N$ ist. $V
 welcher wiederum \underline{nicht} Teilmenge des Lösungsrames $X=H^1(\Omega)$ ist. Dies zeigt die Nicht-Konformität der Methode. Dennoch ist auch $H^1(\mathcal{T})$ Hilbertraum und es lässt sich der Satz von Lax-Milgram anwenden.
 
 Der finite Elemente Raum \eqref{eq:FES} lässt Unstetigkeiten zu und diese werden gemäß Abbildung \ref{fig:notation_DG} gekennzeichnet. Werte am linken Rand eines Elementes bekommen den Index "+" und Werte am rechten Rand den Index "-".
-\begin{definition}[Sprung und Mittelwert]
+\begin{definition}[Sprung und Mittelwert]\label{def:jump}
 Es bezeichne $F=\cup_{D^k\in\mathcal{T}} \, \partial D^k$ die Menge aller Elementkanten. Auf inneren Kanten $e\in F_i=F  \textbackslash \partial\Omega_x$ werden
 \begin{equation}
   \jump{u\fin}_e = u\fin^-|_e - u\fin^+|_e \qquad \avg{u\fin}_e = \frac{1}{2} (u\fin^-|_e + u\fin^+|_e)
@@ -254,7 +333,7 @@ An dieser Stelle wird die schwache Lösung $v$ durch ihre diskrete Ritz-Approxim
 \begin{equation*}
   (\hat{f}(g, v^+_l))_j = \lambda_j g(x=-L_x/2)
 \end{equation*}
-gelten und damit dem Upwind Charakter der PDG Rechnung getragen werden. 
+gelten und damit dem Upwind Charakter der PDG Rechnung getragen werden.
 Zunächst ist der numerische Fluss einfach eine Funktion$ \hat{f}(u^-,u^+)$, welche den analytischen Fluss $f$ approximiert.
 
 
