@@ -191,7 +191,7 @@ schreiben, wie der Abbildung zu entnehmen ist. Hier ist wieder die Rankine-Hugon
     &= \lambda_p \jump{u}_p \; .
   \end{aligned}
 \end{equation}
-Um nun den numerischen Fluss $f^*$ eines DG- oder FV Verfahrens zu bestimmen, ist $u$ an dem Ort $x=0$ auszuwerten (was in diesen Verfahren den Elementkanten entspricht). Daher könnnen entweder von $u^-$ ausgehend die Sprünge nach rechts oder von $u^+$ ausgehend die Sprünge nach links aufaddiert  werden. Folglich gilt
+Um nun den numerischen Fluss $\hat{f}$ eines DG- oder FV Verfahrens zu bestimmen, ist $u$ an dem Ort $x=0$ auszuwerten (was in diesen Verfahren den Elementkanten entspricht). Daher könnnen entweder von $u^-$ ausgehend die Sprünge nach rechts oder von $u^+$ ausgehend die Sprünge nach links aufaddiert  werden. Folglich gilt
 \begin{align}
   \label{eq:rhc_1}
   u(x=0) &= u^- + \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p = u^+ - \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p \\
@@ -199,14 +199,14 @@ Um nun den numerischen Fluss $f^*$ eines DG- oder FV Verfahrens zu bestimmen, is
 \end{align}
 Multiplikation mit $A=R\Lambda R^{-1} = R(\Lambda^+ + \Lambda^-)R^{-1}$ (hierbei enthält $\Lambda^{+(-)}$ ausschließlich die positiven (negativen) Eigenwerte von $\Lambda$) ergibt den numerischen Fluss
 \begin{align*}
-  f^* = A \avg{u} + \frac{1}{2}& (R(\Lambda^+ + \Lambda^-)R^{-1}) \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p \\
+  \hat{f} = A \avg{u} + \frac{1}{2}& (R(\Lambda^+ + \Lambda^-)R^{-1}) \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p \\
                      - \frac{1}{2}& (R(\Lambda^+ + \Lambda^-)R^{-1}) \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p \\
          = A \avg{u} + \frac{1}{2}&\left( R\Lambda^-R^{-1} \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p
                     - R\Lambda^+R^{-1} \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p        \right) \; .
 \end{align*}
 Die letzte Gleichheit folgt aus $\sum_j (R^{-1})_{i,j} (r_p)_j = \delta_{i,p} e_p$ (mit $e_p$ als Einheitsvektor). Im Folgenden soll mit $|A|$ die Kurzschreibweise für $(|A|)_{i,j} = |A_{i,j}|$ verwendet werden. Dann lässt sich der Fluss weiter zusammenfassen:
 \begin{align}
-  f^* &= A \avg{u} + \frac{1}{2} \left( -R|\Lambda^-|R^{-1} \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p
+  \hat{f} &= A \avg{u} + \frac{1}{2} \left( -R|\Lambda^-|R^{-1} \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p
               - R\Lambda^+R^{-1} \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p        \right) \\
         &= A \avg{u} - \frac{1}{2} \underbrace{(R|\Lambda^-|R^{-1} + R\Lambda^+R^{-1})}_{=R|\Lambda|R \equiv |A|}  \sum_p(\beta_p - \alpha_p)r_p   \\
         &\stackrel{\eqref{eq:rhc_1}}{=} A \avg{u} - \frac{1}{2} |A| (u^+-u^-) \\
@@ -218,7 +218,7 @@ Die gesamte Argumentation funktioniert auch, wenn A bereits diagonal ist. Am Aus
 \end{align}
 Es folgt dann wie oben gezeigt der numerische Fluss
 \begin{align}
-  f^* = (\Lambda v)^* = \Lambda\avg{v} + \frac{1}{2}|\Lambda|\jump{v} \; .
+  \hat{f} = \hat{\Lambda v} = \Lambda\avg{v} + \frac{1}{2}|\Lambda|\jump{v} \; .
   \label{eq:FLUX}
 \end{align}
 
@@ -317,26 +317,47 @@ Insbesondere ist für $\Omega\in\mathbb{R}^1$ die Sobolevzahl $\text{sob}(H^1) =
 
 Multiplikation der diagonalisierten LvNG \eqref{eq_diagLVN} mit einer Testfunktion $\varphi\in V\fin$, Integration über ein Element $D^k$ und anschließende partielle Integration liefert
 \begin{equation*}
-  \int_{D^k} (\varphi^{\dagger} \partial_t v - \partial_x \varphi^{\dagger} f(v) + \varphi^{\dagger} G v) + \int_{\partial D^k}\hat{n}\varphi^{\dagger}f = 0 \; .
+  \int_{D^k} (\varphi^{\dagger} \partial_t v - (\partial_x \varphi^{\dagger}) f(v) + \varphi^{\dagger} G v) + \int_{\partial D^k}\hat{n}\varphi^{\dagger}f = 0 \; .
 \end{equation*}
 mit dem nach außen zeigenden Normalenvektor $\hat{n}$. Durch Summation über alle $K_x$ Elemente folgt
 \begin{equation*}
-  \sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v - \partial_x \varphi^{\dagger} f(v) + \varphi^{\dagger} G v)
-  + \sum_{e\in F_i}\int_{e}\jump{\hat{n}\varphi^{\dagger}f} + \sum_{e\in F_e}\int_e \jump{\varphi^{\dagger}f}  = 0 \; .
+  \sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v - (\partial_x \varphi^{\dagger}) f(v) + \varphi^{\dagger} G v)
+  + \sum_{e\in F_i}\int_{e}\jump{\varphi^{\dagger}f} + \sum_{e\in F_e}\int_e \jump{\varphi^{\dagger}f}  = 0 \; .
 \end{equation*}
 Nun wird Relation \eqref{eq:jump_relation} und die Stetigkeit der schwachen Lösung $v$ genutzt (${\jump{v}=\jump{f}=0}$).
+\begin{equation}
+  \sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v - (\partial_x \varphi^{\dagger}) f(v) + \varphi^{\dagger} G v)
+  + \sum_{e\in F_i}\int_{e}\jump{\varphi^{\dagger}} f + \sum_{e\in F_e}\int_e \jump{\varphi^{\dagger}} f  = 0
+  \label{eq:kontinForm}
+\end{equation}
+An dieser Stelle wird die schwache Lösung $v$ durch ihre diskrete Ritz-Approximation $v\fin$ ersetzt. Dabei wird in dieser Arbeit diese Ansatzfunktion aus demselben Raum wie die Testfunktion gesucht, was dem \emph{Galerkin-Ansatz}\index{Galerkin-Ansatz} entspricht. Das führt dazu, dass der Fluss $f\fin = f(v\fin)$ nicht mehr eindeutig definiert ist auf den Elementkanten. Er wird durch den \emph{single-valued} \emph{numerischen Fluss}\index{numerischer Fluss} $\hat{f}$ ersetzt. Dieser ergibt sich in sinnvoller Weise aus der Lösung des Riemann-Problems aus Abschnitt \ref{sec:riemann}, denn die Situation im DG-Verfahren entspricht gerade einem solchen Problem. Die Elementkanten entsprechen den Orten der Diskontinuitäten und die Matrix $\Lambda$ enthält wie gefordert disjunkte Eigenwerte.
+Aufgabe des numerischen Flusses ist es, die Randbedingungen in einer schwachen Weise zu erzwingen. So sollte beispielsweise für positive Geschwindigkeiten $\lambda_j$ (als Eigenwerte von $\Lambda$) am linken Rand
 \begin{equation*}
-  \sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v - \partial_x \varphi^{\dagger} f(v) + \varphi^{\dagger} G v)
-  + \sum_{e\in F_i}\int_{e}\jump{\hat{n}\varphi^{\dagger}} f + \sum_{e\in F_e}\int_e \jump{\varphi^{\dagger}} f  = 0
+  (\hat{f}(g, v^+))_j = \lambda_j g(x=-L_x/2)
 \end{equation*}
-An dieser Stelle wird die schwache Lösung $v$ durch ihre diskrete Ritz-Approximation $v\fin$ ersetzt. Das führt dazu, dass der Fluss $f\fin = f(v\fin)$ nicht mehr eindeutig definiert ist auf den Elementkanten. Er wird durch den \emph{single-valued} \emph{numerischen Fluss}\index{numerischer Fluss} $\hat{f}$ ersetzt. Dieser ergibt sich in sinnvoller Weise aus der Lösung des Riemann-Problems aus Abschnitt \ref{sec:riemann}, denn die Situation im DG-Verfahren entspricht gerade einem solchen Problem. Aufgabe des numerischen Flusses ist es, die Randbedingungen in einer schwachen Weise zu erzwingen. So sollte beispielsweise für positive Geschwindigkeiten $\lambda_j$ (als Eigenwerte von $\Lambda$) am linken Rand
-\begin{equation*}
-  (\hat{f}(g, v^+_l))_j = \lambda_j g(x=-L_x/2)
-\end{equation*}
-gelten und damit dem Upwind Charakter der PDG Rechnung getragen werden.
-Zunächst ist der numerische Fluss einfach eine Funktion$ \hat{f}(u^-,u^+)$, welche den analytischen Fluss $f$ approximiert.
+gelten und damit dem Upwind Charakter der PDG Rechnung getragen werden. Der numerische Fluss
+\begin{equation}
+  \begin{aligned}
+    \hat{f} = \begin{cases}
+    \Lambda\avg{v}_e + \frac{1}{2}|\Lambda|\jump{v}_e & e\in F_i \\
+    \frac{1}{2}\Lambda(v^- + g) + \frac{1}{2}|\Lambda|(v^- - g)   & e=x_r \\
+    \frac{1}{2}\Lambda(v^+ + g) + \frac{1}{2}|\Lambda|(g - v^+)   & e=x_l
+  \end{cases}
+  \end{aligned}
+\end{equation}
+aus dem vorherigen Abschnitt entspricht einem Upwind Fluss. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Allgemein ließe sich statt $|\Lambda|/2$ ein Faktor $\tau$ einfügen. Der Upwind Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch, dass lediglich $\tau=|\Lambda|/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Der Upwind Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
 
-
+Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt
+\begin{equation}
+  \begin{aligned}
+    &\sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v\fin - (\partial_x \varphi^{\dagger}) f(v\fin) + \varphi^{\dagger} G v\fin)
+    + \sum_{e\in F_i}\int_{e}\jump{\varphi^{\dagger}} (\Lambda\avg{v}_e + \frac{1}{2}|\Lambda|\jump{v}_e) \\
+    &+ \int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)v^-
+    + \int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda - |\Lambda|)v^+ \\
+    &= -\int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda - |\Lambda|)g
+       -\int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)g
+  \end{aligned}
+\end{equation}
 
 
 
