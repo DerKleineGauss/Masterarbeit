@@ -178,7 +178,12 @@ Bezeichnet $J(x,t)$ den größtmöglichen Index $p$, für den $x-\lambda_p t > 0
   u(x,t) = \sum_{p=1}^{J(x,t)} \beta_p r_p + \sum_{p={J(x,t)}+1}^m \alpha_p r_p \; .
 \end{align}
 Dieser Zusammenhang wird in Abbildung \ref{fig:torte} gezeigt.
-\todo{Tortendiagramm S-66}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{files/Torte.pdf}
+  \caption{Konstruktion der Lösung mit Hilfe der Charakteristiken-Methode am Beispiel dreier Eigenwerte $\lambda_1,\lambda_2,\lambda_3$. In den einzelnen Segmenten ist die Lösung konstant und ergibt sich als Linearkombination der Anfangswerte wie eingezeichnet.}
+  \label{fig:torte}
+\end{figure}
 Die Lösung ist konstant innerhalb der einzelnen Segmente. Entlang der $p$-ten Charakteristik springt die Lösung jedoch. Mit der zu \ref{def:jump} äquivalenten Definition des Sprungs ${\jump{u}\equiv u^- - u^+}$ lässt sich
 \begin{equation}
   -\jump{u_p} = (\beta_p - \alpha_p) r_p \; ,
@@ -290,6 +295,12 @@ wobei $P_N$ der ${N+1=N_p}$ -dimensionale Raum der Polynome vom Grad $N$ ist. $V
 welcher wiederum \underline{nicht} Teilmenge des Lösungsrames $X=H^1(\Omega)$ ist. Dies zeigt die Nicht-Konformität der Methode. Dennoch ist auch $H^1(\mathcal{T})$ Hilbertraum und es lässt sich der Satz von Lax-Milgram anwenden.
 
 Der finite Elemente Raum \eqref{eq:FES} lässt Unstetigkeiten zu und diese werden gemäß Abbildung \ref{fig:notation_DG} gekennzeichnet. Werte am linken Rand eines Elementes bekommen den Index "+" und Werte am rechten Rand den Index "-".
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{files/notationDG.pdf}
+  \caption{Notation für das eindimensionale DG-Verfahren.}
+  \label{fig:notation_DG}
+\end{figure}
 \begin{definition}[Sprung und Mittelwert]\label{def:jump}
 Es bezeichne $F=\cup_{D^k\in\mathcal{T}} \, \partial D^k$ die Menge aller Elementkanten. Auf inneren Kanten $e\in F_i=F  \textbackslash \partial\Omega_x$ werden
 \begin{equation}
