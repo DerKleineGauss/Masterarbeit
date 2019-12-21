@@ -38,7 +38,7 @@ Während wegen der Flexibilität bezüglich Geometrie und Wahl des Flusses die F
 Im eindimensionalen Fall $d=1$ ist eine Erhöhung der Genauigkeit jedoch möglich und es soll an dieser Stelle betont werden, dass die LvNG ebenso mit einem zweistufigen FV Verfahren und Polynomgraden ${N_x,N_y > 1}$ gelöst werden kann. Die Flexibilität des Gitters ist im Falle eines hybdriden FV/DG-Verfahrens ohnehin nicht gegeben (vgl. Kapitel \todo{Referenz}).
 
 \subsection{Finite Elemente}\index{Finite Elemente}
-Der Übergang zu den Finite Elemente Methoden (FEM) geschieht, indem die approximative Lösung innerhalb einer Zelle nicht mehr als konstant gesetzt wird. Erhöhung der Genauigkeit durch Erhöhung der Freiheitsgrade ist dann ohne weiteres möglich, indem ähnlich wie beim FD Verfahren das Residuum auf den inneren Interpolationspunkten einer jeden Zelle orthogonal zu allen Testfunktionen sein soll (vgl. Kapitel \ref{sec:FEM}). Die numerische Lösung $u_h(x,t)$ wird also als lokales Polynom auf jeder Zelle angesetzt, wobei sogar der Polynomgrad von Zelle zu Zelle verschieden sein kann (sogenannte \emph{hp-adaptivity}). Die Wahl der Räume für Basis- und Testfunktionen führt zu unterschiedlichen FEM Verfahren. Werden an die Polynome zellübergreifende Stetigkeitsanforderungen gestellt, so führt dies zu den \emph{Continuous Galerkin} (CG)\index{Continuous Galerkin (CG)} Methoden.
+Der Übergang zu den Finite Elemente Methoden (FEM) geschieht, indem die approximative Lösung innerhalb einer Zelle nicht mehr als konstant gesetzt wird. Erhöhung der Genauigkeit durch Erhöhung der Freiheitsgrade ist dann ohne weiteres möglich, indem ähnlich wie beim FD Verfahren das Residuum auf den inneren Interpolationspunkten einer jeden Zelle orthogonal zu allen Testfunktionen sein soll. Die numerische Lösung $u_h(x,t)$ wird also als lokales Polynom auf jeder Zelle angesetzt, wobei sogar der Polynomgrad von Zelle zu Zelle verschieden sein kann (sogenannte \emph{hp-adaptivity}). Die Wahl der Räume für Basis- und Testfunktionen führt zu unterschiedlichen FEM Verfahren. Werden an die Polynome zellübergreifende Stetigkeitsanforderungen gestellt, so führt dies zu den \emph{Continuous Galerkin} (CG)\index{Continuous Galerkin (CG)} Methoden.
 
 Ein Nachteil ist hier für zeitabhängige Probleme die implizite Form der Massenmatrix, die eine Invertierung in jedem Zeitschritt erfordert. Ferner führen Schocks und Unstetigkeiten, wie sie in hyperbolischen Erhaltungsgleichungen auftreten können, zu Problemen \cite{dolejvsi2015discontinuous}. In FD- bzw. FV-Verfahren werden solche Umstände durch ein \emph{Upwind Scheme}\index{Upwind Scheme} bzw. einen \emph{Upwind Flux}\index{Upwind Flux} berücksichtigt. Indem die oben genannte Stetigkeitsanforderung fallen gelassen wird, lassen sich die Vorteile von FV und CG-FEM kombinieren durch die sogenannten  \emph{Discontinuous Galerkin}\emph{Discontinuous Galerkin (DG)} (DG) Methoden. Genau wie bei den FV Verfahren ist auch für die DG Methoden die Wahl eines geeigneten Flusses das Herzstück.
 
@@ -59,7 +59,7 @@ Der mit Abstand wichtigste Satz in diesem abstrakten Setting ist der Satz von La
   \end{equation}
   $b$ heißt koerzitiv auf $X$ falls es ein $\beta>0$ gibt sodass
   \begin{equation}
-    \forall \, v \in X : \qquad \beta\norm{v}^2_X \leq  \operatorname{Re}(b(v,v))
+    \forall \, v \in X : \qquad \beta\norm{v}^2_X \leq  \operatorname{Re}(b(v,v))   \label{eq:koerz_imag}
   \end{equation}
   a und äquivalent b heißen beschränkt falls es eine Konstante $C>0$ gibt sodass
   \begin{equation}
@@ -101,7 +101,7 @@ Die diskrete Lösung $u\fin$ wird auch als \emph{Galerkin Näherung}\index{Galer
 
 Die DG-Methoden zählen jedoch zu den \emph{nicht-konformen}\index{nicht-konforme Methode} Methoden, die sich dadurch unterscheiden dass $X\fin\not\subset X$. Dann lautet die diskrete Approximation des Variationsproblems
 \begin{equation}
-  \emph{Finde ein } u\fin\in X{\mathcal{T}}\emph{ , sodass für alle } v\fin\in X\fin \emph{ gilt } a\fin(u\fin, v\fin) = \ell\fin(v\fin)
+  \emph{Finde ein } u\fin\in X\fin\emph{ , sodass für alle } v\fin\in X\fin \emph{ gilt } a\fin(u\fin, v\fin) = \ell\fin(v\fin)
   \label{approx_varprob}
 \end{equation}
 und es gilt das zweite Strang-Lemma als Analogon zum Lemma von Cea.
@@ -184,7 +184,7 @@ Dieser Zusammenhang wird in Abbildung \ref{fig:torte} gezeigt.
   \caption{Konstruktion der Lösung mit Hilfe der Charakteristiken-Methode am Beispiel dreier Eigenwerte $\lambda_1,\lambda_2,\lambda_3$. In den einzelnen Segmenten ist die Lösung konstant und ergibt sich als Linearkombination der Anfangswerte wie eingezeichnet.}
   \label{fig:torte}
 \end{figure}
-Die Lösung ist konstant innerhalb der einzelnen Segmente. Entlang der $p$-ten Charakteristik springt die Lösung jedoch. Mit der zu \ref{def:jump} äquivalenten Definition des Sprungs ${\jump{u}\equiv u^- - u^+}$ lässt sich
+Die Lösung ist konstant innerhalb der einzelnen Segmente. Entlang der $p$-ten Charakteristik $x_p=\lambda_p t$ springt die Lösung jedoch. Mit der zu \ref{def:jump} äquivalenten Definition des Sprungs ${\jump{u}\equiv u^- - u^+}$ lässt sich
 \begin{equation}
   -\jump{u_p} = (\beta_p - \alpha_p) r_p \; ,
   \label{eq:TortenJump}
@@ -305,17 +305,24 @@ Der finite Elemente Raum \eqref{eq:FES} lässt Unstetigkeiten zu und diese werde
 Es bezeichne $F=\cup_{D^k\in\mathcal{T}} \, \partial D^k$ die Menge aller Elementkanten. Auf inneren Kanten $e\in F_i=F  \textbackslash \partial\Omega_x$ werden
 \begin{equation}
   \jump{u\fin}_e = u\fin^-|_e - u\fin^+|_e \qquad \avg{u\fin}_e = \frac{1}{2} (u\fin^-|_e + u\fin^+|_e)
+  \label{eq:jump_def_inner}
 \end{equation}
 als Sprung $\jump{u\fin}_e$ und Mittelwert $\avg{u\fin}_e$ von $u\fin \in V\fin$ definiert. Auf den zwei äußeren Kanten $e\in F_e = F \textbackslash F_i$ wird diese Definition durch
 \begin{equation}
-  \jump{u\fin}_e \equiv \begin{cases} -u_{\mathcal{T},l}^+ \equiv -u\fin(x_{\nicefrac{1}{2}}^+) \; \text{, links}\\ u_{\mathcal{T},r}^- \equiv u\fin(x_{K_x+\nicefrac{1}{2}}^+) \; \text{, rechts} \end{cases}
+  \jump{u\fin}_e \equiv
+        \begin{cases}
+          -u_{\mathcal{T},l}^+ \equiv -u\fin(x_{\nicefrac{1}{2}})     \; \text{, links}\\
+           u_{\mathcal{T},r}^- \equiv  u\fin(x_{K_x+\nicefrac{1}{2}}) \; \text{, rechts}
+        \end{cases}
    \qquad \avg{u\fin}_e = \begin{cases} u_{\mathcal{T},l}^+ \; \text{, links}\\ u_{\mathcal{T},r}^- \; \text{, rechts}\\  \end{cases}
+   \label{eq:jump_def_outer}
 \end{equation}
-erweitert. Ganz analog werden Sprung und Mittelwert für $u \in V_{\mathcal{T},1}$ definiert. Damit gilt für alle Kanten $e\in F$ und $u,v\in V\fin$ die Relation
+erweitert. Ganz analog werden Sprung und Mittelwert für $u \in V_{\mathcal{T},1}$ definiert. Damit gilt für  $u,v\in V\fin$ die Relation
 \begin{equation}
-  \jump{u^{\dagger}v} = \jump{u}^{\dagger}\avg{v} + \avg{u}^{\dagger}\jump{v}
+  \jump{u^{\dagger}v} = c(\jump{u}^{\dagger}\avg{v} + \avg{u}^{\dagger}\jump{v})
   \label{eq:jump_relation}
 \end{equation}
+mit $c=1$ für innere und $c=\nicefrac{1}{2}$ für äußere Kanten.
 \end{definition}
 Um nun das DG Schema zu entwickeln, wird die Gleichung \eqref{eq:diagLVN} in die variationale Formulierung \eqref{eq:approx_varprob} gebracht. Gesucht sind Bilinearform a und Linearform $\ell$, an die folgende Anforderungen gestellt werden:
 \begin{itemize}
@@ -330,7 +337,7 @@ Multiplikation der diagonalisierten LvNG \eqref{eq_diagLVN} mit einer Testfunkti
 \begin{equation*}
   \int_{D^k} (\varphi^{\dagger} \partial_t v - (\partial_x \varphi^{\dagger}) f(v) + \varphi^{\dagger} G v) + \int_{\partial D^k}\hat{n}\varphi^{\dagger}f = 0 \; .
 \end{equation*}
-mit dem nach außen zeigenden Normalenvektor $\hat{n}$. Durch Summation über alle $K_x$ Elemente folgt
+mit dem nach außen zeigenden Normalenvektor $\hat{n}$. Das Residuum ist also erneut bezüglich der $L^2$-Norm orthogonal zu allen Testfunktionen. Durch Summation über alle $K_x$ Elemente folgt
 \begin{equation*}
   \sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v - (\partial_x \varphi^{\dagger}) f(v) + \varphi^{\dagger} G v)
   + \sum_{e\in F_i}\int_{e}\jump{\varphi^{\dagger}f} + \sum_{e\in F_e}\int_e \jump{\varphi^{\dagger}f}  = 0 \; .
@@ -341,8 +348,8 @@ Nun wird Relation \eqref{eq:jump_relation} und die Stetigkeit der schwachen Lös
   + \sum_{e\in F_i}\int_{e}\jump{\varphi^{\dagger}} f + \sum_{e\in F_e}\int_e \jump{\varphi^{\dagger}} f  = 0
   \label{eq:kontinForm}
 \end{equation}
-An dieser Stelle wird die schwache Lösung $v$ durch ihre diskrete Ritz-Approximation $v\fin$ ersetzt. Dabei wird in dieser Arbeit diese Ansatzfunktion aus demselben Raum wie die Testfunktion gesucht, was dem \emph{Galerkin-Ansatz}\index{Galerkin-Ansatz} entspricht. Das führt dazu, dass der Fluss $f\fin = f(v\fin)$ nicht mehr eindeutig definiert ist auf den Elementkanten. Er wird durch den \emph{single-valued} \emph{numerischen Fluss}\index{numerischer Fluss} $\hat{f}$ ersetzt. Dieser ergibt sich in sinnvoller Weise aus der Lösung des Riemann-Problems aus Abschnitt \ref{sec:riemann}, denn die Situation im DG-Verfahren entspricht gerade einem solchen Problem. Die Elementkanten entsprechen den Orten der Diskontinuitäten und die Matrix $\Lambda$ enthält wie gefordert disjunkte Eigenwerte.
-Aufgabe des numerischen Flusses ist es, die Randbedingungen in einer schwachen Weise zu erzwingen. So sollte beispielsweise für positive Geschwindigkeiten $\lambda_j$ (als Eigenwerte von $\Lambda$) am linken Rand
+An dieser Stelle wird die schwache Lösung $v$ durch ihre diskrete Ritz-Approximation $v\fin$ ersetzt. Dabei wird in dieser Arbeit diese Ansatzfunktion gemäß der variationalen Formulierung \eqref{eq:approx_varprob} aus demselben Raum wie die Testfunktion gesucht, was dem \emph{Galerkin-Ansatz}\index{Galerkin-Ansatz} entspricht. Das führt dazu, dass der Fluss $f\fin = f(v\fin)$ nicht mehr eindeutig definiert ist auf den Elementkanten. Er wird durch den \emph{single-valued} \emph{numerischen Fluss}\index{numerischer Fluss} $\hat{f}$ ersetzt. Dieser ergibt sich in sinnvoller Weise aus der Lösung des Riemann-Problems aus Abschnitt \ref{sec:riemann}, denn die Situation im DG-Verfahren entspricht gerade einem solchen Problem. Die Elementkanten entsprechen den Orten der Diskontinuitäten und die Matrix $\Lambda$ enthält wie gefordert disjunkte Eigenwerte.
+Aufgabe des numerischen Flusses ist es, die Randbedingungen in einer schwachen Weise einzubauen. So sollte beispielsweise für positive Geschwindigkeiten $\lambda_j$ (als Eigenwerte von $\Lambda$) am linken Rand
 \begin{equation*}
   (\hat{f}(g, v^+))_j = \lambda_j g(x=-L_x/2)
 \end{equation*}
@@ -358,20 +365,63 @@ gelten und damit dem Upwind Charakter der PDG Rechnung getragen werden. Der nume
 \end{equation}
 aus dem vorherigen Abschnitt entspricht einem Upwind Fluss. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Allgemein ließe sich statt $|\Lambda|/2$ ein Faktor $\tau$ einfügen. Der Upwind Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch, dass lediglich $\tau=|\Lambda|/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Der Upwind Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
 
-Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt
+Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt die \emph{schwache Formulierung} des Hybdriverfahrens:
+\begin{problem}[Schwache variationale Formulierung der LvNG]\index{Schwache variationale Formulierung der LvNG}
+  \label{prob:weak}
+  Finde ein ${v\fin\in X\fin}$, sodass für alle $\varphi\in X\fin$ gilt $a\fin^w(v\fin, \varphi) + b\fin(v\fin, \varphi) = \ell\fin(\varphi)$. Hierin sind
+  \begin{align}
+    a\fin^w(v\fin, \varphi) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} ( - (\partial_x \varphi^{\dagger}) f(v\fin) + \varphi^{\dagger} G v\fin) \nonumber \\
+    &+ \sum_{e\in F_i}\int_{e}\jump{\varphi^{\dagger}} (\Lambda\avg{v} + \frac{1}{2}|\Lambda|\jump{v}) \\
+    &+ \int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)\jump{v\fin}
+    + \int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(-\Lambda + |\Lambda|)\jump{v\fin} \nonumber \\
+    b\fin^w(v\fin, \varphi) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} \varphi^{\dagger} \partial_t v\fin \\
+    \ell\fin(\varphi)  = &-\int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda - |\Lambda|)g
+      -\int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)g
+  \end{align}
+\end{problem}
+Integrale über Kanten dienen hier lediglich der Übersicht. Da sie aber im Eindimensionalen Auswertungen an einem Punkt entsprechen, sind sie letztlich redundant. Eine weitere partielle Integration des Flussterms führt auf die \emph{starke Formulierung}, die höhere Regularität an $u\fin$ fordert. Der dabei auftretende Term $\jump{\varphi^{\dagger}f(v\fin)}$ lässt sich dabei mit Hilfe der Relation \eqref{eq:jump_relation} umformen.
+\begin{problem}[Starke variationale Formulierung der LvNG]\index{Starke variationale Formulierung der LvNG}
+  \label{prob:strong}
+  Finde ein $v\fin\in X\fin$, sodass für alle $\varphi\in X\fin$ gilt $a\fin^s(v\fin, \varphi) + b\fin(v\fin, \varphi) = \ell\fin(\varphi)$. Hierin sind
+  \begin{equation}
+    \begin{aligned}
+    a\fin^s(v\fin, \varphi) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} (
+    \varphi^{\dagger} \partial_x f(v\fin) + \varphi^{\dagger} G v\fin) \\
+    &+ \sum_{e\in F_i}\int_{e}  (\jump{\varphi^{\dagger}} \frac{1}{2}|\Lambda| - \avg{\varphi^{\dagger}}\Lambda) \jump{v\fin} \\
+    &+ \int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(-\Lambda + |\Lambda|)\jump{v\fin}
+    + \int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)\jump{v\fin}
+  \end{aligned}
+  \label{eq:bilinear_strong}
+  \end{equation}
+  und $b,\ell$ wie in der schwachen Formulierung \ref{prob:weak} definiert.
+\end{problem}
+
+\subsection{Existenz und Eindeutigkeit}
+Für die Bilinearform aus Problem \ref{prob:strong} soll im Folgenden die Existenz und Eindeutigkeit der Ritz-Approximation für die stationäre LvNG mit $\partial_t=0$ untersucht werden. Dazu ist Koerzivität nach Definition \ref{def:koerz} erforderlich. Es gilt mit $v\in X\fin$
+\begin{align*}
+  \sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} \partial_x f(v) &=
+  \frac{1}{2}\partial_x \sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} f(v) \\
+  &= \sum_{e\in F}\int_e \frac{1}{2}\jump{v^{\dagger} f(v)} \\
+  &\stackrel{\eqref{eq:jump_relation}}{=}  \sum_{e\in F_i}\int_e \avg{v^{\dagger}} \jump{f(v)} + \sum_{e\in F_e}\int_{e} \frac{1}{2}\avg{v^{\dagger}} \jump{f(v)} \\
+  &\stackrel{\eqref{eq:jump_def_outer}}{=} \sum_{e\in F_i}\int_e \avg{v^{\dagger}} \jump{f(v)} + \int_{e_r}\frac{1}{2} \jump{v^{\dagger}}\jump{f(v)} - \int_{e_l}\frac{1}{2} \jump{v^{\dagger}}\jump{f(v)}
+\end{align*}
+Der Teil für die inneren Kanten hebt sich folgerichtig mit den entsprechenden Termen der Bilinearform \eqref{eq:bilinear_strong} auf. Es verbleibt
 \begin{equation}
   \begin{aligned}
-    &\sum_{D^k\in\mathcal{T}}\int_{D^k} (\varphi^{\dagger} \partial_t v\fin - (\partial_x \varphi^{\dagger}) f(v\fin) + \varphi^{\dagger} G v\fin)
-    + \sum_{e\in F_i}\int_{e}\jump{\varphi^{\dagger}} (\Lambda\avg{v}_e + \frac{1}{2}|\Lambda|\jump{v}_e) \\
-    &+ \int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)v^-
-    + \int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda - |\Lambda|)v^+ \\
-    &= -\int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda - |\Lambda|)g
-       -\int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)g
+    a\fin^s(v, v) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} G v\fin
+    + \sum_{e\in F}\int_e  \jump{v^{\dagger}} \frac{1}{2}|\Lambda| \jump{v\fin} \; ,
   \end{aligned}
 \end{equation}
+anhand dessen Form zu erkennen ist, dass lediglich der durch den numerischen Fluss eingeführte Strafterm sowie der Potentialterm $G$ stabilisierend wirken. An dieser Stelle ist jedoch die Anfälligkeit des Verfahrens ersichtlich. Damit die rechte Seite auf eine Norm von $v$ zurückgeführt werden kann, müssen zwei Bedingungen erfüllt sein. Erstens muss $\forall i=1\dots K_y$ gelten $\lambda_i\neq 0$ genau wie bereits im Transfermatrix-Verfahren (vergleiche Abschnitt \ref{sec:TFmethod}). Zweitens muss der Realteil aller Eigenwerte von $G$ gemäß der Bedingung \eqref{eq:koerz_imag} größer 0 sein. Gibt es solche Schranken $g_0$ und $\lambda_{\text{min}}$(als betragsmäßig kleinster Eigenwert von $\Lambda$), so folgt unmittelbar
+\begin{align}
+  \operatorname{Re}(a\fin^s(v, v)) \geq g_0 |||v||| \qquad \text{mit} \\
+  \trinorm{.} = \sum_{D^k\in\mathcal{T}}\int_{D^k} |.|^2 + \sum_{e\in F}\int_e  \frac{\lambda_{\text{min}}}{g_0} |\jump{.}|^2 \; . \label{eq:trinorm}
+\end{align}
+Andernfalls ist die Bilinearform nicht koerzitiv. Es ist anzumerken, dass die Wahl des numerischen Flusses keinerlei Einfluss auf den Volumenteil der Norm in \eqref{eq:trinorm} hat. Schließlich können bestenfalls Sprungterme  ergänzt werden, die jedoch beispielsweise für $v\in C^0(\Omega)$ verschwinden und somit auch nicht mit einer eventuellen Spurungleichung in den Volumenteil der Norm eingehen können. Dies scheint ein inhärentes Problem zu sein.
 
+Aus Koerzivität folgt  Eindeutigkeit der Lösung, denn angenommen es gebe zwei Lösungen $v\fin^1$ und $v\fin^2$. Dann gilt $a\fin^s(v\fin^1-v\fin^2,\varphi)=0$ und mit der Wahl ${\varphi=v\fin^1-v\fin^2}$ folgt aufgrund der Koerzivität $0\geq g_0 \trinorm{v\fin^1-v\fin^2}$ und somit $v\fin^1=v\fin^2$. Im endlich-dimensionalen folgt aus der Eindeutigkeit die Existenz.
 
-
+Auffällig an der Argumentation ist, dass die Randbedingungen lediglich in Form ihrer Charakteristik zur Definition eines Upwind Flusses eingehen. Solange die rechte Seite des Variationsproblems $\ell(\varphi)$ in $\mathcal{L}(X\fin,\mathbb{C})$ liegt, ist die konkrete Form von $g(x)$ nicht weiter relevant.
 % Die in Abbildung \ref{fig:pot1} eingezeichneten Längen werden wie in \cite{lukas1} zu
 % \begin{align}
 %   L_1 &= \SI{6}{\nano\meter}\\
