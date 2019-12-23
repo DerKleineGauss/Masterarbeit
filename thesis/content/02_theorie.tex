@@ -172,7 +172,7 @@ Die quantenmechanische Beschreibung der Dynamik des Systems kann durch verschied
 \section{Dynamik}
 Die Dynamik eines fermionischen Systems ergibt sich aus der von-Neumann-Gleichung. Sie lässt sich sowohl im Ortsraum, als auch im Frequenzraum formulieren. Das Augenmerk dieser Arbeit richtet sich dabei auf die Ortsraumformulierung, namentlich die \lvn. Zur Vollständigkeit und zur besseren Diskussion der verschiedenen Methoden wird auch die Frequenzraumformulierung vorgestellt, namentlich die Wigner-Gleichung. Das Modell für das konkrete, physikalische Problem wird dann in beiden Fällen durch die Randbedingungen eingebaut.
 
-\subsection{\lvn}
+\subsection{\lvn}\index{Liouville-von-Neumann Gleichung}
 Die Dynamik der reduzierten Dichtematrix \eqref{eq:def_dichtematrix} wird mit Hilfe der von-Neumann Gleichung
 \begin{equation*}
     \partial_t \hat{\rho}(t) = - \frac{i}{\hbar}[\hat{H}(t), \hat{\rho}(t)]
@@ -201,7 +201,7 @@ folgt hieraus schließlich
   \partial_t \rho_{(1)}(x,y,t) = \frac{i}{\hbar}\left\{-\frac{\hbar^2}{2m}(\nabla_x^2 - \nabla_y^2) + (V(x,t) - V^*(y,t)) \right\}
                           \text{Sp}(\hat{\Psi}^{\dagger}(x) \hat{\Psi}(y) \hat{\rho}(t))
 \end{equation*}
-bzw. in der bekannteren Form mit Definition \eqref{eq:def_dichtematrix} die \emph{\lvn} (LvNG)\index{Liouville-von-Neumann Gleichung}
+bzw. in der bekannteren Form mit Definition \eqref{eq:def_dichtematrix} die \lvn (LvNG)
 \begin{equation}
   i\partial_t \rho_{(1)}(x,y,t) = \underbrace{\left\{\frac{\hbar}{2m}(\nabla_x^2 - \nabla_y^2) - \frac{1}{\hbar}(V(x,t) - V^*(y,t)) \right\}}_{\equiv{\tilde{\mathcal{L}}(x,y,t)}} \rho_{(1)}(x,y,t)
   \label{eq:lvn_first}
@@ -238,9 +238,10 @@ Ableitungen transformieren sich gemäß
   \end{aligned}
 \end{equation*}
 wobei im letzten Schritt der Satz von Schwarz genutzt wird. Damit ergibt sich der transformierte Liouville Operator zu
-\begin{align*}
+\begin{align}
   \mathcal{L}(r,q,t) = -\frac{\hbar^2}{m} \partial_r\partial_q + \underbrace{V\left(r+\frac{q}{2},t\right) - V^*\left(r-\frac{q}{2},t\right)}_{\equiv \tilde{B}(r,q,t)} \; .
-\end{align*}
+  \label{eq:Liouvilleoperator}
+\end{align}
 Hier ist nun offensichtlich, dass die Symmetrie $\mathcal{L}(r,q,t)=-\mathcal{L}^*(r,-q,t)$ zugrunde liegt. Der Liouvilleoperator ist also antisymmetrisch bezüglich der Relativkoordinate. Mit der Umbenennung
 \begin{align*}
   \rho_{(1)}\left(r+\frac{q}{2}, r-\frac{q}{2}, t\right) &\longrightarrow \tilde{u}(r,q,t) \\
@@ -353,21 +354,22 @@ Die Gleichgewichts-Verteilung der Reservoire $f_{l,r}(k)$ folgt aus der Fermi-Di
 und wegen Gleichung \eqref{eq:fourier_wigner_invers} für die reduzierte Dichtematrix
 \begin{equation}
   \begin{aligned}
-    \rho_{(1)}(r=\pm L/2, q, t) &= \int \frac{\diff k}{2\pi} e^{ikq} f(k,\pm L/2) \\
-                                &= \int \frac{\diff k}{2\pi} \cos(kq) f_{\nicefrac{r}{l}} (k) \; .
+    \rho_{(1)}(x=\pm L/2, y, t) &= \int \frac{\diff k}{2\pi} e^{iky} f(k,\pm L/2) \\
+                                &= \int \frac{\diff k}{2\pi} \cos(ky) f_{\nicefrac{r}{l}} (k) \; .
   \end{aligned}
+  \label{eq:rb4}
 \end{equation}
 Das chemische Potential $\mu$ ergibt sich dabei aus der Forderung nach Ladungsträgerneutralität im thermischen Gleichgewicht. Die Herleitung ist im Anhang \ref{sec:A_3} gezeigt.\\
-Für die Outflow-Bereiche $\{ k<0, r=-L/2 \}$ und $\{ k>0, r=+L/2 \}$ trifft \eqref{eq:rb1} keine Aussage, sodass jede numerische Methode zwangsläufig ein upwind-Schema bezüglich der $r$-Diskretisierung verwenden muss. Hierin bestätigt sich auch der Charakter der zugrundeliegenden Differentialgleichung \eqref{eq:wigner}: es wird der Transport von Elektronen beschrieben.
+Für die Outflow-Bereiche $\{ k<0, x=-L/2 \}$ und $\{ k>0, x=+L/2 \}$ trifft \eqref{eq:rb1} keine Aussage, sodass jede numerische Methode zwangsläufig ein upwind-Schema bezüglich der $r$-Diskretisierung verwenden muss. Hierin bestätigt sich auch der Charakter der zugrundeliegenden Differentialgleichung \eqref{eq:wigner}: es wird der Transport von Elektronen beschrieben.
 
 Eine mögliche Wahl der Randbedingungen bezüglich der Relativkoordinate für die LvNG sind Dirichlet-Randbedingungen:
 \begin{equation}
   \begin{aligned}
-    \rho_{(1)}(r, q=\pm L_q/2, t) = 0
+    \rho_{(1)}(x, y=\pm L_y/2, t) = 0
   \end{aligned}
   \label{eq:rb3}
 \end{equation}
-Numerische Resultate zeigen für diese Wahl jedoch mitunter unphysikalische Interferenzmuster, da es an den Rändern zu Reflexion kommt \cite{lukas1}. Ein Vorschlag ist daher, eine absorbierende Schicht (\emph{complex absorbing potential}\index{complex absorbing potential} -- CAP) der Dicke $\delta$ einzuführen. Dabei wird der Driftterm $B(x,y,t)$ aus Gleichung \eqref{eq:lvn} um einen komplexen Teil erweitert:
+Numerische Resultate zeigen für diese Wahl jedoch mitunter unphysikalische Interferenzmuster, da es an den Rändern zu Reflexion kommt \cite{lukas1}. Ein Vorschlag ist daher, eine absorbierende Schicht (\emph{complex absorbing potential}\index{complex absorbing potential} -- CAP) der Dicke $\delta$ einzuführen. Dabei wird der Driftterm $B(x,y,t)$ aus Gleichung \eqref{eq:lvn} um einen komplexen Teil der Größe $W_0<0$ erweitert:
 \begin{equation}
   \begin{aligned}
     B(x,y,t) = \frac{V\left(x+\frac{y}{2},t\right) - V^*\left(x-\frac{y}{2},t\right)}{V_0} + iW(y) \qquad \text{mit} \\

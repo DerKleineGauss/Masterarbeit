@@ -40,7 +40,7 @@ Im eindimensionalen Fall $d=1$ ist eine Erhöhung der Genauigkeit jedoch möglic
 \subsection{Finite Elemente}\index{Finite Elemente}
 Der Übergang zu den Finite Elemente Methoden (FEM) geschieht, indem die approximative Lösung innerhalb einer Zelle nicht mehr als konstant gesetzt wird. Erhöhung der Genauigkeit durch Erhöhung der Freiheitsgrade ist dann ohne weiteres möglich, indem ähnlich wie beim FD Verfahren das Residuum auf den inneren Interpolationspunkten einer jeden Zelle orthogonal zu allen Testfunktionen sein soll. Die numerische Lösung $u_h(x,t)$ wird also als lokales Polynom auf jeder Zelle angesetzt, wobei sogar der Polynomgrad von Zelle zu Zelle verschieden sein kann (sogenannte \emph{hp-adaptivity}). Die Wahl der Räume für Basis- und Testfunktionen führt zu unterschiedlichen FEM Verfahren. Werden an die Polynome zellübergreifende Stetigkeitsanforderungen gestellt, so führt dies zu den \emph{Continuous Galerkin} (CG)\index{Continuous Galerkin (CG)} Methoden.
 
-Ein Nachteil ist hier für zeitabhängige Probleme die implizite Form der Massenmatrix, die eine Invertierung in jedem Zeitschritt erfordert. Ferner führen Schocks und Unstetigkeiten, wie sie in hyperbolischen Erhaltungsgleichungen auftreten können, zu Problemen \cite{dolejvsi2015discontinuous}. In FD- bzw. FV-Verfahren werden solche Umstände durch ein \emph{Upwind Scheme}\index{Upwind Scheme} bzw. einen \emph{Upwind Flux}\index{Upwind Flux} berücksichtigt. Indem die oben genannte Stetigkeitsanforderung fallen gelassen wird, lassen sich die Vorteile von FV und CG-FEM kombinieren durch die sogenannten  \emph{Discontinuous Galerkin}\emph{Discontinuous Galerkin (DG)} (DG) Methoden. Genau wie bei den FV Verfahren ist auch für die DG Methoden die Wahl eines geeigneten Flusses das Herzstück.
+Ein Nachteil ist hier für zeitabhängige Probleme die implizite Form der Massenmatrix, die eine Invertierung in jedem Zeitschritt erfordert. Ferner führen Schocks und Unstetigkeiten, wie sie in hyperbolischen Erhaltungsgleichungen auftreten können, zu Problemen \cite{dolejvsi2015discontinuous}. In FD- bzw. FV-Verfahren werden solche Umstände durch ein \emph{Upwind Scheme}\index{Upwind Scheme} bzw. einen \emph{Upwind Fluss}\index{Upwind Fluss} berücksichtigt. Indem die oben genannte Stetigkeitsanforderung fallen gelassen wird, lassen sich die Vorteile von FV und CG-FEM kombinieren durch die sogenannten  \emph{Discontinuous Galerkin}\emph{Discontinuous Galerkin (DG)} (DG) Methoden. Genau wie bei den FV Verfahren ist auch für die DG Methoden die Wahl eines geeigneten Flusses das Herzstück.
 
 Die Abbildung \ref{fig:vergleich_hest} zeigt schematisch die Vor- und Nachteile der genannten Verfahren. Zahlreiche Entwicklungen und Erweiterungen überwinden die Nachteile häufig und es gibt daneben eine Reihe weiterer Eigenschaften, die zumeist problemabhängig sind und daher in dieser Übersicht nicht erwähnt werden können.
 \todo{Scan}
@@ -84,10 +84,10 @@ Der mit Abstand wichtigste Satz in diesem abstrakten Setting ist der Satz von La
  Die \emph{schwache Lösung}\index{schwache Lösung} ist dann die Lösung dieser schwachen Form. Das Wort \emph{schwach} bezieht sich hierbei auf die schwächere Regularitätsanforderung, denn die Variationsformulierung kontrolliert die Ableitung nur in integraler Form, wie auch die Definition des Sobolev-Raums zeigt.
 
  Im Falle der LvNG wird zunächst abstrakt der Rand in Dirichlet-Rand $\Gamma_D$ mit ${u(x,t)|_{\Gamma_D} = g(x)}$ und Rest ${\Gamma\textbackslash\Gamma_D}$ unterteilt. In zwei Dimensionen $d=2$ ergibt sich
- \begin{align}
+ \begin{align*}
               i \int_{\Omega} \partial_t u(x,t) v(x,t) + \int_{\Omega}\operatorname{div}(A\nabla u(x,t)) v(x,t) - \int_{\Omega}B(x,t) u(x,t) v(x,t) = 0 \\
   \Rightarrow i \int_{\Omega} \partial_t u v - \int_{\Omega}(A\nabla u)\cdot\nabla v - \int_{\Omega}B u v + \int_{\Gamma\textbackslash\Gamma_D} n \cdot A\nabla u v = - \int_{\Gamma_D} n \cdot A\nabla g v \; .
- \end{align}
+\end{align*}
  Prinzipiell wird also alles, was nicht von der Lösung $u$ selbst abhängt, auf die rechte Seite geschrieben und als lineares Funktional $\ell(v)$ definiert.
 
  Die FE Methoden verarbeiten das analytische Varitationsproblem durch eine geeignete Diskretisierung. Folgende Schritte werden dabei vorgenommen:
@@ -102,7 +102,7 @@ Die diskrete Lösung $u\fin$ wird auch als \emph{Galerkin Näherung}\index{Galer
 Die DG-Methoden zählen jedoch zu den \emph{nicht-konformen}\index{nicht-konforme Methode} Methoden, die sich dadurch unterscheiden dass $X\fin\not\subset X$. Dann lautet die diskrete Approximation des Variationsproblems
 \begin{equation}
   \emph{Finde ein } u\fin\in X\fin\emph{ , sodass für alle } v\fin\in X\fin \emph{ gilt } a\fin(u\fin, v\fin) = \ell\fin(v\fin)
-  \label{approx_varprob}
+  \label{eq:approx_varprob}
 \end{equation}
 und es gilt das zweite Strang-Lemma als Analogon zum Lemma von Cea.
 \begin{satz}[Zweites Strang-Lemma]\label{strang}
@@ -113,16 +113,14 @@ und es gilt das zweite Strang-Lemma als Analogon zum Lemma von Cea.
     & +\frac{1}{\beta\fin} \sup_{w\fin \in X\fin: \norm{w\fin}=1} |a\fin(u,w\fin)-\ell\fin(w\fin)| \; .
   \end{aligned}
   \end{equation}
-  Hierbei sind $\beta\fin$ und $C\fin$ Koerzivitäts- bzw. Stetigkeitskonstanten des approximierten Variationsproblems \ref{approx_varprob}.
+  Hierbei sind $\beta\fin$ und $C\fin$ Koerzivitäts- bzw. Stetigkeitskonstanten des approximierten Variationsproblems \ref{eq:approx_varprob}.
 \end{satz}
-Die Existenz und Eindeutigkeit der Ritz-Approximation $u\fin$ ergibt sich wieder aus dem Satz von Lax-Milgram. Alternativ folgt aufgrund der endlichen Dimensionalität des Raumes $X\fin$ in Anbetracht der Linearität des Problems \ref{approx_varprob} die Existenz aus der Eindeutigkeit. Hierzu genügt es, die Koerzivität von $a\fin$ zu zeigen vgl. Kapitel \todo{Referenz Koerzivität}.
+Die Existenz und Eindeutigkeit der Ritz-Approximation $u\fin$ ergibt sich wieder aus dem Satz von Lax-Milgram. Alternativ folgt aufgrund der endlichen Dimensionalität des Raumes $X\fin$ in Anbetracht der Linearität des Problems \eqref{eq:approx_varprob} die Existenz aus der Eindeutigkeit. Hierzu genügt es, die Koerzivität von $a\fin$ zu zeigen.
 
-Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Literaturquellen \cite{NLS} zunächst im folgenden Abschnitt \ref{sec:primal} das stationäre Problem als Variationsproblem formuliert und dessen \emph{well-posedness} gezeigt. Anschließend wird die Stabilität der Lösung untersucht, also das Vorzeichen der zeitlichen Änderung von $\norm{u\fin}$, siehe Abschnitt \ref{sec:stabilität}.
-
-\todo{Residuum orthogonal zu Testfunktionen}
+Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Literaturquellen \cite{NLS} zunächst im folgenden Abschnitt \ref{sec:primal} das stationäre Problem als Variationsproblem formuliert und dessen \emph{well-posedness} geprüft. Anschließend wird die Stabilität der Lösung untersucht, also das Vorzeichen der zeitlichen Änderung von $\norm{u\fin}$, siehe Abschnitt \ref{sec:stabilität}.
 
 
-\section{DG-Verfahren für die LvNG}
+\section{DG-Verfahren für die LvNG}\label{sec:primal}
 Für zeitabhängige PDGn mit Dimensionalität $d>1$ gibt es prinzipiell zwei verschiedene Möglichkeiten der Diskretisierung.
 \begin{itemize}
   \item Die jeweiligen Orts-Koordinaten werden sukzessive behandelt -- dieses Vorgehen wird als \emph{Methode der Geraden}\index{Methode der Geraden} bezeichnet. Dabei können die einzelnen Richtungen auch mit unterschiedlichen Methoden diskretisiert werden, was im Folgenden als \emph{Hybridverfahren}\index{Hybridverfahren} bezeichnet werden soll. Das resultierende Gitter ist stets ein Rechteckgitter, was wie bereits in Kapitel \ref{sec:FD} erwähnt geometrische Flexibilität nicht zulässt. Andererseits ist dies für rechteckige Gebiete $\Omega$ unkritisch.
@@ -249,30 +247,31 @@ Hierbei ist $\Delta y_i$ das Volumen der i-ten Zelle. Der Ansatz führt zu simpl
   {C}^y_{i,i}(x,t) &= \mathrm{i} \frac{\Delta y_i}{4} (B(x, y_{i+\nicefrac{1}{2}},t) + B(x, y_{i-\nicefrac{1}{2}},t))  \\
   {C}^y_{i,i+1}(x,t) &= C^y_{i+1,i}(x,t) = \mathrm{i} \frac{\Delta y_i}{4} B(x, y_{i+\nicefrac{1}{2}},t)  \; .
   \end{aligned}
+  \label{eq:ABC}
 \end{equation}
 Dieses Schema impliziert, dass $u(x,t)$ an den \emph{interfaces} als Mittelwert von rechts- und linksseitiger Zelle angenommen wird. Des weiteren sind  homogene Dirichlet Randbedingungen angenommen, also ${u(x,y_{\nicefrac{1}{2}}, t) = u(x,y_{K_y+\nicefrac{1}{2}}, t) = 0}$.
 
 Die Matrix $B^y$ kann analytisch diagonalisiert werden. Es ist ${B^y = R\Lambda^y R^{\dagger}}$ mit der Diagonalmatrix
 \begin{equation}
   \Lambda^y_{m,n} = \cos\left(\frac{2\pi n}{K_y+1}\right)\delta_{m,n}   \qquad m,n = 1,\dots,K_y
+  \label{eq:Lambda}
 \end{equation}
 und zugehörigen Eigenvektoren
 \begin{equation}
-  R_{m,n} = i^m \sin\left(\frac{mn\pi}{K_y +1} \right)   \qquad m,n = 1,\dots,K_y
+  R_{m,n} = i^m \sin\left(\frac{mn\pi}{K_y +1} \right)   \qquad m,n = 1,\dots,K_y \; .
 \end{equation}
-mti der Unitarität $R^{-1} = R^{\dagger}$.
-
-Der Einfachheit halber wird nun $\Delta y_i = h_y$ konstant gesetzt, sodass
+Die Matrix $R$ ist unitär: $R^{-1} = R^{\dagger}$. Der Einfachheit halber wird nun $\Delta y_i = h_y$ konstant gesetzt, sodass
 \begin{equation}
   (A^y)^{-1}B^y = h_y^{-1}R\Lambda^y R^{-1}
 \end{equation}
 gilt. Mit der unitären Transformation
 \begin{equation}
-  v(x,t) \equiv R^{\dagger}u(x,t)
+  v(x,t) \equiv R^{\dagger}u(x,t) \label{eq:trafo_uv}
 \end{equation}
 sowie der Definition
 \begin{equation}
-  G(x,t) \equiv h_y^{-1} R^{\dagger}C^y(x,t)
+  G(x,t) \equiv h_y^{-1} R^{\dagger}C^y(x,t)R
+  \label{eq:G}
 \end{equation}
 folgt die diagonalisierte PDG
 \begin{equation}
@@ -280,10 +279,23 @@ folgt die diagonalisierte PDG
   \label{eq:diagLVN}
 \end{equation}
 Dies ist ein System von $K_y$ gekoppelten Advektions-Reaktions-Gleichungen mit Anfangsbedingung
-\begin{equation}
+\begin{align}
   v(x,0) = (v(y_1,x,0),\dots,v(y_{K_y},x,0))^T = {v}_0(x) = R^{-1}u_0(x)
+\end{align}
+und Fluss ${{f}({v}(x,t))=\Lambda^y {v}(x,t)}$. Zur Formulierung der Randbedingungen gemäß den Überlegungen in Kapitel \ref{sec:RB} muss zunächst der Inflow Rand $\Gamma^-$ definiert werden.
+Sei dazu ${\Omega_x = (-L_x/2,L_x/2)}$ ein beschränktes, offenes Gebiet mit Lipschitz Rand $\partial\Omega_x$ in  $\mathbb{R}$. Es bezeichne $\Gamma_x\equiv (\partial\Omega_x)^{K_y}$ die Zusammenfassung des Randes der $K_y$ PDGn. Der Inflow Rand kann dann definiert werden gemäß
+\begin{equation}
+  \Gamma^- \equiv \{x\in\Gamma_x : \Lambda \cdot n(x) < 0\} \; ,
 \end{equation}
-und Fluss ${{f}({v}(x,t))=\Lambda^y {v}(x,t)}$. Sei ${\Omega_x = (-L_x/2,L_x/2)}$ ein beschränktes, offenes Gebiet mit Lipschitz Rand $\partial\Omega_x$ in  $\mathbb{R}$. Es wird durch die Vereinigung von $K_x$ nicht überlappenden Elementen ${D^k = [x_\ell^k,x_r^k]}$ trianguliert und diese Triangulierung sei mit $\mathcal{T}$ bezeichnet. Gesucht wird eine diskrete Lösung $v\fin$, welche Element des Finite-Elemente-Raumes
+wobei $n(x)$ der bzgl. $\Omega_x$ nach außen zeigende Normalenvektor ist. Um nun die Randbedingung aus Gleichung \eqref{eq:rb4} einzubringen, müssen diese gemäß Gleichung \eqref{eq:trafo_uv} noch transformiert werden. Es folgen die gesuchten Randbedingungen für das System \eqref{eq:diagLVN}:
+\begin{equation}
+  \begin{aligned}
+    v(x,t) &= g(x,t) \qquad \text{auf }{\Gamma^-} \text{ mit} \\
+    g(\nicefrac{x_r}{x_l},t) &= R^{\dagger} \left(\int \frac{\diff k}{2\pi} \cos(ky_1)     f_{\nicefrac{r}{l}} (k), \dots,
+                                            \int \frac{\diff k}{2\pi} \cos(ky_{K_y}) f_{\nicefrac{r}{l}} (k)\right)^T
+  \end{aligned}
+\end{equation}
+Das Gebiet $\Omega_x$ wird durch die Vereinigung von $K_x$ nicht überlappenden Elementen ${D^k = [x_{k-\nicefrac{1}{2}} , x_{k+\nicefrac{1}{2}}]}$ trianguliert und diese Triangulierung sei mit $\mathcal{T}$ bezeichnet. Gesucht wird eine diskrete Lösung $v\fin$ als Element des Finite-Elemente-Raumes
 \begin{equation}
   V\fin = (V_{\mathcal{T},1})^{K_y} \equiv \left( \{ v \in L^1(\Omega_x) \;|\; v_h\rvert_{D^k} \in P_N(D^k) \, \forall \, k=1,\dots,K_x \} \right)^{K_y} \; ,
   \label{eq:FES}
@@ -326,16 +338,16 @@ mit $c=1$ für innere und $c=\nicefrac{1}{2}$ für äußere Kanten.
 \end{definition}
 Um nun das DG Schema zu entwickeln, wird die Gleichung \eqref{eq:diagLVN} in die variationale Formulierung \eqref{eq:approx_varprob} gebracht. Gesucht sind Bilinearform a und Linearform $\ell$, an die folgende Anforderungen gestellt werden:
 \begin{itemize}
-  \item \emph{Konsistenz}\index{Konsistenz}: Für die schwache Lösung der LvNG und jede Funktion $v\in L^2(\Omega)$, die elementweise in $H^1(D^k)$ ist, gilt ${a\fin(u,v)=\ell\fin(v)}$.
+  \item \emph{Konsistenz}\index{Konsistenz}: Für die schwache Lösung $u\in H^1(\Omega)$ der LvNG und jede Funktion $v\in L^2(\Omega)$, die elementweise in $H^1(D^k)$ ist, gilt ${a\fin(u,v)=\ell\fin(v)}$.
   \item Beschränktheit und Koerzivität der Bilinearform nach Definition \ref{def:koerz}.
 \end{itemize}
 Der zweite Punkt ist diffizil und kann einzig durch eine gute Wahl des numerischen Flusses sichergestellt werden.
 Konsistenz hingegen wird erreicht, indem zu der analytischen Form \eqref{eq:diagLVN} lediglich Sprungterme hinzugefügt werden, welche für die schwache Lösung $u\in H^1(\Omega)$ verschwinden. Der Grund hierfür liegt im zweiten Sobolevschen Einbettungssatz \cite{buchPietro}. Demnach bettet $W^{m,p}(\Omega)$ stetig in $C^{l,\alpha}(\overline{\Omega})$ ein, falls die Sobolev-Zahl ${\text{sob}(W^{m,p})\geq l+\alpha}$.
 Insbesondere ist für $\Omega\in\mathbb{R}^1$ die Sobolevzahl $\text{sob}(H^1) = 1-\nicefrac{1}{2}$, weshalb $H^1$ stetig in $C^0$ einbettet. Für die schwache Lösung verschwinden also Sprungterme.
 
-Multiplikation der diagonalisierten LvNG \eqref{eq_diagLVN} mit einer Testfunktion $\varphi\in V\fin$, Integration über ein Element $D^k$ und anschließende partielle Integration liefert
+Multiplikation der diagonalisierten LvNG \eqref{eq:diagLVN} mit einer Testfunktion $\varphi\in V\fin$, Integration über ein Element $D^k$ und anschließende partielle Integration liefert
 \begin{equation*}
-  \int_{D^k} (\varphi^{\dagger} \partial_t v - (\partial_x \varphi^{\dagger}) f(v) + \varphi^{\dagger} G v) + \int_{\partial D^k}\hat{n}\varphi^{\dagger}f = 0 \; .
+  \int_{D^k} (\varphi^{\dagger} \partial_t v - (\partial_x \varphi^{\dagger}) f(v) + \varphi^{\dagger} G v) + \int_{\partial D^k}\hat{n}\varphi^{\dagger}f = 0
 \end{equation*}
 mit dem nach außen zeigenden Normalenvektor $\hat{n}$. Das Residuum ist also erneut bezüglich der $L^2$-Norm orthogonal zu allen Testfunktionen. Durch Summation über alle $K_x$ Elemente folgt
 \begin{equation*}
@@ -363,7 +375,7 @@ gelten und damit dem Upwind Charakter der PDG Rechnung getragen werden. Der nume
   \end{cases}
   \end{aligned}
 \end{equation}
-aus dem vorherigen Abschnitt entspricht einem Upwind Fluss. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Allgemein ließe sich statt $|\Lambda|/2$ ein Faktor $\tau$ einfügen. Der Upwind Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch, dass lediglich $\tau=|\Lambda|/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Der Upwind Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
+aus dem vorherigen Abschnitt entspricht einem \emph{Upwind Fluss}\index{Upwind Fluss}. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Allgemein ließe sich statt $|\Lambda|/2$ ein Faktor $\tau$ einfügen. Der Upwind Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch in Konsistenz mit den Ergebnissen in \cite{feistauer2004}, dass lediglich $\tau=|\Lambda|/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Es gilt insbesondere für die schwache Lösung $\hat{f}(u,u)=f(u)$, wodurch die \emph{Konsistenz}\index{Konsistenz} des Verfahrens sichergestellt ist. Der Upwind Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
 
 Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt die \emph{schwache Formulierung} des Hybdriverfahrens:
 \begin{problem}[Schwache variationale Formulierung der LvNG]\index{Schwache variationale Formulierung der LvNG}
@@ -378,8 +390,9 @@ Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mi
     \ell\fin(\varphi)  = &-\int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda - |\Lambda|)g
       -\int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)g
   \end{align}
+  mit der Diagonalmatrix $\Lambda$ aus Gleichung \eqref{eq:Lambda} und dem Driftterm $G$ aus Gleichung \eqref{eq:G}.
 \end{problem}
-Integrale über Kanten dienen hier lediglich der Übersicht. Da sie aber im Eindimensionalen Auswertungen an einem Punkt entsprechen, sind sie letztlich redundant. Eine weitere partielle Integration des Flussterms führt auf die \emph{starke Formulierung}, die höhere Regularität an $u\fin$ fordert. Der dabei auftretende Term $\jump{\varphi^{\dagger}f(v\fin)}$ lässt sich dabei mit Hilfe der Relation \eqref{eq:jump_relation} umformen.
+Integrale über Kanten dienen hier lediglich der Übersicht. Da sie aber im Eindimensionalen Auswertungen an einem Punkt entsprechen, sind sie letztlich redundant. Eine weitere partielle Integration des Flussterms führt auf die \emph{starke Formulierung}, die höhere Regularität an $u\fin$ fordert. Der dabei auftretende Term $\jump{\varphi^{\dagger}f(v\fin)}$ lässt sich mit Hilfe der Relation \eqref{eq:jump_relation} umformen.
 \begin{problem}[Starke variationale Formulierung der LvNG]\index{Starke variationale Formulierung der LvNG}
   \label{prob:strong}
   Finde ein $v\fin\in X\fin$, sodass für alle $\varphi\in X\fin$ gilt $a\fin^s(v\fin, \varphi) + b\fin(v\fin, \varphi) = \ell\fin(\varphi)$. Hierin sind
@@ -408,20 +421,57 @@ Für die Bilinearform aus Problem \ref{prob:strong} soll im Folgenden die Existe
 Der Teil für die inneren Kanten hebt sich folgerichtig mit den entsprechenden Termen der Bilinearform \eqref{eq:bilinear_strong} auf. Es verbleibt
 \begin{equation}
   \begin{aligned}
-    a\fin^s(v, v) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} G v\fin
-    + \sum_{e\in F}\int_e  \jump{v^{\dagger}} \frac{1}{2}|\Lambda| \jump{v\fin} \; ,
+    a\fin^s(v, v) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} G v
+    + \sum_{e\in F}\int_e  \jump{v^{\dagger}} \frac{1}{2}|\Lambda| \jump{v} \; ,
   \end{aligned}
 \end{equation}
-anhand dessen Form zu erkennen ist, dass lediglich der durch den numerischen Fluss eingeführte Strafterm sowie der Potentialterm $G$ stabilisierend wirken. An dieser Stelle ist jedoch die Anfälligkeit des Verfahrens ersichtlich. Damit die rechte Seite auf eine Norm von $v$ zurückgeführt werden kann, müssen zwei Bedingungen erfüllt sein. Erstens muss $\forall i=1\dots K_y$ gelten $\lambda_i\neq 0$ genau wie bereits im Transfermatrix-Verfahren (vergleiche Abschnitt \ref{sec:TFmethod}). Zweitens muss der Realteil aller Eigenwerte von $G$ gemäß der Bedingung \eqref{eq:koerz_imag} größer 0 sein. Gibt es solche Schranken $g_0$ und $\lambda_{\text{min}}$(als betragsmäßig kleinster Eigenwert von $\Lambda$), so folgt unmittelbar
+anhand dessen Form zu erkennen ist, dass lediglich der durch den numerischen Fluss eingeführte Strafterm sowie der Potentialterm $G$ stabilisierend wirken. Um den Realteil der Bilinearform zu erhalten, wird dessen komplex konjugiertes hinzu addiert.
+\begin{equation}
+  \begin{aligned}
+    2\operatorname{Re} (a\fin^s(v, v)) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} (G+G^{\dagger}) v
+    + \sum_{e\in F}\int_e  \jump{v^{\dagger}} |\Lambda| \jump{v}
+  \end{aligned}
+  \label{eq:koerz_result}
+\end{equation}
+An dieser Stelle ist die Anfälligkeit des Verfahrens ersichtlich. Damit die rechte Seite auf eine Norm von $v$ zurückgeführt werden kann, müssen zwei Bedingungen erfüllt sein. Erstens muss $\forall i=1\dots K_y$ gelten $\lambda_i\neq 0$ genau wie bereits im Transfermatrix-Verfahren (vergleiche Abschnitt \ref{sec:TFmethod}). Zweitens muss der Realteil aller Eigenwerte von $(G+G^{\dagger})$ gemäß der Bedingung \eqref{eq:koerz_imag} größer 0 sein. Gibt es solche Schranken $g_0$ und $\lambda_{\text{min}}$(als betragsmäßig kleinster Eigenwert von $\Lambda$), so folgt unmittelbar
 \begin{align}
   \operatorname{Re}(a\fin^s(v, v)) \geq g_0 |||v||| \qquad \text{mit} \\
   \trinorm{.} = \sum_{D^k\in\mathcal{T}}\int_{D^k} |.|^2 + \sum_{e\in F}\int_e  \frac{\lambda_{\text{min}}}{g_0} |\jump{.}|^2 \; . \label{eq:trinorm}
 \end{align}
-Andernfalls ist die Bilinearform nicht koerzitiv. Es ist anzumerken, dass die Wahl des numerischen Flusses keinerlei Einfluss auf den Volumenteil der Norm in \eqref{eq:trinorm} hat. Schließlich können bestenfalls Sprungterme  ergänzt werden, die jedoch beispielsweise für $v\in C^0(\Omega)$ verschwinden und somit auch nicht mit einer eventuellen Spurungleichung in den Volumenteil der Norm eingehen können. Dies scheint ein inhärentes Problem zu sein.
+Andernfalls ist die Bilinearform nicht koerzitiv. Dieses Resultat ist konsistent mit den Erkenntnissen in der Literatur \cite{feistauer2007}, wo das skalare Problem
+\begin{equation*}
+  \partial_t u + \vec{v}\cdot \nabla u - \epsilon\Delta u + cu = g
+\end{equation*}
+mit einem elliptischen Anteil $\propto \epsilon$ betrachtet wird. Die Koerzivität der Bilinearform beruht für $\epsilon=0$ dort auf der Annahme, dass ${c-\nicefrac{1}{2}\,\text{div}\,\vec{v}\geq \gamma_0 > 0 \, \forall x\in\Omega_x}$ gilt. Im Fall der diagonalisierten LvNG entspricht die Geschwindigkeit $\vec{v}$ den Eigenwerten $\Lambda$, deren Ableitung wegen der expliziten Form \eqref{eq:Lambda} verschwindet.
 
-Aus Koerzivität folgt  Eindeutigkeit der Lösung, denn angenommen es gebe zwei Lösungen $v\fin^1$ und $v\fin^2$. Dann gilt $a\fin^s(v\fin^1-v\fin^2,\varphi)=0$ und mit der Wahl ${\varphi=v\fin^1-v\fin^2}$ folgt aufgrund der Koerzivität $0\geq g_0 \trinorm{v\fin^1-v\fin^2}$ und somit $v\fin^1=v\fin^2$. Im endlich-dimensionalen folgt aus der Eindeutigkeit die Existenz.
+Das Eigenwertspektrum von $G(x)+G^{\dagger}(x)$ gleicht dem Spektrum von $C(x)+C^{\dagger}(x)$ (modulo Faktor $h_y>0$), da $C$ und $G$ über die unitäre Transformation \eqref{eq:G} miteinander verknüpft sind. Die Matrix $C$ ist nach Gleichung \eqref{eq:ABC} symmetrisch, weshalb $C+C^{\dagger}=2\operatorname{Re}(C)$ gelten muss. Anhand Gleichung \eqref{eq:cap} ist zu sehen, dass der Realteil von $C$ einzig aus dem CAP besteht.
+Offenbar ist $\operatorname{Re}(C)$ positiv semidefinit, da $W_0<0$ gilt. Die untere Schranke $g_0$ entspricht also leider gerade $0$. Koerzivität nach Definition \ref{def:koerz} und damit einhergehend Existenz der Ritz-Approximation für das Problem \ref{prob:strong} ist somit nicht gewährleistet. Interessant ist, dass dieses Resultat in Einklang mit den in Kapitel \ref{sec:RB} beschriebenen Überlegungen zur Nicht-Eindeutigkeit der stationären Lösung steht.
+
+Es ist anzumerken, dass die Wahl des numerischen Flusses keinerlei Einfluss auf den Volumenteil der Norm in \eqref{eq:trinorm} hat. Schließlich können bestenfalls Sprungterme  ergänzt werden, die jedoch beispielsweise für $v\in C^0(\Omega)$ verschwinden und somit auch nicht mit einer eventuellen Spurungleichung in den Volumenteil der Norm eingehen können. Dies scheint ein inhärentes Problem zu sein.
+
+% Aus Koerzivität folgt  Eindeutigkeit der Lösung, denn angenommen es gebe zwei Lösungen $v\fin^1$ und $v\fin^2$. Dann gilt $a\fin^s(v\fin^1-v\fin^2,\varphi)=0$ und mit der Wahl ${\varphi=v\fin^1-v\fin^2}$ folgt aufgrund der Koerzivität $0\geq g_0 \trinorm{v\fin^1-v\fin^2}$ und somit $v\fin^1=v\fin^2$. Im endlich-dimensionalen folgt aus der Eindeutigkeit die Existenz. Alternativ ließe sich auch die Beschränktheit der Bilinearform und dann mit Satz \ref{laxmilgram} die Existenz zeigen.
 
 Auffällig an der Argumentation ist, dass die Randbedingungen lediglich in Form ihrer Charakteristik zur Definition eines Upwind Flusses eingehen. Solange die rechte Seite des Variationsproblems $\ell(\varphi)$ in $\mathcal{L}(X\fin,\mathbb{C})$ liegt, ist die konkrete Form von $g(x)$ nicht weiter relevant.
+
+\subsection{Stabilität}\label{sec:stabilität}
+Stabile Lösungen zeichnen sich dadurch aus, dass alle Eigenwerte des Liouvilleoperators aus Gleichung \eqref{eq:Liouvilleoperator} negativen Imaginärteil haben, wie sich leicht anhand der Form $i\td{}{t}\rho = \mathcal{L}\rho$ nachvollziehen lässt. Numerisch kann einerseits das Eigenwertspektrum der entsprechenden Matrix untersucht werden. Andererseits kann und soll im Folgenden eine Abschätzung für den Term $\td{}{t}\norm{v\fin}_{L^2(\Omega_x)}^2$ gefunden werden. Dazu wird zu der starken Formulierung \ref{prob:strong} ihr komplex konjugiertes hinzu addiert und die Testfunktion $\varphi=v\fin$ verwendet. Mit Hilfe des Resultates \eqref{eq:koerz_result} aus dem vorherigen Abschnittes folgt
+\begin{align}
+  \td{}{t}\norm{v\fin}_{L^2(\Omega_x)}^2
+  &= - \sum_{D^k \in \mathcal{T}} \int_{D^k} v\fin^{\dagger}(G+G^{\dagger})v\fin
+  - \sum_{e\in F}\int_e  \jump{v^{\dagger}} |\Lambda| \jump{v\fin}
+  + 2\operatorname{Re}(\ell\fin(v\fin)) \nonumber \\
+ &\leq -  \sum_{e\in F}\int_e \lambda_{\text{min}}  |\jump{v\fin}|^2
+       + 2\operatorname{Re}(\ell\fin(v\fin)) \label{eq:stabi}
+\end{align}
+Mit der Annahme $-  \sum_{e\in F}\int_e \lambda_{\text{min}}  |\jump{v\fin}|^2  < 2\operatorname{Re}(\ell\fin(v\fin))$ folgt die Stabilität. Diese Behauptung wiederum soll in der vorliegenden Arbeit lediglich \emph{a posteriori} bestätigt werden. Numerische Experimente zeigen, dass ein Abweichen vom Upwind Fluss mit dem Strafparameter $\tau=|\Lambda|/2$ hin zu kleineren $\tau$ zur Instabilität des transienten Systems führen. Die Behauptung lässt sich \emph{hand-wavy} dadurch begründen, dass die Randbedingungen symmetrisch sind und die approximierende Lösung $v\fin$ für hinreichend große $L_x$ keine großen Sprünge gegenüber der Fermi-Dirac-Statistik $g(x)$ zeigt. Damit heben sich die beiden in $\ell$ enthaltenen Terme am linken und rechten Rand in etwa auf.
+
+Eine ähnliche Stabilitätsanalyse wird in der Literatur \cite{NLS} vorgenommen mit dem entscheidenden Unterschied, dass dort periodische Randbedingungen angenommen werden, sodass sich die beiden Terme tatsächlich exakt aufheben.
+
+Zusammenfassend bleibt respektive der Ungleichung \eqref{eq:stabi} die wichtige Erkenntnis, dass zwei Faktoren die Stabilität des Verfahrens ermöglichen. Dies sind erstens der Strafterm $|\Lambda|/2\jump{v}$ des numerischen Flusses und zweitens das CAP aus Abschnitt \ref{sec:RB}.
+
+\subsection{Implementierung}
+
+
 % Die in Abbildung \ref{fig:pot1} eingezeichneten Längen werden wie in \cite{lukas1} zu
 % \begin{align}
 %   L_1 &= \SI{6}{\nano\meter}\\
