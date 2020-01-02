@@ -8,6 +8,8 @@ endif
 
 all: build/thesis.pdf python/scaling.py
 
+thoughts: build/thoughts.pdf
+
 
 TeXOptions = -pdf \
 			 -interaction=nonstopmode \
@@ -20,6 +22,9 @@ python/scaling.py: FORCE
 
 build/thesis.pdf: FORCE | build
 	latexmk $(TeXOptions) thesis.tex
+
+build/thoughts.pdf: FORCE | build
+	latexmk $(TeXOptions) thoughts.tex
 
 FORCE:
 
@@ -34,3 +39,6 @@ once: build python/scaling.py
 
 see:
 	$(program) build/thesis.pdf
+
+seet:
+	$(program) build/thoughts.pdf
