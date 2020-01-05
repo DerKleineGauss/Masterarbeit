@@ -504,6 +504,7 @@ mit den Legendre Polynomen $P_n(r)$ gewählt. Der Zusammenhang zwischen nodaler 
   \begin{aligned}
     \van_{ij} = \Psi_j(\xi_i)
   \end{aligned}
+  \label{eq:vandermonde}
 \end{equation}
 gegeben. Es gilt dann
   \begin{align}
@@ -550,14 +551,15 @@ Die eingeführten Matrizen lassen sich durch die Vandermondematrix $\van$ ausdr�
 \end{align*}
 gegeben, wobei im Wesentlichen die Orthonormiertheit der gewählten modalen Basis \eqref{eq:modaleBasis} eingegangen ist. Für die Driftmatrix wird im Anhang \ref{sec:A_5} ein entsprechender Ausdruck hergeleitet. Es ist hierzu anzumerken, dass die Driftmatrix die einzige Kopplung bezüglich $y$-Richtung darstellt. Daher geht die Herleitung über eine eindimensionale Betrachtung des DG-Verfahrens und damit über die Ausführungen in \cite{buch} hinaus.
 
-Prinzipiell gibt es zwei verschiedene Möglichkeiten, den Driftterm zu behandeln:
+Prinzipiell gibt es verschiedene Möglichkeiten, den Driftterm zu behandeln. Da jedoch Funktionswerte Von Ansatz- und Testfunktion bereits an den Gauß-Lobatto Quadraturpunkten vorliegen, bietet es sich an, diese Quadratur zu verwenden. Es wird im folgenden zwischen zwei Methoden unterschieden.
 \begin{enumerate}
   \item (Methode G1) Es lässt sich von vornherein das Produkt $G(x)v\fin(x)$ in der nodalen Basis entwickeln. Dann ergibt sich für das resultierende Integral wieder die Massenmatrix. In dem lokalen Schema verbleibt dann nach Multiplikation mit $(M^k)^{-1}$ schlicht der Ausdruck ${\sum_{m=1}^{K_y}\text{diag}(\underline{G}^k_{jm})\underline{v}_m^k}$. Die Driftmatrix aus Definition \ref{def:matrizen} findet hierbei nicht Verwendung.
-  \item (Methode G2) Eine genauere Betrachtung belässt $G(x)$ als analytisch bekannt, sodass die Driftmatrix mit Hilfe von Gauß-Lobatto-Quadratur berechnet werden muss. Mit der Quadraturordnung $N_{GL}$ ergibt sich mit den dem Anhang \ref{sec:A_5} zu entnehmenden Definitionen der Matrix $W$ und der Gewichte $w$
+  \item (Methode G2) Eine genauere Betrachtung belässt $G(x)$ als analytisch bekannt, sodass die Driftmatrix mit Hilfe von Gauß-Lobatto-Quadratur höherer Ordnung berechnet werden kann. Mit der Quadraturordnung $N_{GL}$ ergibt sich mit den dem Anhang \ref{sec:A_5} zu entnehmenden Definitionen der Matrix $W$ und der Gewichte $w$
   \begin{equation}
     (\drift^{k,jm})_{pq} = \sum_{a=1}^{N_{GL}} W_{ap} W_{ai} w_a G_{jm}(\xi_a^k)\frac{h_k}{2} \; .
     \label{eq:G_GL}
   \end{equation}
+  Diese Methode ist insbesondere für unstetige Potentiale wie das Flachbandpotential in Abbildung \ref{fig:pot1} zu bevorzugen, da solche Unstetigkeiten besser durch Polynome höherer Ordnung approximiert werden.
 \end{enumerate}
 Beide Ansätze sind numerisch anhand der resultierenden iterativen Fehler verglichen worden, siehe Kapitel \todo{ref}. Es zeigt sich erwartungsgemäß, dass der zweite Ansatz zu besseren Konvergenzraten führt. Offensichtlich ist dies aber gleichzeitig die rechenintensivere Option.
 
@@ -636,7 +638,7 @@ Abbildung \ref{fig:matrix_L} zeigt den Diffusionsterm.
         \label{fig:matrix_F}
     \end{subfigure}
     \caption[]
-    {Struktur der beiden Flussmatrizen in willkürlichen Einheiten. Links sind die Volumenteile und rechts die ursprünglich aus der partiellen Integration entstammenden Kantenbeiträge abgebildet. In der Flussmatrix enthalten ist der numerische Fluss.}
+    {Struktur der beiden Flussmatrizen in willkürlichen Einheiten. Links sind die Volumenteile und rechts die ursprünglich aus der partiellen Integration entstammenden Kantenbeiträge abgebildet. In der Flussmatrix enthalten ist der numerische Fluss. Dieser bringt die einzigen Nebendiagonalbeiträge der Systemmatrix in $x$-Richtung ein und stellt somit die Kopplung zwischen Zellen dar.}
     % \label{fig:Schaltungen}
 \end{figure*}
 Wegen der um 0 symmetrisch verteilten Eigenwerte \eqref{eq:Lambda} ist diese Matrix rotations- oder doppelt spiegelsymmetrisch. Auch tendieren deshalb die nominellen Werte von außen Richtung Mitte der Matrix gegen 0. Innerhalb eines grün umrandeten Blocks entstehen bei äquidistanter Diskretisierung  $K_x$ Replika. Die Matrix ist blockdiagonal, da der entsprechende Term in Gleichung \eqref{eq:diagLVN} bereits diagonal ist.
