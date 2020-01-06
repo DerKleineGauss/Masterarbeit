@@ -1,6 +1,6 @@
 \chapter{Physikalische Problemstellung}
 
-Die Dynanmik des btrachteten Quantensystems wird mit Hilfe der \lvn (LvNG) beschrieben. Sie bedient sich dem aus der Quantenstatistik bekannten Konzept des Dichteoperators für ein physikalisches System. Daher wird zunächst der Dichteoperator  eingeführt. Eine alternative Formulierung der Dynamik folgt aus einer Fourier-Transformation bezüglich der Relativkoordinate und führt auf den sog. Wigner-Formalismus. Etliche Veröffentlichungen betreffen die Implementierung dieser sogenannten Wigner-Gleichung. Daher wird auf Unterschiede und Schwierigkeiten insbesondere hinsichtlich der Randbedingungen eingegangen. In der vorliegenden Arbeit verbleibt jedoch der Fokus auf der Ortsraumformulierung. Abschließend werden alternative Verfahren genannt und die Einordnung selbiger in den physikalischen Kontext.
+Die Dynanmik des btrachteten Quantensystems wird mit Hilfe der \ac{lvn} beschrieben. Sie bedient sich dem aus der Quantenstatistik bekannten Konzept des Dichteoperators für ein physikalisches System. Daher wird zunächst der Dichteoperator  eingeführt. Eine alternative Formulierung der Dynamik folgt aus einer Fourier-Transformation bezüglich der Relativkoordinate und führt auf den sog. Wigner-Formalismus. Etliche Veröffentlichungen betreffen die Implementierung dieser sogenannten Wigner-Gleichung. Daher wird auf Unterschiede und Schwierigkeiten insbesondere hinsichtlich der Randbedingungen eingegangen. In der vorliegenden Arbeit verbleibt jedoch der Fokus auf der Ortsraumformulierung. Abschließend werden alternative Verfahren genannt und die Einordnung selbiger in den physikalischen Kontext.
 
 \section{Dichteoperator} \index{Dichteoperator}
 \label{sec:2_1}
@@ -107,9 +107,9 @@ Für die Berechnung von praktisch relevanten Erwartungswerten (Teilchenzahl, Str
 
 \section{Modellierung}
 \label{sec:modellierung}
-Ziel dieses Abschnittes ist es, eine \emph{resonante Tunneldiode} (RTD) \index{resonante Tunneldiode} zu modellieren, sodass die bis hierhin entwickelte Theorie in einem praktischen Anwendungsfall zum Einsatz gebracht werden kann.
+Ziel dieses Abschnittes ist es, eine \emph{\ac{rtd}} \index{resonante Tunneldiode} zu modellieren, sodass die bis hierhin entwickelte Theorie in einem praktischen Anwendungsfall zum Einsatz gebracht werden kann.
 
-Eine RTD nutzt den quantenmechanischen Effekt des Tunnelns aus, weshalb letztlich ein negativer differentieller Widerstand in Teilen der Strom-Spannungs-Kennlinie festzustellen ist. Aufgebaut ist die Diode aus einer Abfolge von GaAs- und AlGaAs-Schichten, wodurch zwei Potentialbarrieren entstehen, zwischen denen sich ein Quantentopf ausbildet, siehe Abbildung \ref{fig:Heterostuktur}. Letzterer ist durch die Ausprägung diskreter Energieniveaus gekennzeichnet, welche sich aus der Lösung der Schrödingergleichung ergeben (siehe auch Abschnitt \ref{sec:TFmethod}). Entspricht die Energie der injizierten Elektronen gerade einem der diskreten Energiewerte des Quantentopfes kommt es zum resonanten Tunneln, sodass der Stromfluss stark ansteigt. Wird die Energie weiter erhöht, bricht der Stromfluss wieder ein, da die Resonanzbedingung nicht erfüllt ist. Wie üblich wird diese Charakteristik durch thermische Energie geglättet, sodass eine Strom-Spannungs-Kennlinie wie diejenige in Abbildung \ref{fig:IVkurve} entsteht.
+Eine \ac{rtd} nutzt den quantenmechanischen Effekt des Tunnelns aus, weshalb letztlich ein negativer differentieller Widerstand in Teilen der Strom-Spannungs-Kennlinie festzustellen ist. Aufgebaut ist die Diode aus einer Abfolge von GaAs- und AlGaAs-Schichten, wodurch zwei Potentialbarrieren entstehen, zwischen denen sich ein Quantentopf ausbildet, siehe Abbildung \ref{fig:Heterostuktur}. Letzterer ist durch die Ausprägung diskreter Energieniveaus gekennzeichnet, welche sich aus der Lösung der Schrödingergleichung ergeben (siehe auch Abschnitt \ref{sec:TFmethod}). Entspricht die Energie der injizierten Elektronen gerade einem der diskreten Energiewerte des Quantentopfes kommt es zum resonanten Tunneln, sodass der Stromfluss stark ansteigt. Wird die Energie weiter erhöht, bricht der Stromfluss wieder ein, da die Resonanzbedingung nicht erfüllt ist. Wie üblich wird diese Charakteristik durch thermische Energie geglättet, sodass eine Strom-Spannungs-Kennlinie wie diejenige in Abbildung \ref{fig:IVkurve} entsteht.
 \begin{figure*}
     \centering
     \begin{subfigure}[b]{0.55\textwidth}
@@ -126,10 +126,10 @@ Eine RTD nutzt den quantenmechanischen Effekt des Tunnelns aus, weshalb letztlic
         \label{fig:IVkurve}
     \end{subfigure}
     \caption[]
-    {Aufbau mit Potentialverlauf (a) und Strom-Spannungs-Kennlinie einer RTD (b), \cite{wiedenhaus}.}
+    {Aufbau mit Potentialverlauf (a) und Strom-Spannungs-Kennlinie einer \ac{rtd} (b), \cite{wiedenhaus}.}
     % \label{fig:Schaltungen}
 \end{figure*}
-Die RTD wird im Folgenden als offenes System modelliert, durch das also Elektronen hindurchfließen können. Sie wird durch zwei Kontakte in einen Schaltkreis integriert, welche als Elektronen-Reservoire dargestellt werden. Das Modell wird nun charakterisiert durch die folgenden, vereinfachenden Anforderungen.
+Die \ac{rtd} wird im Folgenden als offenes System modelliert, durch das also Elektronen hindurchfließen können. Sie wird durch zwei Kontakte in einen Schaltkreis integriert, welche als Elektronen-Reservoire dargestellt werden. Das Modell wird nun charakterisiert durch die folgenden, vereinfachenden Anforderungen.
 \begin{enumerate}[label=(\roman*)]
   \item Innerhalb der Struktur können Elektronen weder erzeugt noch vernichtet werden.
   \item Elektronen können in den Reservoiren absorbiert und erzeugt werden.
@@ -162,17 +162,17 @@ Der durch die Materialkomposition GaAs/AlGaAs resultierende Potentialverlauf $V_
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{files/potential.pdf}
-  \caption{Potentialverlauf der RTD.}
+  \caption{Potentialverlauf der \ac{rtd}.}
   \label{fig:pot1}
 \end{figure}
 
-Die quantenmechanische Beschreibung der Dynamik des Systems kann durch verschiedene Zugänge realisiert werden, siehe auch Kapitel \ref{sec:weitere_verfahren}. In der vorliegenden Arbeit wird dabei der Fokus auf die Liouville-von-Neumann-Gleichung gelegt. Wie in den vorangegangenen Kapiteln erläutert, ist mit Hilfe der Dichtematrix eine Beschreibung quantenmechanischer Ensembles, also gemischter Zustände möglich. Dieser Zugang scheint für die gewählten Anforderungen unnötig verkomplizierend zu sein, jedoch ermöglicht er eine spätere Berücksichtigung von nicht-kohärenten Wechselwirkungen \cite{wiedenhaus}.
+Die quantenmechanische Beschreibung der Dynamik des Systems kann durch verschiedene Zugänge realisiert werden, siehe auch Kapitel \ref{sec:weitere_verfahren}. In der vorliegenden Arbeit wird dabei der Fokus auf die \ac{lvn} gelegt. Wie in den vorangegangenen Kapiteln erläutert, ist mit Hilfe der Dichtematrix eine Beschreibung quantenmechanischer Ensembles, also gemischter Zustände möglich. Dieser Zugang scheint für die gewählten Anforderungen unnötig verkomplizierend zu sein, jedoch ermöglicht er eine spätere Berücksichtigung von nicht-kohärenten Wechselwirkungen \cite{wiedenhaus}.
 
 
 \section{Dynamik}
-Die Dynamik eines fermionischen Systems ergibt sich aus der von-Neumann-Gleichung. Sie lässt sich sowohl im Ortsraum, als auch im Frequenzraum formulieren. Das Augenmerk dieser Arbeit richtet sich dabei auf die Ortsraumformulierung, namentlich die \lvn. Zur Vollständigkeit und zur besseren Diskussion der verschiedenen Methoden wird auch die Frequenzraumformulierung vorgestellt, namentlich die Wigner-Gleichung. Das Modell für das konkrete, physikalische Problem wird dann in beiden Fällen durch die Randbedingungen eingebaut.
+Die Dynamik eines fermionischen Systems ergibt sich aus der von-Neumann-Gleichung. Sie lässt sich sowohl im Ortsraum, als auch im Frequenzraum formulieren. Das Augenmerk dieser Arbeit richtet sich dabei auf die Ortsraumformulierung, namentlich die \ac{lvn}. Zur Vollständigkeit und zur besseren Diskussion der verschiedenen Methoden wird auch die Frequenzraumformulierung vorgestellt, namentlich die Wigner-Gleichung. Das Modell für das konkrete, physikalische Problem wird dann in beiden Fällen durch die Randbedingungen eingebaut.
 
-\subsection{\lvn}\index{Liouville-von-Neumann Gleichung}
+\subsection{\ac{lvn}}\index{Liouville-von-Neumann Gleichung}
 Die Dynamik der reduzierten Dichtematrix \eqref{eq:def_dichtematrix} wird mit Hilfe der von-Neumann Gleichung
 \begin{equation*}
     \partial_t \hat{\rho}(t) = - \frac{i}{\hbar}[\hat{H}(t), \hat{\rho}(t)]
@@ -201,7 +201,7 @@ folgt hieraus schließlich
   \partial_t \rho_{(1)}(x,y,t) = \frac{i}{\hbar}\left\{-\frac{\hbar^2}{2m}(\nabla_x^2 - \nabla_y^2) + (V(x,t) - V^*(y,t)) \right\}
                           \text{Sp}(\hat{\Psi}^{\dagger}(x) \hat{\Psi}(y) \hat{\rho}(t))
 \end{equation*}
-bzw. in der bekannteren Form mit Definition \eqref{eq:def_dichtematrix} die \lvn (LvNG)
+bzw. in der bekannteren Form mit Definition \eqref{eq:def_dichtematrix} die \ac{lvn}
 \begin{equation}
   i\partial_t \rho_{(1)}(x,y,t) = \underbrace{\left\{\frac{\hbar}{2m}(\nabla_x^2 - \nabla_y^2) - \frac{1}{\hbar}(V(x,t) - V^*(y,t)) \right\}}_{\equiv{\tilde{\mathcal{L}}(x,y,t)}} \rho_{(1)}(x,y,t)
   \label{eq:lvn_first}
@@ -333,7 +333,7 @@ Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die St
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{files/RTD_reservoire.pdf}
-  \caption{Veranschaulichung des Modells einer in einen elektrischen Schaltkreis integrierten RTD. In den Reservoiren werden Elektronen absorbiert und emittiert. Der in rot angedeutete \emph{Inflow} wird als Randbedingung gesetzt, während der Outflow (blau) sich durch die Transportcharakteristik der Bewegungsgleichung ergeben muss.}
+  \caption{Veranschaulichung des Modells einer in einen elektrischen Schaltkreis integrierten \ac{rtd}. In den Reservoiren werden Elektronen absorbiert und emittiert. Der in rot angedeutete \emph{Inflow} wird als Randbedingung gesetzt, während der Outflow (blau) sich durch die Transportcharakteristik der Bewegungsgleichung ergeben muss.}
   \label{fig:modell}
 \end{figure}
 Damit ist klar, dass Randbedingungen für Inflow-Teilchen mit positiver Geschwindigkeit am linken Rand und solche mit negativer Geschwindigkeit am rechten Rand der Domäne gesetzt sind, während für Outflow-Teilchen keine Randbedingung vorgegeben ist. Teilchen müssen also nach ihrer Geschwindigkeit unterschieden werden können.
@@ -369,7 +369,7 @@ Eine mögliche Wahl der Randbedingungen bezüglich der Relativkoordinate für di
   \end{aligned}
   \label{eq:rb3}
 \end{equation}
-Numerische Resultate zeigen für diese Wahl jedoch mitunter unphysikalische Interferenzmuster, da es an den Rändern zu Reflexion kommt \cite{lukas1}. Ein Vorschlag ist daher, eine absorbierende Schicht (\emph{complex absorbing potential}\index{complex absorbing potential} -- CAP) der Dicke $\delta$ einzuführen. Dabei wird der Driftterm $B(x,y,t)$ aus Gleichung \eqref{eq:lvn} um einen komplexen Teil der Größe $W_0<0$ erweitert:
+Numerische Resultate zeigen für diese Wahl jedoch mitunter unphysikalische Interferenzmuster, da es an den Rändern zu Reflexion kommt \cite{lukas1}. Ein Vorschlag ist daher, eine absorbierende Schicht (\emph{\ac{cap}}\index{complex absorbing potential}) der Dicke $\delta$ einzuführen. Dabei wird der Driftterm $B(x,y,t)$ aus Gleichung \eqref{eq:lvn} um einen komplexen Teil der Größe $W_0<0$ erweitert:
 \begin{equation}
   \begin{aligned}
     B(x,y,t) = \frac{V\left(x+\frac{y}{2},t\right) - V^*\left(x-\frac{y}{2},t\right)}{V_0} + iW(y) \qquad \text{mit} \\
@@ -417,14 +417,14 @@ Die vorangegangenen Gedanken lassen sich auf die LvNG übertragen. Insbesondere 
 Abschließend ist zu sagen, dass die gesamte Thematik der Randbedingungen Gegenstand aktueller Forschung ist und die hier gezeigten Aspekte nur einen kleinen Bruchteil der Komplexität darstellen. So verkompliziert sich die gesamte Fragestellung beispielsweise dramatisch, wenn die Mean-Field-Näherung fallengelassen wird und auch nicht-kohärente Effekte berücksichtigt werden. Eine gute Übersicht bieten die Arbeiten von Rossi \cite{buchRossi} und Frensley \cite{frensley}. Für die konkrete numerische Implementierung wird auf die vergleichsweise simplen Resultate \eqref{eq:rb1}, \eqref{eq:rb3} sowie für Versuchszwecke Gleichung \eqref{eq:cap} zurückgegriffen.
 
 \section{Weitere Verfahren}\label{sec:weitere_verfahren}
-Neben dem hier verwendeten Dichtematrix- bzw. Wigner-Formalismus gibt es einige weitere Möglichkeiten, die stationäre Lösung sowie die Zeitentwicklung für verschiedene Fälle (Gleichgewicht, Nahe-Gleichgewicht und Fern-vom-Gleichgewicht) zu berechnen. Der Artikel \cite{frensley3} bietet einen guten Überblick über die wichtigsten Verfahren. Eine vollständige Theorie gelingt demnach lediglich mit dem \emph{nonequilibrium Green's function (NEGF) approach}\index{nonequilibrium Green's function (NEGF)}, welcher auf den Keldysh-Formalismus zurückzuführen ist. Die Grundidee dabei ist eine diagrammatische Störungstheorie, welche sowohl Vorwärts- als auch Rückwärts-Konturen mit Hilfe von vier Greens-Funktionen berücksichtigt. Die konkrete, vollständige Berechnung mit Hilfe der NEGF gestaltet sich anscheinend schwierig. Die Veröffentlichungen konzentrieren sich zumeist auf Hybridverfahren (z.B. \cite{memory2, negf-dft}) oder Spezialfälle wie dem stationären Fall \cite{negf_datta}.
+Neben dem hier verwendeten Dichtematrix- bzw. Wigner-Formalismus gibt es einige weitere Möglichkeiten, die stationäre Lösung sowie die Zeitentwicklung für verschiedene Fälle (Gleichgewicht, Nahe-Gleichgewicht und Fern-vom-Gleichgewicht) zu berechnen. Der Artikel \cite{frensley3} bietet einen guten Überblick über die wichtigsten Verfahren. Eine vollständige Theorie gelingt demnach lediglich mit dem \emph{\ac{negf} approach}\index{nonequilibrium Green's function}, welcher auf den Keldysh-Formalismus zurückzuführen ist. Die Grundidee dabei ist eine diagrammatische Störungstheorie, welche sowohl Vorwärts- als auch Rückwärts-Konturen mit Hilfe von vier Greens-Funktionen berücksichtigt. Die konkrete, vollständige Berechnung mit Hilfe der \ac{negf} gestaltet sich anscheinend schwierig. Die Veröffentlichungen konzentrieren sich zumeist auf Hybridverfahren (z.B. \cite{memory2, negf-dft}) oder Spezialfälle wie dem stationären Fall \cite{negf_datta}.
 An dieser Stelle soll lediglich festgehalten werden, dass in einer hierarchischen Betrachtungsweise der Dichtematrix-Formalismus weniger Information enthält, denn die Dichtematrix folgt aus einer Integration
 \begin{equation*}
   \rho(x,y,t) = \int \frac{\diff E}{2\pi}G^{<}(x,y;E,t) \; .
 \end{equation*}
 Deshalb ist die LvNG lediglich dazu in der Lage, ein Markov-Verhalten zu beschreiben, wo also externe Wechselwirkung ausschließlich instantan in der Zeit erfolgt \cite{frensley3}. Als Beispiel für das Versagen des Dichtematrix-Formalismus wird die resonante Absorption oder Emission eines Phonons genannt, für die die Schwingungsperiode des Phonons die Mindestdauer der Wechselwirkung vorgibt. Ein Verfahren, dessen Verteilungsfunktion nicht alle drei Variablen -- Ort, Impuls und Geschwindigkeit -- wird für die entsprechend fehlende Variable eine Erhaltungsgleichung nicht berücksichtigen \cite{frensley3}. Im Falle der LvNG ist dies die Energieerhaltung, was jedoch mit der Modellierung des Systems vereinbar und sogar notwendig ist, siehe Kapitel \ref{sec:modellierung}. Es gibt Ansätze, diesem Umstand mit Hilfe eines "Gedächtnis-Terms" beizukommen \cite{memory1, memory2}.
 
-Ein Verfahren, welches den Spezialfall des stationären Problems im Gleichgewichtsfall beschreiben kann, wird im folgenden Kapitel \ref{sec:TFmethod} erläutert werden, denn es dient für die numerischen Tests in \todo{Referenz Kapitel} als Referenz. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode die Schrödingergleichung löst und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method (QTBM) bekannt.
+Ein Verfahren, welches den Spezialfall des stationären Problems im Gleichgewichtsfall beschreiben kann, wird im folgenden Kapitel \ref{sec:TFmethod} erläutert werden, denn es dient für die numerischen Tests in \todo{Referenz Kapitel} als Referenz. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode die Schrödingergleichung löst und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method bekannt.
 
 \subsection{Transfermatrix Methode}\index{Transfermatrix Method}
 \label{sec:TFmethod}
@@ -442,11 +442,11 @@ Die Berechnung von reinen Zuständen ist unter Annahme der Stetigkeit von $\Psi(
   \end{aligned}
 \end{equation}
 Hierbei ist $k=\sqrt{2mE/\hbar^2}$ und $\kappa=\sqrt{2m(V_0-E)/\hbar^2}$.
-Für das konkrete Problem einer RTD zeigt Abbildung \ref{fig:tf1} die Zuordnung der Koeffizienten und Koordinaten. \todo{ein Pfeil noch andersrum.}
+Für das konkrete Problem einer \ac{rtd} zeigt Abbildung \ref{fig:tf1} die Zuordnung der Koeffizienten und Koordinaten. \todo{ein Pfeil noch andersrum.}
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{files/TF_variables.pdf}
-  \caption{Koeffizienten für hin- und rücklaufende Wellen mit angedeutetem Potentialverlauf der RTD.}
+  \caption{Koeffizienten für hin- und rücklaufende Wellen mit angedeutetem Potentialverlauf der \ac{rtd}.}
   \label{fig:tf1}
 \end{figure}
 Mit Hilfe der erwähnten Stetigkeitsbedingung lassen sich acht der zehn Koeffizienten eliminieren, sodass sich mit $\vec{a}\equiv(a_1, a_2)^T$ letztlich
@@ -468,7 +468,7 @@ angesetzt wird, vergleiche hierzu auch die Überlegung im Anhang \ref{sec:A_2}. 
 \begin{equation}
   \Psi_k(x) = \frac{1}{\sqrt{2}}(\Psi_k^r(x) + \Psi_k^l(x))
 \end{equation}
-gewählt.
+gewählt. Das vorgestellte Verfahren ist als \ac{tf} bekannt.
 
 
 

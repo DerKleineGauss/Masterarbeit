@@ -157,6 +157,8 @@
 \usepackage{stmaryrd}   % doppelt Eckige Klammern mit \llbracket und \rrbracket
 \usepackage{makeidx}
 \makeindex
+
+\usepackage{acronym}    % Abkürzungsverzeichnis
 %------------------------------------------------------------------------------
 %------------------------------  Macros:   ------------------------------------
 %------------------------------------------------------------------------------
@@ -238,7 +240,6 @@
 \newcommand{\NormTwo}[2]{\left\lVert\, #1 \,\right\rVert_{L^2(#2)}}
 \newcommand{\sP}[3]{\left(#1\, ,#2\right)_{#3}}
 \newcommand{\No}[2]{\left\lVert#1\right\rVert_{#2}}
-\newcommand{\lvn}{Liouville-von-Neumann Gleichung }
 \newcommand*\diff{\mathop{}\!\mathrm{d}}
 \newcommand*\Diff[1]{\mathop{}\!\mathrm{d#1}}
 \newcommand*\difffrac[2]{\mathop{}\!\frac{\mathrm{d#1}}{\mathrm{d#2}}}
@@ -310,7 +311,7 @@
 \publishers{\thechair \\ \thedivision \\ Technische Universität Dortmund}
 \submissiondate{17. Juli 2019}
 \secondcorrector{Prof.~Dr.~Manfred Bayer}
-\firstcorrector{PD.~Dr.~Dirk Schulz}
+\firstcorrector{Apl.-Prof.~Dr.~Dirk Schulz}
 
 % tu logo on top of the titlepage
 \titlehead{\includegraphics[height=1.5cm]{logos/tu-logo.pdf}}
@@ -327,6 +328,23 @@
 % % hier beginnt der Vorspann, nummeriert in römischen Zahlen
 % \input{content/00_abstract.tex}
 \tableofcontents
+% Abkürzungsverzeichnis
+\begin{acronym}
+  \acro{lvn}[LvNG]{Liouville-von-Neumann Gleichung}
+  \acro{cg}{CG}{Continuous-Galerkin}
+  \acro{fv}{FV}{Finite-Volumen}
+  \acro{fem}{FEM}{Finite-Elemente-Methode}
+  % \acroplural{fem}[FEMn]{Finite-Elemente-Methoden}
+  \acro{dg}{DG}{Discontinuous-Galerkin}
+  \acro{rk}{RK}{Runge-Kutta Verfahren}
+  \acro{cap}{CAP}{complex absorbing potential}
+  \acro{rtd}{RTD}{resonante Tunneldiode}
+  \acro{negf}{NEGF}{nonequilibrium Green’s function}
+  \acro{tf}{TM}{Transfermatrix-Methode}
+  \acro{pdg}{PDG}{partielle Differentialgleichung}
+  \acroplural{pdgn}[PDGn]{partielle Differentialgleichungen}
+  \acro{dgl}{DGL}{Differentialgleichung}
+\end{acronym}
 %
 \mainmatter
 % % Hier beginnt der Inhalt mit Seite 1 in arabischen Ziffern
