@@ -1,6 +1,6 @@
 \chapter{Physikalische Problemstellung}
 
-Die Dynanmik des btrachteten Quantensystems wird mit Hilfe der \ac{lvn} beschrieben. Sie bedient sich dem aus der Quantenstatistik bekannten Konzept des Dichteoperators für ein physikalisches System. Daher wird zunächst der Dichteoperator  eingeführt. Eine alternative Formulierung der Dynamik folgt aus einer Fourier-Transformation bezüglich der Relativkoordinate und führt auf den sog. Wigner-Formalismus. Etliche Veröffentlichungen betreffen die Implementierung dieser sogenannten Wigner-Gleichung. Daher wird auf Unterschiede und Schwierigkeiten insbesondere hinsichtlich der Randbedingungen eingegangen. In der vorliegenden Arbeit verbleibt jedoch der Fokus auf der Ortsraumformulierung. Abschließend werden alternative Verfahren genannt und die Einordnung selbiger in den physikalischen Kontext.
+Die Dynamik des betrachteten Quantensystems wird mit Hilfe der \ac{lvn} beschrieben. Sie bedient sich dem aus der Quantenstatistik bekannten Konzept des Dichteoperators für ein physikalisches System. Daher wird zunächst der Dichteoperator  eingeführt. Eine alternative Formulierung der Dynamik folgt aus einer Fourier-Transformation bezüglich der Relativkoordinate und führt auf den sog. Wigner-Formalismus. Etliche Veröffentlichungen betreffen die Implementierung dieser sogenannten Wigner-Gleichung. Daher wird auf Unterschiede und Schwierigkeiten insbesondere hinsichtlich der Randbedingungen eingegangen. In der vorliegenden Arbeit verbleibt jedoch der Fokus auf der Ortsraumformulierung. Abschließend werden alternative Verfahren genannt und die Einordnung selbiger in den physikalischen Kontext.
 
 \section{Dichteoperator} \index{Dichteoperator}
 \label{sec:2_1}
@@ -148,7 +148,7 @@ Kohärente, stationäre Zustände lassen sich mit Hilfe der \emph{single-band, e
   \end{aligned}
   \label{eq:schroedinger}
 \end{equation}
-beschreiben. Hierin sind $V(x)$ das Potential und $m^*\approx 0,063m_e$ die effektive Masse von GaAs. Das Potential beinhaltet den Potentialverlauf der Heterostuktur $V_s(x,y,z)$, das äußere Feld $-eU$ sowie das selbstkonsistente \emph{Hartree-Potential}\index{Hartree-Potential} $u(x,y,z)$:
+beschreiben. Hierin sind $V(x)$ das Potential und $m^*\approx 0,063m_e$ die effektive Masse von GaAs. Das Potential beinhaltet den Potentialverlauf der Heterostruktur $V_s(x,y,z)$, das äußere Feld $-eU$ sowie das selbstkonsistente \emph{Hartree-Potential}\index{Hartree-Potential} $u(x,y,z)$:
 \begin{align}
   V({x}) = u({x}) + V_s({x}) - eU
 \end{align}
@@ -208,7 +208,7 @@ bzw. in der bekannteren Form mit Definition \eqref{eq:def_dichtematrix} die \ac{
 \end{equation}
 mit dem \emph{Liouvilleoperator}\index{Liouvilleoperator} $\tilde{\mathcal{L}}(x,y,t)$. Dieselbe Gleichung ergäbe sich für den Dichteoperator, wenn der Hilbertraum von vornherein ein Einteilchenraum wäre. Mit der vorangegangen Herleitung gelingt jedoch eine allgemeinere Formulierung, die auf die entscheidende Annahme (Gleichung \eqref{eq:Hpot}) hinweist. Weiterführende Arbeiten könnten an dieser Stelle beispielsweise Zweiteilchen-Wechselwirkungen mit einbeziehen.
 
-Zur Untersuchung der LvNG werden zwei Fälle unterschieden, worauf im Folgenden referenziert werden wird:
+Zur Untersuchung der \ac{lvn} werden zwei Fälle unterschieden, worauf im Folgenden referenziert werden wird:
 \begin{itemize}
   \item Der \emph{stationäre Fall}\index{stationärer Fall} mit $\partial_t \rho_{(1)}(x,y,t) = 0$. Hier gilt ${\left[\hat{\rho} , \hat{H}\right]=0}$.
   \item der allgemeinere \emph{transiente Fall}\index{transienter Fall} $\partial_t \rho_{(1)}(x,y,t) \neq 0$.
@@ -251,11 +251,11 @@ sowie der Definition
 \begin{align*}
   A = \left(\begin{array}{c c} 0 & \frac{1}{2} \\ \frac{1}{2} & 0 \end{array} \right)
 \end{align*}
-lautet die LvNG nun
+lautet die \ac{lvn} nun
 \begin{align*}
   i\hbar\partial_{\tilde{t}} \tilde{u}(\tilde{x},\tilde{y},\tilde{t})+\frac{\hbar^2}{m}\operatorname{div}(A\nabla \tilde{u}(\tilde{x},\tilde{y},\tilde{t})) -  \tilde{B}(\tilde{x},\tilde{y},\tilde{t}) \tilde{u}(\tilde{x},\tilde{y},\tilde{t}) = 0 \; .
 \end{align*}
-In einem abschließenden, die numerische Behandlung vorbereitenden Schritt wird die LvNG in eine einheitenlose Form gebracht, indem sie zunächst durch ein willkürliches $V_0$ geteilt wird. Energien werden dann in Einheiten von $V_0$ gemessen, und es bietet sich an, die charakteristische Größe $V_0 = \SI{0.1768}{\electronvolt}$ -- die Größe des Potentialsprungs zwischen GaAs und AlGaAs \todo{quelle} -- hierfür zu verwenden.
+In einem abschließenden, die numerische Behandlung vorbereitenden Schritt wird die \ac{lvn} in eine einheitenlose Form gebracht, indem sie zunächst durch ein willkürliches $V_0$ geteilt wird. Energien werden dann in Einheiten von $V_0$ gemessen, und es bietet sich an, die charakteristische Größe $V_0 = \SI{0.1768}{\electronvolt}$ -- die Größe des Potentialsprungs zwischen GaAs und AlGaAs \todo{quelle} -- hierfür zu verwenden.
 Ferner wird die folgende Skalierung eingeführt, um Zeiten und Orte ebenfalls einheitenlos zu behandeln.
 \begin{align*}
   \left(\begin{array}{c}\tilde{x}\\\tilde{y}\end{array}\right) &= \xi \left(\begin{array}{c}x\\y\end{array}\right)   & \xi &= \sqrt{\frac{\hbar^2}{mV_0}} \\
@@ -266,7 +266,7 @@ Damit folgt
   \partial_{\tilde{t}} &= \frac{\partial}{\partial (\tau t)} = \tau^{-1} \partial_t = \frac{V_0}{\hbar} \partial_t \\
   \partial_{\tilde{x}}^2 &= \frac{\partial^2}{(\partial (\xi x))^2} = \xi^{-2} \partial_x^2 = \frac{mV_0}{\hbar^2} \partial_x^2 \; ,
 \end{align*}
-sodass die LvNG die Form
+sodass die \ac{lvn} die Form
 \begin{empheq}[box=\widefbox]{align}
   i \partial_t u(x,y,t)+\operatorname{div}(A\nabla u(x,y,t)) - B(x,y,t) u(x,y,t) = 0
   \label{eq:lvn} \\
@@ -308,7 +308,7 @@ In dieser anschaulichen Darstellung ergeben sich Erwartungswerte intuitiv durch 
   n(r,t) &= \int \frac{\diff k}{2\pi}f_{(1)}(k,r,t) \label{eq:wigner_n}\\
   j(r,t) &= \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,r,t)
 \end{align}
-schreiben \cite{modern}. Die LvNG für die Wigner-Funktion lautet dann \cite{frensley2, failure}
+schreiben \cite{modern}. Die \ac{lvn} für die Wigner-Funktion lautet dann \cite{frensley2, failure}
 \begin{equation}
   \partial_t f_{(1)}(k,r,t) = -\frac{\hbar k}{m}\partial_r f_{(1)}(k,r,t) - \frac{1}{\hbar} \int \frac{\diff k'}{2\pi}\mathcal{V}(k-k',r,t)f_{(1)}(k',r,t)
   \label{eq:wigner}
@@ -327,13 +327,13 @@ Die Dynamik des in der Einleitung skizzierten Systems muss irreversibel in der Z
 \begin{align}
   H- H^{\dagger} = \frac{\hbar}{i}\int_s \vb{j}\diff\vb{s} = 0 \; .
 \end{align}
-Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der LvNG auf. Da jedoch ein offenes System modelliert werden soll (siehe Abschnitt \ref{sec:modellierung}), muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
+Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der \ac{lvn} auf. Da jedoch ein offenes System modelliert werden soll (siehe Abschnitt \ref{sec:modellierung}), muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
 
 Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die Stabilität des Systems sicherstellen. Ein hierfür möglicherweise geeigneter Ansatz wird erstmals in \cite{frensley2} getroffen, indem die Reservoire in Analogie zu einem schwarzen Körper gesehen werden. In das Reservoir eintretende Teilchen werden vollständig absorbiert. Umgekehrt "strahlt" das Reservoir Teilchen entsprechend der thermischen Gleichgewichts-Verteilung in das System ein, siehe Abbildung \ref{fig:modell}.
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{files/RTD_reservoire.pdf}
-  \caption{Veranschaulichung des Modells einer in einen elektrischen Schaltkreis integrierten \ac{rtd}. In den Reservoiren werden Elektronen absorbiert und emittiert. Der in rot angedeutete \emph{Inflow} wird als Randbedingung gesetzt, während der Outflow (blau) sich durch die Transportcharakteristik der Bewegungsgleichung ergeben muss.}
+  \caption{Veranschaulichung des Modells einer in einen elektrischen Schaltkreis integrierten \ac{rtd}. In den Reservoiren werden Elektronen absorbiert und emittiert. Der in rot angedeutete \emph{Inflow} wird als Randbedingung gesetzt, während der \emph{Outflow} (blau) sich durch die Transportcharakteristik der Bewegungsgleichung ergeben muss.}
   \label{fig:modell}
 \end{figure}
 Damit ist klar, dass Randbedingungen für Inflow-Teilchen mit positiver Geschwindigkeit am linken Rand und solche mit negativer Geschwindigkeit am rechten Rand der Domäne gesetzt sind, während für Outflow-Teilchen keine Randbedingung vorgegeben ist. Teilchen müssen also nach ihrer Geschwindigkeit unterschieden werden können.
@@ -362,7 +362,7 @@ und wegen Gleichung \eqref{eq:fourier_wigner_invers} für die reduzierte Dichtem
 Das chemische Potential $\mu$ ergibt sich dabei aus der Forderung nach Ladungsträgerneutralität im thermischen Gleichgewicht. Die Herleitung ist im Anhang \ref{sec:A_3} gezeigt.\\
 Für die Outflow-Bereiche $\{ k<0, x=-L/2 \}$ und $\{ k>0, x=+L/2 \}$ trifft \eqref{eq:rb1} keine Aussage, sodass jede numerische Methode zwangsläufig ein upwind-Schema bezüglich der $r$-Diskretisierung verwenden muss. Hierin bestätigt sich auch der Charakter der zugrundeliegenden Differentialgleichung \eqref{eq:wigner}: es wird der Transport von Elektronen beschrieben.
 
-Eine mögliche Wahl der Randbedingungen bezüglich der Relativkoordinate für die LvNG sind Dirichlet-Randbedingungen:
+Eine mögliche Wahl der Randbedingungen bezüglich der Relativkoordinate für die \ac{lvn} sind Dirichlet-Randbedingungen:
 \begin{equation}
   \begin{aligned}
     \rho_{(1)}(x, y=\pm L_y/2, t) = 0
@@ -386,7 +386,7 @@ Numerische Resultate zeigen für diese Wahl jedoch mitunter unphysikalische Inte
 Die bislang beschriebenen Randbedingungen (Gleichung \eqref{eq:rb1} bzw. \eqref{eq:rb2}) sind als konventionelle oder auch U-Randbedingungen bekannt \cite{failure}. Daneben gibt es weitere Ansätze, wie absorbierende Randbedingungen \cite{arnold1994absorbing, lukas2, lukas1} und Struktur-adaptive Randbedingungen \cite{jiang2014device}. Der Grund für die Suche nach anderen Randbedingungen liegt zum Einen in der Annahme, dass an den Kontakten keinerlei Rückkopplung der Struktur  für die Elektronen zu spüren ist. Im Grenzfall einer unendlich ausgedehnten Struktur ist dies sicherlich gut begründet. Numerische Berechnungen erfordern jedoch stets ein endliches Rechengebiet. Ferner sind physikalische Strukturen immer endlich und durch echte Volumina gekennzeichnet. Korrekte Randbedingungen setzen demnach das Wissen über den Zustand des Systems voraus \cite{ringhofer}.
 Kriman et al. \cite{kriman1987scattering} haben gezeigt, dass Quanteneffekte über einige thermische Wellenlängen abklingen. In \cite{ringhofer} wird für eine typische GaAs Struktur bei $\SI{300}{\kelvin}$ eine Abklinglänge von ca. $\SI{100}{\nano\meter}$ angegeben.
 
-Zweitens ist nicht geklärt, wie Randbedingungen bezüglich der Relativkoordinate in der Ortsraumformulierung zu setzen sind. Die meisten Arbeiten beschäftigen sich mit der Wigner-Gleichung \eqref{eq:wigner}. Im Gegensatz zur LvNG taucht keine zweite Ableitung auf, sodass bezüglich der $k$-Richtung keine Randbedingungen benötigt werden \cite{frensley2}.
+Zweitens ist nicht geklärt, wie Randbedingungen bezüglich der Relativkoordinate in der Ortsraumformulierung zu setzen sind. Die meisten Arbeiten beschäftigen sich mit der Wigner-Gleichung \eqref{eq:wigner}. Im Gegensatz zur \ac{lvn} taucht keine zweite Ableitung auf, sodass bezüglich der $k$-Richtung keine Randbedingungen benötigt werden \cite{frensley2}.
 Es ist also insbesondere die Thematik der Randbedingungen, worin sich die beiden Formalismen unterscheiden, wodurch also die Äquivalenz von Wigner- und Schrödingerformalismus aufgehoben wird \cite{li2014stationary}.
 
 Die Arbeit von Rosati et al. \cite{failure} weist darauf hin, dass die von Frensley eingeführten Inflow-Randbedingungen zwar semiklassisch zulässig sind, jedoch ihre Verwendung für quantenmechanische Probleme im Allgemeinen nicht gerechtfertigt ist. Dies lässt sich auf die Tatsache zurückführen, dass die semiklassische Boltzmann-Gleichung lokal in $k$ ist, während das quantenmechanische Pendant -- die Wigner-Gleichung -- nicht-lokal in $k$ ist, denn durch die Faltung in Gleichung \eqref{eq:wigner} entsteht eine Kopplung zwischen $k$ und allen anderen $k$-Punkten.
@@ -404,9 +404,9 @@ Während die semiklassische Boltzmann-Gleichung aufgrund ihres lokalen Charakter
 \end{figure}
 Die Lösungen ergeben sich dabei aus einer Linearkombination von generischen Vorwärts- und Rückwärts-Streuzuständen, resultierend aus der Zeitumkehr-Symmetrie der stationären Gleichung. Letztere äußert sich auch in der energetischen Zweifach-Entartung der Streuzustände. Eine kurze Rechnung zeigt nämlich, dass wegen der Antisymmetrie des Wignerpotentials sowie der Gruppengeschwindigkeit $v(k) = \hbar k/m$ bezüglich $k$ für jede Lösung $f_{(1)}(k,r)$ auch ${g_{(1)}(k,r) = f_{(1)}(-k,r)}$ Lösung der stationären Wigner-Gleichung ist. Die Randbedingungen geben zwar eine eindeutige Überlagerung, also einen eindeutigen Satz von Koeffizienten $\{a(k)\}$  aller Vorwärts-Streuzustände vor. Da jedoch die Rückwärts-Streuzustände im Allgemeinen linear unabhängig von den Vorwärts-Streuzuständen sind, ist mit denselben Randbedingungen ein doppelt so großer Satz $\{a(k),b(k)\}$ von Koeffizienten zu finden. Das zuvor eindeutige Problem ist in diesem Fall nicht mehr eindeutig lösbar. In der Abbildung sind drei verschiedene Verhältnisse $c=b(k)/a(k)$ zu sehen, darunter auch eine unphysikalische Lösung mit negativer Teilchendichte. Für ausschließlich lokalisierte Zustände, wie sie bei parabolischen oder Quantentopf-Potentialen (mit unendlich großen Barrieren) entstehen, lässt sich jedoch nicht zwischen Vorwärts- und Rückwärts-Streuzuständen unterscheiden sodass eine eindeutige Lösung der Wigner-Gleichung zu erwarten ist \cite{failure}.
 
-Es ist anzumerken, dass dieselbe Argumentation  im allgemeinen Fall der transienten Wigner-Gleichung nicht funktioniert. Dieses Anfangsproblem ist hingegen eindeutig lösbar, wie die Ausarbeitung in \cite{dimov2015boundary} zeigt. Es ist daher zu schlussfolgern, dass die Vorgabe einer Anfangsbedingung zu einer spezifischen Lösung aus der unendlichen Menge möglicher stationärer Lösungen führt, und somit die Anfangsbedingung das entscheidende Kriterium für eine physikalisch akzetable Problemstellung darstellt. Die Wigner-Gleichung erhält in Bezug auf den Anfangszustand darüber hinaus sogar die Eigenschaft (i) \cite{dimov2015boundary}.
+Es ist anzumerken, dass dieselbe Argumentation  im allgemeinen Fall der transienten Wigner-Gleichung nicht funktioniert. Dieses Anfangsproblem ist hingegen eindeutig lösbar, wie die Ausarbeitung in \cite{dimov2015boundary} zeigt. Es ist daher zu schlussfolgern, dass die Vorgabe einer Anfangsbedingung zu einer spezifischen Lösung aus der unendlichen Menge möglicher stationärer Lösungen führt, und somit die Anfangsbedingung das entscheidende Kriterium für eine physikalisch akzeptable Problemstellung darstellt. Die Wigner-Gleichung erhält in Bezug auf den Anfangszustand darüber hinaus sogar die Eigenschaft (i) \cite{dimov2015boundary}.
 
-Die vorangegangenen Gedanken lassen sich auf die LvNG übertragen. Insbesondere die Inversionssymmetrie der stationären Lösung soll im Folgenden gezeigt werden. Es sei $u(x,y)$ Lösung der stationären LvNG \eqref{eq:lvn_stat}. Dann ist wegen $B(x,y)=-B(x,-y)$ auch $v(x,y)\equiv u(x,-y)$ Lösung, denn
+Die vorangegangenen Gedanken lassen sich auf die \ac{lvn} übertragen. Insbesondere die Inversionssymmetrie der stationären Lösung soll im Folgenden gezeigt werden. Es sei $u(x,y)$ Lösung der stationären \ac{lvn} \eqref{eq:lvn_stat}. Dann ist wegen $B(x,y)=-B(x,-y)$ auch $v(x,y)\equiv u(x,-y)$ Lösung, denn
 \begin{align*}
   & &-\partial_x \partial_{\xi} u(x,{\xi}) &= - B_{\infty}(x,{\xi})u(x,{\xi}) \\
   &\Leftrightarrow &\partial_x \partial_y u(x,-y) &= - B_{\infty}(x,-y)u(x,-y) \\
@@ -422,7 +422,7 @@ An dieser Stelle soll lediglich festgehalten werden, dass in einer hierarchische
 \begin{equation*}
   \rho(x,y,t) = \int \frac{\diff E}{2\pi}G^{<}(x,y;E,t) \; .
 \end{equation*}
-Deshalb ist die LvNG lediglich dazu in der Lage, ein Markov-Verhalten zu beschreiben, wo also externe Wechselwirkung ausschließlich instantan in der Zeit erfolgt \cite{frensley3}. Als Beispiel für das Versagen des Dichtematrix-Formalismus wird die resonante Absorption oder Emission eines Phonons genannt, für die die Schwingungsperiode des Phonons die Mindestdauer der Wechselwirkung vorgibt. Ein Verfahren, dessen Verteilungsfunktion nicht alle drei Variablen -- Ort, Impuls und Geschwindigkeit -- wird für die entsprechend fehlende Variable eine Erhaltungsgleichung nicht berücksichtigen \cite{frensley3}. Im Falle der LvNG ist dies die Energieerhaltung, was jedoch mit der Modellierung des Systems vereinbar und sogar notwendig ist, siehe Kapitel \ref{sec:modellierung}. Es gibt Ansätze, diesem Umstand mit Hilfe eines "Gedächtnis-Terms" beizukommen \cite{memory1, memory2}.
+Deshalb ist die \ac{lvn} lediglich dazu in der Lage, ein Markov-Verhalten zu beschreiben, wo also externe Wechselwirkung ausschließlich instantan in der Zeit erfolgt \cite{frensley3}. Als Beispiel für das Versagen des Dichtematrix-Formalismus wird die resonante Absorption oder Emission eines Phonons genannt, für die die Schwingungsperiode des Phonons die Mindestdauer der Wechselwirkung vorgibt. Ein Verfahren, dessen Verteilungsfunktion nicht alle drei Variablen -- Ort, Impuls und Geschwindigkeit -- wird für die entsprechend fehlende Variable eine Erhaltungsgleichung nicht berücksichtigen \cite{frensley3}. Im Falle der \ac{lvn} ist dies die Energieerhaltung, was jedoch mit der Modellierung des Systems vereinbar und sogar notwendig ist, siehe Kapitel \ref{sec:modellierung}. Es gibt Ansätze, diesem Umstand mit Hilfe eines "Gedächtnis-Terms" beizukommen \cite{memory1, memory2}.
 
 Ein Verfahren, welches den Spezialfall des stationären Problems im Gleichgewichtsfall beschreiben kann, wird im folgenden Kapitel \ref{sec:TFmethod} erläutert werden, denn es dient für die numerischen Tests in \todo{Referenz Kapitel} als Referenz. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode die Schrödingergleichung löst und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method bekannt.
 
@@ -442,7 +442,7 @@ Die Berechnung von reinen Zuständen ist unter Annahme der Stetigkeit von $\Psi(
   \end{aligned}
 \end{equation}
 Hierbei ist $k=\sqrt{2mE/\hbar^2}$ und $\kappa=\sqrt{2m(V_0-E)/\hbar^2}$.
-Für das konkrete Problem einer \ac{rtd} zeigt Abbildung \ref{fig:tf1} die Zuordnung der Koeffizienten und Koordinaten. \todo{ein Pfeil noch andersrum.}
+Für das konkrete Problem einer \ac{rtd} zeigt Abbildung \ref{fig:tf1} die Zuordnung der Koeffizienten und Koordinaten.
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{files/TF_variables.pdf}

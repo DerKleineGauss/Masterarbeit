@@ -3,6 +3,8 @@ ifeq (,$(shell sh -c 'cygpath --version 2> /dev/null'))
   program = okular
 else
   # Windows mit MSys2/Cygwin
+	pwd := $$(cygpath -m "$$(pwd)")
+	translate = $(shell echo '$1' | sed 's/:/;/g')
   program = sumatraPDF
 endif
 
@@ -17,8 +19,13 @@ TeXOptions = -pdf \
 			 -output-directory=build \
 			 -shell-escape
 
+python: python/PythonSkript.py python/scaling.py python/meine-matplotlibrc
+
 python/scaling.py: FORCE
 	python python/scaling.py
+
+python/PythonSkript.py: FORCE
+	TEXINPUTS="$(call translate,$(pwd):)" python python/PythonSkript.py
 
 build/thesis.pdf: FORCE | build
 	latexmk $(TeXOptions) thesis.tex

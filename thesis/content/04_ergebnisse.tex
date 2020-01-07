@@ -1,0 +1,124 @@
+\chapter{Ergebnisse}
+In diesem Kapitel werden die Ergebnisse numerischer Experimente für das Schema aus Abschnitt \ref{sec:primal} vorgestellt. Tabelle \ref{tab:parameter} listet die einstellbaren Parameter mit einer kurzen Beschreibung und ihren Default-Werten auf.
+\begin{table}
+  \centering
+  \caption{Einstellbare Parameter und ihre Default-Werte.}
+  \label{tab:parameter}
+  \sisetup{parse-numbers=false}
+  \begin{tabular}{
+% format 1.3 bedeutet eine Stelle vorm Komma, 3 danach
+    l
+    l
+    S[table-format=3.4]
+  }
+    \toprule
+    {Formelzeichen} & Beschreibung & Default-Wert \\
+    \midrule
+    & & \emph{Physikalische Parameter} & \\
+    $L_x (L_y)$ &Länge des Rechengebietes in $x$- ($y$-) Richtung & $\SI{106}{\nano\meter}$ $(\SI{130}{\nano\meter})$ \\
+    $L_D$ & Ausdehnung des Spannungsabfalls (s. Abbildung \ref{fig:potential}) & $\SI{26}{\nano\meter}$\\
+    $L_1$ & Abstand der Potentialbarrieren (s. Abbildung \ref{fig:potential}) &$\SI{6}{\nano\meter}$ \\
+    $L_2$ & Breite der Potentialbarrieren  (s. Abbildung \ref{fig:potential}) &$\SI{4}{\nano\meter}$ \\
+    $V_0$ & Barrierenhöhe (Differenz der Leitungsbandkantenenergien) &$\SI{0.1768}{\electronvolt}$ \\
+    $N_D$ & Donatorkonzentration des GaAs & $\SI{1e24}{\per\cubic\meter}$ \\
+    $m$ & Effektive Elektronenmasse in GaAs & $0.063m_e$ \\
+    $\mu$   & Chemisches Potential (wird errechnet, siehe Abschnitt \ref{sec:A_3}) & $\SI{0.0462}{\electronvolt}$ \\
+    $\delta$ & Einflussbereich des ac{cap}, siehe Gleichung \eqref{eq:cap} & $0.2 L_y$\\
+    $W_0$ & Stärke des \ac{cap}, siehe Gleichung \eqref{eq:cap} &$-1V_0$ \\
+    $U$   &Spannung, die über die Strecke $L_D$ abfällt & $\SI{0}{\volt}$ \\
+    \midrule
+    & & \emph{Parameter der Numerik} & \\
+    $K_x$ & Anzahl Zellen der \ac{dg}-Diskretisierung & 60 \\
+    $K_y$ & Anzahl Zellen der \ac{fv}-Diskretisierung & 100 \\
+    $N$ & Polynomgrad der \ac{dg}-Diskretisierung & 2 \\
+    $N_q$ & Quadraturordnung für Methode G2 & 20 \\
+    $\tau$ & Strafparameter des numerischen Flusses, siehe Gleichung \eqref{eq:numflux} &$\nicefrac{1}{2}$ \\
+    \midrule
+    & & \emph{Parameter des Programmablaufs} & \\
+    doGL & Soll Methode G2 verwendet werden?(sonst G1) & true \\
+    doPotConv & Soll das Potential mit einer Gaußverteilung gefaltet werden? & false\\
+    withCAP & Soll das \ac{cap} eingeschaltet werden? & true \\
+    doTransient & Soll transient gerechnet werden? & false \\
+    Nrefine  & Anzahl Verfeinerungen in der Polynomordnung $N$ mit $N_{i+1}=N_i+1$ & 0 \\
+    Krefine  & Anzahl Verfeinerungen in der Anzahl Elemente $K_x$ mit $K_{x,i+1}=2K_{x,i}$ & 0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+Offenbar entsteht eine große Variationsmöglichkeit. Zunächst soll jedoch im nächsten Abschnitt die Funktionalität des Schemas getestet werden für ein analytisch lösbares Randwertproblem. Daraufhin wird die stationäre Lösung näher untersucht. Der mit der Elektronendichte korrespondierende Realteil sowie der mit dem Strom korrespondierende Imaginärteil werden für verschiedene Spannungen gezeigt. Aus einer Mittelung des Stromes über $x$ ergibt sich der Gesamtstrom in Abhängigkeit von der Spannung. Hierfür soll in Kapitel \ref{sec:IV} insbesondere der Einfluss der physikalischen Längen sowie die Übereinstimmung mit der Erwartung gemäß Abbildung \ref{fig:IVkurve} untersucht werden. Besonders interessant sind darüber hinaus Fehlerraten, die eine Aussage über die Qualität des verwendeten Verfahrens liefern. Dazu wird in Kapitel \ref{sec:rates} einerseits ein Vergleich mit der \ac{tf} aus Kapitel \ref{sec:TFmethod} gezogen, andererseits eine iterative Fehlerrate definiert. Abgeschlossen wird das Kapitel durch eine Untersuchung der transienten Lösung in Abschnitt \ref{sec:transient}.
+
+\section{Notation}\label{sec:notation_4}
+Für numerische Untersuchungen ist die Definition eines \emph{analytischen Fehlers} \index{analytischer Fehler}
+\begin{equation}
+  e_{\nicefrac{i}{r}}^{\alpha} = \norm{\nicefrac{\operatorname{Re}}{\operatorname{Im}} (u - u\fin^{\alpha})}_{L^2(\Omega)}
+\end{equation}
+sowie eines \emph{iterativen Fehlers}\index{iterativer Fehler}
+\begin{equation}
+  e_{\mathcal{T}, \nicefrac{i}{r}}^{\alpha} = \norm{\nicefrac{\operatorname{Re}}{\operatorname{Im}} (u\fin^{\alpha} - u\fin^{\alpha-1})}_{L^2(\Omega)}
+\end{equation}
+sinnvoll, wobei $\Omega=\Omega_x \times \Omega_y$ das Rechengebiet, $u$ die exakte Lösung und $u\fin$ die Ritz-Approximation sind. Der Index $\alpha>0$ bezieht sich auf die Verfeinerung des Gitters in $x$-Richtung gemäß $K_x^{\alpha} = 2^\alpha$. Wenn nicht anders angegeben, werden die benötigten Integrale in $x$-Richtung mit Gauß-Lobatto Quadratur der Ordnung $N$ (also gleich der Ordnung des \ac{dg}-Verfahrens) berechnet.
+In $y$-Richtung hingegen wird schlicht $\int_{\Omega_y}\diff y f(y) \approx \sum_{j=1}^{K_y} h_y f(y_j)$ berechnet, da $f(y)$ im \ac{fv}-Verfahren konstant ist innerhalb der Zelle $j$.
+
+Für die Betrachtung der \emph{Konvergenzordnung}\index{Konvergenzordnung} in Abschnitt \ref{sec:rates} werden ferner die Fehlerraten
+\begin{align}
+  r_{\nicefrac{i}{r}} &= \frac{\ln(e_{\nicefrac{i}{r}}^{\alpha}) - \ln(e_{\nicefrac{i}{r}}^{\alpha-1})}{\ln(K_x^{\alpha-1}) - \ln(K_x^{\alpha})} \qquad\text{und}\\
+  r_{\mathcal{T},\nicefrac{i}{r}} &= \frac{\ln(e_{\mathcal{T},\nicefrac{i}{r}}^{\alpha}) - \ln(e_{\mathcal{T},\nicefrac{i}{r}}^{\alpha-1})}{\ln(K_x^{\alpha-1}) - \ln(K_x^{\alpha})}
+\end{align}
+definiert. Die Definition wird motiviert durch eine Fehlerabschätzung der Form $e \leq ch_x^r$. Logarithmieren und Subtrahieren für zwei verschiedene Gitterabstände $h_x$ liefert die Konvergenzordnung $r$.
+
+\section{Test für ein analytisch lösbares Randwertproblem}\label{sec:test}
+Losgelöst von der physikalischen \ac{lvn} wird in diesem Abschnitt für Testzwecke die Gleichung \eqref{eq:qschema} mit
+\begin{equation*}
+  \begin{aligned}
+    A^y& = 0 \\
+    B^y_{j,j} &= -1/a(y_j) \qquad \text{mit} \;\; a(y)=\sin\left(\frac{2\pi y}{L_y}\right) \\
+    C^y_{j,j} &= i
+  \end{aligned}
+\end{equation*}
+mit äquidistanten $\y_1,\dots,y_{K_y}=-L_y/2,\dots,L_y/2$ betrachtet. Unter den Randbedingungen
+\begin{equation*}
+  \begin{aligned}
+    u(x,y)|{_\partial \Omega} = \exp(ia(y)x)
+  \end{aligned}
+\end{equation*}
+entspricht die analytische Lösung der Gleichung \eqref{eq:qschema} eben dieser Funktion, also $u(x,y) = \exp(ia(y)x)$ auf ganz $\Omega$. Für die diagonalisierte Gleichung \eqref{eq:diagLVN} ist mit $v_t=0$ die Geschwindigkeit $\Lambda^y=B^y$ und der Driftoperator $G=C^y$. Die Systemmatrix aus Abschnitt \ref{sec:implementierung} wird entsprechend angepasst.
+
+Nun liegt der sehr einfache Fall von $K_y$ entkoppelten Advektions-Reaktions Gleichungen vor. Aus der umfangreichen Literatur kann beispielsweise in \cite{lesaint1974finite} die \emph{a priori} Fehlerabschätzung
+\begin{equation}
+  e \leq c h_x^{N_x + 1} \label{eq:optimaleKonvergenz}
+\end{equation}
+gefunden werden, falls $u \in H^{N_x+2}$ liegt, was für die obige Lösung in der Tat gilt. Diese Konvergenzordnung ist optimal und lediglich für reinen Upwind Fluss in linearen Problemen gültig. Die Abbildung \ref{fig:testResult} zeigt die im vorherigen Abschnitt definierten Fehler in Abhängigkeit von Polynomgrad und Anzahl der Elemente.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.488\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/test1_r.pdf}
+        \caption[]%
+        {{\small Analytischer Fehler $e_r$.}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.462\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/test1_i_rel.pdf}
+        \caption[]%
+        {{\small Iterativer Fehler $e_{\mathcal{T},i}$.}}
+    \end{subfigure}
+    \caption[]
+    {Fehler in Abhängigkeit von Polynomgrad $N$ und Anzahl Elemente $K_x=2^{\alpha}$ mit $K_y=50$. Die Steigung der Geraden stellt die Fehlerrate dar, welche hier optimal ist. Bei $e\approx10^{-11}$ ist offenbar die CPU-Genauigkeit erreicht.}
+    \label{fig:matrix_G}
+\end{figure*}
+Es zeigt sich optimale Konvergenz nach Gleichung \eqref{eq:optimaleKonvergenz} mit
+\begin{align*}
+  r_r &= \{\input{python/test1_r_r.tex}\} \\
+  r_i &= \{\input{python/test1_r_i.tex}\} \\
+  r_{\mathcal{T},r} &= \{\input{python/test1_r_r_rel.tex}\} \\
+  r_{\mathcal{T},i} &= \{\input{python/test1_r_i_rel.tex}\}
+\end{align*}
+jeweils für $N=\{0,\dots,5\}$. Imaginärteil und Realteil zeigen keine erkennbaren Unterschiede auf. Der Einbruch für feine Diskretisierungen ist der endlichen CPU-Genauigkeit zuzuschreiben.
+
+\section{Observablen der stationären Lösung}\label{sec:IV}
+
+
+\section{Konvergenzordnung der stationären Lösung}\label{sec:rates}
+
+
+\section{Transiente Lösung}\label{sec:transient}

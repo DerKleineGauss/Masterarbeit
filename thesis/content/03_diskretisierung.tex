@@ -20,7 +20,7 @@ Bei der Diskretisierung einer \ac{pdg} sind zwei grundlegende Fragestellungen zu
 Als Folge einer unterschiedliche Beantwortung dieser Fragen wurden zahlreiche Verfahren entwickelt, die jeweils spezifische Vor- und Nachteile aufweisen. Im Folgenden werden in knapper Form drei Verfahren vorgestellt und  gegeneinander verglichen. In dieser Reihenfolge nimmt die Komplexität zu, denn die Schwächen des einen Verfahrens führen jeweils zu der nächst allgemeineren Formulierung.
 
 \subsection{Finite Differenzen}\index{Finite Differenzen}\label{sec:FD}
-Die partiellen Ableitungen werden bei diesem Verfahren durch eine endliche (finite) Anzahl von Differenzen genähert. Zur Formulierung der n-ten Ableitung einer Funktion $f(x)$ im Punkt $x_0$ wird die zugehörige Taylorreihe bis zur n-ten Ordnung verwendet. Der Punkt $x_0$ entstammt einem Gitter, welches das Gebiet $\Omega$ diskretisiert. Dieser Ansatz setzt inhärent voraus, dass eine Funktion sich hinreichend genau durch ein lokales Polynom niedriger Ordnung nähern lässt. Damit ist zeitgleich Frage (1) beantwortet.
+Die partiellen Ableitungen werden bei diesem Verfahren durch eine endliche (finite) Anzahl von Differenzen (\ac{fd}) genähert. Zur Formulierung der n-ten Ableitung einer Funktion $f(x)$ im Punkt $x_0$ wird die zugehörige Taylorreihe bis zur n-ten Ordnung verwendet. Der Punkt $x_0$ entstammt einem Gitter, welches das Gebiet $\Omega$ diskretisiert. Dieser Ansatz setzt inhärent voraus, dass eine Funktion sich hinreichend genau durch ein lokales Polynom niedriger Ordnung nähern lässt. Damit ist zeitgleich Frage (1) beantwortet.
 
 Die Antwort auf die zweite Frage bestimmt dann die Koeffizienten der lokalen Polynome. Durch Einsetzen der Näherung $u_h(x,t)$ in die \ac{pdg} folgt ein Residuum
 \begin{equation}
@@ -369,13 +369,14 @@ gelten und damit dem Upwind Charakter der \ac{pdg} Rechnung getragen werden. Der
 \begin{equation}
   \begin{aligned}
     \hat{f} = \begin{cases}
-    \Lambda\avg{v}_e + \frac{1}{2}|\Lambda|\jump{v}_e & e\in F_i \\
-    \frac{1}{2}\Lambda(v^- + g) + \frac{1}{2}|\Lambda|(v^- - g)   & e=x_{K_x+\nicefrac{1}{2}} \\
-    \frac{1}{2}\Lambda(v^+ + g) + \frac{1}{2}|\Lambda|(g - v^+)   & e=x_{\nicefrac{1}{2}}
+    \Lambda\avg{v}_e + \tau|\Lambda|\jump{v}_e & e\in F_i \\
+    \frac{1}{2}\Lambda(v^- + g) + \tau|\Lambda|(v^- - g)   & e=x_{K_x+\nicefrac{1}{2}} \\
+    \frac{1}{2}\Lambda(v^+ + g) + \tau|\Lambda|(g - v^+)   & e=x_{\nicefrac{1}{2}}
   \end{cases}
   \end{aligned}
+  \label{eq:numflux}
 \end{equation}
-aus dem vorherigen Abschnitt entspricht einem \emph{Upwind Fluss}\index{Upwind Fluss}. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Allgemein ließe sich statt $|\Lambda|/2$ ein Faktor $\tau$ einfügen. Der Upwind Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch in Konsistenz mit den Ergebnissen in \cite{feistauer2004}, dass lediglich $\tau=|\Lambda|/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Es gilt insbesondere für die schwache Lösung $\hat{f}(u,u)=f(u)$, wodurch die \emph{Konsistenz}\index{Konsistenz} des Verfahrens sichergestellt ist. Der Upwind Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
+aus dem vorherigen Abschnitt entspricht mit $\tau=\nicefrac{1}{2}$ einem \emph{Upwind Fluss}\index{Upwind Fluss}. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Der Upwind Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch in Konsistenz mit den Ergebnissen in \cite{feistauer2004}, dass lediglich $\tau=1/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Es gilt insbesondere für die schwache Lösung $\hat{f}(u,u)=f(u)$, wodurch die \emph{Konsistenz}\index{Konsistenz} des Verfahrens sichergestellt ist. Der Upwind Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
 
 Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt die \emph{schwache Formulierung} des Hybridverfahrens:
 \begin{problem}[Schwache variationale Formulierung der \ac{lvn}]\index{Schwache variationale Formulierung der LvNG}
@@ -470,7 +471,7 @@ Eine ähnliche Stabilitätsanalyse wird in der Literatur \cite{NLS} vorgenommen 
 
 Zusammenfassend bleibt respektive der Ungleichung \eqref{eq:stabi} die wichtige Erkenntnis, dass zwei Faktoren die Stabilität des Verfahrens ermöglichen. Dies sind erstens der Strafterm $|\Lambda|/2\jump{v}$ des numerischen Flusses und zweitens das \ac{cap} aus Abschnitt \ref{sec:RB}.
 
-\subsection{Implementierung}
+\subsection{Implementierung} \label{sec:implementierung}
 Die Implementierung richtet sich in wesentlichen Zügen an der Ausarbeitung des dritten Kapitels des eingangs erwähnten Buches \cite{buch}. Im Folgenden werden die wichtigsten Punkte zusammengefasst. Das \ac{dg}-Verfahren wird dabei der Einfachheit halber zunächst als eindimensional angesehen mit $v\fin \in X_{\mathcal{T},1}$. An relevanten Stellen wird die Einbettung in das System mit $v\fin \in X\fin$ berücksichtigt, vergleiche Gleichung \eqref{eq:FES}.
 
 Die Ritz-Approximation $v\fin \in X_{\mathcal{T},1}$ ist lokal definiert. \emph{Lokal}\index{lokale Darstellung der Ritz-Approximation} bedeutet hier stets eine elementweise Betrachtung für jedes Element $D^k$. Wie in jedem \ac{fem}-Verfahren überführt die affine Abbildung
