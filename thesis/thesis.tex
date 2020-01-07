@@ -329,21 +329,23 @@
 % \input{content/00_abstract.tex}
 \tableofcontents
 % Abkürzungsverzeichnis
-\begin{acronym}
+\clearpage \newpage
+\chapter{Abkürzungsverzeichnis}
+\begin{acronym}[NEGF]
+  \acro{cap}[CAP]{complex absorbing potential}
+  \acro{cg}[CG]{Continuous-Galerkin}
+  \acro{dg}[DG]{Discontinuous-Galerkin}
+  \acro{dgl}[DGL]{Differentialgleichung}
+  \acro{fem}[FEM]{Finite-Elemente-Methode}
+  \acro{fv}[FV]{Finite-Volumen}
   \acro{lvn}[LvNG]{Liouville-von-Neumann Gleichung}
-  \acro{cg}{CG}{Continuous-Galerkin}
-  \acro{fv}{FV}{Finite-Volumen}
-  \acro{fem}{FEM}{Finite-Elemente-Methode}
+  \acro{negf}[NEGF]{nonequilibrium Green’s function}
   % \acroplural{fem}[FEMn]{Finite-Elemente-Methoden}
-  \acro{dg}{DG}{Discontinuous-Galerkin}
-  \acro{rk}{RK}{Runge-Kutta Verfahren}
-  \acro{cap}{CAP}{complex absorbing potential}
-  \acro{rtd}{RTD}{resonante Tunneldiode}
-  \acro{negf}{NEGF}{nonequilibrium Green’s function}
-  \acro{tf}{TM}{Transfermatrix-Methode}
-  \acro{pdg}{PDG}{partielle Differentialgleichung}
-  \acroplural{pdgn}[PDGn]{partielle Differentialgleichungen}
-  \acro{dgl}{DGL}{Differentialgleichung}
+  \acro{pdg}[PDG]{partielle Differentialgleichung}
+  \acro{rk}[RK]{Runge-Kutta Verfahren}
+  \acro{rtd}[RTD]{resonante Tunneldiode}
+  \acro{tf}[TM]{Transfermatrix-Methode}
+  % \acroplural{pdgn}[PDGn]{partielle Differentialgleichungen}
 \end{acronym}
 %
 \mainmatter

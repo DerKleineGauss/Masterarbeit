@@ -1,10 +1,10 @@
 \chapter{Diskretisierung}
 
-\ac{pdgn} n-ter Ordnung für skalares $u(x)$ sind von der Form
+Eine \ac{pdg} n-ter Ordnung für skalares $u(x)$ ist von der Form
 \begin{equation}
   F(x, t, u(x), Du(x), \dots, D^nu(x))=0, \qquad x\in\Omega\subset\mathbb{R}^d \; .
 \end{equation}
-Sie unterliegen Randbedingungen (für die Zeitvariable auch Anfangsbedingung genannt), die je nach Problemstellung auf Teilen des Randes formuliert sind. Beispielsweise ist die Auslenkung einer eingespannten Membran am Ortsrand fest, während in der Zeit lediglich für $t_0$ ein Randwert vorliegt (am linksseitigen Rand der Zeitdomäne).
+Sie unterliegt Randbedingungen (für die Zeitvariable auch Anfangsbedingung genannt), die je nach Problemstellung auf Teilen des Randes formuliert sind. Beispielsweise ist die Auslenkung einer eingespannten Membran am Ortsrand fest, während in der Zeit lediglich für $t_0$ ein Randwert vorliegt (am linksseitigen Rand der Zeitdomäne).
 
 Die \ac{lvn} \eqref{eq:lvn} ist eine lineare \ac{pdg} zweiter Ordnung in $d=2$ Dimensionen. Sie ist weder elliptisch, noch parabloisch, noch hyperbolisch\footnote{Dies ist ersichtlich anhand der Eigenwerte der Koeffizientenmatrix zweiter Ableitungen $T=\text{diag}(0,1,-1)$ für Gleichung \eqref{eq:lvn_first}}.
 Ferner bildet $u\in C^2(\Omega)$ in den Raum der komplexen Zahlen ab. Damit unterscheidet sich das Problem bereits grundlegend von den zumeist in der Literatur vorkommenden Problemstellungen. Die stationäre \ac{lvn} hingegen ist hyperbolisch. In diesem Kapitel soll ein Verfahren entwickelt werden, welches bislang noch nicht zur Anwendung gekommen ist im Kontext der \ac{lvn}: das \emph{\ac{dg}}-Verfahren\index{Discontinuous-Galerkin Verfahren}. Die Ausführungen orientieren sich an dem praxisnahen Buch von Hesthaven und Warburton \cite{buch}.
@@ -121,7 +121,7 @@ Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Liter
 
 
 \section{DG-Verfahren für die LvNG}\label{sec:primal}
-Für zeitabhängige \ac{pdgn} mit Dimensionalität $d>1$ gibt es prinzipiell zwei verschiedene Möglichkeiten der Diskretisierung.
+Für zeitabhängige \ac{pdg}n mit Dimensionalität $d>1$ gibt es prinzipiell zwei verschiedene Möglichkeiten der Diskretisierung.
 \begin{itemize}
   \item Die jeweiligen Orts-Koordinaten werden sukzessive behandelt -- dieses Vorgehen wird als \emph{Methode der Geraden}\index{Methode der Geraden} bezeichnet. Dabei können die einzelnen Richtungen auch mit unterschiedlichen Methoden diskretisiert werden, was im Folgenden als \emph{Hybridverfahren}\index{Hybridverfahren} bezeichnet werden soll. Das resultierende Gitter ist stets ein Rechteckgitter, was wie bereits in Kapitel \ref{sec:FD} erwähnt geometrische Flexibilität nicht zulässt. Andererseits ist dies für rechteckige Gebiete $\Omega$ unkritisch.
   \item Die Orts-Koordinaten werden mit einem einzigen Verfahren diskretisiert -- die Basisfunktionen ergeben sich dann nicht mehr aus einem Tensorprodukt, sondern sind direkt $d$-dimensional.
@@ -689,16 +689,16 @@ Zunächst ist hierzu anzumerken, dass die Matrix den einzig komplexen Beitrag zu
 \subsubsection{Zeitentwicklung} \label{sec:timestepping}  \index{Zeitentwicklung}
 Im transienten Fall ist $\partial_t\neq 0$ und daher Gleichung \eqref{eq:stat_LGS} durch
 \begin{equation}
-  \td{}{t} \underline{v} = -\underline{\underline{\mathcal{A}}}\, + \underline{b} \equiv\mathcal{F}(\underline{v},t)
+  \td{}{t} \underline{v} = -\underline{\underline{\mathcal{A}}}\,\underline{v} + \underline{b} \equiv\mathcal{F}(\underline{v},t)
   \label{eq:system_transient}
 \end{equation}
-zu ersetzen. Dieser letzte Schritt überführt die semidiskrete Form aus Abbildung \ref{fig:methodeDerGeraden} (Punkt C) in die vollständig diskretisierte Form (Punkt D). In der Herleitung des stationären Schemas aus dem vorherigen Abschnitt ist die Gleichung lokal bereits mit $(M^k)^{-1}$ multipliziert worden. Da die Massenmatrix bezüglich der \ac{dg}-Diskretisierung blockdiagonal ist, ist die Invertierung besonders einfach, weshalb bei \ac{dg}-Verfahren in aller Regel explizite Zeitschrittverfahren zur Anwendung kommen. Dies stellt einen Vorteil gegenüber einem \ac{cg}-Verfahren dar, wo die globale Massenmatrix nicht blockdiagonal ist, vergleiche auch Kapitel \ref{sec:Übersicht}. Gegenüber impliziten Verfahren sind die expliziten Verfahren in der Regel schneller \cite{LeVeque}.
+zu ersetzen. Dieser letzte Schritt überführt die semidiskrete Form aus Abbildung \ref{fig:methodeDerGeraden} (Punkt C) in die vollständig diskretisierte Form (Punkt D). In der Herleitung des stationären Schemas aus dem vorherigen Abschnitt ist die Gleichung lokal bereits mit $(M^k)^{-1}$ multipliziert worden. Da die Massenmatrix bezüglich der \ac{dg}-Diskretisierung blockdiagonal ist, ist die Invertierung besonders einfach, weshalb bei \ac{dg}-Verfahren in aller Regel explizite Zeitschrittverfahren zur Anwendung kommen. Dies stellt einen Vorteil gegenüber einem \ac{cg}-Verfahren dar, wo die globale Massenmatrix nicht blockdiagonal ist, vergleiche auch Kapitel \ref{sec:Übersicht}. Gegenüber impliziten Verfahren sind die expliziten Verfahren in der Regel schneller \cite{buchLeveque}.
 
 Deshalb sind in der vorliegenden Arbeit zur Lösung des Systems gewöhnlicher Differentialgleichungen \eqref{eq:system_transient} \ac{rk}-Verfahren der Ordnung zwei und vier (\ac{rk}2 und \ac{rk}4) implementiert worden. Zu Testzwecken ist dabei das Verfahren zweiter Ordnung als \emph{strong stability preserving} ausgelegt, das heißt es erhält die sogenannte TVDM-Eigenschaft:
 \begin{equation*}
   \sum_{D^k\in\mathcal{T}\textbackslash D^{K_x}} |\bar{v}\fin^{k+1,n+1} - \bar{v}\fin^{k,n+1}| \leq\sum_{D^k\in\mathcal{T}\textbackslash D^{K_x}} |\bar{v}\fin^{k+1,n} - \bar{v}\fin^{k,n}| \; .
 \end{equation*}
-Hierbei ist $\bar{v}\fin^{k,n}$ der Mittelwert von $v\fin$ in Zelle $k$ im Zeitschritt $n$. Dazu werden Limiter hinzugeschaltet, die nach jedem Zeitschritt die Steigung der Lösung innerhalb der Zellen leicht korrigiert, um diese Eigenschaft zu garantieren. Mit solchen Verfahren sollen unphysikalische Überschwinger vor Allem bei nichtlinearen \ac{pdgn} mit unstetigen Lösungen verhindert werden. Näheres ist in der Literatur \cite{buch} zu finden.
+Hierbei ist $\bar{v}\fin^{k,n}$ der Mittelwert von $v\fin$ in Zelle $k$ im Zeitschritt $n$. Dazu werden Limiter hinzugeschaltet, die nach jedem Zeitschritt die Steigung der Lösung innerhalb der Zellen leicht korrigieren, um diese Eigenschaft zu garantieren. Mit solchen Verfahren sollen unphysikalische Überschwinger vor Allem bei nichtlinearen \ac{pdg}n mit unstetigen Lösungen verhindert werden. Näheres ist in der Literatur \cite{buch} zu finden.
 
 Das \ac{rk}2-Verfahren genügt der Vorschrift
 \begin{equation}
@@ -707,7 +707,7 @@ Das \ac{rk}2-Verfahren genügt der Vorschrift
     v\fin^{n+1} = \frac{1}{2}(v\fin^n + p^{(1)} + \Delta t \mathcal{F}(p^{(1)},t^n+\Delta t)) \; ,
   \end{aligned}
 \end{equation}
-wobei die Länge eines Zeitschrittes in Abhängigkeit von Polynomgrad $N$ der \ac{DG}-Diskretisierung sowie den Gitterabständen $h_x$ (als Mittelwert der $h^k$) und $h_y$ gewählt werden sollte. Hierzu gibt es keine analytische Vorschrift, sondern es gilt die Daumenregel \cite{buch}
+wobei die Länge eines Zeitschrittes in Abhängigkeit von Polynomgrad $N$ der \ac{dg}-Diskretisierung sowie den Gitterabständen $h_x$ (als Mittelwert der $h^k$) und $h_y$ gewählt werden sollte. Hierzu gibt es keine analytische Vorschrift, sondern es gilt die Daumenregel \cite{buch}
 \begin{equation}
   \Delta t \leq \frac{1}{2N+1}c\frac{h_x}{h_y \text{max}(\Lambda)}
 \end{equation}
