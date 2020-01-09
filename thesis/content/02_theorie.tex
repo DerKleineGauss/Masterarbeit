@@ -100,7 +100,11 @@ sodass die Diagonalelemente des reduzierten Dichteoperators mit der Teilchendich
   \expval{n(r,t)} = \bra{r}\hat{\rho}_{(1)}(t) \ket{r} = \text{Sp}(\hat{\Psi}^{\dagger}(r)\hat{\Psi}(r)\hat{\rho}^{nb}(t))
   \label{eq:expval_n}
 \end{equation}
-Die Normierung ist für den reduzierten Dichteoperator offenbar eine andere als im Falle des vollständigen Dichteoperators, wo $\text{Sp}(\hat{\rho})=1$ gilt. Dieser diffizile Unterschied wird in der Literatur häufig unterschlagen
+Die Normierung ist für den reduzierten Dichteoperator offenbar eine andere als im Falle des vollständigen Dichteoperators, wo $\text{Sp}(\hat{\rho})=1$ gilt. Dieser diffizile Unterschied wird in der Literatur häufig unterschlagen. Neben der Teilchendichte lässt sich des weiteren die elektrische Stromdichte definieren. Dazu werden üblicherweise Schwerpunkt- und Relativkoordinaten $r$ und $q$ eingeführt (siehe Gleichung \eqref{eq:gedrehteKoordinaten}) und $\tilde{u}(r,q,t) = \bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t) \ket{r-\frac{q}{2}}$ gesetzt. Dann gilt \cite{lukas1}
+\begin{equation}
+  \expval{j(r,t)} = \frac{\hbar}{m}\operatorname{Im}\{\partial_q \tilde{u}(r,q,t)|_{q=0}\} \; .
+  \label{eq:expval_j}
+\end{equation}
 
 Für die Berechnung von praktisch relevanten Erwartungswerten (Teilchenzahl, Stromdichte) ist eine Projektion auf die Diagonale $r_a=r_b$ notwendig, siehe Gleichung \eqref{eq:expval_n}. Es sei bereits hier angemerkt, dass die in der Literatur auftretende \index{hydrodynamische Näherung} \emph{hydrodynamische Näherung} diese Projektion vor der Lösung der Bewegungsgleichung durchführt \cite{wiedenhaus}. Damit gehen die in der Dichtematrix enthaltenen quantenmechanischen Ortskorrelationen nicht weiter in die Rechnung ein. In der vorliegenden Arbeit wird die Projektion erst nach der Lösung der Bewegungsgleichung durchgeführt.
 
@@ -169,7 +173,7 @@ Der durch die Materialkomposition GaAs/AlGaAs resultierende Potentialverlauf $V_
 Die quantenmechanische Beschreibung der Dynamik des Systems kann durch verschiedene Zugänge realisiert werden, siehe auch Kapitel \ref{sec:weitere_verfahren}. In der vorliegenden Arbeit wird dabei der Fokus auf die \ac{lvn} gelegt. Wie in den vorangegangenen Kapiteln erläutert, ist mit Hilfe der Dichtematrix eine Beschreibung quantenmechanischer Ensembles, also gemischter Zustände möglich. Dieser Zugang scheint für die gewählten Anforderungen unnötig verkomplizierend zu sein, jedoch ermöglicht er eine spätere Berücksichtigung von nicht-kohärenten Wechselwirkungen \cite{wiedenhaus}.
 
 
-\section{Dynamik}
+\section{Dynamik} \label{sec:dynamik}
 Die Dynamik eines fermionischen Systems ergibt sich aus der von-Neumann-Gleichung. Sie lässt sich sowohl im Ortsraum, als auch im Frequenzraum formulieren. Das Augenmerk dieser Arbeit richtet sich dabei auf die Ortsraumformulierung, namentlich die \ac{lvn}. Zur Vollständigkeit und zur besseren Diskussion der verschiedenen Methoden wird auch die Frequenzraumformulierung vorgestellt, namentlich die Wigner-Gleichung. Das Modell für das konkrete, physikalische Problem wird dann in beiden Fällen durch die Randbedingungen eingebaut.
 
 \subsection{\ac{lvn}}\index{Liouville-von-Neumann Gleichung}
@@ -306,7 +310,7 @@ gegeben. Im klassischen Limes ($\hbar \rightarrow 0$) geht die Wigner-Funktion i
 In dieser anschaulichen Darstellung ergeben sich Erwartungswerte intuitiv durch Gewichtung der Observablen mit der Verteilungsfunktion und anschließender Integration. So lassen sich Teilchendichte und -strom gemäß
 \begin{align}
   n(r,t) &= \int \frac{\diff k}{2\pi}f_{(1)}(k,r,t) \label{eq:wigner_n}\\
-  j(r,t) &= \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,r,t)
+  j(r,t) &= \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,r,t) \label{eq:wigner_j}
 \end{align}
 schreiben \cite{modern}. Die \ac{lvn} für die Wigner-Funktion lautet dann \cite{frensley2, failure}
 \begin{equation}

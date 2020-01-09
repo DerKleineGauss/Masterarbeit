@@ -40,6 +40,7 @@ In diesem Kapitel werden die Ergebnisse numerischer Experimente für das Schema 
     doPotConv & Soll das Potential mit einer Gaußverteilung gefaltet werden? & false\\
     withCAP & Soll das \ac{cap} eingeschaltet werden? & true \\
     doTransient & Soll transient gerechnet werden? & false \\
+    doGummel & Soll selbstkonsistent gemäß den Erläuterungen in Kapitel \ref{sec:A_4} gerechnet werden? \\
     Nrefine  & \# Verfeinerungen in der Polynomordnung $N$ mit $N_{i+1}=N_i+1$ & 0 \\
     Krefine  & \# Verfeinerungen in der Anzahl Elemente $K_x$ mit $K_{x,i+1}=2K_{x,i}$ & 0 \\
     \bottomrule
@@ -117,7 +118,36 @@ Es zeigt sich optimale Konvergenz nach Gleichung \eqref{eq:optimaleKonvergenz} m
 jeweils für $N=\{0,\dots,5\}$. Imaginärteil und Realteil zeigen keine erkennbaren Unterschiede auf. Der Einbruch für feine Diskretisierungen ist der endlichen CPU-Genauigkeit zuzuschreiben.
 
 \section{Observablen der stationären Lösung}\label{sec:IV}
+Die in Kapitel \ref{sec:2_1} eingeführten Observablen der Teilchendichte $n(x,t)$ nach Gleichung \eqref{eq:expval_n} und der Stromdichte $j(x,t)$ nach Gleichung \eqref{eq:expval_j} lassen sich aus der Dichtematrix auf einfache Weise gewinnen. Für die Stromdichte wird noch eine Ableitung bezüglich $y$ benötigt. Hierfür wird der Differenzenquotient gemäß
+\begin{equation*}
+  \partial_y u\fin(x,y,t)|_{y=0} = \frac{1}{h_y}\{u\fin(x,y_{K_y/2+1},t)-u\fin(x,y_{K_y/2},t)\}
+\end{equation*}
+gebildet. Da $K_y$ stets gerade gewählt wird, liegt die Kante zwischen den Elementen $K_y/2+1$ und $K_y/2$ genau bei $y=0$.
 
+Ein erster Test des Verfahrens überprüft die Symmetrieeigenschaften der numerischen Lösung. Mit Hilfe von Gleichung \eqref{eq:Liouvilleoperator} ist in Kapitel \ref{sec:dynamik} gezeigt worden, dass die exakte Lösung im stationären Fall $u(x,y) = -u^*(x,-y)$ erfüllt. Die Differenz $(u\fin(x,y)-u\fin^*(x,-y))/\norm{u\fin(x,y)}_{L^2(\Omega)}$ ist in Abbildung \ref{fig:parity} mit Default-Parametern aus Tabelle \ref{tab:parameter} gezeigt.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.475\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/parity_real.eps}
+        \caption[]%
+        {{\small }}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.475\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/parity_imag.eps}
+        \caption[]%
+        {{\small }}
+    \end{subfigure}
+    \caption[]
+    {Realteil (links) und Imaginärteil (rechts) der Differenz $u\fin(x,y)-u\fin^*(x,-y)$.}
+    \label{fig:testResult}
+\end{figure*}
+
+- grafiken Im und Re für 2 versch- Spannungen
+- gummel Im und Re für 2 versch Spannungen
+- IV Kurven für verschiedene Längen Lr, Lq sowie Gummel/ohne Gummel
 
 \section{Konvergenzordnung der stationären Lösung}\label{sec:rates}
 
