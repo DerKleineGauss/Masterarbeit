@@ -86,7 +86,7 @@ Aus der Taylorentwicklung einer Funktion $f:L \rightarrow \mathbb{R}$ folgt für
   f''(x_i) &= \frac{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})}{h^2} + \mathcal{O}(h^2) \; .
 \end{align}
 Die Kurzschreibweise $f(x_i)\equiv f_i$ bietet sich an.
-Damit lässt sich mit $a_i\equiv (\epsilon_{i+1} - \epsilon_{i-1})/(4h^2\epsilon_i)$ Gleichung \eqref{eq:poisson} umschreiben zu
+Damit lässt sich mit $a_i\equiv (\epsilon_{i+1} - \epsilon_{i-1})/(4\epsilon_i)$ Gleichung \eqref{eq:poisson} umschreiben zu
 \begin{align}
   u_{i+1}\cdot(1+a_i) -2 u_i + u_{i-1}\cdot(1-a_i) - \underbrace{e^2h^2\frac{(N_{D,i} - n_i)}{\epsilon_i}}_{\equiv \text{rhs}_i} = 0\; ,
   \label{eq:discretePE}

@@ -159,6 +159,7 @@
 \makeindex
 
 \usepackage{acronym}    % Abkürzungsverzeichnis
+\usepackage[Final]{listofsymbols}  % Formelzeichenverzeichnis
 %------------------------------------------------------------------------------
 %------------------------------  Macros:   ------------------------------------
 %------------------------------------------------------------------------------
@@ -348,6 +349,8 @@
   \acro{tf}[TM]{Transfermatrix-Methode}
   % \acroplural{pdgn}[PDGn]{partielle Differentialgleichungen}
 \end{acronym}
+
+\input{formelzeichen.tex}
 %
 \mainmatter
 % % Hier beginnt der Inhalt mit Seite 1 in arabischen Ziffern
@@ -355,6 +358,7 @@
 % % {\let\clearpage\relax \chapter{bar}}
 \input{content/02_theorie.tex}
 \input{content/03_diskretisierung.tex}
+\input{content/04_ergebnisse.tex}
 % \input{content/gedanken.tex}
 % \input{content/04_zusammenfassung.tex}
 %

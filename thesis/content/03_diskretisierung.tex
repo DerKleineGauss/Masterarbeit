@@ -1,10 +1,10 @@
 \chapter{Diskretisierung}
 
-Eine \ac{pdg} $n$-ter Ordnung für skalares $u(x)$ ist von der Form
+Eine zeitabhängige \ac{pdg} $n$-ter Ordnung für skalares $u(x,t)$ ist von der Form
 \begin{equation}
   F(x, t, u(x), Du(x), \dots, D^nu(x))=0, \qquad x\in\Omega\subset\mathbb{R}^d \; .
 \end{equation}
-Sie unterliegt Randbedingungen (für die Zeitvariable auch Anfangsbedingung genannt), die je nach Problemstellung auf Teilen des Randes formuliert sind. Beispielsweise ist die Auslenkung einer eingespannten Membran am Ortsrand fest, während in der Zeit lediglich für $t_0$ ein Randwert vorliegt (am linksseitigen Rand der Zeitdomäne).
+Sie unterliegt Randbedingungen (für die Zeitvariable auch Anfangsbedingung genannt), die je nach Problemstellung auf Teilen des Randes formuliert sind. Beispielsweise ist die Auslenkung einer eingespannten Membran am Ortsrand fest, während in der Zeit lediglich für $t_0$ ein Randwert vorliegt.
 
 Die \ac{lvn} \eqref{eq:lvn} ist eine lineare \ac{pdg} zweiter Ordnung in $d=2$ Dimensionen. Sie ist weder elliptisch, noch parabolisch, noch hyperbolisch\footnote{Dies ist ersichtlich anhand der Eigenwerte der Koeffizientenmatrix zweiter Ableitungen $T=\text{diag}(0,1,-1)$ für Gleichung \eqref{eq:lvn_first}. Bei elliptischen Problemen haben alle Koeffizienten gleiches Vorzeichen und sind ungleich Null. Bei hyperbolischen Problemen hat genau ein Eigenwert ein anderes Vorzeichen und alle Koeffizienten sind ungleich Null. Parabolische Probleme schließlich sind gekennzeichnet durch genau einen Null-Eigenwert und ansonsten gleiches Vorzeichen.}.
 Ferner bildet $u\in C^2(\Omega)$ in den Raum der komplexen Zahlen ab. Damit unterscheidet sich das Problem bereits grundlegend von den zumeist in der Literatur vorkommenden Problemstellungen. Die stationäre \ac{lvn} hingegen ist hyperbolisch. In diesem Kapitel soll ein Verfahren entwickelt werden, welches bislang noch nicht zur Anwendung gekommen ist im Kontext der \ac{lvn}: das \emph{\ac{dg}}-Verfahren\index{Discontinuous-Galerkin Verfahren}. Die Ausführungen orientieren sich an dem praxisnahen Buch von Hesthaven und Warburton \cite{buch}.
@@ -117,7 +117,7 @@ und es gilt das zweite Strang-Lemma als Analogon zum Lemma von Cea.
 \end{satz}
 Die Existenz und Eindeutigkeit der Ritz-Approximation $u\fin$ ergibt sich wieder aus dem Satz von Lax-Milgram. Alternativ folgt aufgrund der endlichen Dimensionalität des Raumes $X\fin$ in Anbetracht der Linearität des Problems \eqref{eq:approx_varprob} die Existenz aus der Eindeutigkeit. Hierzu genügt es, die Koerzivität von $a\fin$ zu zeigen.
 
-Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Literaturquellen \cite{NLS} zunächst im folgenden Abschnitt \ref{sec:primal} das stationäre Problem als Variationsproblem formuliert und dessen Wohlgestelltheit geprüft. Anschließend wird die Stabilität der Lösung untersucht, also das Vorzeichen der zeitlichen Änderung von $\norm{u\fin}$, siehe Abschnitt \ref{sec:stabilität}.
+Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Literaturquellen (z.B. in \cite{NLS}) zunächst im folgenden Abschnitt \ref{sec:primal} das stationäre Problem als Variationsproblem formuliert und dessen Wohlgestelltheit geprüft. Anschließend wird die Stabilität der Lösung untersucht, also das Vorzeichen der zeitlichen Änderung von $\norm{u\fin}$, siehe Abschnitt \ref{sec:stabilität}.
 
 
 \section{DG-Verfahren für die LvNG}\label{sec:primal}
@@ -613,12 +613,12 @@ Für die beiden Randelemente ergibt sich
   \end{aligned}
   \label{eq:schema3}
 \end{equation}
-Die Gleichungen \eqref{eq:schema1,eq:schema2, eq:schema3} werden in stationärer Form (das heißt $\partial_t \underline{v}=0$) als globales Matrix-Vektor-System implementiert, sodass das lineare Gleichungssystem
+Die Gleichungen \eqref{eq:schema1}, \eqref{eq:schema2}, \eqref{eq:schema3} werden in stationärer Form (das heißt $\partial_t \underline{v}=0$) als globales Matrix-Vektor-System implementiert, sodass das lineare Gleichungssystem
 \begin{equation}
   \underline{\underline{\mathcal{A}}}\,\underline{v} = \underline{b}
   \label{eq:stat_LGS}
 \end{equation}
-resultiert mit der Systemmatrix $\underline{\underline{\mathcal{A}}}$ sowie dem Vektor $\underline{b}$, der sich aus der rechten Seite von \eqref{eq:schema2, eq:schema3} ergibt und die Randbedingungen enthält. Zur Lösung des LGS wird die \mat-interne Methode verwendet. Die gesuchte stationäre Dichtematrix ergibt sich schließlich aus der Rücktransformation \eqref{eq:trafo_uv}. Für die Zeitentwicklung wird dann ein explizites Zeitschrittverfahren angewandt, siehe Abschnitt \ref{sec:timestepping}.
+resultiert mit der Systemmatrix $\underline{\underline{\mathcal{A}}}$ sowie dem Vektor $\underline{b}$, der sich aus der rechten Seite von \eqref{eq:schema2} bzw. \eqref{eq:schema3} ergibt und die Randbedingungen enthält. Zur Lösung des LGS wird die \mat-interne Methode verwendet. Die gesuchte stationäre Dichtematrix ergibt sich schließlich aus der Rücktransformation \eqref{eq:trafo_uv}. Für die Zeitentwicklung wird dann ein explizites Zeitschrittverfahren angewandt, siehe Abschnitt \ref{sec:timestepping}.
 
 Die Bestandteile der Systemmatrix werden in den folgenden Abbildungen für die Systemgröße $\{K_x=3, N_p=3, K_y=4\}$ exemplarisch gezeigt. Sie unterteilt sich in den Diffusionsterm $(M^k)^{-1}S\Lambda$, den Driftterm $(M^k)^{-1}\mathcal{G}^k$ sowie den Flussterm, welcher die Kantenterme beinhaltet. Die Abbildungen sind zur Verbesserung der Lesbarkeit mit einer farblichen Struktur unterlegt. Dabei ist Definition \ref{def:matrizen} hilfreich. Die grünen Rahmen bedeuten fixierte $y$-Diskretisierung (Indizes $j,m$ konstant). Die grauen Quadrate beranden ein Element der $x$-Diskretisierung ($D^k$ konstant), worin wiederum die $N_p \times N_p$ lokal definierten Matrizen $M^k$, $S^k$ und $\mathcal{G}^{k,jm}$ zu sehen sind.
 
@@ -683,7 +683,7 @@ Abbildung \ref{fig:matrix_G} zeigt die Driftmatrix für verschiedene Fälle.
         \label{fig:G_4}
     \end{subfigure}
     \caption[]
-    {Betrag der Driftmatrix für verschiedene Fälle in willkürlichen Einheiten. Die beiden linken Teile sind mit Gauß-Lobatto Quadratur berechnet, rechtsseitig ist das Produkt $G(x)v\fin(x)$ in der nodalen Basis entwickelt worden (siehe oben). Für die beiden oberen Teile ist das \ac{cap} eingeschaltet (vgl. \eqref{eq:CAP}), unten ist es ausgeschaltet.}
+    {Betrag der Driftmatrix für verschiedene Fälle in willkürlichen Einheiten. Die beiden linken Teile sind mit Gauß-Lobatto Quadratur berechnet, rechtsseitig ist das Produkt $G(x)v\fin(x)$ in der nodalen Basis entwickelt worden (siehe oben). Für die beiden oberen Teile ist das \ac{cap} eingeschaltet (vgl. \eqref{eq:cap}), unten ist es ausgeschaltet.}
     \label{fig:matrix_G}
 \end{figure*}
 Zunächst ist hierzu anzumerken, dass die Matrix den einzig komplexen Beitrag zur Systemmatrix liefert -- gezeigt ist an dieser Stelle lediglich der Betrag. Das \ac{cap} liefert wesentliche Beiträge, was jedoch in diesem Beispiel der sehr groben Diskretisierung in $y$-Richtung geschuldet ist. Ferner ist die Hauptdiagonale für eine feinere Diskretisierung nicht unbesetzt wie die Grafik hingegen vermuten lässt. Bemerkenswert ist die nominelle Ähnlichkeit in Bezug auf die Hauptdiagonalen eines jeden grünen Quadrates zwischen Methode G1 und G2. Für Methode G2 kommen erwartungsgemäß Nebendiagonalbeiträge hinzu, siehe Gleichung \eqref{eq:G_GL}. Für die Darstellung ist ein Flachbandpotential gemäß Abbildung \ref{fig:pot1} angesetzt worden, weshalb es zu weiteren erkennbaren Symmetrien in der Struktur kommt.
