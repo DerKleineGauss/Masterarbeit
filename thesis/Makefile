@@ -1,5 +1,7 @@
 ifeq (,$(shell sh -c 'cygpath --version 2> /dev/null'))
   # Unix
+	pwd := $$(pwd)
+	translate = $1
   program = okular
 else
   # Windows mit MSys2/Cygwin
