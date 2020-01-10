@@ -4,15 +4,102 @@
 \chapter{Symbolverzeichnis}
 \begin{table}
   \begin{tabular}{L p{0.8\textwidth}}
+      a(u,v),a\fin(u,v)  & Bilinearform, s. Gl. \eqref{varprob} \\
+      B(x,y,t)  & Driftoperator nach Gl. \eqref{eq:driftop} \\
       C^n(\Omega) & Raum der $n$-mal stetig differenzierbaren Funktionen \\
-
-      u(x)  & exakte Lösung der \ac{pdg} \\
-      x     & üblicherweise die einheitenfreie Schwerpunktkoordinate für die \ac{lvn} \\
-      y     & üblicherweise die einheitenfreie Relativkoordinate für die \ac{lvn} \\
+      d   & Dimension \\
+      D^k & Element (oder auch Zelle) der Triangulierung $\mathcal{T}$ \\
+      D_X & Ortsdomäne, für welche der Ortsoperator definiert ist, s. Kapitel \ref{sec:A_1} \\
+      e   & Elementarladung, je nach Kontext auch Kante eines Elements $D^k$ \\
+      e^{\alpha}  & Fehler, s. Gl. \eqref{eq:error_ana} \\
+      E   & Energie \\
+      {f}({v}(x,t)) & Flussfunktion, s. Gl. \eqref{eq:fluss} \\
+      f_{(1)}(k,r,t)  & Wigner-Funktion, s. Gl. \eqref{eq:fourier_wigner} \\
+      g(x,t) & Randbedingungen für die diagonalisierte LvNG, s. Gl. \eqref{eq:RB_g} \\
+      h_k, h_y & Gitterabstände für $x$- und $y$-Diskretisierung \\
+      j & Stromdichte in der Einheit Stromtärke$/$Länge$^2$ \\
+      k   & Wellenzahl, korrespondierend zu $y$ \\
+      G   & Transformierter Driftoperator, s. Gl. \eqref{eq:G} \\
+      H   & Je nach Kontext Hilbert- oder Sobolevraum \\
+      I & Referenzelement $[-1,1]$ des DG-Verfahrens \\
+      k_B   & Boltzmann-Konstante \\
+      K_x   & \# Elemente in $x$-Richtung bzgl. der DG-Diskretisierung \\
+      K_y   & \# Elemente in $y$-Richtung bzgl. der FV-Diskretisierung \\
+      \ell_i  & nodale Basisfunktion, s. Gl. \eqref{eq:nodalebasis} \\
+      \ell\fin & rechte Seite des diskretisierten Variationsproblems, s. Gl. \eqref{eq:approx_varprob} \\
+      L_D & Ausdehnung des Spannungsabfalls (s. Abbildung \ref{fig:pot1}) \\
+      L^p & Raum der p-fach integrierbaren Funktionen (auch Lebesgue-Raum) \\
+      L_x   & Laterale Ausdehnung des Rechengebietes in $x$-Richtung \\
+      L_y   & Laterale Ausdehnung des Rechengebietes in $y$-Richtung \\
+      L_1 & Abstand der Potentialbarrieren (s. Abbildung \ref{fig:pot1})  \\
+      L_2 & Breite der Potentialbarrieren  (s. Abbildung \ref{fig:pot1}) \\
+    \end{tabular}
+  \end{table}
+  \begin{table}
+    \begin{tabular}{L p{0.8\textwidth}}
+      m   & Effektive Masse der Elektronen in GaAs \\
+      m_e & Elektronenmasse \\
+      M,M^k & Massematrix, s. Def. \ref{def:matrizen} \\
+      n & Elektronendichte in der Einheit $1/\text{Länge}^3$ \\
+      \hat{n} & nach außen zeigender Normalenvektor \\
+      N & Polynomgrad für die DG-Diskretisierung \\
+      N_D & Donatorkonzentration des GaAs  \\
+      N_p & Anzahl Knotenpunkte bzgl. $x$-Diskretisierung, $N_p=N+1$ \\
+      P_n & Legendre Polynom \\
+      q   & Relativkoordinate, später mit $y$ bezeichnet, s. Gl. \eqref{eq:gedrehteKoordinaten} \\
+      r   & Koordinate auf dem Referenzelement, $r\in I$ \\
+      r_{\mathcal{T},\nicefrac{i}{}} & Fehlerrate, s. Gl. \eqref{eq:fehlerraten} \\
+      s   & Schwerpunktkoordinate, später mit $x$ bezeichnet, s. Gl. \eqref{eq:gedrehteKoordinaten} \\
+      S   & Steifigkeitsmatrix, s. Def. \ref{def:matrizen} \\
+      R   & Unitäre Matrix, die aus den Eigenvektoren des Ableitungsoperators besteht, s. Gl. \eqref{eq:R} \\
+      t   & Zeitkoordinate \\
+      u(x,y,t)  & exakte Lösung der PDG \eqref{eq:qschema}, entspricht der reduzierten Dichtematrix, s. Gl. \eqref{eq:Umbenennung} \\
+      u\fin & Ritz-Approximation an die exakte Lösung $u$, s. Gl. \eqref{eq:approx_varprob} \\
+      U   & Spannung \\
+      v(x,t)   & exakte Lösung der diagonalisierten PDG \eqref{eq:diagLVN}, Vektor der Länge $K_y$ \\
+      v\fin & Ritz-Approximation an die exakte Lösung $v$, s. Gl. \eqref{eq:approx_varprob} \\
+      V(x,t)  & Gesamtpotential, s. Gl. \eqref{eq:potentialgesamt} \\
+      V_H(x,t)  & Hartree-Potential, s. Kapitel \ref{sec:A_4} \\
+      V_s(x,t)  & Heterostuktur-Potential \\
+      V_0 & Differenz der Leitungsbandkantenenergien zw. GaAs und AlGaAs  \\
+      W(y)  & CAP, s.Gl. \eqref{eq:cap} \\
+      W_0 & Stärke des CAP, s. Gl. \eqref{eq:cap}  \\
+      W^k_p(\Omega) & Sobolev-Raum, s. Gl. \eqref{eq:sobolevraum} \\
+      x     & üblicherweise die einheitenfreie Schwerpunktkoordinate für die LvNG \\
+      X   & Banach-Raum, in dem die exakte Lösung $u$ zu suchen ist, s. Gl. \eqref{varprob} \\
+      X\fin   & endlich-dimensionaler Teilraum von $X$ \\
+      y     & üblicherweise die einheitenfreie Relativkoordinate für die LvNG \\
+    \end{tabular}
+  \end{table}
+  \begin{table}
+    \begin{tabular}{L p{0.8\textwidth}}
+      \mathcal{G}^{k,jm}  & Driftmatrix, s. Def. \ref{def:matrizen} \\
+      \mathcal{L} & Liouvilleoperator, s. Gl. \eqref{eq:Liouvilleoperator} \\
+      \mathcal{P}_N & Raum der Polynome der Ordnung $N$ \\
+      \mathcal{T} & Triangulierung des Rechengebietes $\Omega_x$ \\
+      \van  & Vandermondematrix, s. Gl. \eqref{eq:vandermonde} \\
+      \beta   & $1/(k_B T)$ \\
+      \Gamma  & Rand des Rechengebietes $\Omega$ \\
+      \Gamma_D & Der Teil des Randes $\Gamma$, für den Dirichlet-Randbedingungen bekannt sind\\
+      \delta & Einflussbereich des CAP, s. Gl. \eqref{eq:cap} \\
+      \kappa & Strafparameter des numerischen Flusses, s. Gl. \eqref{eq:numflux} \\
+      \lambda,\lambda_j & Einer der Eigenwerte $\Lambda$ \\
+      \Lambda   & Eigenwerte des diskretisierten Ableitungsoperators, s. Gl. \eqref{eq:Lambda} \\
+      \mu   & Chemisches Potential, s. Kapitel \ref{sec:A_3}  \\
+      \xi   & Längenskala nach Gl. \eqref{eq:skala} \\
+      \xi_i   & Nodale Knotenpunkte, s. Gl. \eqref{eq:nodalebasis} \\
+      \hat{\rho}  & Dichteoperator, s. Gl. \eqref{eq:dichteoperator} \\
+      \hat{\rho}_{(1)} & reduzierter Dichteoperator, s. Gl. \eqref{eq:redDichteOp} \\
+      \rho_{(1)}(x,y,t) & Dichtematrix, s. Gl. \eqref{eq:dichtematrix} \\
+      \tau  & Zeitskala nach Gl. \eqref{eq:skala} \\
+      \Phi_n & modale Basisfunktion, s. Gl. \eqref{eq:modaleBasis} \\
+      \Psi  & Wellenfunktion \\
       \Omega  & Rechengebiet, es gilt $\Omega=\Omega_x\times\Omega_y$ \\
+      \Omega_x  & Rechengebiet bzgl. $x$-Richtung mit $\Omega_x=[-L_x/2, L_x/2]$ \\
+      \Omega_y  & Rechengebiet bzgl. $y$-Richtung mit $\Omega_y=[-L_y/2, L_y/2]$ \\
 
-      n & Elektronendichte in der Einheit $1/\text{Länge}^2$ \\
-      j & Stromdichte in der Einheit TODO \\
+      \jump{.},\avg{.} & Sprung und Mittelwert, s. Def. \ref{def:jump} \\
+      \underline{.}, \underline{.}_j, \underline{.}_j^k & Koeffizientenvektor, s. Def. \ref{def:matrizen} \\
 
   \end{tabular}
 \end{table}

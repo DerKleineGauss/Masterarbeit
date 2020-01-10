@@ -71,10 +71,11 @@ wobei $\hat{a}_{k_a}^{(\dagger)}$ Vernichtungs- (Erzeugungs-) operator eines Tei
   \bra{\{n_{\alpha}\}} \hat{a}^{\dagger}_{k_a}\hat{a}_{k_b} \hat{\rho^{nb}(t)}  \ket{\{n_{\alpha}\}} \; .
 \end{align*}
 Der letzte Term entspricht dem Fockraum-Matrixelement eines Einteilchen-Dichteoperators. Die Spur hierüber wird daher als \emph{reduzierte Dichtematrix}\index{Dichtematrix} (in Impulsdarstellung) $\bra{k_a}\hat{\rho}_{(1)}(t)\ket{k_b}$ bezeichnet:
-\begin{equation*}
+\begin{equation}
   \bra{k_a}{\hat{\rho}}_{(1)}(t)\ket{k_b} = \text{Sp} (\hat{a}^{\dagger}_{k_a}\hat{a}_{k_b} \hat{\rho}^{nb}(t))
   = \sum_{\substack{\{n_{\alpha}\} \\ \sum_{\alpha} n_{\alpha} = N}} \bra{\{n_{\alpha}\}} \hat{a}^{\dagger}_{k_a}\hat{a}_{k_b} \hat{\rho}^{nb}(t) \ket{\{n_{\alpha}\}}
-\end{equation*}
+  \label{eq:redDichteOp}
+\end{equation}
 Das Einfügen der Vollständigkeitsrelation $\int \diff r \ket{r}\bra{r} = \hat{1}$ führt auf die Ortsdarstellung
 \begin{equation}
   \expval{\hat{A}_{(1)}(t)} = \int_{D_X} \diff r_a \int_{D_X} \diff r_b \bra{r_a}\hat{A}\ket{r_b} \bra{r_b}\hat{\rho}_{(1)}(t) \ket{r_a}
@@ -100,9 +101,9 @@ sodass die Diagonalelemente des reduzierten Dichteoperators mit der Teilchendich
   \expval{n(r,t)} = \bra{r}\hat{\rho}_{(1)}(t) \ket{r} = \text{Sp}(\hat{\Psi}^{\dagger}(r)\hat{\Psi}(r)\hat{\rho}^{nb}(t))
   \label{eq:expval_n}
 \end{equation}
-Die Normierung ist für den reduzierten Dichteoperator offenbar eine andere als im Falle des vollständigen Dichteoperators, wo $\text{Sp}(\hat{\rho})=1$ gilt. Dieser diffizile Unterschied wird in der Literatur häufig unterschlagen. Neben der Teilchendichte lässt sich des weiteren die elektrische Stromdichte definieren. Dazu werden üblicherweise Schwerpunkt- und Relativkoordinaten $r$ und $q$ eingeführt (siehe Gleichung \eqref{eq:gedrehteKoordinaten}) und $\tilde{u}(r,q,t) = \bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t) \ket{r-\frac{q}{2}}$ gesetzt. Dann gilt \cite{lukas1}
+Die Normierung ist für den reduzierten Dichteoperator offenbar eine andere als im Falle des vollständigen Dichteoperators, wo $\text{Sp}(\hat{\rho})=1$ gilt. Dieser diffizile Unterschied wird in der Literatur häufig unterschlagen. Neben der Teilchendichte lässt sich des weiteren die elektrische Stromdichte definieren. Dazu werden üblicherweise Schwerpunkt- und Relativkoordinaten $s$ und $q$ eingeführt (siehe Gleichung \eqref{eq:gedrehteKoordinaten}) und $\tilde{u}(s,q,t) = \bra{s+\frac{q}{2}}\hat{\rho}_{(1)}(t) \ket{s-\frac{q}{2}}$ gesetzt. Dann gilt \cite{lukas1}
 \begin{equation}
-  \expval{j(r,t)} = \frac{\hbar}{m}\operatorname{Im}\{\partial_q \tilde{u}(r,q,t)|_{q=0}\} \; .
+  \expval{j(s,t)} = \frac{\hbar}{m}\operatorname{Im}\{\partial_q \tilde{u}(s,q,t)|_{q=0}\} \; .
   \label{eq:expval_j}
 \end{equation}
 
@@ -152,15 +153,11 @@ Kohärente, stationäre Zustände lassen sich mit Hilfe der \emph{single-band, e
   \end{aligned}
   \label{eq:schroedinger}
 \end{equation}
-beschreiben. Hierin sind $V(x)$ das Potential und $m^*\approx 0,063m_e$ die effektive Masse von GaAs. Das Potential beinhaltet den Potentialverlauf der Heterostruktur $V_s(x,y,z)$, das äußere Feld $-eU$ sowie das selbstkonsistente \emph{Hartree-Potential}\index{Hartree-Potential} $u(x,y,z)$:
+beschreiben. Hierin sind $V(x)$ das Potential und $m^*\approx 0,063m_e$ die effektive Masse von GaAs. Das Potential beinhaltet den Potentialverlauf der Heterostruktur $V_s(x,y,z)$ sowie das selbstkonsistente \emph{Hartree-Potential}\index{Hartree-Potential} $V_H(x,y,z)$ (welches das äußere Feld $-eU$ beinhaltet):
 \begin{align}
-  V({x}) = u({x}) + V_s({x}) - eU
+  V({x}) = V_H({x}) + V_s({x}) \; .
+  \label{eq:potentialgesamt}
 \end{align}
-Hier lassen sich zwei Fälle unterscheiden.
-\begin{itemize}
-  \item Der Gleichgewichtsfall $U=0$. %Hier kann als Randbedingung auf beiden Seiten die Fermi-Dirac-Statistik \eqref{eq:fd_statistic} angenommen werden.
-  \item Der Nicht-Gleichgewichtsfall $U\neq 0$. %Hier sind lediglich die \emph{inflow}-Bedingungen für positive Geschwindigkeiten am linken- und negative Geschwindigkeiten am rechten Rand des Rechengebietes bekannt.
-\end{itemize}
 Da das Hartree Potential von der Konstellation der Elektronen abhängt und umgekehrt, wird es selbstkonsistent berechnet, wie im Anhang \ref{sec:A_4} erläutert wird.
 Der durch die Materialkomposition GaAs/AlGaAs resultierende Potentialverlauf $V_s(x)$ ist in Abbildung \ref{fig:pot1} gezeigt.\todo{Achsenbeschriftung ändern}
 \begin{figure}
@@ -182,75 +179,79 @@ Die Dynamik der reduzierten Dichtematrix \eqref{eq:def_dichtematrix} wird mit Hi
     \partial_t \hat{\rho}(t) = - \frac{i}{\hbar}[\hat{H}(t), \hat{\rho}(t)]
 \end{equation*}
 für den Dichteoperator $\hat{\rho}(t)$ hergeleitet. Es folgt nach Ausnutzen der Spurinvarianz unter zyklischem Vertauschen aus Gleichung \eqref{eq:def_dichtematrix}
-\begin{align*}
-  \partial_t \underbrace{\bra{x}\hat{\rho}_{(1)}(t) \ket{y}}_{\equiv \rho_{(1)}(x,y,t)} &= \text{Sp}([\hat{\Psi}^{\dagger}(x)\hat{\Psi}(y),\hat{H}]\hat{\rho}(t)) \; .
-\end{align*}
+\begin{align}
+  \partial_t \underbrace{\bra{{r_a}}\hat{\rho}_{(1)}(t) \ket{{r_b}}}_{\equiv \rho_{(1)}({r_a},{r_b},t)} &= \text{Sp}([\hat{\Psi}^{\dagger}({r_a})\hat{\Psi}({r_b}),\hat{H}]\hat{\rho}(t)) \; .
+  \label{eq:dichtematrix}
+\end{align}
 Die gewählte Darstellung in zweiter Quantisierung erfordert nun einen Ausdruck für den Hamiltonoperator ${\hat{H}=\hat{H}_{\text{kin}} + \hat{H}_{\text{pot}}}$. Wie bereits im vorangegangen Kapitel erwähnt, wird an dieser Stelle eine Mean-Field-Näherung getroffen, sodass sich das Potential als äußeres Potential
 \begin{equation}
     \hat{H}_{\text{pot}} \approx \int_{D_X} \diff r \hat{\Psi}^{\dagger}(r)V(r)\hat{\Psi}(r)
     \label{eq:Hpot}
 \end{equation}
-darstellen lässt \cite{modern}. Dabei ist ${V: D_X \rightarrow \mathbb{R}}$ das äußere (gemittelte) Potential. Es ist anzumerken, dass aus numerischen Gründen beispielsweise in der Literatur \cite{lukas1} die Hermitizität des Hamiltonoperators fallen gelassen wird, indem ${V: D_X \rightarrow \mathbb{C}}$ gewählt wird. Diese Wahl wird im Weiteren berücksichtigt. Der kinetische Anteil ist unter der Annahme ${m(x)=\text{konst.}}$ durch
+darstellen lässt \cite{modern}. Dabei ist ${V: D_X \rightarrow \mathbb{R}}$ das äußere (gemittelte) Potential. Es ist anzumerken, dass aus numerischen Gründen beispielsweise in der Literatur \cite{lukas1} die Hermitizität des Hamiltonoperators fallen gelassen wird, indem ${V: D_X \rightarrow \mathbb{C}}$ gewählt wird. Diese Wahl wird im Weiteren berücksichtigt. Der kinetische Anteil ist unter der Annahme ${m(r)=\text{konst.}}$ durch
 \begin{equation*}
   \hat{H}_{\text{kin}} = -\frac{\hbar^2}{2m}\int_{D_X} \diff r \hat{\Psi}^{\dagger}(r)\nabla_r^2\hat{\Psi}(r)
 \end{equation*}
 gegeben \cite{modern}. Unter Verwendung der fermionischen Kommutator-Relationen   \cite{modern}
 \begin{align*}
-  [\hat{\Psi}(x),\hat{\Psi}^{\dagger}(y)]&=\delta(x-y) \\
-  [\hat{\Psi}(x),\hat{\Psi}(y)]&=0  \qquad \text{sowie}\\
+  [\hat{\Psi}({r_a}),\hat{\Psi}^{\dagger}({r_b})]&=\delta({r_a}-{r_b}) \\
+  [\hat{\Psi}({r_a}),\hat{\Psi}({r_b})]&=0  \qquad \text{sowie}\\
   [a,bc]&=a[b,c]+b[a,c]
 \end{align*}
 folgt hieraus schließlich
-\begin{equation*}
-  \partial_t \rho_{(1)}(x,y,t) = \frac{i}{\hbar}\left\{-\frac{\hbar^2}{2m}(\nabla_x^2 - \nabla_y^2) + (V(x,t) - V^*(y,t)) \right\}
-                          \text{Sp}(\hat{\Psi}^{\dagger}(x) \hat{\Psi}(y) \hat{\rho}(t))
-\end{equation*}
+\begin{align*}
+  \partial_t \rho_{(1)}({r_a},{r_b},t) = &\frac{i}{\hbar}\left\{-\frac{\hbar^2}{2m}(\nabla_{r_a}^2 - \nabla_{r_b}^2) + (V({r_a},t) - V^*({r_b},t)) \right\} \\
+                          &\times\,\text{Sp}(\hat{\Psi}^{\dagger}({r_a}) \hat{\Psi}({r_b}) \hat{\rho}(t))
+\end{align*}
 bzw. in der bekannteren Form mit Definition \eqref{eq:def_dichtematrix} die \ac{lvn}
 \begin{equation}
-  i\partial_t \rho_{(1)}(x,y,t) = \underbrace{\left\{\frac{\hbar}{2m}(\nabla_x^2 - \nabla_y^2) - \frac{1}{\hbar}(V(x,t) - V^*(y,t)) \right\}}_{\equiv{\tilde{\mathcal{L}}(x,y,t)}} \rho_{(1)}(x,y,t)
+  i\partial_t \rho_{(1)}({r_a},{r_b},t) = \underbrace{\left\{\frac{\hbar}{2m}(\nabla_{r_a}^2 - \nabla_{r_b}^2) - \frac{1}{\hbar}(V({r_a},t) - V^*({r_b},t)) \right\}}_{\equiv{\tilde{\mathcal{L}}({r_a},{r_b},t)}} \rho_{(1)}({r_a},{r_b},t)
   \label{eq:lvn_first}
 \end{equation}
-mit dem \emph{Liouvilleoperator}\index{Liouvilleoperator} $\tilde{\mathcal{L}}(x,y,t)$. Dieselbe Gleichung ergäbe sich für den Dichteoperator, wenn der Hilbertraum von vornherein ein Einteilchenraum wäre. Mit der vorangegangen Herleitung gelingt jedoch eine allgemeinere Formulierung, die auf die entscheidende Annahme (Gleichung \eqref{eq:Hpot}) hinweist. Weiterführende Arbeiten könnten an dieser Stelle beispielsweise Zweiteilchen-Wechselwirkungen mit einbeziehen.
+mit dem \emph{Liouvilleoperator}\index{Liouvilleoperator} $\tilde{\mathcal{L}}({r_a},{r_b},t)$. Dieselbe Gleichung ergäbe sich für den Dichteoperator, wenn der Hilbertraum von vornherein ein Einteilchenraum wäre. Mit der vorangegangen Herleitung gelingt jedoch eine allgemeinere Formulierung, die auf die entscheidende Annahme (Gleichung \eqref{eq:Hpot}) hinweist. Weiterführende Arbeiten könnten an dieser Stelle beispielsweise Zweiteilchen-Wechselwirkungen mit einbeziehen.
 
 Zur Untersuchung der \ac{lvn} werden zwei Fälle unterschieden, worauf im Folgenden referenziert werden wird:
 \begin{itemize}
-  \item Der \emph{stationäre Fall}\index{stationärer Fall} mit $\partial_t \rho_{(1)}(x,y,t) = 0$. Hier gilt ${\left[\hat{\rho} , \hat{H}\right]=0}$.
-  \item der allgemeinere \emph{transiente Fall}\index{transienter Fall} $\partial_t \rho_{(1)}(x,y,t) \neq 0$.
+  \item Der \emph{stationäre Fall}\index{stationärer Fall} mit $\partial_t \rho_{(1)}({r_a},{r_b},t) = 0$. Hier gilt ${\left[\hat{\rho} , \hat{H}\right]=0}$.
+  \item der allgemeinere \emph{transiente Fall}\index{transienter Fall} $\partial_t \rho_{(1)}({r_a},{r_b},t) \neq 0$.
 \end{itemize}
-Wie im vorangegangen Kapitel erwähnt, wird im Folgenden freie-Teilchen-Näherung in $x$- und $y$- Richtung angenommen. Dann lässt sich mit $\lambda^2 = \hbar^2/2mk_B T$ die Dichtematrix separieren \cite{grubin1993transport} gemäß
+Wie im vorangegangen Kapitel erwähnt, wird im Folgenden freie-Teilchen-Näherung in ${r_a}$- und ${r_b}$- Richtung angenommen. Dann lässt sich mit $\lambda^2 = \hbar^2/2mk_B T$ die Dichtematrix separieren \cite{grubin1993transport} gemäß
 \begin{equation}
-  \rho(\vb{r},\vb{r}') = \rho({z},{z}') \exp\left( \frac{(x-x')^2 + (y-y')^2}{4\lambda^2}\right) \; .
+  \rho(\vb{r},\vb{r}') = \rho({r_c},{r_c}') \exp\left( \frac{({r_a}-{r_a}')^2 + ({r_b}-{r_b}')^2}{4\lambda^2}\right) \; .
 \end{equation}
 Der Fokus liegt also auf einem Modell unabhängiger Elektronen in einer Dimension, sodass es genügt, die Einteilchen-Dichtematrix zu betrachten.
 Aufgrund der Struktur der Gleichung ist es sinnvoll, Schwerpunkt- und Relativkoordinaten
 \begin{equation}
   \begin{aligned}
-    &r \equiv \frac{x+y}{2} \qquad &q \equiv x-y \\
-    \Leftrightarrow\qquad &x = r+\frac{q}{2} \qquad &y = r-\frac{q}{2}
+    &s \equiv \frac{{r_a}+{r_b}}{2} \qquad &q \equiv {r_a}-{r_b} \\
+    \Leftrightarrow\qquad &{r_a} = s+\frac{q}{2} \qquad &{r_b} = s-\frac{q}{2}
   \end{aligned}
   \label{eq:gedrehteKoordinaten}
 \end{equation}
-einzuführen. Diese Koordinatendrehung erfordert es, das Potential auch außerhalb von $[-L_x/2, L_x/2]$ auszuwerten. Hierfür wird ein konstanter Wert angenommen, der demjenigen an dem entsprechenden Rand gleicht.
+einzuführen. Diese Koordinatendrehung erfordert es, das Potential auch außerhalb von $[-L/2, L/2]$ auszuwerten. Hierfür wird ein konstanter Wert angenommen, der demjenigen an dem entsprechenden Rand gleicht.
 Ableitungen transformieren sich gemäß
 \begin{equation*}
   \begin{aligned}
-    \partial_r \partial_q  &= \partial_r \left( \frac{\partial}{\partial x} \frac{\partial x}{\partial q} + \frac{\partial}{\partial y} \frac{\partial y}{\partial q}\right) \\
-     &= \left( \frac{\partial}{\partial x} \frac{\partial x}{\partial r} + \frac{\partial}{\partial y} \frac{\partial y}{\partial r}\right) \left( \frac{\partial}{\partial x} \frac{1}{2} + \frac{\partial}{\partial y} \frac{-1}{2}\right)\\
+    \partial_s \partial_q  &= \partial_s \left( \frac{\partial}{\partial {r_a}} \frac{\partial {r_a}}{\partial q} + \frac{\partial}{\partial {r_b}} \frac{\partial {r_b}}{\partial q}\right) \\
+     &= \left( \frac{\partial}{\partial {r_a}} \frac{\partial {r_a}}{\partial s} + \frac{\partial}{\partial {r_b}} \frac{\partial {r_b}}{\partial s}\right) \left( \frac{\partial}{\partial {r_a}} \frac{1}{2} + \frac{\partial}{\partial {r_b}} \frac{-1}{2}\right)\\
      %  &= \left( \frac{\partial}{\partial x} 1 + \frac{\partial}{\partial y} 1\right) \left( \frac{\partial}{\partial x} \frac{1}{2} + \frac{\partial}{\partial y} \frac{-1}{2}\right)\\
      % &= \frac{1}{2}\partial_x \partial_x - \frac{1}{2}\partial_x \partial_y + \frac{1}{2}\partial_y \partial_x - \frac{1}{2}\partial_y \partial_y \\
-    &=  \frac{1}{2}(\partial_x^2 - \partial_y^2) \; ,
+    &=  \frac{1}{2}(\partial_{r_a}^2 - \partial_{r_b}^2) \; ,
   \end{aligned}
 \end{equation*}
 wobei im letzten Schritt der Satz von Schwarz genutzt wird. Damit ergibt sich der transformierte Liouville Operator zu
 \begin{align}
-  \mathcal{L}(r,q,t) = -\frac{\hbar^2}{m} \partial_r\partial_q + \underbrace{V\left(r+\frac{q}{2},t\right) - V^*\left(r-\frac{q}{2},t\right)}_{\equiv \tilde{B}(r,q,t)} \; .
+  \mathcal{L}(s,q,t) = -\frac{\hbar^2}{m} \partial_s\partial_q + \underbrace{V\left(s+\frac{q}{2},t\right) - V^*\left(s-\frac{q}{2},t\right)}_{\equiv \tilde{B}(s,q,t)} \; .
   \label{eq:Liouvilleoperator}
 \end{align}
-Hier ist nun offensichtlich, dass die Symmetrie $\mathcal{L}(r,q,t)=-\mathcal{L}^*(r,-q,t)$ zugrunde liegt. Der Liouvilleoperator ist also antisymmetrisch bezüglich der Relativkoordinate. Mit der Umbenennung
-\begin{align*}
-  \rho_{(1)}\left(r+\frac{q}{2}, r-\frac{q}{2}, t\right) &\longrightarrow \tilde{u}(r,q,t) \\
-  \{ r, q, t\} &\longrightarrow \{\tilde{x}, \tilde{y}, \tilde{t}\}
-\end{align*}
+Hier ist nun offensichtlich, dass die Symmetrie $\mathcal{L}(s,q,t)=-\mathcal{L}^*(s,-q,t)$ zugrunde liegt. Der Liouvilleoperator ist also antisymmetrisch bezüglich der Relativkoordinate. Mit der Umbenennung
+\begin{equation}
+  \label{eq:Umbenennung}
+\begin{aligned}
+  \rho_{(1)}\left(s+\frac{q}{2}, s-\frac{q}{2}, t\right) &\longrightarrow \tilde{u}(s,q,t) \\
+  \{ s, q, t\} &\longrightarrow \{\tilde{x}, \tilde{y}, \tilde{t}\}
+\end{aligned}
+\end{equation}
 sowie der Definition
 \begin{align*}
   A = \left(\begin{array}{c c} 0 & \frac{1}{2} \\ \frac{1}{2} & 0 \end{array} \right)
@@ -280,6 +281,7 @@ sodass die \ac{lvn} die Form
 annimmt. Hierbei ist
 \begin{align}
   B(x,y,t) \equiv \frac{\tilde{B}(x,y,t)}{V_0} = \frac{V\left(x+\frac{y}{2},t\right) - V^*\left(x-\frac{y}{2},t\right)}{V_0}
+  \label{eq:driftop}
 \end{align}
 definiert worden. Die Skalierung lässt sich berechnen, indem die effektive Masse als konstant
 \begin{align*}
@@ -292,34 +294,35 @@ angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und
     \xi &= \input{tex_files/xi.tex} \\
     \tau &= \input{tex_files/tau.tex}
   \end{aligned}
+  \label{eq:skala}
 \end{equation}
 
 \subsection{Wigner-Gleichung}\index{Wigner-Gleichung}\label{sec:wigner}
 Ausgehend von der Einteilchen-Dichtematrix in Schwerpunkt- und Relativkoordinaten (siehe Gleichungen \eqref{eq:def_dichtematrix} und \eqref{eq:gedrehteKoordinaten}) führt eine Fourier-Transformation bezüglich der Relativkoordinate auf die sogenannte \emph{Wigner-Funktion}\index{Wigner-Funktion}
 \begin{equation}
-  f_{(1)}(k,r,t) \equiv \int \diff q e^{ikq}\bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{r-\frac{q}{2}}
+  f_{(1)}(k,s,t) \equiv \int \diff q e^{ikq}\bra{s+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{s-\frac{q}{2}}
   \label{eq:fourier_wigner}
 \end{equation}
 die von Wigner \cite{wigner} 1932 eingeführt worden ist. Die inverse Abbildung ist durch
 \begin{equation}
-  \bra{r+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{r-\frac{q}{2}} = \int \frac{\diff k}{2\pi}e^{-ikq} f_{(1)}(k,r,t)
+  \bra{s+\frac{q}{2}}\hat{\rho}_{(1)}(t)\ket{s-\frac{q}{2}} = \int \frac{\diff k}{2\pi}e^{-ikq} f_{(1)}(k,s,t)
   \label{eq:fourier_wigner_invers}
 \end{equation}
 gegeben. Im klassischen Limes ($\hbar \rightarrow 0$) geht die Wigner-Funktion in die aus der klassischen Physik bekannte Wahrscheinlichkeitsdichte im Phasenraum über. Die Position eines Teilchens wird dann mit $r$ aus Gleichung \eqref{eq:gedrehteKoordinaten} und der Impuls mit $p=\hbar k$ identifiziert.
 
 In dieser anschaulichen Darstellung ergeben sich Erwartungswerte intuitiv durch Gewichtung der Observablen mit der Verteilungsfunktion und anschließender Integration. So lassen sich Teilchendichte und -strom gemäß
 \begin{align}
-  n(r,t) &= \int \frac{\diff k}{2\pi}f_{(1)}(k,r,t) \label{eq:wigner_n}\\
-  j(r,t) &= \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,r,t) \label{eq:wigner_j}
+  n(s,t) &= \int \frac{\diff k}{2\pi}f_{(1)}(k,s,t) \label{eq:wigner_n}\\
+  j(s,t) &= \int \frac{\diff k}{2\pi}\hbar k f_{(1)}(k,s,t) \label{eq:wigner_j}
 \end{align}
 schreiben \cite{modern}. Die \ac{lvn} für die Wigner-Funktion lautet dann \cite{frensley2, failure}
 \begin{equation}
-  \partial_t f_{(1)}(k,r,t) = -\frac{\hbar k}{m}\partial_r f_{(1)}(k,r,t) - \frac{1}{\hbar} \int \frac{\diff k'}{2\pi}\mathcal{V}(k-k',r,t)f_{(1)}(k',r,t)
+  \partial_t f_{(1)}(k,s,t) = -\frac{\hbar k}{m}\partial_r f_{(1)}(k,s,t) - \frac{1}{\hbar} \int \frac{\diff k'}{2\pi}\mathcal{V}(k-k',s,t)f_{(1)}(k',s,t)
   \label{eq:wigner}
 \end{equation}
 mit dem Integralkern (auch Wignerpotential genannt)
 \begin{equation*}
-  \mathcal{V}(k,r,t) = 2\int_0^{\infty} \diff q \sin(k\cdot q) (V(r+\frac{q}{2},t) - V^*(r-\frac{q}{2},t))
+  \mathcal{V}(k,s,t) = 2\int_0^{\infty} \diff q \sin(k\cdot q) (V(s+\frac{q}{2},t) - V^*(s-\frac{q}{2},t))
 \end{equation*}
 und ist als Wigner-Gleichung bekannt. Sie ist das quantenmechanische Analogon zur Boltzmann-Gleichung. Das Integral auf der rechten Seite entspricht dabei einer Faltung zwischen Potentialterm und Wigner-Funktion bezüglich der Impulskoordinate $k$.
 
@@ -331,7 +334,7 @@ Die Dynamik des in der Einleitung skizzierten Systems muss irreversibel in der Z
 \begin{align}
   H- H^{\dagger} = \frac{\hbar}{i}\int_s \vb{j}\diff\vb{s} = 0 \; .
 \end{align}
-Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der \ac{lvn} auf. Da jedoch ein offenes System modelliert werden soll (siehe Abschnitt \ref{sec:modellierung}), muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_r \rho = 0$ entlang $(x=\pm L/2, y)$ und $(x,y=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
+Der Nettostrom durch die Oberfläche ist also Null. Damit treten lediglich oszillierende Lösungen der \ac{lvn} auf. Da jedoch ein offenes System modelliert werden soll (siehe Abschnitt \ref{sec:modellierung}), muss das Ein- und Austreten von Teilchen in das System erlaubt sein, wodurch die Hermitizität von $H$ und $\mathcal{L}$ verletzt wird. Dadurch wird mindestens ein Eigenwert einen nicht-verschwindenden imaginären Teil bekommen. Anhand Gleichung \eqref{eq:lvn_first} ist ersichtlich, dass in der Zeit instabile Lösungen für Eigenwerte mit positivem Realteil auftreten. Falls die Randbedingungen reversibel in der Zeit sind, so sind die Realteile der Eigenwerte symmetrisch und es existieren unphysikalische, instabile Lösungen \cite{frensley2}. Ein Beispiel hierfür ist $\partial_s \rho = 0$ entlang $(r_a=\pm L/2, r_b)$ und $(r_a,r_b=\pm L/2)$. Diese Randbedingung ist insofern plausibel, da sie zu konstanter Dichte an den Rändern führt und damit den Effekt eines fixierten chemischen Potentials beschreibt. Sie führt jedoch wegen der Zeit-Umkehrbarkeit zu unphysikalisch exponentiell steigenden Lösungen \cite{frensley2}.
 
 Die Randbedingungen müssen also irreversibel in der Zeit sein und ferner die Stabilität des Systems sicherstellen. Ein hierfür möglicherweise geeigneter Ansatz wird erstmals in \cite{frensley2} getroffen, indem die Reservoire in Analogie zu einem schwarzen Körper gesehen werden. In das Reservoir eintretende Teilchen werden vollständig absorbiert. Umgekehrt "strahlt" das Reservoir Teilchen entsprechend der thermischen Gleichgewichts-Verteilung in das System ein, siehe Abbildung \ref{fig:modell}.
 \begin{figure}
@@ -428,7 +431,7 @@ An dieser Stelle soll lediglich festgehalten werden, dass in einer hierarchische
 \end{equation*}
 Deshalb ist die \ac{lvn} lediglich dazu in der Lage, ein Markov-Verhalten zu beschreiben, wo also externe Wechselwirkung ausschließlich instantan in der Zeit erfolgt \cite{frensley3}. Als Beispiel für das Versagen des Dichtematrix-Formalismus wird die resonante Absorption oder Emission eines Phonons genannt, für die die Schwingungsperiode des Phonons die Mindestdauer der Wechselwirkung vorgibt. Ein Verfahren, dessen Verteilungsfunktion nicht alle drei Variablen -- Ort, Impuls und Geschwindigkeit -- wird für die entsprechend fehlende Variable eine Erhaltungsgleichung nicht berücksichtigen \cite{frensley3}. Im Falle der \ac{lvn} ist dies die Energieerhaltung, was jedoch mit der Modellierung des Systems vereinbar und sogar notwendig ist, siehe Kapitel \ref{sec:modellierung}. Es gibt Ansätze, diesem Umstand mit Hilfe eines "Gedächtnis-Terms" beizukommen \cite{memory1, memory2}.
 
-Ein Verfahren, welches den Spezialfall des stationären Problems im Gleichgewichtsfall beschreiben kann, wird im folgenden Kapitel \ref{sec:TFmethod} erläutert werden, denn es dient für die numerischen Tests in \todo{Referenz Kapitel} als Referenz. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode die Schrödingergleichung löst und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als Quantum Transmitting Boundary Method bekannt.
+Ein Verfahren, welches den Spezialfall des stationären Problems im Gleichgewichtsfall beschreiben kann, wird im folgenden Kapitel \ref{sec:TFmethod} erläutert werden, denn es dient für die numerischen Tests in \todo{Referenz Kapitel} als Referenz. Eine numerische Beschreibung, welche nicht analytisch, sondern mit der Finiten Elemente Methode die Schrödingergleichung löst und dabei die Offenheit des Systems berücksichtigt, wurde von Lent und Kirkner \cite{qtbm} erarbeitet und ist als \ac{qtbm} bekannt.
 
 \subsection{Transfermatrix Methode}\index{Transfermatrix Method}
 \label{sec:TFmethod}

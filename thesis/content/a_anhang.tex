@@ -148,18 +148,18 @@ Im Folgenden soll der Ausdruck \eqref{eq:G_GL} ausgehend von der Definition \ref
 \end{equation*}
 hergeleitet werden. Dazu wird zunächst Gleichung \eqref{eq:ellPsi} angewandt, also
 \begin{equation*}
-  \ell_i(x) = \sum_{n=1}^{N_p} (\van^T)^{-1}_{in}\Psi_n(x) \; .
+  \ell_i(x) = \sum_{n=1}^{N_p} (\van^T)^{-1}_{in}\Phi_n(x) \; .
 \end{equation*}
 Es folgt
 \begin{align*}
-    (\drift^{k,jm})_{pq} &= \sum_{r,s=1}^{N_p}\int_{D^k} G_{jm}(x) (\van^T)^{-1}_{pr}\Psi_r(x) (\van^T)^{-1}_{qs}\Psi_s(x) \\
-     &= \sum_{r,s=1}^{N_p} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}  \int_{D^k} G_{jm}(x) \Psi_r(x) \Psi_s(x) \; .
+    (\drift^{k,jm})_{pq} &= \sum_{r,s=1}^{N_p}\int_{D^k} G_{jm}(x) (\van^T)^{-1}_{pr}\Phi_r(x) (\van^T)^{-1}_{qs}\Phi_s(x) \\
+     &= \sum_{r,s=1}^{N_p} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}  \int_{D^k} G_{jm}(x) \Phi_r(x) \Phi_s(x) \; .
 \end{align*}
 Das Integral wird durch die Jacobideterminante $J^k=h^k/2$ auf das Referenzelement $[-1,1]$ überführt und mit Hilfe der Gauß-Lobatto Quadratur mit Knotenpunkten $\xi_i$, Gewichten $w_i$ und Ordnung $N_{GL}$ approximiert:
 \begin{align*}
-    (\drift^{k,jm})_{pq} &\approx \sum_{r,s=1}^{N_p} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}  \sum_{a=1}^{N_{GL}} G_{jm}(x(\xi_a)) \Psi_r(\xi_a) \Psi_s(\xi_a) w_a J^k\; .
+    (\drift^{k,jm})_{pq} &\approx \sum_{r,s=1}^{N_p} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}  \sum_{a=1}^{N_{GL}} G_{jm}(x(\xi_a)) \Phi_r(\xi_a) \Phi_s(\xi_a) w_a J^k\; .
 \end{align*}
-Mit der Definition der Vandermondematrix $\van_{ij}=\Psi_j(\xi_i)$ aus Gleichung \eqref{eq:vandermonde} lässt sich eine zweite Vandermondematrix $\tilde{\van}$ der Größe $N_{GL}\times N_p$ einführen, sodass
+Mit der Definition der Vandermondematrix $\van_{ij}=\Phi_j(\xi_i)$ aus Gleichung \eqref{eq:vandermonde} lässt sich eine zweite Vandermondematrix $\tilde{\van}$ der Größe $N_{GL}\times N_p$ einführen, sodass
 \begin{align*}
   (\drift^{k,jm})_{pq} &= \sum_{r,s=1}^{N_p}\sum_{a=1}^{N_{GL}} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}   G_{jm}(x(\xi_a)) \tilde{\van}_{ar} \tilde{\van}_{as} w_a J^k \\
   &= \sum_{r,s=1}^{N_p}\sum_{a=1}^{N_{GL}} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}   G_{jm}(x(\xi_a)) \tilde{\van}_{ra}^T \tilde{\van}_{sa}^T w_a J^k \\
