@@ -55,18 +55,18 @@ Für numerische Untersuchungen ist die Definition eines \emph{analytischen Fehle
   \label{eq:error_ana}
 \end{equation}
 sowie eines \emph{iterativen Fehlers}\index{iterativer Fehler}
-\begin{equation}
+\begin{equation*}
   e_{\mathcal{T}, \nicefrac{i}{r}}^{\alpha} = \norm{\nicefrac{\operatorname{Re}}{\operatorname{Im}} (u\fin^{\alpha} - u\fin^{\alpha-1})}_{L^2(\Omega)}
-\end{equation}
+\end{equation*}
 sinnvoll, wobei $\Omega=\Omega_x \times \Omega_y$ das Rechengebiet, $u$ die exakte Lösung und $u\fin$ die Ritz-Approximation sind. Der Index $\alpha>0$ bezieht sich auf die Verfeinerung des Gitters in $x$-Richtung gemäß $K_x^{\alpha} = 2^\alpha$. Wenn nicht anders angegeben, werden die benötigten Integrale in $x$-Richtung mit Gauß-Lobatto Quadratur der Ordnung $N$ (also gleich der Ordnung des \ac{dg}-Verfahrens) berechnet.
 In $y$-Richtung hingegen wird schlicht $\int_{\Omega_y}\diff y f(y) \approx \sum_{j=1}^{K_y} h_y f(y_j)$ berechnet, da $f(y)$ im \ac{fv}-Verfahren konstant ist innerhalb der Zelle $j$.
 
 Für die Betrachtung der \emph{Konvergenzordnung}\index{Konvergenzordnung} in Abschnitt \ref{sec:rates} werden ferner die Fehlerraten
 \begin{equation}
-\begin{aligned}
-  r_{\nicefrac{i}{r}}^{\alpha} &= \frac{\ln(e_{\nicefrac{i}{r}}^{\alpha}) - \ln(e_{\nicefrac{i}{r}}^{\alpha-1})}{\ln(K_x^{\alpha-1}) - \ln(K_x^{\alpha})} \qquad\text{und}\\
-  r_{\mathcal{T},\nicefrac{i}{r}}^{\alpha} &= \frac{\ln(e_{\mathcal{T},\nicefrac{i}{r}}^{\alpha}) - \ln(e_{\mathcal{T},\nicefrac{i}{r}}^{\alpha-1})}{\ln(K_x^{\alpha-1}) - \ln(K_x^{\alpha})}
-\end{aligned}
+  \begin{aligned}
+    r_{\nicefrac{i}{r}}^{\alpha} &= \frac{\ln(e_{\nicefrac{i}{r}}^{\alpha}) - \ln(e_{\nicefrac{i}{r}}^{\alpha-1})}{\ln(K_x^{\alpha-1}) - \ln(K_x^{\alpha})} \qquad\text{und}\\
+    r_{\mathcal{T},\nicefrac{i}{r}}^{\alpha} &= \frac{\ln(e_{\mathcal{T},\nicefrac{i}{r}}^{\alpha}) - \ln(e_{\mathcal{T},\nicefrac{i}{r}}^{\alpha-1})}{\ln(K_x^{\alpha-1}) - \ln(K_x^{\alpha})}
+  \end{aligned}
   \label{eq:fehlerraten}
 \end{equation}
 definiert. Daraus lassen sich noch $r_{\nicefrac{i}{r}}$ bzw. $r_{\mathcal{T},\nicefrac{i}{r}}$ als Mittelwerte über $\alpha$ errechnen. Die Definition der Fehlerrate ist motiviert durch eine Fehlerabschätzung der Form $e \leq ch_x^r$. Logarithmieren und Subtrahieren für zwei verschiedene Gitterabstände $h_x$ liefert die Konvergenzordnung $r$.
@@ -227,17 +227,72 @@ Zum Vergleich ist in Abbildung \ref{fig:solution_gummel} das analoge Ergebnis ei
     {Selbstkonsistente Rechnung mit ansonsten gleichen Parametern wie in Abbildung \ref{fig:solution}.}
     \label{fig:solution_gummel}
 \end{figure*}
-Die gezeigten Ergebnisse decken sich qualitativ mit den Ergebnissen anderer Verfahren wie einem \ac{FV}/\ac{FV}-Hybridverfahren in \cite{lukas1} oder einem Upwind-Differenzen-Schema für die Wignergleichung wie in \cite{frensley2}. Ein quantitativer Vergleich wird in Kapitel \ref{sec:rates} mit Hilfe der \ac{tf} aus Kapitel \ref{sec:TFmethod} vorgenommen. Ein Nachteil zeigt sich für den Imaginärteil im Gleichgewichtsfall bei $U_1=\SI{0}{\volt}$. Andere Verfahren (\ac{qtbm} und \ac{tf}) legen nahe, dass der Imaginärteil bis auf CPU-Genauigkeit verschwinden sollte, was hier nicht bestätigt werden kann.
+Die gezeigten Ergebnisse decken sich qualitativ mit den Ergebnissen anderer Verfahren wie einem \ac{fv}/\ac{fv}-Hybridverfahren in \cite{lukas1} oder einem Upwind-Differenzen-Schema für die Wignergleichung wie in \cite{frensley2}. Ein quantitativer Vergleich wird in Kapitel \ref{sec:rates} mit Hilfe der \ac{tf} aus Kapitel \ref{sec:TFmethod} vorgenommen. Ein Nachteil zeigt sich für den Imaginärteil im Gleichgewichtsfall bei $U_1=\SI{0}{\volt}$. Andere Verfahren (\ac{qtbm} und \ac{tf}) legen nahe, dass der Imaginärteil bis auf CPU-Genauigkeit verschwinden sollte, was hier nicht bestätigt werden kann.
 Feinere Diskretisierungen verbessern zwar die Resultate diesbezüglich, jedoch konnte aufgrund begrenzter Rechenkapazität ein nomineller Unterschied zwischen Real- und Imaginärteil von ca. vier Größenordnungen nicht überschritten werden. Hier zeigt sich bereits, dass bezüglich des Imaginärteils eine Fehlerrate nach Gleichung \eqref{eq:optimaleKonvergenz} nicht erwartet werden kann.
+\clearpage
 
 \subsection{Strom-Spannungs-Kennlinien}
-Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}-Rechnung mit einbezogen. Da die selbstkonsistente Rechnung für angelegte Spannungen keine gute Konvergenz zeigt, beschränken sich die Berechnungen auf Flachband-Modelle gemäß Abbildung \ref{fig:pot1}.
+Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}-Rechnung mit einbezogen. Da die selbstkonsistente Rechnung für angelegte Spannungen keine gute Konvergenz zeigt, beschränken sich die Berechnungen auf Flachband-Modelle gemäß Abbildung \ref{fig:iv1}.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/IV/IV_qtbm_dg_grob.eps}
+        \label{fig:iv1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/IV/frensley.png}
+        \label{fig:frensley_iv}
+    \end{subfigure}
+    \caption[]
+    {Strom-Spannungs-Kennlinien im Vergleich. Parameter der Numerik: $K_x=30$, $N=7$, $K_y=280$. Zusätzlich gezeigt ist das Ergebnis einer \ac{qtbm}-Rechnung. Die Grafik rechts ist aus \cite{frensley3} entnommen. Die durchgezogene Linie ist das Resultat einer Tunneltheorie-Rechnung. Für die gestrichelte Linie wird eine lokale Variation der effektiven Masse berücksichtigt. Die punktierte Linie schließlich stellt das Ergebnis eines Modells mit nicht-lokaler effektiver Masse dar.}
+    \label{fig:iv_vergleich1}
+\end{figure*}
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{plots/IV/IV_qtbm_dg_grob.eps}
+%   \caption{Strom-Spannungs-Kennlinien im Vergleich. Parameter der Numerik: $K_x=30$, $N=7$, $K_y=280$. Zusätzlich gezeigt ist das Ergebnis einer \ac{qtbm}-Rechnung.}
+%   \label{fig:iv1}
+% \end{figure}
 
 \begin{figure}
-  \includegraphics{plots/frensley.png}
-  \caption{aus frensley_quantentransport.pdf}
-  \label{}
+  \centering
+  \includegraphics[width=0.8\textwidth]{plots/IV/IV_qtbm_dg_fein.eps}
+  \caption{Auflösung des ersten Peaks bei ca. $\SI{0.1}{\volt}$ aus Abbildung \ref{fig:iv1}. Zum Vergleich ist zusätzlich das Ergebnis einer Rechnung mit Methode G2 gezeigt. Als gestrichelte Linie ist die gemittelte Teilchendichte $\overline{n}$ innerhalb des Quantentopfes dargestellt, siehe Text.}
+  \label{fig:iv2}
 \end{figure}
+
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/IV/IV_Lx_variation.eps}
+        \label{fig:iv3_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/IV/IV_Ly_variation.eps}
+        \label{fig:iv3_2}
+    \end{subfigure}
+    \caption[]
+    {Parametervariation bezüglich $L_x$ (links) und $L_y$ (rechts). Parameter der Numerik: $K_x=60$, $N=2$, $K_y=180$.}
+    \label{fig:iv_vergleich1}
+\end{figure*}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{plots/IV/IV_dg_vgl_diskretisierung_wide.eps}
+  \caption{Einfluss der Diskretisierung: Vergleich verschiedener Parameter der Numerik.}
+  \label{fig:iv4}
+\end{figure}
+
+\todo{Lukas fragen, worauf ich mich mit QTBM referenzieren kann.}
+
+
+
 
 - IV Kurven für verschiedene Längen Lr, Lq sowie Gummel/ohne Gummel
 

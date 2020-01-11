@@ -55,7 +55,7 @@ Die Elektronendichte folgt aus Zustandsdichte und Fermi-Dirac-Verteilung gemäß
 Die Leitungsbandkantenenergie $E_c$ der GaAs-Schicht wird zu 0 gewählt. Das chemische Potential wird aus der Nullstellensuche $f(\mu)=0$ mit einem Newton-Raphson-Verfahren ermittelt. Numerisch ergibt sich für den Gleichgewichtsfall  $\mu\approx\SI{0.04617}{\electronvolt}$.
 
 \section{Hartree-Potential}\index{Hartree-Potential}\label{sec:A_4}
-Das Hartree Potential ist mit der Elektronendichte $n(\vb{x})$ durch die Poisson-Gleichung \cite{frensley}
+Das Hartree-Potential ist mit der Elektronendichte $n(\vb{x})$ durch die \emph{Poisson-Gleichung}\index{Poisson-Gleichung} \cite{frensley}
 \begin{align}
   -\div \epsilon(\vb{x}) \grad u(\vb{x}) = e^2 (n(\vb{x}) - N_D(\vb{x})) \; ,
   \label{eq:poisson_3d}
@@ -74,7 +74,7 @@ Hierin ist $\mu(\vb{x})$ das chemische Potential, $\beta=1/(k_BT)$ mit $T=\SI{30
 \begin{align}
   \mathcal{F}_j(x)=\frac{1}{\Gamma(j+1)}\int_0^{\infty}\frac{t^j}{\exp(t-x)+1}\diff t
 \end{align}
-Das Potential ergibt sich nach Gleichungen \eqref{eq:poisson} und \eqref{eq:expval_n} aus dem Dichteoperator -- umgekehrt ergibt sich der Dichteoperator nach Gleichung \eqref{eq:lvn} aus dem Potential. Die Beziehung zwischen Potential und Dichte ist nicht-linear. Die gleichzeitige Lösung für Poisson- und LvNG zu finden erfordert daher Iteration. Das Problem wird \emph{selbstkonsistent} gelöst. Dazu wird $\eqref{eq:lvn}$ zunächst mit einem geeigneten \emph{initial guess} $V^{(0)}$ gelöst. Nun wird iteriert und alternierend gelöst, bis Dichte und Potential sich nicht mehr signifikant ändern. Im Fall der transienten Betrachtung entspricht eine Iteration gleichzeitig einem Zeitschritt. Das Verfahren ist als \emph{Gummel (Plug-in) Approach} etabliert und beispielsweise in \cite{gummel} beschrieben. Die folgenden Ausführungen orientieren sich an dieser Literaturquelle.
+Das Potential ergibt sich nach Gleichungen \eqref{eq:poisson} und \eqref{eq:expval_n} aus dem Dichteoperator -- umgekehrt ergibt sich der Dichteoperator nach Gleichung \eqref{eq:lvn} aus dem Potential. Die Beziehung zwischen Potential und Dichte ist nicht-linear. Die gleichzeitige Lösung für Poisson-Gleichung und \ac{lvn} zu finden erfordert daher Iteration. Das Problem wird \emph{selbstkonsistent} gelöst. Dazu wird $\eqref{eq:lvn}$ zunächst mit einem geeigneten \emph{initial guess} $V^{(0)}$ gelöst. Nun wird iteriert und alternierend gelöst, bis Dichte und Potential sich nicht mehr signifikant ändern. Im Fall der transienten Betrachtung entspricht eine Iteration gleichzeitig einem Zeitschritt. Das Verfahren ist als \emph{Gummel (Plug-in) Approach} etabliert und beispielsweise in \cite{gummel} beschrieben. Die folgenden Ausführungen orientieren sich an dieser Literaturquelle.
 
 Numerisch kann Gleichung \eqref{eq:poisson} mit dem Finite-Differenzen Verfahren behandelt werden. Das Rechengebiet $L$ wird diskretisiert gemäß
 \begin{align}
@@ -114,7 +114,7 @@ eingeführt worden ist und $\mathrm{D}$ der Differentiationsoperator ist, in die
   (1+a_i)\delta_{i+1,j} - 2 \delta_{i,j} + (1-a_i)\delta_{i-1,j} + \frac{e^2h^2}{\epsilon_i}\pd{n_i^{(n)}}{u_j^{(n)}}
 \end{align}
 An dieser Stelle ist anzumerken, dass nun auch die Dichte $n$ einen Iterationsindex $(n)$ bekommen hat. Dies ist auf die eingangs beschriebene alternierende Iteration zurückzuführen, in welcher abwechselnd $n^{(n)}$ und $u^{(n)}$ in einem einzigen Iterationsschritt $(n)$ berechnet werden. Ferner ist die Ableitung $\pd{n_i^{(n)}}{u_j^{(n)}}$ zunächst nicht bekannt.
-Es ist überhaupt eine Abweichung $\pd{n_i^{(n)}}{u_j^{(n)}} \neq 0$, die den Unterschied zwischen Newton-Iteration und direktem Lösen bewirkt. Im Allgemeinen liegt keine exakte Form dieser Ableitung vor, da hierzu ja gerade die LvNG zu lösen ist. Es lässt sich jedoch eine Abschätzung vornehmen, welche schnell und kostengünstig ist, sodass das Newton-Verfahren einen echten Vorteil gegenüber dem direkten Iterieren hat. Dazu dient die Maxwell-Boltzmann-Statistik
+Es ist überhaupt eine Abweichung $\pd{n_i^{(n)}}{u_j^{(n)}} \neq 0$, die den Unterschied zwischen Newton-Iteration und direktem Lösen bewirkt. Im Allgemeinen liegt keine exakte Form dieser Ableitung vor, da hierzu ja gerade die \ac{lvn} zu lösen ist. Es lässt sich jedoch eine Abschätzung vornehmen, welche schnell und kostengünstig ist, sodass das Newton-Verfahren einen echten Vorteil gegenüber dem direkten Iterieren hat. Dazu dient die Maxwell-Boltzmann-Statistik
 \begin{align}
   n(u) = N_0\exp\left(\frac{u-u_0}{k_B T}\right)
   \label{eq:maxwell_boltzmann}

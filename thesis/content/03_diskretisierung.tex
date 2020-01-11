@@ -1,9 +1,9 @@
 \chapter{Diskretisierung}
 
 Eine zeitabhängige \ac{pdg} $n$-ter Ordnung für skalares $u(x,t)$ ist von der Form
-\begin{equation}
+\begin{equation*}
   F(x, t, u(x), Du(x), \dots, D^nu(x))=0, \qquad x\in\Omega\subset\mathbb{R}^d \; .
-\end{equation}
+\end{equation*}
 Sie unterliegt Randbedingungen (für die Zeitvariable auch Anfangsbedingung genannt), die je nach Problemstellung auf Teilen des Randes formuliert sind. Beispielsweise ist die Auslenkung einer eingespannten Membran am Ortsrand fest, während in der Zeit lediglich für $t_0$ ein Randwert vorliegt.
 
 Die \ac{lvn} \eqref{eq:lvn} ist eine lineare \ac{pdg} zweiter Ordnung in $d=2$ Dimensionen. Sie ist weder elliptisch, noch parabolisch, noch hyperbolisch\footnote{Dies ist ersichtlich anhand der Eigenwerte der Koeffizientenmatrix zweiter Ableitungen $T=\text{diag}(0,1,-1)$ für Gleichung \eqref{eq:lvn_first}. Bei elliptischen Problemen haben alle Koeffizienten gleiches Vorzeichen und sind ungleich Null. Bei hyperbolischen Problemen hat genau ein Eigenwert ein anderes Vorzeichen und alle Koeffizienten sind ungleich Null. Parabolische Probleme schließlich sind gekennzeichnet durch genau einen Null-Eigenwert und ansonsten gleiches Vorzeichen.}.
@@ -23,9 +23,9 @@ Als Folge einer unterschiedliche Beantwortung dieser Fragen wurden zahlreiche Ve
 Die partiellen Ableitungen werden bei diesem Verfahren durch eine endliche (finite) Anzahl von Differenzen (\ac{fd}) genähert. Zur Formulierung der n-ten Ableitung einer Funktion $f(x)$ im Punkt $x_0$ wird die zugehörige Taylorreihe bis zur n-ten Ordnung verwendet. Der Punkt $x_0$ entstammt einem Gitter, welches das Gebiet $\Omega$ diskretisiert. Dieser Ansatz setzt inhärent voraus, dass eine Funktion sich hinreichend genau durch ein lokales Polynom niedriger Ordnung nähern lässt. Damit ist zeitgleich Frage (1) beantwortet.
 
 Die Antwort auf die zweite Frage bestimmt dann die Koeffizienten der lokalen Polynome. Durch Einsetzen der Näherung $u_h(x,t)$ in die \ac{pdg} folgt ein Residuum
-\begin{equation}
+\begin{equation*}
   \mathcal{R}(x,t)\equiv F(x,t, u_h(x), Du_h(x), \dots, D^nu_h(x,t)) \; ,
-\end{equation}
+\end{equation*}
 welches i.A. nicht verschwindet, denn sonst wäre ${u_h(x,t) = u(x,t)}$ die exakte Lösung. Zur Bestimmung der Koeffizienten (Freiheitsgrade) wird daher beispielsweise gefordert, dass auf den Gitterpunkten ${\mathcal{R}(x^k,t)=0}$ verschwindet.
 
 Das Verfahren ist besonders leicht zu implementieren. Es ist robust, effizient und wird von einer umfangreichen Literatur gestützt. Für zeitabhängige Probleme folgt aus der Ortsdiskretisierung eine explizite semidiskrete Form, was eine Flexibilität in der Wahl der Zeitschritt-Methode ermöglicht. In höherdimensionalen Problemen $d>1$ erfordert das Verfahren jedoch eine Tensorprodukt-Struktur der Basisfunktionen, sodass letztlich komplexe Geometrien $\Omega\subset{\mathbb{R}^d}$ nicht gut abgebildet werden können. Ferner führen Unstetigkeiten in den Randbedingungen oder internen Schichten (wie zum Beispiel der Potentialsprung in Abbildung \ref{fig:pot1}) zu Problemen aufgrund der simplen, zugrundeliegenden Diskretisierung.
@@ -42,8 +42,23 @@ Der Übergang zu den \ac{fem} geschieht, indem die approximative Lösung innerha
 
 Ein Nachteil ist hier für zeitabhängige Probleme die implizite Form der Massenmatrix, die eine Invertierung in jedem Zeitschritt erfordert. Ferner führen Schocks und Unstetigkeiten, wie sie in hyperbolischen Erhaltungsgleichungen auftreten können, zu Problemen \cite{dolejvsi2015discontinuous}. In FD- bzw. \ac{fv}-Verfahren werden solche Umstände durch ein \emph{Upwind Scheme}\index{Upwind Scheme} bzw. einen \emph{Upwind Fluss}\index{Upwind Fluss} berücksichtigt. Indem die oben genannte Stetigkeitsanforderung fallen gelassen wird, lassen sich die Vorteile von \ac{fv} und \ac{cg}-\ac{fem} kombinieren durch die \emph{\ac{dg}}-Methoden. Genau wie bei den \ac{fv}-Verfahren ist auch für die \ac{dg} Methoden die Wahl eines geeigneten Flusses das Herzstück.
 
-Die Abbildung \ref{fig:vergleich_hest} zeigt schematisch die Vor- und Nachteile der genannten Verfahren. Zahlreiche Entwicklungen und Erweiterungen überwinden die Nachteile häufig und es gibt daneben eine Reihe weiterer Eigenschaften, die zumeist problemabhängig sind und daher in dieser Übersicht nicht erwähnt werden können.
-\todo{Scan}
+Die Tabelle \ref{tab:vergleich_hest} zeigt schematisch einige Vor- und Nachteile der genannten Verfahren. Zahlreiche Entwicklungen und Erweiterungen überwinden die Nachteile häufig und es gibt daneben eine Reihe weiterer Eigenschaften, die zumeist problemabhängig sind und daher in dieser Übersicht nicht erwähnt werden können.
+\begin{table}
+  \centering
+  \caption{Schematischer Vergleich der verschiedenen Verfahren nach \cite{buch}. Ein \xmark $\;$ bedeutet, dass dieser Aspekt nicht ermgölicht werden kann. Aspekte mit (\cmark) benötigen einen Mehraufwand, um sie zu ermöglichen. Eine ausführlichere Erklärung zu den einzelnen Punkten ist in \cite{buch} gegeben.}
+  \label{tab:vergleich_hest}
+  \scriptsize
+  \begin{tabular}{l >{\centering\arraybackslash}p{0.15\textwidth} >{\centering\arraybackslash}p{0.15\textwidth} >{\centering\arraybackslash}p{0.15\textwidth} >{\centering\arraybackslash}p{0.15\textwidth} >{\centering\arraybackslash}p{0.15\textwidth} >{\centering\arraybackslash}p{0.15\textwidth}}
+    \toprule
+      & Komplexe Geometrien   & $hp$-Adaptivität  & Explizit semidiskrete Form  & Erhaltungs-gleichungen   & Elliptische Probleme \\
+    \midrule
+    \ac{fd}   &\xmark  & \cmark  &\cmark   &\cmark   &\cmark \\
+    \ac{fv}   &\cmark  & \xmark  &\cmark   &\cmark   &(\cmark) \\
+    \ac{cg}   &\cmark  & \cmark  &\xmark   &(\cmark)   &\cmark \\
+    \ac{dg}   &\cmark  & \cmark  &\cmark   &\cmark   &(\cmark) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{Einführung in die Discontinuous-Galerkin-Methoden}
 Die \ac{dg} Methoden entstammen als erweiterte FE Methoden den abstrakten Variationsproblemen. Motiviert wird ein solches Problem physikalisch durch die Minimierung einer Energie. Für eine eingespannte Membran führt die Variationsrechnung beispielsweise zu den bekannten Euler-Lagrange Gleichungen. Das abstrakte Problem lautet stets:
@@ -54,23 +69,23 @@ Hier ist $X$ ein Banach-Raum, $a:X\times X \rightarrow \mathbb{R}$ eine Bilinear
 Der mit Abstand wichtigste Satz in diesem abstrakten Rahmen ist der Satz von Lax-Milgram \cite{buchPietro} über die Existenz und Eindeutigkeit (Wohlgestelltheit) einer Lösung. Dazu werden die Begriffe Koerzivität und Stetigkeit benötigt.
 \begin{definition}[Koerzivität und Beschränktheit einer Bilinearform] \label{def:koerz}
   Sei $X$ ein Hilbertraum, $a \in \mathcal{L}(X\times X, \mathbb{R})$ und $b \in \mathcal{L}(X\times X, \mathbb{C})$ Bilinearformen. $a$ heißt koerzitiv auf $X$ falls es ein $\beta>0$ gibt sodass
-  \begin{equation}
+  \begin{equation*}
     \forall \, v \in X : \qquad \beta\norm{v}^2_X \leq a(v,v)
-  \end{equation}
+  \end{equation*}
   $b$ heißt koerzitiv auf $X$ falls es ein $\beta>0$ gibt sodass
   \begin{equation}
     \forall \, v \in X : \qquad \beta\norm{v}^2_X \leq  \operatorname{Re}(b(v,v))   \label{eq:koerz_imag}
   \end{equation}
   a und äquivalent b heißen beschränkt falls es eine Konstante $C>0$ gibt sodass
-  \begin{equation}
+  \begin{equation*}
     \forall \, v,w \in X : \qquad C\norm{v}_X \norm{w}_X \geq |a(v,w)|
-  \end{equation}
+  \end{equation*}
 \end{definition}
 \begin{satz}[Lax-Milgram]\label{laxmilgram}
   Sei $X$ ein Hilbertraum, $a \in \mathcal{L}(X\times X, \mathbb{R})$ und darüber hinaus ${\ell\in\mathcal{L}(X,\mathbb{R})=X^*}$. Dann ist das Variationsproblem \ref{varprob} wohlgestellt, wenn die Bilinearform beschränkt und koerzitiv ist. Es gilt ferner die a priori Abschätzung
-  \begin{equation}
+  \begin{equation*}
     \norm{u}_X \leq \frac{1}{\beta} \norm{\ell}_{X^*}
-  \end{equation}
+  \end{equation*}
 \end{satz}
  Für eine \ac{pdg} ergibt sich die variationale Formulierung (auch als \emph{schwache Formulierung}\index{schwache Formulierung} bezeichnet) mit ${X=W^{k,p}(\Omega)}$ aus einer Multiplikation mit einer Testfunktion ${w\in X}$ und Integration über die offene beschränkte Menge ${\Omega \subset \mathbb{R}^d}$ mit Lipschitz-Rand $\Gamma = \partial\Omega$.
  Dabei ist ${W^{k,p}(\Omega)}$ der Sobolev-Raum
@@ -108,12 +123,12 @@ Die \ac{dg}-Methoden zählen jedoch zu den \emph{nicht-konformen}\index{nicht-ko
 und es gilt das zweite Strang-Lemma als Analogon zum Lemma von Cea.
 \begin{satz}[Zweites Strang-Lemma]\label{strang}
   Sei $u$ Lösung des Variationsproblems \ref{varprob}, und $u\fin$ die Ritz-Approximation mit koerzitivem $a \in \mathcal{L}(X\fin \times X\fin, \mathbb{C})$ und $\ell\fin \in \mathcal{L}(X\fin, \mathbb{C})$. Dann gilt
-  \begin{equation}
+  \begin{equation*}
     \begin{aligned}
     \norm{u-u\fin}_{X\fin} \leq &\left(1 +\frac{C\fin}{\beta\fin}\right) \inf_{v\fin \in X\fin}\norm{u-v\fin}_{X\fin} \\
     & +\frac{1}{\beta\fin} \sup_{w\fin \in X\fin: \norm{w\fin}=1} |a\fin(u,w\fin)-\ell\fin(w\fin)| \; .
   \end{aligned}
-  \end{equation}
+\end{equation*}
   Hierbei sind $\beta\fin$ und $C\fin$ Koerzivitäts- bzw. Stetigkeitskonstanten des approximierten Variationsproblems \ref{eq:approx_varprob}.
 \end{satz}
 Die Existenz und Eindeutigkeit der Ritz-Approximation $u\fin$ ergibt sich wieder aus dem Satz von Lax-Milgram. Alternativ folgt aufgrund der endlichen Dimensionalität des Raumes $X\fin$ in Anbetracht der Linearität des Problems \eqref{eq:approx_varprob} die Existenz aus der Eindeutigkeit. Hierzu genügt es, die Koerzivität von $a\fin$ zu zeigen.
@@ -121,7 +136,7 @@ Die Existenz und Eindeutigkeit der Ritz-Approximation $u\fin$ ergibt sich wieder
 Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Literaturquellen (z.B. in \cite{NLS}) zunächst im folgenden Abschnitt \ref{sec:primal} das stationäre Problem als Variationsproblem formuliert und dessen Wohlgestelltheit geprüft. Anschließend wird die Stabilität der Lösung untersucht, also das Vorzeichen der zeitlichen Änderung von $\norm{u\fin}$, siehe Abschnitt \ref{sec:stabilität}.
 
 
-\section{DG-Verfahren für die LvNG}\label{sec:primal}
+\section{Discontinuous-Galerkin-Verfahren für die Liouville-von-Neumann Gleichung}\label{sec:primal}
 Für zeitabhängige \ac{pdg}n mit Dimensionalität $d>1$ gibt es prinzipiell zwei verschiedene Möglichkeiten der Diskretisierung.
 \begin{itemize}
   \item Die jeweiligen Orts-Koordinaten werden sukzessive behandelt -- dieses Vorgehen wird als \emph{Methode der Geraden}\index{Methode der Geraden} bezeichnet. Dabei können die einzelnen Richtungen auch mit unterschiedlichen Methoden diskretisiert werden, was im Folgenden als \emph{Hybridverfahren}\index{Hybridverfahren} bezeichnet werden soll. Das resultierende Gitter ist stets ein Rechteckgitter, was wie bereits in Kapitel \ref{sec:FD} erwähnt geometrische Flexibilität nicht zulässt. Andererseits ist dies für rechteckige Gebiete $\Omega$ unkritisch.
@@ -143,20 +158,20 @@ In einem vorbereitenden Einschub sollen im Folgenden einige wichtige Erkenntniss
 \subsection{Riemann Probleme in hyperbolischen Systemen}\label{sec:riemann}\index{Riemann Problem}
 Die folgenden Ausführungen orientieren sich an dem Buch von Leveque \cite{buchLeveque}.
 Das Riemann Problem für die skalare Advektionsgleichung $u_t + f_x(u) = 0$ mit dem Fluss $f(u(x)) = s u(x)$ ist durch die diskontinuierliche Anfangswertbedingung
-\begin{equation}
+\begin{equation*}
   u(x,0) = \begin{cases} u^- , \; x < 0 \\
                          u^+ , \; x > 0
            \end{cases}
-\end{equation}
+\end{equation*}
 gestellt.  Die \emph{Rankine-Hugoniot-Bedingung}\index{Rankine-Hugoniot-Bedingung} lautet im skalaren Fall
 \begin{equation}
   s(u^- - u^+) = (f^- - f^+) \; .
   \label{eq:rhc}
 \end{equation}
 Die Größe s ist dabei die Geschwindigkeit, mit der sich die Diskontinuität ausbreitet (\emph{shock speed}). Im allgemeineren Fall eines linearen Systems mit $f(u) = A u$ wird angenommen, dass die Matrix $A$ reelle, disjunkte Eigenwerte $\lambda_1 < \lambda_2 < \dots < \lambda_m$ hat, das heißt $A$ ist diagonalisierbar gemäß
-\begin{equation}
+\begin{equation*}
   A = R \Lambda R^{-1}
-\end{equation}
+\end{equation*}
 mit $R=[r_1 \, r_2 \, \dots \, r_m]$ als Transformationsmatrix mit den zugehörigen Eigenvektoren. Die Eigenwertgleichung lautet
 \begin{equation}
   Ar_p = \lambda_p r_p \qquad \forall \, p=1,\dots, m
@@ -173,9 +188,9 @@ folgt mit $v = R^{-1}u$ und wegen der Charakteristik der Advektionsgleichung
              \end{cases}
 \end{equation*}
 Bezeichnet $J(x,t)$ den größtmöglichen Index $p$, für den $x-\lambda_p t > 0$ gilt, so ist
-\begin{align}
+\begin{align*}
   u(x,t) = \sum_{p=1}^{J(x,t)} \beta_p r_p + \sum_{p={J(x,t)}+1}^m \alpha_p r_p \; .
-\end{align}
+\end{align*}
 Dieser Zusammenhang wird in Abbildung \ref{fig:torte} gezeigt.
 \begin{figure}
   \centering
@@ -189,17 +204,17 @@ Die Lösung ist konstant innerhalb der einzelnen Segmente. Entlang der $p$-ten C
   \label{eq:TortenJump}
 \end{equation}
 schreiben, wie der Abbildung zu entnehmen ist. Hier ist wieder die Rankine-Hugoniot-Bedingung analog zu Gleichung \eqref{eq:rhc} ersichtlich, denn es ist mit $f(u) = A u$
-\begin{equation}
+\begin{equation*}
   \begin{aligned}
     \jump{f}_p &= A\jump{u}_p \stackrel{\eqref{eq:TortenJump}}{=} -(\beta_p - \alpha_p) A r_p \stackrel{\eqref{eq:EWeq_A}}{=}  -(\beta_p - \alpha_p) \lambda_p r_p \\
     &= \lambda_p \jump{u}_p \; .
   \end{aligned}
-\end{equation}
+\end{equation*}
 Um nun den numerischen Fluss $\hat{f}$ eines \ac{dg}- oder \ac{fv}-Verfahrens zu bestimmen, ist $u$ an dem Ort $x=0$ auszuwerten (was in diesen Verfahren den Elementkanten entspricht). Daher können entweder von $u^-$ ausgehend die Sprünge nach rechts oder von $u^+$ ausgehend die Sprünge nach links aufaddiert  werden. Folglich gilt
 \begin{align}
   \label{eq:rhc_1}
   u(x=0) &= u^- + \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p = u^+ - \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p \\
-  \Rightarrow \qquad u(x=0) &= \frac{u^- + u^+}{2} + \frac{1}{2}\left( \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p - \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p \right) \; .
+  \Rightarrow \qquad u(x=0) &= \frac{u^- + u^+}{2} + \frac{1}{2}\left( \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p - \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p \right) \; . \nonumber
 \end{align}
 Multiplikation mit $A=R\Lambda R^{-1} = R(\Lambda^+ + \Lambda^-)R^{-1}$ (hierbei enthält $\Lambda^{+(-)}$ ausschließlich die positiven (negativen) Eigenwerte von $\Lambda$) ergibt den numerischen Fluss
 \begin{align*}
@@ -209,17 +224,17 @@ Multiplikation mit $A=R\Lambda R^{-1} = R(\Lambda^+ + \Lambda^-)R^{-1}$ (hierbei
                     - R\Lambda^+R^{-1} \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p        \right) \; .
 \end{align*}
 Die letzte Gleichheit folgt aus $\sum_j (R^{-1})_{i,j} (r_p)_j = \delta_{i,p} e_p$ (mit $e_p$ als Einheitsvektor). Im Folgenden soll mit $|A|$ die Kurzschreibweise für $(|A|)_{i,j} = |A_{i,j}|$ verwendet werden. Dann lässt sich der Fluss weiter zusammenfassen:
-\begin{align}
+\begin{align*}
   \hat{f} &= A \avg{u} + \frac{1}{2} \left( -R|\Lambda^-|R^{-1} \sum_{\lambda_p < 0} (\beta_p - \alpha_p)r_p
               - R\Lambda^+R^{-1} \sum_{\lambda_p > 0} (\beta_p - \alpha_p)r_p        \right) \\
         &= A \avg{u} - \frac{1}{2} \underbrace{(R|\Lambda^-|R^{-1} + R\Lambda^+R^{-1})}_{=R|\Lambda|R \equiv |A|}  \sum_p(\beta_p - \alpha_p)r_p   \\
         &\stackrel{\eqref{eq:rhc_1}}{=} A \avg{u} - \frac{1}{2} |A| (u^+-u^-) \\
         &= A \avg{u} + \frac{1}{2} |A| \jump{u} \; .
-\end{align}
+\end{align*}
 Die gesamte Argumentation funktioniert auch, wenn A bereits diagonal ist. Am Ausgangspunkt der vektoriellen Advektionsgleichung wird direkt eine Transformation $u=Rv$ durchgeführt, sodass
-\begin{align}
+\begin{align*}
   v_t + \Lambda v_x = 0 \; .
-\end{align}
+\end{align*}
 Es folgt dann wie oben gezeigt der numerische Fluss
 \begin{align}
   \hat{f} = \hat{\Lambda v} = \Lambda\avg{v} + \frac{1}{2}|\Lambda|\jump{v} \; .
@@ -263,9 +278,9 @@ und zugehörigen Eigenvektoren
   \label{eq:R}
 \end{equation}
 Die Matrix $R$ ist unitär: $R^{-1} = R^{\dagger}$. Der Einfachheit halber wird nun $\Delta y_i = h_y$ konstant gesetzt, sodass
-\begin{equation}
+\begin{equation*}
   (A^y)^{-1}B^y = h_y^{-1}R\Lambda^y R^{-1}
-\end{equation}
+\end{equation*}
 gilt. Mit der unitären Transformation
 \begin{equation}
   v(x,t) \equiv R^{\dagger}u(x,t) \label{eq:trafo_uv}
@@ -291,9 +306,9 @@ und Fluss
 \end{equation}
 Zur Formulierung der Randbedingungen gemäß den Überlegungen in Kapitel \ref{sec:RB} muss zunächst der Einströmrand $\Gamma^-$ definiert werden.
 Sei dazu ${\Omega_x = (-L_x/2,L_x/2)}$ ein beschränktes, offenes Gebiet mit Lipschitz Rand $\partial\Omega_x$ in  $\mathbb{R}$. Es bezeichne $\Gamma_x\equiv (\partial\Omega_x)^{K_y}$ die Zusammenfassung des Randes der $K_y$ \ac{pdg}n. Der Einströmrand kann dann definiert werden gemäß
-\begin{equation}
+\begin{equation*}
   \Gamma^- \equiv \{x\in\Gamma_x : \Lambda \cdot n(x) < 0\} \; ,
-\end{equation}
+\end{equation*}
 wobei $n(x)$ der bzgl. $\Omega_x$ nach außen zeigende Normalenvektor ist. Um nun die Randbedingung aus Gleichung \eqref{eq:rb4} einzubringen, müssen diese gemäß Gleichung \eqref{eq:trafo_uv} noch transformiert werden. Es folgen die gesuchten Randbedingungen für das System \eqref{eq:diagLVN}:
 \begin{equation}
   \begin{aligned}
@@ -309,9 +324,9 @@ Das Gebiet $\Omega_x$ wird durch die Vereinigung von $K_x$ nicht überlappenden 
   \label{eq:FES}
 \end{equation}
 wobei $\mathcal{P}_N$ der ${N+1=N_p}$ -dimensionale Raum der Polynome vom Grad $N$ ist. $X_{\mathcal{T},1}$ ist Teilmenge des gebrochenen Sobolev-Raumes
-\begin{equation}
+\begin{equation*}
     H^1(\mathcal{T}) = \{ v \in L^2(\Omega_x) \; : \; v|_{D^k} \in H^1(D^k) \, \forall \, D^k \in \mathcal{T} \} \; ,
-\end{equation}
+\end{equation*}
 welcher wiederum \underline{nicht} Teilmenge des Lösungsraumes $X=H^1(\Omega)$ ist. Dies zeigt die Nicht-Konformität der Methode. Dennoch ist auch $H^1(\mathcal{T})$ Hilbertraum und es lässt sich der Satz von Lax-Milgram anwenden.
 
 Der finite Elemente Raum \eqref{eq:FES} lässt Unstetigkeiten zu und diese werden gemäß Abbildung \ref{fig:notation_DG} gekennzeichnet. Werte am linken Rand eines Elementes bekommen den Index "+" und Werte am rechten Rand den Index "-".
@@ -387,10 +402,10 @@ gelten und damit dem Upwind Charakter der \ac{pdg} Rechnung getragen werden. Der
 aus dem vorherigen Abschnitt entspricht mit $\kappa=\nicefrac{1}{2}$ einem \emph{Upwind Fluss}\index{Upwind Fluss}. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Der Upwind Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch in Konsistenz mit den Ergebnissen in \cite{feistauer2004}, dass lediglich $\kappa=1/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Es gilt insbesondere für die schwache Lösung $\hat{f}(u,u)=f(u)$, wodurch die \emph{Konsistenz}\index{Konsistenz} des Verfahrens sichergestellt ist. Der Upwind Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
 
 Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt die \emph{schwache Formulierung} des Hybridverfahrens:
-\begin{problem}[Schwache variationale Formulierung der \ac{lvn}]\index{Schwache variationale Formulierung der LvNG}
+\begin{problem}[Schwache variationale Formulierung der \ac{lvn}]\index{Schwache variationale Formulierung der LNG}
   \label{prob:weak}
   Finde ein ${v\fin\in X\fin}$, sodass für alle $\varphi\in X\fin$ gilt $a\fin^w(v\fin, \varphi) + b\fin(v\fin, \varphi) = \ell\fin(\varphi)$. Hierin sind
-  \begin{align}
+  \begin{align*}
     a\fin^w(v\fin, \varphi) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} ( - (\partial_x \varphi^{\dagger}) f(v\fin) + \varphi^{\dagger} G v\fin) \nonumber \\
     &+ \sum_{e\in F_i}\int_{e}\jump{\varphi^{\dagger}} (\Lambda\avg{v} + \frac{1}{2}|\Lambda|\jump{v}) \\
     &+ \int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)\jump{v\fin}
@@ -398,11 +413,11 @@ Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mi
     b\fin^w(v\fin, \varphi) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} \varphi^{\dagger} \partial_t v\fin \\
     \ell\fin(\varphi)  = &-\int_{e_r} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda - |\Lambda|)g
       -\int_{e_l} \jump{\varphi^{\dagger}} \frac{1}{2}(\Lambda + |\Lambda|)g
-  \end{align}
+  \end{align*}
   mit der Diagonalmatrix $\Lambda$ aus Gleichung \eqref{eq:Lambda}, dem Driftterm $G$ aus Gleichung \eqref{eq:G} sowie dem Fluss ${f(v)=\Lambda v}$.
 \end{problem}
 Integrale über Kanten dienen hier lediglich der Übersicht. Da sie aber im Eindimensionalen Auswertungen an einem Punkt entsprechen, sind sie letztlich redundant. Eine weitere partielle Integration des Flussterms führt auf die \emph{starke Formulierung}, die höhere Regularität an $u\fin$ fordert. Der dabei auftretende Term $\jump{\varphi^{\dagger}f(v\fin)}$ lässt sich mit Hilfe der Relation \eqref{eq:jump_relation} umformen.
-\begin{problem}[Starke variationale Formulierung der \ac{lvn}]\index{Starke variationale Formulierung der LvNG}
+\begin{problem}[Starke variationale Formulierung der \ac{lvn}]\index{Starke variationale Formulierung der LNG}
   \label{prob:strong}
   Finde ein $v\fin\in X\fin$, sodass für alle $\varphi\in X\fin$ gilt $a\fin^s(v\fin, \varphi) + b\fin(v\fin, \varphi) = \ell\fin(\varphi)$. Hierin sind
   \begin{equation}
@@ -428,12 +443,12 @@ Für die Bilinearform aus Problem \ref{prob:strong} soll im Folgenden die Existe
   &\stackrel{\eqref{eq:jump_def_outer}}{=} \sum_{e\in F_i}\int_e \avg{v^{\dagger}} \jump{f(v)} + \int_{e_r}\frac{1}{2} \jump{v^{\dagger}}\jump{f(v)} - \int_{e_l}\frac{1}{2} \jump{v^{\dagger}}\jump{f(v)} \; .
 \end{align*}
 Dieser Ausdruck hebt sich folgerichtig mit den entsprechenden Termen der Bilinearform \eqref{eq:bilinear_strong} auf. Es verbleibt
-\begin{equation}
+\begin{equation*}
   \begin{aligned}
     a\fin^s(v, v) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} G v
     + \sum_{e\in F}\int_e  \jump{v^{\dagger}} \frac{1}{2}|\Lambda| \jump{v} \; ,
   \end{aligned}
-\end{equation}
+\end{equation*}
 anhand dessen Form zu erkennen ist, dass lediglich der durch den numerischen Fluss eingeführte Strafterm sowie der Potentialterm $G$ stabilisierend wirken. Um den Realteil der Bilinearform zu erhalten, wird dessen komplex Konjugiertes hinzu addiert.
 \begin{equation}
   \begin{aligned}
@@ -444,7 +459,7 @@ anhand dessen Form zu erkennen ist, dass lediglich der durch den numerischen Flu
 \end{equation}
 An dieser Stelle ist die Anfälligkeit des Verfahrens ersichtlich. Damit die rechte Seite auf eine Norm von $v$ zurückgeführt werden kann, müssen zwei Bedingungen erfüllt sein. Erstens muss $\forall i=1\dots K_y$ gelten $\lambda_i\neq 0$ genau wie bereits im Transfermatrix-Verfahren (vergleiche Abschnitt \ref{sec:TFmethod}). Zweitens muss der Realteil aller Eigenwerte von $(G+G^{\dagger})$ gemäß der Bedingung \eqref{eq:koerz_imag} größer 0 sein. Gibt es solche Schranken $g_0$ und $\lambda_{\text{min}}$(als betragsmäßig kleinster Eigenwert von $\Lambda$), so folgt unmittelbar
 \begin{align}
-  \operatorname{Re}(a\fin^s(v, v)) \geq g_0 |||v||| \qquad \text{mit} \\
+  \operatorname{Re}(a\fin^s(v, v)) \geq g_0 |||v||| \qquad \text{mit} \nonumber \\
   \trinorm{.} = \sum_{D^k\in\mathcal{T}}\int_{D^k} |.|^2 + \sum_{e\in F}\int_e  \frac{\lambda_{\text{min}}}{g_0} |\jump{.}|^2 \; . \label{eq:trinorm}
 \end{align}
 Andernfalls ist die Bilinearform nicht koerzitiv. Dieses Resultat ist konsistent mit den Erkenntnissen in der Literatur \cite{feistauer2007}, wo das skalare Problem
@@ -496,18 +511,18 @@ Deshalb sind in der vorliegenden Arbeit zur Lösung des Systems gewöhnlicher Di
 Hierbei ist $\bar{v}\fin^{k,n}$ der Mittelwert von $v\fin$ in Zelle $k$ im Zeitschritt $n$. Dazu werden \emph{Limiter} hinzugeschaltet, die nach jedem Zeitschritt die Steigung der Lösung innerhalb der Zellen leicht korrigiert, um diese Eigenschaft zu garantieren. Mit solchen Verfahren sollen unphysikalische Überschwinger vor Allem bei nichtlinearen \ac{pdg}n mit unstetigen Lösungen verhindert werden. Näheres ist in der Literatur \cite{buch} zu finden.
 
 Das \ac{rk}2-Verfahren genügt der Vorschrift
-\begin{equation}
+\begin{equation*}
   \begin{aligned}
     p^{(1)} &= v\fin^n + \Delta t \mathcal{F}(v\fin^n,t^n) \\
     v\fin^{n+1} = \frac{1}{2}(v\fin^n + p^{(1)} + \Delta t \mathcal{F}(p^{(1)},t^n+\Delta t)) \; ,
   \end{aligned}
-\end{equation}
+\end{equation*}
 wobei die Länge eines Zeitschrittes in Abhängigkeit von Polynomgrad $N$ der \ac{dg}-Diskretisierung sowie den Gitterabständen $h_x$ (als Mittelwert der $h^k$) und $h_y$ gewählt werden sollte. Hierzu gibt es keine analytische Vorschrift, sondern es gilt die Daumenregel \cite{buch}
 \begin{equation}
   \Delta t \leq \frac{1}{2N+1}c\frac{h_x}{h_y \text{max}(\Lambda)}
 \end{equation}
 mit einer Konstanten $c$, die durch numerische Experimente für das \ac{rk}2-Verfahren zu $c=0.2$ und für das \ac{rk}4-Verfahren entsprechend verdoppelt zu $c=0.4$ gewählt wird. Das \ac{rk}4-Verfahren wird in der geläufigen speicherarmen Version
-\begin{equation}
+\begin{equation*}
   \begin{aligned}
     p^{(0)} = v\fin^n \\
     i\in [1,\dots,5]: \begin{cases}
@@ -516,7 +531,7 @@ mit einer Konstanten $c$, die durch numerische Experimente für das \ac{rk}2-Ver
   \end{cases} \\
   v\fin^{n+1} = p^{(5)}
   \end{aligned}
-\end{equation}
+\end{equation*}
 implementiert. Die Koeffizienten $a_i,b_i,c_i$ können der Literatur \cite{buch} entnommen werden. Offenbar werden in dieser Variante fünf Funktionsaufrufe benötigt, was zunächst gegenüber der Ordnung des Verfahrens einen Mehraufwand bedeutet. Dadurch jedoch können größere Zeitschritte $\Delta t$ realisiert werden \cite{buch}.
 % Die in Abbildung \ref{fig:pot1} eingezeichneten Längen werden wie in \cite{lukas1} zu
 % \begin{align}

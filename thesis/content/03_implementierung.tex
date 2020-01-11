@@ -8,9 +8,9 @@ Die Ritz-Approximation $v\fin \in X_{\mathcal{T},1}$ ist lokal definiert. \emph{
 \end{equation}
 die lokalen Integrale auf ein Referenzelement $I=[-1,1]$ mit $r\in I$.
 Es wird dann zwischen \emph{modaler Darstellung}\index{modale Darstellung}
-\begin{align}
+\begin{align*}
   x\in D^k : \qquad v\fin^k(r(x),t) = \sum_{n=1}^{N_p}\hat{v}_{\mathcal{T},n}^k(t) \Phi_n(r)
-\end{align}
+\end{align*}
 und \emph{nodaler Darstellung}\index{nodale Darstellung}
 \begin{align}
   x\in D^k : \qquad v\fin^k(r(x),t) = \sum_{i=1}^{N_p} v_{\mathcal{T},i}^k(t)\ell_i(r)
@@ -24,7 +24,7 @@ Eine hierfür geeignete Basis sind die Lagrange-Polynome
   \ell_i(r) = \prod_{\substack{j=1 \\ j\neq i}}^{N_p} \frac{r-\xi_j}{\xi_i-\xi_j}
   \label{eq:nodalebasis}
 \end{align}
-mit $N_p$ verschiedenen Knotenpunkten $\xi_j\in[-1,1]$ und der Eigenschaft ${\ell_i(\xi_j)=\delta_{ij}}$. Für eine Verallgemeinerung in höherdimensionale Probleme bietet es sich an, die benötigten Integrale über die Basisfunktionen mit Hilfe der modalen Basis $\Phi$ zu kalkulieren, da die Lagrange-Polynome sich nicht auf einfache Weise formulieren lassen. Für diese modale Basis wird für eine gute Konditionierung der Massenmatrix (vergleiche Gleichung \eqref{eq:Mmatrix}) statt der Monombasis die orthonormierte Basis
+mit $N_p$ verschiedenen Knotenpunkten $\xi_j\in[-1,1]$ und der Eigenschaft ${\ell_i(\xi_j)=\delta_{ij}}$. Für eine Verallgemeinerung in höherdimensionale Probleme bietet es sich an, die benötigten Integrale über die Basisfunktionen mit Hilfe der modalen Basis $\Phi$ zu kalkulieren, da die Lagrange-Polynome sich nicht auf einfache Weise formulieren lassen. Für diese modale Basis wird für eine gute Konditionierung der Massenmatrix (vergleiche Def. \ref{def:matrizen}) statt der Monombasis die orthonormierte Basis
 \begin{align}
   \Phi_n(r) = \frac{P_{n-1}(r)}{\sqrt{2(2n+1)^{-1}}}
   \label{eq:modaleBasis}
@@ -52,12 +52,10 @@ Mit diesen Vorarbeiten kann nun die starke Formulierung \ref{prob:strong} in ein
   Für die nodale Darstellung heißen
   \begin{equation*}
     (M^k)_{pq} \equiv \int_{x_{k-\nicefrac{1}{2}}}^{x_{k+\nicefrac{1}{2}}} \ell_p^k(x) \ell_q^k(x) \diff x = \frac{h_k}{2}\int_{-1}^1 \ell_p(r) \ell_q(r) \diff r \equiv \frac{h_k}{2} M_{pq}
-    \label{eq:Mmatrix}
   \end{equation*}
   Massenmatrix,
   \begin{equation*}
     (S^k)_{pq} \equiv \int_{x_{k-\nicefrac{1}{2}}}^{x_{k+\nicefrac{1}{2}}} \ell_p^k(x) \td{\ell_q^k(x)}{x} \diff x = \int_{-1}^1 \ell_p(r) \td{\ell_q(r)}{r}  \diff r \equiv S_{pq}
-    \label{eq:Smatrix}
   \end{equation*}
   Steifigkeitsmatrix und
   \begin{equation*}
@@ -91,7 +89,7 @@ Prinzipiell gibt es verschiedene Möglichkeiten, den Driftterm zu behandeln. Da 
   \end{equation}
   Diese Methode ist insbesondere für unstetige Potentiale wie das Flachbandpotential in Abbildung \ref{fig:pot1} zu bevorzugen, da solche Unstetigkeiten besser durch Polynome höherer Ordnung approximiert werden.
 \end{enumerate}
-Beide Ansätze sind numerisch anhand der resultierenden iterativen Fehler verglichen worden, siehe Kapitel \todo{ref}. Es zeigt sich erwartungsgemäß, dass der zweite Ansatz zu besseren Konvergenzraten führt. Offensichtlich ist dies aber gleichzeitig die rechenintensivere Option.
+Beide Ansätze sind numerisch anhand der resultierenden iterativen Fehler verglichen worden, siehe Kapitel \ref{sec:rates}. Es zeigt sich erwartungsgemäß, dass der zweite Ansatz zu besseren Konvergenzraten führt. Offensichtlich ist dies aber gleichzeitig die rechenintensivere Option.
 
 Nun lässt sich das Variationsproblem \ref{prob:strong} zunächst für festen Index $j$ und innere Elemente lokal umschreiben gemäß
 \begin{equation}
@@ -104,12 +102,12 @@ Nun lässt sich das Variationsproblem \ref{prob:strong} zunächst für festen In
   \label{eq:schema1}
 \end{equation}
 wobei die lokalen \emph{Liftoperatoren}\index{Liftoperator}
-\begin{equation}
+\begin{equation*}
   \begin{aligned}
     \underline{E_r} &\equiv (M^k)^{-1}\underline{\ell}(x_{k+\nicefrac{1}{2}}) = (M^k)^{-1}  \cdot (0,\dots,0,1)^T \\
     \underline{E_l} &\equiv (M^k)^{-1}\underline{\ell}(x_{k-\nicefrac{1}{2}}) = (M^k)^{-1}  \cdot (1,0,\dots,0)^T
   \end{aligned}
-\end{equation}
+\end{equation*}
 eingeführt worden sind. Die letzte Gleichheit ergibt sich für Polynomgrade $N\geq{1}$, da ${ \{x_{k-\nicefrac{1}{2}}, x_{k+\nicefrac{1}{2}}\} = \{\xi_1, \xi_{N^p} \} }$ für die gewählten Gauß-Lobatto Quadraturpunkte. Der Sprung der Koeffizienten ist etwas fahrlässig notiert, um die Situation nicht unnötig unleserlich zu gestalten. Es ist für innere Kanten
 \begin{align*}
   \jump{\underline{v}_j}_{e_r} &= v_{\mathcal{T},N_p}^{k,j} - v_{\mathcal{T},1}^{k+1,j} \qquad \text{und} \\

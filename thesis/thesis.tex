@@ -159,6 +159,9 @@
 \makeindex
 
 \usepackage{acronym}    % Abkürzungsverzeichnis
+\usepackage{pifont}     % check und uncheck symbole https://tex.stackexchange.com/questions/42619/x-mark-to-match-checkmark/42620
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
 %------------------------------------------------------------------------------
 %------------------------------  Macros:   ------------------------------------
 %------------------------------------------------------------------------------
@@ -331,7 +334,7 @@
 % Abkürzungsverzeichnis
 \clearpage \newpage
 \chapter{Abkürzungsverzeichnis}
-\begin{acronym}[NEGF]
+\begin{acronym}[QTBM]
   \acro{cap}[CAP]{complex absorbing potential}
   \acro{cg}[CG]{Continuous-Galerkin}
   \acro{dg}[DG]{Discontinuous-Galerkin}
@@ -339,7 +342,7 @@
   \acro{fd}[FD]{Finite-Differenzen}
   \acro{fem}[FEM]{Finite-Elemente-Methode}
   \acro{fv}[FV]{Finite-Volumen}
-  \acro{lvn}[LvNG]{Liouville-von-Neumann Gleichung}
+  \acro{lvn}[LNG]{Liouville-von-Neumann Gleichung}
   \acro{negf}[NEGF]{nonequilibrium Green’s function}
   % \acroplural{fem}[FEMn]{Finite-Elemente-Methoden}
   \acro{pdg}[PDG]{partielle Differentialgleichung}
