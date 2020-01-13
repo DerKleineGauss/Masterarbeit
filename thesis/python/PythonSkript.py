@@ -31,7 +31,7 @@ os.chdir("python")
 ################################################ Finish importing custom libraries #################################################
 
 
-def plot_test(file_in, file_out, file_r_out, realteil, iterativ):
+def plot_test(file_in, file_out, file_r_out, realteil, iterativ, test5=False):
     plt.clf()
     markers = ['o', 'D', 'v', 's', '*', 'p']
     Kx, err, rate, Nx = np.genfromtxt(file_in, unpack=True)
@@ -52,8 +52,10 @@ def plot_test(file_in, file_out, file_r_out, realteil, iterativ):
             f.write(str(r[i])+'\pm'+str(s[i]) + ',\; ')
         else:
             f.write(str(r[i])+'\pm'+str(s[i]))
-        plt.plot(Kx[map], err[map], '--', marker=mark, markersize=8,
+        plt.plot(Kx[map], err[map]*1e-24, '--', marker=mark, markersize=8,          # mit N_D
                  fillstyle='none', label=r'$N_x={}$'.format(i))
+        # plt.plot(Kx[map], err[map], '--', marker=mark, markersize=8,              # ohne N_D
+        #          fillstyle='none', label=r'$N_x={}$'.format(i))
 
     f.close()
     # plt.text(0.5, 0.1, r'$r={}$'.format(r), rotation=-10.)
@@ -64,9 +66,11 @@ def plot_test(file_in, file_out, file_r_out, realteil, iterativ):
     if realteil:
         # plt.ylabel(r'$\left\lVert \, \operatorname{Re}(u-u^h) \, \right\rVert_{L^2(\Omega)}$')
         if iterativ:
-            plt.ylabel(r'$e_{\mathcal{T},r}^{\alpha}$')
+            plt.ylabel(r'$e_{\mathcal{T},r}^{\alpha} / N_D$')                       # mit N_D
+            # plt.ylabel(r'$e_{\mathcal{T},r}^{\alpha}$')                           # ohne N_D
         else:
-            plt.ylabel(r'$e_r^{\alpha}$')
+            plt.ylabel(r'$e_r^{\alpha} / N_D$')                                     # mit N_D
+            # plt.ylabel(r'$e_r^{\alpha}$')                                         # ohne N_D
     else:
         # plt.ylabel(r'$\left\lVert \, \operatorname{Im}(u-u^h) \, \right\rVert_{L^2(\Omega)}$')
         if iterativ:
@@ -78,22 +82,39 @@ def plot_test(file_in, file_out, file_r_out, realteil, iterativ):
     plt.savefig(file_out)
 
 
-file_out = '../plots/test1_r.pdf'
-file_in = 'data/test1_real.txt'
-file_r_out = 'test1_r_r.tex'
+# file_out = '../plots/test1_r.pdf'
+# file_in = 'data/test1_real.txt'
+# file_r_out = 'test1_r_r.tex'
+# plot_test(file_in, file_out, file_r_out, True, True)
+# file_out = '../plots/test1_i.pdf'
+# file_in = 'data/test1_imag.txt'
+# file_r_out = 'test1_r_i.tex'
+# plot_test(file_in, file_out, file_r_out, False, True)
+# file_rel_out = '../plots/test1_r_rel.pdf'
+# file_rel_in = 'data/test1_rel_real.txt'
+# file_r_rel_out = 'test1_r_r_rel.tex'
+# plot_test(file_rel_in, file_rel_out, file_r_rel_out, True, False)
+# file_rel_out = '../plots/test1_i_rel.pdf'
+# file_rel_in = 'data/test1_rel_imag.txt'
+# file_r_rel_out = 'test1_r_i_rel.tex'
+# plot_test(file_rel_in, file_rel_out, file_r_rel_out, False, False)
+
+file_out = '../plots/test5/convGL0.pdf'
+file_in = 'data/test5/test5_conv_GL0.txt'
+file_r_out = 'test5_convGL0_r.tex'
 plot_test(file_in, file_out, file_r_out, True, True)
-file_out = '../plots/test1_i.pdf'
-file_in = 'data/test1_imag.txt'
-file_r_out = 'test1_r_i.tex'
-plot_test(file_in, file_out, file_r_out, False, True)
-file_rel_out = '../plots/test1_r_rel.pdf'
-file_rel_in = 'data/test1_rel_real.txt'
-file_r_rel_out = 'test1_r_r_rel.tex'
-plot_test(file_rel_in, file_rel_out, file_r_rel_out, True, False)
-file_rel_out = '../plots/test1_i_rel.pdf'
-file_rel_in = 'data/test1_rel_imag.txt'
-file_r_rel_out = 'test1_r_i_rel.tex'
-plot_test(file_rel_in, file_rel_out, file_r_rel_out, False, False)
+file_out = '../plots/test5/convGL1.pdf'
+file_in = 'data/test5/test5_conv_GL1.txt'
+file_r_out = 'test5_convGL1_r.tex'
+plot_test(file_in, file_out, file_r_out, True, True)
+file_out = '../plots/test5/nonConvGL0.pdf'
+file_in = 'data/test5/test5_nonConv_GL0.txt'
+file_r_out = 'test5_nonConvGL0_r.tex'
+plot_test(file_in, file_out, file_r_out, True, True)
+file_out = '../plots/test5/nonConvGL1.pdf'
+file_in = 'data/test5/test5_nonConv_GL1.txt'
+file_r_out = 'test5_nonConvGL1_r.tex'
+plot_test(file_in, file_out, file_r_out, True, True)
 
 # from scipy.io import loadmat
 # annots = loadmat('data/test6Results_Lr66.mat')
