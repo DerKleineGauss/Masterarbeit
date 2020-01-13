@@ -1,7 +1,7 @@
 ##################################################### Import system libraries ######################################################
 import matplotlib as mpl
-# mpl.rcdefaults()
-# mpl.rcParams.update(mpl.rc_params_from_file('python/meine-matplotlibrc'))
+mpl.rcdefaults()
+mpl.rcParams.update(mpl.rc_params_from_file('python/meine-matplotlibrc'))
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.constants as const
@@ -31,7 +31,7 @@ os.chdir("python")
 ################################################ Finish importing custom libraries #################################################
 
 
-def plot_test(file_in, file_out, file_r_out, realteil):
+def plot_test(file_in, file_out, file_r_out, realteil, iterativ):
     plt.clf()
     markers = ['o', 'D', 'v', 's', '*', 'p']
     Kx, err, rate, Nx = np.genfromtxt(file_in, unpack=True)
@@ -49,7 +49,7 @@ def plot_test(file_in, file_out, file_r_out, realteil):
         r[i] = round(np.mean(temp[1:-1]), 2)
         s[i] = round(np.std(temp[1:-1]), 2)
         if not(i == b-1):
-            f.write(str(r[i])+'\pm'+str(s[i]) + ', ')
+            f.write(str(r[i])+'\pm'+str(s[i]) + ',\; ')
         else:
             f.write(str(r[i])+'\pm'+str(s[i]))
         plt.plot(Kx[map], err[map], '--', marker=mark, markersize=8,
@@ -62,43 +62,50 @@ def plot_test(file_in, file_out, file_r_out, realteil):
     plt.yscale('log')
     plt.xlabel(r'$K_x$')
     if realteil:
-        plt.ylabel(r'$\left\lVert \, \Re(u-u^h) \, \right\rVert_{L^2(\Omega)}$')
+        # plt.ylabel(r'$\left\lVert \, \operatorname{Re}(u-u^h) \, \right\rVert_{L^2(\Omega)}$')
+        if iterativ:
+            plt.ylabel(r'$e_{\mathcal{T},r}^{\alpha}$')
+        else:
+            plt.ylabel(r'$e_r^{\alpha}$')
     else:
-        plt.ylabel(r'$\left\lVert \, \Im(u-u^h) \, \right\rVert_{L^2(\Omega)}$')
+        # plt.ylabel(r'$\left\lVert \, \operatorname{Im}(u-u^h) \, \right\rVert_{L^2(\Omega)}$')
+        if iterativ:
+            plt.ylabel(r'$e_{\mathcal{T},i}^{\alpha}$')
+        else:
+            plt.ylabel(r'$e_i^{\alpha}$')
     plt.legend(loc='best', prop={'size': 9}, markerscale=0.8, handlelength=3)
-    plt.text(0.5, 0.5, 'AHHHH')
     plt.tight_layout(pad=0, h_pad=1.08, w_pad=1.08)
     plt.savefig(file_out)
 
 
-# file_out = '../plots/test1_r.pdf'
-# file_in = 'data/test1_real.txt'
-# file_r_out = 'test1_r_r.tex'
-# plot_test(file_in, file_out, file_r_out, True)
-# file_out = '../plots/test1_i.pdf'
-# file_in = 'data/test1_imag.txt'
-# file_r_out = 'test1_r_i.tex'
-# plot_test(file_in, file_out, file_r_out, False)
-# file_rel_out = '../plots/test1_r_rel.pdf'
-# file_rel_in = 'data/test1_rel_real.txt'
-# file_r_rel_out = 'test1_r_r_rel.tex'
-# plot_test(file_rel_in, file_rel_out, file_r_rel_out, True)
-# file_rel_out = '../plots/test1_i_rel.pdf'
-# file_rel_in = 'data/test1_rel_imag.txt'
-# file_r_rel_out = 'test1_r_i_rel.tex'
-# plot_test(file_rel_in, file_rel_out, file_r_rel_out, False)
+file_out = '../plots/test1_r.pdf'
+file_in = 'data/test1_real.txt'
+file_r_out = 'test1_r_r.tex'
+plot_test(file_in, file_out, file_r_out, True, True)
+file_out = '../plots/test1_i.pdf'
+file_in = 'data/test1_imag.txt'
+file_r_out = 'test1_r_i.tex'
+plot_test(file_in, file_out, file_r_out, False, True)
+file_rel_out = '../plots/test1_r_rel.pdf'
+file_rel_in = 'data/test1_rel_real.txt'
+file_r_rel_out = 'test1_r_r_rel.tex'
+plot_test(file_rel_in, file_rel_out, file_r_rel_out, True, False)
+file_rel_out = '../plots/test1_i_rel.pdf'
+file_rel_in = 'data/test1_rel_imag.txt'
+file_r_rel_out = 'test1_r_i_rel.tex'
+plot_test(file_rel_in, file_rel_out, file_r_rel_out, False, False)
 
-from scipy.io import loadmat
-annots = loadmat('data/test6Results_Lr66.mat')
-x = annots['test6Results'][0][0][0]
-V = annots['test6Results'][0][0][1]
-I_over_x = annots['test6Results'][0][0][2]
-I = annots['test6Results'][0][0][3]
-plt.plot(V, I)
-# plt.savefig('out.pdf')
-print(V)
-print(I)
-plt.show()
+# from scipy.io import loadmat
+# annots = loadmat('data/test6Results_Lr66.mat')
+# x = annots['test6Results'][0][0][0]
+# V = annots['test6Results'][0][0][1]
+# I_over_x = annots['test6Results'][0][0][2]
+# I = annots['test6Results'][0][0][3]
+# plt.plot(V, I)
+# # plt.savefig('out.pdf')
+# print(V)
+# print(I)
+# plt.show()
 
 
 ################################ FREQUENTLY USED CODE ################################

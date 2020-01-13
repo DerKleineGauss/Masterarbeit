@@ -146,8 +146,8 @@ gebildet. Da $K_y$ stets gerade gewählt wird, liegt die Kante zwischen den Elem
 Ein erster Test des Verfahrens überprüft die Symmetrieeigenschaften der numerischen Lösung. Mit Hilfe von Gleichung \eqref{eq:Liouvilleoperator} ist in Kapitel \ref{sec:dynamik} gezeigt worden, dass die exakte Lösung im stationären Fall $u(x,y) = -u^*(x,-y)$ erfüllt. Die Differenz $(u\fin(x,y)-u\fin^*(x,-y))/\norm{u\fin(x,y)}_{L^2(\Omega)}$ ist in Abbildung \ref{fig:parity} gezeigt.
 \begin{figure}
   \centering
-  \includegraphics[width=1.0\textwidth]{plots/parity_abs.eps}
-  \caption{Die Symmetrieanforderung $u\fin(x,y)-u\fin^*(x,-y) = 0$ wird bis auf CPU-Genauigkeit erfüllt.}
+  \includegraphics[width=0.5\textwidth]{plots/parity_abs.eps}
+  \caption{Dargestellt ist die Differenz $|u\fin(x,y)-u\fin^*(x,-y)|/N_D$. Die Symmetrieanforderung  wird bis auf CPU-Genauigkeit erfüllt.}
   \label{fig:parity}
 \end{figure}
 
@@ -232,7 +232,7 @@ Feinere Diskretisierungen verbessern zwar die Resultate diesbezüglich, jedoch k
 \clearpage
 
 \subsection{Strom-Spannungs-Kennlinien}
-Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}-Rechnung mit einbezogen. Da die selbstkonsistente Rechnung für angelegte Spannungen keine gute Konvergenz zeigt, beschränken sich die Berechnungen auf Flachband-Modelle gemäß Abbildung \ref{fig:iv1}.
+Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}-Rechnung mit einbezogen. Da die selbstkonsistente Rechnung für angelegte Spannungen keine gute Konvergenz zeigt, beschränken sich die Berechnungen auf Flachband-Modelle gemäß Abbildung \ref{fig:pot1}.
 \begin{figure*}
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
@@ -260,7 +260,7 @@ Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{plots/IV/IV_qtbm_dg_fein.eps}
-  \caption{Auflösung des ersten Peaks bei ca. $\SI{0.1}{\volt}$ aus Abbildung \ref{fig:iv1}. Zum Vergleich ist zusätzlich das Ergebnis einer Rechnung mit Methode G2 gezeigt. Als gestrichelte Linie ist die gemittelte Teilchendichte $\overline{n}$ innerhalb des Quantentopfes dargestellt, siehe Text.}
+  \caption{Auflösung des ersten Peaks bei ca. $\SI{0.1}{\volt}$ aus Abbildung \ref{fig:iv1}. Zum Vergleich ist zusätzlich das Ergebnis einer Rechnung mit Methode G2 gezeigt. Als gestrichelte Linie ist die gemittelte Teilchendichte $\overline{n}$ innerhalb des Quantentopfes dargestellt.}
   \label{fig:iv2}
 \end{figure}
 
@@ -285,16 +285,49 @@ Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{plots/IV/IV_dg_vgl_diskretisierung_wide.eps}
-  \caption{Einfluss der Diskretisierung: Vergleich verschiedener Parameter der Numerik.}
+  \caption{Einfluss der Diskretisierung: Vergleich verschiedener Parameter der Numerik. Als gestrichelte Linie ist die gemittelte Teilchendichte $\overline{n}$ innerhalb des Quantentopfes dargestellt.}
   \label{fig:iv4}
 \end{figure}
 
 \todo{Lukas fragen, worauf ich mich mit QTBM referenzieren kann.}
 
-
-
-
-- IV Kurven für verschiedene Längen Lr, Lq sowie Gummel/ohne Gummel
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/kappa/kappa_variation_0V_n.eps}
+        \caption[]%
+        {{\small $n(x,\kappa)$ in m$^{-3}$ bei $U_1=\SI{0}{\volt}$.}}
+        % \label{fig:G_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/kappa/kappa_variation_0V_n_zoomed.eps}
+        \caption[]%
+        {{\small Auflösung der Oszillationen.}}
+        % \label{fig:G_2}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/kappa/kappa_variation_0.1V_n.eps}
+        \caption[]%
+        {{\small $n(x,\kappa)$ in m$^{-3}$ bei $U_2=\SI{0.1}{\volt}$ und akzeptablen Werten für $\kappa$.}}
+        % \label{fig:G_3}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/kappa/kappa_variation_0.1V_j.eps}
+        \caption[]%
+        {{\small $j(x,\kappa)$ in kAcm$^{-2}$ bei $U_2=\SI{0.1}{\volt}$ und akzeptablen Werten für $\kappa$.}}
+        % \label{fig:G_4}
+    \end{subfigure}
+    \caption[]
+    {Variation des Strafparameters $\kappa$.}
+    \label{fig:kappa_var}
+\end{figure*}
 
 \section{Konvergenzordnung der stationären Lösung}\label{sec:rates}
 

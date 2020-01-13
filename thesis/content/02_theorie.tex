@@ -103,7 +103,7 @@ sodass die Diagonalelemente des reduzierten Dichteoperators mit der Teilchendich
 \end{equation}
 Die Normierung ist für den reduzierten Dichteoperator offenbar eine andere als im Falle des vollständigen Dichteoperators, wo $\text{Sp}(\hat{\rho})=1$ gilt. Dieser diffizile Unterschied wird in der Literatur häufig unterschlagen. Neben der Teilchendichte lässt sich des Weiteren die elektrische Stromdichte definieren. Dazu werden üblicherweise Schwerpunkt- und Relativkoordinaten $s$ und $q$ eingeführt (siehe Gleichung \eqref{eq:gedrehteKoordinaten}) und $\tilde{u}(s,q,t) = \bra{s+\frac{q}{2}}\hat{\rho}_{(1)}(t) \ket{s-\frac{q}{2}}$ gesetzt. Dann gilt \cite{lukas1}
 \begin{equation}
-  \expval{j(s,t)} = \frac{\hbar}{m}\operatorname{Im}\{\partial_q \tilde{u}(s,q,t)|_{q=0}\} \; .
+  \expval{j(s,t)} = e\frac{\hbar}{m}\operatorname{Im}\{\left. \partial_q \tilde{u}(s,q,t)\right\rvert_{q=0}\} \; .
   \label{eq:expval_j}
 \end{equation}
 
@@ -260,6 +260,12 @@ lautet die \ac{lvn} nun
 \begin{align*}
   i\hbar\partial_{\tilde{t}} \tilde{u}(\tilde{x},\tilde{y},\tilde{t})+\frac{\hbar^2}{m}\operatorname{div}(A\nabla \tilde{u}(\tilde{x},\tilde{y},\tilde{t})) -  \tilde{B}(\tilde{x},\tilde{y},\tilde{t}) \tilde{u}(\tilde{x},\tilde{y},\tilde{t}) = 0 \; .
 \end{align*}
+In dieser Form lässt sich die Definition der Stromdichte (Gleichung \eqref{eq:expval_j}) motivieren. Für $\tilde{y}=0$ ist mit $V=V^*$ der Driftterm $\tilde{B}(\tilde{x},0,t)$ gleich Null. Dann verbleibt mit der Definition der Teilchendichte aus Gleichung \eqref{eq:expval_n} die \emph{Kontinuitätsgleichung}\index{Kontinuitätsgleichung}
+\begin{equation}
+  \partial_{\tilde{t}}n(x,t) = -i\frac{\hbar}{m} \partial_{\tilde{x}} (\left. \partial_{\tilde{y}}\tilde{u}(\tilde{x},\tilde{y},\tilde{t})\right\rvert_{\tilde{y}=0}) \; .
+\end{equation}
+Da $n(x,t)$ reell sein muss, muss die rechte Seite ebenfalls reell und deshalb der geklammerte Term rein imaginär sein. Mit der üblichen Kontinuitätsgleichung $\partial_t n = \partial_x j / e$ folgt hieraus genau die Definition \eqref{eq:expval_j}.
+
 In einem abschließenden, die numerische Behandlung vorbereitenden Schritt wird die \ac{lvn} in eine einheitenlose Form gebracht, indem sie zunächst durch ein willkürliches $V_0$ geteilt wird. Energien werden dann in Einheiten von $V_0$ gemessen, und es bietet sich an, die charakteristische Größe $V_0 = \SI{0.1768}{\electronvolt}$ -- die Größe des Potentialsprungs zwischen GaAs und AlGaAs \todo{quelle} -- hierfür zu verwenden.
 Ferner wird die folgende Skalierung eingeführt, um Zeiten und Orte ebenfalls einheitenlos zu behandeln.
 \begin{align*}
@@ -471,7 +477,7 @@ Der Übergang vom Ein- zum $N$-Teilchen System gelingt, indem nun die Normierung
 \begin{equation*}
   \sum_k \omega_k  \Psi_k(x) \Psi_k^{\dagger}(y) \rightarrow \int \diff k \frac{m}{\pi\hbar^2\beta} \ln(1+\exp(\beta(\frac{- k^2\hbar^2}{2m} + \mu))) \Psi_k(x) \Psi_k^{\dagger}(y)
 \end{equation*}
-angesetzt wird, vergleiche hierzu auch die Überlegung im Anhang \ref{sec:A_2}. Dazu wird die Wellenfunktion gemäß den obigen Überlegungen als gleichgewichtete Summe von linksseitig (${a_{l,1}=1}$) und rechtsseitig (${a_{r,2}=1}$) eingespeistem Elektron zu
+angesetzt wird, vergleiche hierzu auch die Überlegung im Anhang \ref{sec:A_2} und in Kapitel 7 des Buches von Datta \cite{datta}. Dazu wird die Wellenfunktion gemäß den obigen Überlegungen als gleichgewichtete Summe von linksseitig (${a_{l,1}=1}$) und rechtsseitig (${a_{r,2}=1}$) eingespeistem Elektron zu
 \begin{equation*}
   \Psi_k(x) = \frac{1}{\sqrt{2}}(\Psi_k^r(x) + \Psi_k^l(x))
 \end{equation*}

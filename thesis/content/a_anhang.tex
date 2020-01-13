@@ -9,13 +9,13 @@
 \chapter{Anhang}
 \section{Ortsbasis}
 \label{sec:A_1}
-Für ein einzelnes Teilchen beispielsweise ist letztere die Menge der Eigenvektoren des Orstoperators
+Für ein einzelnes Teilchen wird mit $\{\ket{x}\}$ die Menge der Eigenvektoren des Orstoperators
 \begin{equation*}
   X:D_X \rightarrow L^2(\mathbb{R}^3;\mathbb{C}) \, : \, \Psi \mapsto x\Psi
 \end{equation*}
-zu den (i.A. komplexen) Eigenwerten $x$. Hierbei ist $D_X$ die Domäne
+zu den (i.A. komplexen) Eigenwerten $x$ bezeichnet. Hierbei ist $D_X$ die Domäne
 \begin{equation*}
-  D_X = \{\Psi \in L^2(\mathbb{R}^3) \, | \, x\Psi \in L^2(\mathbb{R}^3)
+  D_X = \{\Psi \in L^2(\mathbb{R}^3) \, | \, x\Psi \in L^2(\mathbb{R}^3) \}
 \end{equation*}
 des selbstadjungierten Operators $X$. Mit anderen Worten ist für eine Teilchenzahl $N$ der Zustand $\ket{x}$ derjenige Zustand, für den der Aufenthaltsort jedes Teilchens exakt bekannt (mit $x$ zusammengefasst) und wegen der Unschärferelation der Impuls vollständig unbekannt ist.
 %Hierbei ist $S(\mathbb{R}^3)*$ der Raum der komplexwertigen temperierten Distributionen.
@@ -44,14 +44,14 @@ Für lokal konstantes $\beta$ folgt daher in Übereinstimmung mit \cite{frensley
 \section{Chemisches Potential }
 \label{sec:A_3}
 Das chemische Potential der Kontakte ergibt sich aus der Forderung nach Ladungsneutralität unter Kenntnis der Dotierung von Donatoren $N_D$ und Akzeptoren $N_A$. Für $n$-dotiertes GaAs gilt demnach
-\begin{equation}
+\begin{equation*}
   0 = N_D - p + N_A - n \approx N_D - n(\mu) \equiv f(\mu)
-\end{equation}
+\end{equation*}
 Die Elektronendichte folgt aus Zustandsdichte und Fermi-Dirac-Verteilung gemäß
-\begin{align}
+\begin{align*}
   n(\mu) &= \int\diff E \rho(E) f(E) \\
    &= \int_{E_c}^{\infty}\frac{(2m)^{\nicefrac{3}{2}} }{2\pi^2\hbar^3}\sqrt{E-E_c} \frac{1}{1+e^{\beta(E-E_c-\mu)}}
-\end{align}
+\end{align*}
 Die Leitungsbandkantenenergie $E_c$ der GaAs-Schicht wird zu 0 gewählt. Das chemische Potential wird aus der Nullstellensuche $f(\mu)=0$ mit einem Newton-Raphson-Verfahren ermittelt. Numerisch ergibt sich für den Gleichgewichtsfall  $\mu\approx\SI{0.04617}{\electronvolt}$.
 
 \section{Hartree-Potential}\index{Hartree-Potential}\label{sec:A_4}
@@ -77,14 +77,14 @@ Hierin ist $\mu(\vb{x})$ das chemische Potential, $\beta=1/(k_BT)$ mit $T=\SI{30
 Das Potential ergibt sich nach Gleichungen \eqref{eq:poisson} und \eqref{eq:expval_n} aus dem Dichteoperator -- umgekehrt ergibt sich der Dichteoperator nach Gleichung \eqref{eq:lvn} aus dem Potential. Die Beziehung zwischen Potential und Dichte ist nicht-linear. Die gleichzeitige Lösung für Poisson-Gleichung und \ac{lvn} zu finden erfordert daher Iteration. Das Problem wird \emph{selbstkonsistent} gelöst. Dazu wird $\eqref{eq:lvn}$ zunächst mit einem geeigneten \emph{initial guess} $V^{(0)}$ gelöst. Nun wird iteriert und alternierend gelöst, bis Dichte und Potential sich nicht mehr signifikant ändern. Im Fall der transienten Betrachtung entspricht eine Iteration gleichzeitig einem Zeitschritt. Das Verfahren ist als \emph{Gummel (Plug-in) Approach} etabliert und beispielsweise in \cite{gummel} beschrieben. Die folgenden Ausführungen orientieren sich an dieser Literaturquelle.
 
 Numerisch kann Gleichung \eqref{eq:poisson} mit dem Finite-Differenzen Verfahren behandelt werden. Das Rechengebiet $L$ wird diskretisiert gemäß
-\begin{align}
+\begin{align*}
   L_N \equiv \{x_i | x_i = i h \,\forall\, i = 0,1,\dots,N\text{ mit }L=Nh\}
-\end{align}
+\end{align*}
 Aus der Taylorentwicklung einer Funktion $f:L \rightarrow \mathbb{R}$ folgt für die Ableitungen
-\begin{align}
+\begin{align*}
   f'(x_i) &= \frac{f(x_{i+1}) - f(x_{i-1})}{2h} + \mathcal{O}(h^2) \\
   f''(x_i) &= \frac{f(x_{i+1}) - 2f(x_i) + f(x_{i-1})}{h^2} + \mathcal{O}(h^2) \; .
-\end{align}
+\end{align*}
 Die Kurzschreibweise $f(x_i)\equiv f_i$ bietet sich an.
 Damit lässt sich mit $a_i\equiv (\epsilon_{i+1} - \epsilon_{i-1})/(4\epsilon_i)$ Gleichung \eqref{eq:poisson} umschreiben zu
 \begin{align}
@@ -92,12 +92,12 @@ Damit lässt sich mit $a_i\equiv (\epsilon_{i+1} - \epsilon_{i-1})/(4\epsilon_i)
   \label{eq:discretePE}
 \end{align}
 wobei berücksichtigt werden muss, dass $u_0$ und $u_N$ über die Randbedingungen nach Gleichung \eqref{eq:RB_PE} vorgegeben sind. Somit ist das LGS
-\begin{align}
+\begin{align*}
   \left[ \begin{matrix}-2 & 1+a_1 & & & 0\\1-a_2 & \ddots & \ddots & & \\ & \ddots & \ddots & \ddots & \\& & \ddots & \ddots &  1+a_{N-2} \\0 & &  & 1-a_{N-1} & -2  \end{matrix}  \right]
   \left[ \begin{matrix}u_1             \\                          \\ \vdots                       \\                           \\u_{N-1}  \end{matrix}  \right]
   = \left[ \begin{matrix}\text{rhs}_1  \\                          \\ \vdots                       \\                         \\\text{rhs}_{N-1}  \end{matrix}  \right]
    - \left[ \begin{matrix}(1-a_1)u_0     \\0                         \\ \vdots                      \\0                        \\(1+a_{N-1})u_N  \end{matrix}  \right]
-\end{align}
+\end{align*}
 zu lösen. Die Frage nach einer "besseren" Vorhersage für $u^{(n+1)}$ und damit einer schnelleren Konvergenz der Iteration führt auf das verallgemeinerte Newton-Raphson-Verfahren.
 Die linke Seite von Gleichung \eqref{eq:discretePE} wird als Funktion $P_i(u_1,\dots,u_N)$ definiert, worauf das Newton-Raphson-Verfahren angewandt wird. Ausgehend von einem Startwert $\vb{u}^{(0)}$ ergibt sich das Fixpunktproblem
 \begin{align}
@@ -105,14 +105,14 @@ Die linke Seite von Gleichung \eqref{eq:discretePE} wird als Funktion $P_i(u_1,\
   \label{eq:fixpunkt_gummel}
 \end{align}
 wobei die Vektorschreibweise
-\begin{align}
+\begin{align*}
   \vb{f} = \left( f_0,\dots,f_N\right)^T = \left( f(x_0),\dots,f(x_N)\right)^T
-\end{align}
+\end{align*}
 eingeführt worden ist und $\mathrm{D}$ der Differentiationsoperator ist, in diesem Fall also die Jacobimatrix von $P$.
-\begin{align}
+\begin{align*}
   \left(\mathrm{D}\vb{P}|_{\vb{u}^{(n)}}\right)_{i,j} &= \pd{P_i}{u_j^{(n)}} \\ &\stackrel{\eqref{eq:discretePE}}{=}
   (1+a_i)\delta_{i+1,j} - 2 \delta_{i,j} + (1-a_i)\delta_{i-1,j} + \frac{e^2h^2}{\epsilon_i}\pd{n_i^{(n)}}{u_j^{(n)}}
-\end{align}
+\end{align*}
 An dieser Stelle ist anzumerken, dass nun auch die Dichte $n$ einen Iterationsindex $(n)$ bekommen hat. Dies ist auf die eingangs beschriebene alternierende Iteration zurückzuführen, in welcher abwechselnd $n^{(n)}$ und $u^{(n)}$ in einem einzigen Iterationsschritt $(n)$ berechnet werden. Ferner ist die Ableitung $\pd{n_i^{(n)}}{u_j^{(n)}}$ zunächst nicht bekannt.
 Es ist überhaupt eine Abweichung $\pd{n_i^{(n)}}{u_j^{(n)}} \neq 0$, die den Unterschied zwischen Newton-Iteration und direktem Lösen bewirkt. Im Allgemeinen liegt keine exakte Form dieser Ableitung vor, da hierzu ja gerade die \ac{lvn} zu lösen ist. Es lässt sich jedoch eine Abschätzung vornehmen, welche schnell und kostengünstig ist, sodass das Newton-Verfahren einen echten Vorteil gegenüber dem direkten Iterieren hat. Dazu dient die Maxwell-Boltzmann-Statistik
 \begin{align}
@@ -122,24 +122,24 @@ Es ist überhaupt eine Abweichung $\pd{n_i^{(n)}}{u_j^{(n)}} \neq 0$, die den Un
 als klassisches Gleichgewichts-Resultat. Dies ist wohlgemerkt eine Annahme und es lassen sich ebenso andere Annehmen, z.B. eine Fermi-Dirac-Statistik, wählen. Jedoch zeigt sich in der Praxis, dass diese Wahl zuverlässig zu einer Konvergenz des Verfahrens führt. Falls nicht stationär, sondern transient gelöst werden soll, sollte jedoch das Newton-Verfahren nicht verwendet werden, da ein Iterationsschritt hier einem Zeitschritt entspricht und die Annahme \eqref{eq:maxwell_boltzmann} heuristischer Natur ist. Somit würde physikalisches Verhalten implizit aufgeprägt werden, statt dass dieses durch die vorhandenen zwei Gleichungen beschrieben wird.
 
 Für den stationären Fall folgt aus Annahme \eqref{eq:maxwell_boltzmann} für das diskretisierte System
-\begin{align}
+\begin{align*}
   \pd{n_i}{u_j} = \frac{n_i}{k_B T}\delta_{i,j} \; .
-\end{align}
+\end{align*}
 Statt die Jacobi-Matrix invertieren zu müssen, ist es geschickter, Gleichung \eqref{eq:fixpunkt_gummel} umzuschreiben:
-\begin{align}
+\begin{align*}
   \mathrm{D}\vb{P}|_{\vb{u}^{(n)}}(\vb{u}^{(n+1)} - \vb{u}^{(n)}) = -  \vb{P}(\vb{u^{(n)}})
-\end{align}
+\end{align*}
 Explizit ausgeschrieben gilt
-\begin{align}
+\begin{align*}
   \left(\mathrm{D}\vb{P}|_{\vb{u}^{(n)}}\right)_{i,j} &=
     (1+a_i)\delta_{i+1,j} + ( \frac{e^2h^2}{\epsilon_i}\frac{n_i}{k_B T} - 2) \delta_{i,j} + (1-a_i)\delta_{i-1,j} \\
   \left( \vb{P}(\vb{u^{(n)}}) \right)_{i} &=
    u_{i+1}^{(n)}\cdot(1+a_i) -2 u_i^{(n)} + u_{i-1}^{(n)}\cdot(1-a_i) - e^2h^2\frac{(N_{D,i} - n_i^{(n)})}{\epsilon_i}
-\end{align}
+\end{align*}
 mit $i,j = 1,\dots,N-1$. Lösen des LGS für $(\vb{u}^{(n+1)} - \vb{u}^{(n)})$ führt zu
-\begin{align}
+\begin{align*}
   \vb{u}^{(n+1)} = (\vb{u}^{(n+1)} - \vb{u}^{(n)}) + \vb{u}^{(n)} \; .
-\end{align}
+\end{align*}
 
 \section{Herleitung der Driftmatrix}\index{Driftmatrix}\label{sec:A_5}
 Im Folgenden soll der Ausdruck \eqref{eq:G_GL} ausgehend von der Definition \ref{def:matrizen} der Driftmatrix
