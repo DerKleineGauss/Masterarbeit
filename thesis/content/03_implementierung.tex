@@ -29,7 +29,7 @@ mit $N_p$ verschiedenen Knotenpunkten $\xi_j\in[-1,1]$ und der Eigenschaft ${\el
   \Phi_n(r) = \frac{P_{n-1}(r)}{\sqrt{2(2n+1)^{-1}}}
   \label{eq:modaleBasis}
 \end{align}
-mit den Legendre Polynomen $P_n(r)$ gewählt. Der Zusammenhang zwischen nodaler und modaler Basis ist durch die \emph{Vandermonde-Matrix}\index{Vandermonde-Matrix}
+mit den Legendre-Polynomen $P_n(r)$ gewählt. Der Zusammenhang zwischen nodaler und modaler Basis ist durch die \emph{Vandermonde-Matrix}\index{Vandermonde-Matrix}
 \begin{equation}
   \begin{aligned}
     \van_{ij} = \Phi_j(\xi_i)
@@ -45,10 +45,10 @@ gegeben. Es gilt dann
   \end{align}
 wobei der Index $\mathcal{T}$ der Übersicht halber temporär unterdrückt worden ist. Der Zusammenhang gilt wegen der affinen Abbildung \eqref{eq:affmap} für alle Elemente $D^k$, weshalb auch dieser Index unterdrückt worden ist.
 
-Die Interpolationspunkte $\xi_j$ werden derart gewählt, dass die Interpolation möglichst nahe an der bestmöglichen Ritz-Approximation durch ein (allgemeines) Polynom liegt. Dies führt auf die Legendre-Gauß-Lobatto Quadraturpunkte. Besonders für hohe Polynomgrade $N\geq 5$ ist diese Wahl zu favorisieren, denn äquidistante Knoten würden hier zu einer exponentiell schlecht konditionierten Interpolation führen. Ein weiterer Vorteil offenbart sich, wenn für die spätere Fehlerberechnung die Funktion über $\Omega$ integriert werden muss. Hier bietet sich dann die Gauß-Lobatto-Quadratur an, sodass die Funktionsauswertung nach Gleichung \eqref{eq:nodal} entfällt, da lediglich $v\fin(\xi_j)$ benötigt wird und diese Funktionswerte gerade den Koeffizienten entsprechen.
+Die Interpolationspunkte $\xi_j$ werden derart gewählt, dass die Interpolation möglichst nahe an der bestmöglichen Ritz-Approximation durch ein (allgemeines) Polynom liegt. Dies führt auf die Legendre-Gauß-Lobatto-Quadraturpunkte. Besonders für hohe Polynomgrade $N\geq 5$ ist diese Wahl zu favorisieren, denn äquidistante Knoten würden hier zu einer exponentiell schlecht konditionierten Interpolation führen. Ein weiterer Vorteil offenbart sich, wenn für die spätere Fehlerberechnung die Funktion über $\Omega$ integriert werden muss. Hier bietet sich dann die Gauß-Lobatto-Quadratur an, sodass die Funktionsauswertung nach Gleichung \eqref{eq:nodal} entfällt, da lediglich $v\fin(\xi_j)$ benötigt wird und diese Funktionswerte gerade den Koeffizienten entsprechen.
 
 Mit diesen Vorarbeiten kann nun die starke Formulierung \ref{prob:strong} in eine Matrix-Vektor-Gleichung überführt werden. Die Forderung der Gültigkeit für alle Testfunktionen $\varphi\in X_{\mathcal{T},1}$ übersetzt sich für einen $N_p$-dimensionalen Polynomraum in exakt $N_p \times K_x$ Gleichungen. Für das gesamte System mit $K_y$ Zellen in $y$-Richtung müssen sich entsprechend $N_p \times K_x \times K_y$ Gleichungen ergeben. Dazu wird lokal als Testfunktion $\varphi = \ell_m e_j$ gewählt mit dem Einheitsvektor $e_j$, wobei $m=1\dots N_p$ und $j=1\dots K_y$. Für die weitere Notation sowie die Implementierung dient die folgende Definition.
-\begin{definition}[Massen- und Steifigkeits- und Driftmatrix, Notation der Lösung]\index{Massematrix}\index{Steifigkeitsmatrix}\index{Driftmatrix} \label{def:matrizen}
+\begin{definition}[Massen-, Steifigkeits- und Driftmatrix, Notation der Lösung]\index{Massematrix}\index{Steifigkeitsmatrix}\index{Driftmatrix} \label{def:matrizen}
   Für die nodale Darstellung heißen
   \begin{equation*}
     (M^k)_{pq} \equiv \int_{x_{k-\nicefrac{1}{2}}}^{x_{k+\nicefrac{1}{2}}} \ell_p^k(x) \ell_q^k(x) \diff x = \frac{h_k}{2}\int_{-1}^1 \ell_p(r) \ell_q(r) \diff r \equiv \frac{h_k}{2} M_{pq}
@@ -61,7 +61,7 @@ Mit diesen Vorarbeiten kann nun die starke Formulierung \ref{prob:strong} in ein
   \begin{equation*}
     (\drift^{k,jm})_{pq} = \int_{D^k} G_{jm}(x) \ell_p^k(x) \ell_q^k(x) \diff x \qquad \forall j,m=1\dots K_y % v_{\mathcal{T},p}^{k,m} wird dadran multipliziert
   \end{equation*}
-  Driftmatrix. Dabei ist $G_{jm}(x)$ die Matrixkomponente von $G(x)$ aus Gleichung \eqref{eq:G}. Hier und im Folgenden ist die explizite Zeitabhängigkeit temporär unterdrückt worden. Die nodalen Entwicklungskoeffizienten der Lösung des Variationsproblems $v\fin$ werden gemäß
+  Driftmatrix. Dabei ist $G_{jm}(x)$ die Matrixkomponente von $G(x)$ aus Gleichung \eqref{eq:G}. Hier und in der folgenden Notation der Lösung ist die explizite Zeitabhängigkeit temporär unterdrückt worden. Die nodalen Entwicklungskoeffizienten der Lösung des Variationsproblems $v\fin$ werden gemäß
   \begin{equation*}
     \begin{aligned}
       \underline{v} &= (\underline{v}_1 \dots \underline{v}_{K_y})^T        &  &\text{mit} \\
@@ -72,16 +72,16 @@ Mit diesen Vorarbeiten kann nun die starke Formulierung \ref{prob:strong} in ein
   notiert und somit in einem globalen Vektor $\underline{v} \in \mathbb{C}^{s}$ mit $s=K_y K_x N_p$ zusammengefasst.
 \end{definition}
 Genau wie die bereits für das System definierte Driftmatrix lassen sich auch $M$ und $S$ für das System definieren. Sie sind bezüglich der $y$-Richtung blockdiagonal gemäß $(\mathcal{M}^{k,jm})_{pq} = \delta_{jm}(M^k)_{pq}$ und $\mathcal{S}$ analog.
-Die eingeführten Matrizen lassen sich durch die Vandermondematrix $\van$ ausdrücken. Die Zusammenhänge für Massen- und Steifigkeitsmatrix sind durch
+Die eingeführten Matrizen lassen sich durch die Vandermonde-Matrix $\van$ ausdrücken. Die Zusammenhänge für Massen- und Steifigkeitsmatrix sind durch
 \begin{align*}
   M &= (\van\van^T)^{-1} \\
   M^{-1}S &= \van_r \van^{-1} \qquad \text{mit } (\van_r)_{ij} = \td{\Phi_j}{r}\biggr\rvert_{\xi_i}
 \end{align*}
 gegeben, wobei im Wesentlichen die Orthonormiertheit der gewählten modalen Basis \eqref{eq:modaleBasis} eingegangen ist. Für die Driftmatrix wird im Anhang \ref{sec:A_5} ein entsprechender Ausdruck hergeleitet. Es ist hierzu anzumerken, dass die Driftmatrix die einzige Kopplung bezüglich $y$-Richtung darstellt. Daher geht die Herleitung über eine eindimensionale Betrachtung des \ac{dg}-Verfahrens und damit über die Ausführungen in \cite{buch} hinaus.
 
-Prinzipiell gibt es verschiedene Möglichkeiten, den Driftterm zu behandeln. Da jedoch Funktionswerte Von Ansatz- und Testfunktion bereits an den Gauß-Lobatto Quadraturpunkten vorliegen, bietet es sich an, diese Quadratur zu verwenden. Es wird im folgenden zwischen zwei Methoden unterschieden.
+Prinzipiell gibt es verschiedene Möglichkeiten, den Driftterm zu behandeln. Da jedoch Funktionswerte von Ansatz- und Testfunktion bereits an den Gauß-Lobatto Quadraturpunkten vorliegen, bietet es sich an, diese Quadratur zu verwenden. Es wird im folgenden zwischen zwei Methoden unterschieden.
 \begin{enumerate}
-  \item (Methode G1) Es lässt sich von vornherein das Produkt $G(x)v\fin(x)$ in der nodalen Basis entwickeln. Dann ergibt sich für das resultierende Integral wieder die Massenmatrix. In dem lokalen Schema verbleibt dann nach Multiplikation mit $(M^k)^{-1}$ schlicht der Ausdruck ${\sum_{m=1}^{K_y}\text{diag}(\underline{G}^k_{jm})\underline{v}_m^k}$. Die Driftmatrix aus Definition \ref{def:matrizen} findet hierbei nicht Verwendung.
+  \item (Methode G1) Es lässt sich von vornherein das Produkt $G(x)v\fin(x)$ in der nodalen Basis entwickeln. Dann ergibt sich für das resultierende Integral wieder die Massenmatrix. In dem lokalen Schema verbleibt dann nach Multiplikation mit $(M^k)^{-1}$ schlicht der Ausdruck ${\sum_{m=1}^{K_y}\text{diag}(\underline{G}^k_{jm})\underline{v}_m^k}$. Die Driftmatrix aus Definition \ref{def:matrizen} findet hierbei keine Verwendung.
   \item (Methode G2) Eine genauere Betrachtung belässt $G(x)$ als analytisch bekannt, sodass die Driftmatrix mit Hilfe von Gauß-Lobatto-Quadratur höherer Ordnung berechnet werden kann. Mit der Quadraturordnung $N_{GL}$ ergibt sich mit den dem Anhang \ref{sec:A_5} zu entnehmenden Definitionen der Matrix $W$ und der Gewichte $w$
   \begin{equation}
     (\drift^{k,jm})_{pq} = \sum_{a=1}^{N_{GL}} W_{ap} W_{ai} w_a G_{jm}(\xi_a^k)\frac{h_k}{2} \; .
@@ -144,7 +144,7 @@ Die Gleichungen \eqref{eq:schema1}, \eqref{eq:schema2}, \eqref{eq:schema3} werde
   \underline{\underline{\mathcal{A}}}\,\underline{v} = \underline{b}
   \label{eq:stat_LGS}
 \end{equation}
-resultiert mit der Systemmatrix $\underline{\underline{\mathcal{A}}}$ sowie dem Vektor $\underline{b}$, der sich aus der rechten Seite von \eqref{eq:schema2} bzw. \eqref{eq:schema3} ergibt und die Randbedingungen enthält. Zur Lösung des LGS wird die \mat-interne Methode verwendet. Die gesuchte stationäre Dichtematrix ergibt sich schließlich aus der Rücktransformation \eqref{eq:trafo_uv}. Für die Zeitentwicklung wird dann ein explizites Zeitschrittverfahren angewandt, siehe Abschnitt \ref{sec:timestepping}.
+resultiert mit der Systemmatrix $\underline{\underline{\mathcal{A}}}$ sowie dem Vektor $\underline{b}$, der sich aus der rechten Seite von \eqref{eq:schema2} bzw. \eqref{eq:schema3} ergibt und die Randbedingungen enthält. Zur Lösung des LGS wird die \mat-interne Methode \emph{linsolve} verwendet. Die gesuchte stationäre Dichtematrix ergibt sich schließlich aus der Rücktransformation \eqref{eq:trafo_uv}. Für die Zeitentwicklung wird dann ein explizites Zeitschrittverfahren angewandt, siehe Abschnitt \ref{sec:timestepping}.
 
 Die Bestandteile der Systemmatrix werden in den folgenden Abbildungen für die Systemgröße $\{K_x=3, N_p=3, K_y=4\}$ exemplarisch gezeigt. Sie unterteilt sich in den Diffusionsterm $(M^k)^{-1}S\Lambda$, den Driftterm $(M^k)^{-1}\mathcal{G}^k$ sowie den Flussterm, welcher die Kantenterme beinhaltet. Die Abbildungen sind zur Verbesserung der Lesbarkeit mit einer farblichen Struktur unterlegt. Dabei ist Definition \ref{def:matrizen} hilfreich. Die grünen Rahmen bedeuten fixierte $y$-Diskretisierung (Indizes $j,m$ konstant). Die grauen Quadrate beranden ein Element der $x$-Diskretisierung ($D^k$ konstant), worin wiederum die $N_p \times N_p$ lokal definierten Matrizen $M^k$, $S^k$ und $\mathcal{G}^{k,jm}$ zu sehen sind.
 
@@ -167,7 +167,7 @@ Abbildung \ref{fig:matrix_L} zeigt den Diffusionsterm.
         \label{fig:matrix_F}
     \end{subfigure}
     \caption[]
-    {Struktur der beiden Flussmatrizen in willkürlichen Einheiten. Links sind die Volumenteile und rechts die ursprünglich aus der partiellen Integration entstammenden Kantenbeiträge abgebildet. In der Flussmatrix enthalten ist der numerische Fluss. Dieser bringt die einzigen Nebendiagonalbeiträge der Systemmatrix in $x$-Richtung ein und stellt somit die Kopplung zwischen Zellen dar.}
+    {Struktur der beiden Flussmatrizen in willkürlichen Einheiten. Die Bedeutung der farblich gekennzeichneten Blöcke ist im Text erklärt. Links sind die Volumenteile und rechts die ursprünglich aus der partiellen Integration entstammenden Kantenbeiträge abgebildet. In der Flussmatrix enthalten ist der numerische Fluss. Dieser bringt die einzigen Nebendiagonalbeiträge der Systemmatrix in $x$-Richtung ein und stellt somit die Kopplung zwischen Zellen dar.}
     % \label{fig:Schaltungen}
 \end{figure*}
 Wegen der um 0 symmetrisch verteilten Eigenwerte \eqref{eq:Lambda} ist diese Matrix rotations- oder doppelt spiegelsymmetrisch. Auch tendieren deshalb die nominellen Werte von außen Richtung Mitte der Matrix gegen 0. Innerhalb eines grün umrandeten Blocks entstehen bei äquidistanter Diskretisierung  $K_x$ Replika. Die Matrix ist blockdiagonal, da der entsprechende Term in Gleichung \eqref{eq:diagLVN} bereits diagonal ist.

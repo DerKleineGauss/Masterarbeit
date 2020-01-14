@@ -15,7 +15,7 @@ e = const.physical_constants["elementary charge"]
 e = e[0]
 hbar = const.physical_constants["Planck constant over 2 pi"]
 hbar = hbar[0]
-V0 = e*0.1768
+V0 = e*0.2098
 
 tau = hbar/V0
 xi = np.sqrt(hbar**2 / m / V0)

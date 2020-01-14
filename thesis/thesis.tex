@@ -162,6 +162,9 @@
 \usepackage{pifont}     % check und uncheck symbole https://tex.stackexchange.com/questions/42619/x-mark-to-match-checkmark/42620
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
+
+\usepackage{csquotes}   % german quotes with "quote"
+\MakeOuterQuote{"}
 %------------------------------------------------------------------------------
 %------------------------------  Macros:   ------------------------------------
 %------------------------------------------------------------------------------
@@ -253,8 +256,7 @@
 \newcommand{\fin}{_{\mathcal{T}}}
 \newcommand{\van}{\mathcal{V}}
 \newcommand{\drift}{\mathcal{G}}
-\newcommand{\trinorm}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1
-    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+\newcommand{\trinorm}[1]{{\norm{#1}_X}}
 
 \newcommand*\inv[1]{#1^{-1}}
 
@@ -312,7 +314,7 @@
 \division{Fakultät Physik}
 \thesisclass{Master of Science}
 \publishers{\thechair \\ \thedivision \\ Technische Universität Dortmund}
-\submissiondate{17. Juli 2019}
+\submissiondate{15. Januar 2020}
 \secondcorrector{Prof.~Dr.~Manfred Bayer}
 \firstcorrector{Apl.-Prof.~Dr.~Dirk Schulz}
 
@@ -344,13 +346,11 @@
   \acro{fv}[FV]{Finite-Volumen}
   \acro{lvn}[LNG]{Liouville-von-Neumann Gleichung}
   \acro{negf}[NEGF]{nonequilibrium Green’s function}
-  % \acroplural{fem}[FEMn]{Finite-Elemente-Methoden}
   \acro{pdg}[PDG]{partielle Differentialgleichung}
-  \acro{qtbm}[QTBM]{Quantum Transmitting Boundary Methode}
+  \acro{qtbm}[QTBM]{Quantum-Transmitting-Boundary-Methode}
   \acro{rk}[RK]{Runge-Kutta Verfahren}
   \acro{rtd}[RTD]{resonante Tunneldiode}
   \acro{tf}[TM]{Transfermatrix-Methode}
-  % \acroplural{pdgn}[PDGn]{partielle Differentialgleichungen}
 \end{acronym}
 
 \input{formelzeichen.tex}
@@ -362,8 +362,7 @@
 \input{content/02_theorie.tex}
 \input{content/03_diskretisierung.tex}
 \input{content/04_ergebnisse.tex}
-% \input{content/gedanken.tex}
-% \input{content/04_zusammenfassung.tex}
+\input{content/05_zusammenfassung.tex}
 %
 \appendix
 % Hier beginnt der Anhang, nummeriert in lateinischen Buchstaben
@@ -373,6 +372,6 @@
 \printbibliography
 \printindex
 %
-% \cleardoublepage
-% \input{content/eid_versicherung.tex}
+\cleardoublepage
+\input{content/eid_versicherung.tex}
 \end{document}

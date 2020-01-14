@@ -6,17 +6,13 @@ In diesem Kapitel werden die Ergebnisse numerischer Experimente für das Schema 
   \label{tab:parameter}
   \sisetup{parse-numbers=false}
   \scriptsize
-  \begin{tabular}{
-% format 1.3 bedeutet eine Stelle vorm Komma, 3 danach
-    l
-    l
-    l
-  }
+  \begin{tabular}{p{0.1\textwidth} p{0.65\textwidth} p{0.1\textwidth}  }
     \toprule
-    {Formelzeichen} & Beschreibung & Default-Wert \\
+    {Symbol} & Beschreibung & Default \\
     \midrule
        & \emph{Physikalische Parameter} & \\
-    $L_x (L_y)$ &Länge des Rechengebietes in $x$- ($y$-) Richtung & $\SI{106}{\nano\meter}$ $(\SI{130}{\nano\meter})$ \\
+    $L_x$ &Länge des Rechengebietes in $x$-Richtung & $\SI{106}{\nano\meter}$ \\
+    $L_y$ &Länge des Rechengebietes in $y$-Richtung & $\SI{130}{\nano\meter}$ \\
     $L_D$ & Ausdehnung des Spannungsabfalls (s. Abbildung \ref{fig:pot1}) & $\SI{26}{\nano\meter}$\\
     $L_1$ & Abstand der Potentialbarrieren (s. Abbildung \ref{fig:pot1}) &$\SI{6}{\nano\meter}$ \\
     $L_2$ & Breite der Potentialbarrieren  (s. Abbildung \ref{fig:pot1}) &$\SI{4}{\nano\meter}$ \\
@@ -36,11 +32,11 @@ In diesem Kapitel werden die Ergebnisse numerischer Experimente für das Schema 
     $\kappa$ & Strafparameter des numerischen Flusses, siehe Gleichung \eqref{eq:numflux} &$\nicefrac{1}{2}$ \\
     \midrule
      & \emph{Parameter des Programmablaufs} & \\
-    doGL & Soll Methode G2 verwendet werden?(sonst G1) & true \\
+    doGL & Soll Methode G2 verwendet werden?(sonst G1) Die Quadraturordnung ist stests 20. & true \\
     doPotConv & Soll das Potential mit einer Gaußverteilung gefaltet werden? & false\\
     withCAP & Soll das \ac{cap} eingeschaltet werden? & true \\
     doTransient & Soll transient gerechnet werden? & false \\
-    doGummel & Soll selbstkonsistent gemäß den Erläuterungen in Kapitel \ref{sec:A_4} gerechnet werden? \\
+    doGummel & Soll selbstkonsistent gemäß den Erläuterungen in Kapitel \ref{sec:A_4} gerechnet werden? & false \\
     Nrefine  & \# Verfeinerungen in der Polynomordnung $N$ mit $N_{i+1}=N_i+1$ & 0 \\
     Krefine  & \# Verfeinerungen in der Anzahl Elemente $K_x$ mit $K_{x,i+1}=2K_{x,i}$ & 0 \\
     \bottomrule
@@ -69,7 +65,7 @@ Für die Betrachtung der \emph{Konvergenzordnung}\index{Konvergenzordnung} in Ab
   \end{aligned}
   \label{eq:fehlerraten}
 \end{equation}
-definiert. Daraus lassen sich noch $r_{\nicefrac{i}{r}}$ bzw. $r_{\mathcal{T},\nicefrac{i}{r}}$ als Mittelwerte über $\alpha$ errechnen. Die Definition der Fehlerrate ist motiviert durch eine Fehlerabschätzung der Form $e \leq ch_x^r$. Logarithmieren und Subtrahieren für zwei verschiedene Gitterabstände $h_x$ liefert die Konvergenzordnung $r$.
+definiert. Daraus lassen sich noch $r_{\nicefrac{i}{r}}$ bzw. $r_{\mathcal{T},\nicefrac{i}{r}}$ als Mittelwerte über $\alpha$ errechnen. Die Definition der Fehlerrate ist motiviert durch eine Fehlerabschätzung der Form $e \leq ch_x^r$. Logarithmieren und Subtrahieren für zwei verschiedene mittlere Gitterabstände $h_x$ liefert die Konvergenzordnung $r$.
 
 Wann immer die numerische Lösung $u\fin$ ausgwertet werden muss, sind die Gleichungen\eqref{eq:ellPsi} und \eqref{eq:vandermonde} hilfreich. Sei nun $u\fin$ an der Stelle $x_0$ auszuwerten. Dann ist zunächst das Element $D^k$ zu suchen, für das $x_0\in D^k$ gilt. Durch Gleichung \eqref{eq:affmap} ergibt sich hieraus $r_0$ als Koordinate auf dem Referenzelement $I$. Dann gilt nach Gleichung \eqref{eq:nodal}
 \begin{align*}
@@ -137,9 +133,10 @@ jeweils für $N=\{0,\dots,5\}$. Imaginärteil und Realteil zeigen keine erkennba
 
 \section{Observablen der stationären Lösung}\label{sec:IV}
 Die in Kapitel \ref{sec:2_1} eingeführten Observablen der Teilchendichte $n(x,t)$ nach Gleichung \eqref{eq:expval_n} und der Stromdichte $j(x,t)$ nach Gleichung \eqref{eq:expval_j} lassen sich aus der Dichtematrix auf einfache Weise gewinnen. Für die Stromdichte wird noch eine Ableitung bezüglich $y$ benötigt. Hierfür wird der Differenzenquotient gemäß
-\begin{equation*}
-  \partial_y u\fin(x,y,t)|_{y=0} = \frac{1}{h_y}(u\fin(x,y_{K_y/2+1},t)-u\fin(x,y_{K_y/2},t))
-\end{equation*}
+\begin{equation}
+  \partial_y u\fin(x,y,t)|_{y=0} \approx\frac{1}{h_y}(u\fin(x,y_{K_y/2+1},t)-u\fin(x,y_{K_y/2},t))
+  \label{eq:ableitung_y}
+\end{equation}
 gebildet. Da $K_y$ stets gerade gewählt wird, liegt die Kante zwischen den Elementen $K_y/2+1$ und $K_y/2$ genau bei $y=0$.
 
 \subsection{Dichtematrix}
@@ -231,39 +228,50 @@ Die gezeigten Ergebnisse decken sich qualitativ mit den Ergebnissen anderer Verf
 Feinere Diskretisierungen verbessern zwar die Resultate diesbezüglich, jedoch konnte aufgrund begrenzter Rechenkapazität ein nomineller Unterschied zwischen Real- und Imaginärteil von ca. vier Größenordnungen nicht überschritten werden. Hier zeigt sich bereits, dass bezüglich des Imaginärteils eine Fehlerrate nach Gleichung \eqref{eq:optimaleKonvergenz} nicht erwartet werden kann.
 \clearpage
 
-\subsection{Strom-Spannungs-Kennlinien}
-Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}-Rechnung mit einbezogen. Da die selbstkonsistente Rechnung für angelegte Spannungen keine gute Konvergenz zeigt, beschränken sich die Berechnungen auf Flachband-Modelle gemäß Abbildung \ref{fig:pot1}.
-\begin{figure*}
+\subsection{Strom-Spannungs-Kennlinien} 
+Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}-Rechnung (siehe \cite{qtbm}) mit einbezogen. Da die selbstkonsistente Rechnung für angelegte Spannungen keine gute Konvergenz zeigt, beschränken sich die Berechnungen auf Flachband-Modelle gemäß Abbildung \ref{fig:pot1}. Für den stationären Fall gilt wegen Gleichung \eqref{eq:kontigl} theoretisch $\partial_x j(x)=0$. Die numerischen Experimente zeigen jedoch, dass diese Forderung nicht perfekt eingehalten werden kann, siehe zum Beispiel Abbildung \ref{fig:kappa_var_4}. Eine mögliche Erklärung hierfür ist in der $y$-Diskretisierung zu finden, denn die Ableitung nach Gleichung \eqref{eq:ableitung_y} stellt lediglich eine grobe Näherung dar. Weitere Verfahren könnten eine $y$-Diskretisierung mit analytischer Ableitung\footnote{Eine analytische Ableitung kann mit stetigen Basisfunktionen gewährleistet werden.} implementieren, wie zum Beispiel ein \ac{fem}-Verfahren.
+Da also ${j(x,t\rightarrow \infty)}$ nicht konstant ist entlang $x$, wird ein mittlerer Strom $j$ als Mittelwert gemäß
+\begin{equation*}
+  j \equiv \frac{1}{L_x} \int_{\Omega_x} \diff x j(x,t\rightarrow\infty)
+\end{equation*}
+definiert. Durch Iteration über verschiedene Spannungen ergibt sich die charakteristische Strom-Spannungs-Kennlinie einer \ac{rtd}, wie in Abbildung \ref{fig:iv1} zu sehen ist.
+\begin{figure}
     \centering
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{subfigure}[b]{0.47\textwidth}
         \centering
         \includegraphics[width=\textwidth]{plots/IV/IV_qtbm_dg_grob.eps}
+        \caption[]%
+        {{}}
         \label{fig:iv1}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{subfigure}[b]{0.49\textwidth}
         \centering
         \includegraphics[width=\textwidth]{plots/IV/frensley.png}
+        \caption[]%
+        {{}}
         \label{fig:frensley_iv}
     \end{subfigure}
     \caption[]
     {Strom-Spannungs-Kennlinien im Vergleich. Parameter der Numerik: $K_x=30$, $N=7$, $K_y=280$. Zusätzlich gezeigt ist das Ergebnis einer \ac{qtbm}-Rechnung. Die Grafik rechts ist aus \cite{frensley3} entnommen. Die durchgezogene Linie ist das Resultat einer Tunneltheorie-Rechnung. Für die gestrichelte Linie wird eine lokale Variation der effektiven Masse berücksichtigt. Die punktierte Linie schließlich stellt das Ergebnis eines Modells mit nicht-lokaler effektiver Masse dar.}
     \label{fig:iv_vergleich1}
-\end{figure*}
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.8\textwidth]{plots/IV/IV_qtbm_dg_grob.eps}
-%   \caption{Strom-Spannungs-Kennlinien im Vergleich. Parameter der Numerik: $K_x=30$, $N=7$, $K_y=280$. Zusätzlich gezeigt ist das Ergebnis einer \ac{qtbm}-Rechnung.}
-%   \label{fig:iv1}
-% \end{figure}
+\end{figure}
+Dabei ist für die \ac{qtbm}-Rechnung derselbe Parametersatz gewählt worden, während für die Grafik aus der Literatur \cite{frensley3} andere Parameter eingestellt sind. Es ist ersichtlich, dass die beiden Resonanzen bei ca. $\SI{0.11}{\volt}$ und $\SI{0.4}{\volt}$ reproduziert werden mit dem entwickelten \ac{dg}-Verfahren. Die Abbildung \ref{fig:frensley_iv} belegt dabei, dass sowohl Position als auch Höhe der Peaks abhängig sind von der zugrundeliegenden Theorie.
 
+Auch innerhalb des \ac{dg}-Verfahrens gibt es einige variable Parameter, siehe Tabelle \ref{tab:parameter}. So lässt sich beispielsweise zwischen Methode G1 und G2 umschalten. Die entstehenden Unterschiede zeigt Abbildung \ref{fig:iv2} bei ansonsten gleichen Parametern.
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{plots/IV/IV_qtbm_dg_fein.eps}
   \caption{Auflösung des ersten Peaks bei ca. $\SI{0.1}{\volt}$ aus Abbildung \ref{fig:iv1}. Zum Vergleich ist zusätzlich das Ergebnis einer Rechnung mit Methode G2 gezeigt. Als gestrichelte Linie ist die gemittelte Teilchendichte $\overline{n}$ innerhalb des Quantentopfes dargestellt.}
   \label{fig:iv2}
 \end{figure}
+Anscheinend führt eine Approximation des Driftterms in höherer Ordnung zu Resultaten, die im Mittel etwas näher an der \ac{qtbm}-Lösung liegen. In beiden Fällen bilden sich jedoch statt einem Peak drei Peaks aus, die lediglich in der Höhe variieren. Möglicherweise ist auch dieses Problem auf die $y$-Diskretisierung zurück zu führen (siehe oben). Andererseits deutet der Verlauf der mittleren Dichte
+\begin{equation*}
+  \overline{n} \equiv \frac{1}{L_D} \int_{-L_D/2}^{+L_D/2} \diff x n(x,t\rightarrow\infty)
+\end{equation*}
+innerhalb des Quantentopfes (siehe Abbildung \ref{fig:iv2}) darauf hin, dass diese Begründung unzulänglich ist. Es ist nämlich zu erwarten, dass diese Größe dieselben resonanten Peaks zeigt, denn die Besetzung innerhalb des Quantentopfes ist ein Maß für die Zahl resonant besetzter Zustände \cite{frensley3}. Ein weiterer wichtiger Parameter könnte in diesem Zusammenhang $L_y$ sein, welcher ein Maß für die Ausdehnung ist, über die Quantenkorrelationen berücksichtigt werden.
 
+Als nächstes werden daher die Parameter $L_x$ und $L_y$ variiert. Dabei zeigt sich sogar, dass die Ergebnisse mit Methode G1 teilweise zu negativen Stromflüssen führen. Dies ist ein klarer Indikator für die Problematik, die mit einer vergleichsweise groben Näherung des Driftterms einhergeht. Daher wird im Folgenden stets mit Methode G2 gerechnet (was einen rechnerischen Mehraufwand um einen Faktor neun in etwa mit sich bringt). Abbildung \ref{fig:iv3} zeigt das Resultat der Parametervariation im Bereich des ersten Peaks.
 \begin{figure*}
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
@@ -278,19 +286,25 @@ Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}
         \label{fig:iv3_2}
     \end{subfigure}
     \caption[]
-    {Parametervariation bezüglich $L_x$ (links) und $L_y$ (rechts). Parameter der Numerik: $K_x=60$, $N=2$, $K_y=180$.}
-    \label{fig:iv_vergleich1}
+    {Parametervariation bezüglich $L_x$ (links) und $L_y$ (rechts). Parameter der Numerik: $K_x=60$, $N=2$. Links ist  $K_y=180$ zudem konstant. Die Ausdehnung des \ac{cap} wird mit $\delta/\xi=8,3$ fixiert. Für die rechte Abbildung wird der Gitterabstand $h_y=L_y/K_y$ konstant gehalten, sodass keine Verzerrung bezüglich der Diskretisierung stattfindet.}
+    \label{fig:iv3}
 \end{figure*}
+Offenbar haben beide Parameter einen Einfluss auf die Höhe des Peaks. Zusätzlich schwanken jedoch mit $L_y$ sowohl Position als auch Anzahl der Peaks. Genauer gesagt wird für $L_y/\xi=37,5$ lediglich ein Peak aufgelöst und mit steigendem $L_y$ kommen immer weitere Peaks hinzu, deren Amplituden zunehmend schwächer ausgeprägt sind. Dieses Verhalten deutet darauf hin, dass im Grenzfall großer Ausdehnung bei gleichzeitig feiner Diskretisierung tatsächlich nur noch ein Peak verbleibt.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.8\textwidth]{plots/IV/IV_dg_vgl_diskretisierung_wide.eps}
-  \caption{Einfluss der Diskretisierung: Vergleich verschiedener Parameter der Numerik. Als gestrichelte Linie ist die gemittelte Teilchendichte $\overline{n}$ innerhalb des Quantentopfes dargestellt.}
-  \label{fig:iv4}
-\end{figure}
+Zusammenfassend bleibt festzuhalten, dass das Verfahren sehr sensibel auf den gewählten Parametersatz reagiert. Prinzipiell sind die Ergebnisse für die Strom-Spannungs-Kennlinie akzeptabel, jedoch stellt insbesondere die Auflösung des ersten Peaks ein  Problem dar. Die Herkunft der zusätzlichen Peaks kann nicht abschließend geklärt werden. Einen großen Einfluss wird hierbei auch das \ac{cap} haben, was möglicherweise in weiteren Arbeiten untersucht werden kann.
 
-\todo{Lukas fragen, worauf ich mich mit QTBM referenzieren kann.}
+% Auch eine Variation bezüglich der numerischen Parameter erscheint daher sinnvoll und ist in Abbildung \ref{fig:iv4} gezeigt und quantitativ in Kapitel \ref{sec:rates} untersucht.
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{plots/IV/IV_dg_vgl_diskretisierung_wide.eps}
+%   \caption{Einfluss der Diskretisierung: Vergleich verschiedener Parameter der Numerik. Als gestrichelte Linie ist die gemittelte Teilchendichte $\overline{n}$ innerhalb des Quantentopfes dargestellt.}
+%   \label{fig:iv4}
+% \end{figure}
+% Hier zeigt sich, dass die Höhe der Peaks schwankt, kaum hingegen deren Positionen.
 
+
+\subsection{Einfluss des Strafparameters} \label{sec:kappa_var}
+Neben den beiden für die Feinheit der Diskretisierung verantwortlichen Parametern $K_x$ und $N$ bietet das entwickelte \ac{dg}-Verfahren die Wahl des Strafparameters $\kappa$, siehe Gleichung \eqref{eq:numflux}. Aufgrund der Transport-Charakteristik der \ac{lvn} ist zu erwarten, dass ein Upwind-Fluss \index{Upwind-Fluss} die beste Approximation an den echten Fluss darstellt. Diese Erwartung wird anhand der Abbildung \ref{fig:kappa_var} bestätigt.
 \begin{figure*}
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
@@ -322,14 +336,142 @@ Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}
         \includegraphics[width=\textwidth]{plots/kappa/kappa_variation_0.1V_j.eps}
         \caption[]%
         {{\small $j(x,\kappa)$ in kAcm$^{-2}$ bei $U_2=\SI{0.1}{\volt}$ und akzeptablen Werten für $\kappa$.}}
-        % \label{fig:G_4}
+        \label{fig:kappa_var_4}
     \end{subfigure}
     \caption[]
     {Variation des Strafparameters $\kappa$.}
     \label{fig:kappa_var}
 \end{figure*}
+Es zeigt sich, dass es sowohl für $j(x)$, als auch für $n(x)$ im Bereich eines zentralen Flusses $\kappa=0$ zu starken Oszillationen kommt. Für negatives $\kappa$ bricht das Verfahren vollständig zusammen, wie dies auch durch die Existenz-Analyse aus Kapitel \ref{sec:existenz} vorausgesagt wird. Genauere Betrachtungen für $\kappa>0$ zeigen die beiden rechten Teile der Abbildung. Es ist klar zu erkennen, dass es insbesondere am Randbereich $x\approx \pm L_x/2$ zu Oszillationen kommt, wenn $\kappa\neq 0,5$.
+
+
 
 \section{Konvergenzordnung der stationären Lösung}\label{sec:rates}
+Für eine quantitative Analyse wird ein Vergleich des \ac{dg}-Verfahrens mit der \ac{tf} gezogen. Die Lösung der \ac{tf} wird als analytische Lösung gesetzt und der Fehler nach Gleichung \eqref{eq:error_ana} berechnet. Das Resultat ist in Abbildung \ref{fig:rates1} zu sehen.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/test3/real_GL1.pdf}
+        \label{fig:rates1_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/test3/imag_GL1.pdf}
+        \label{fig:rates1_2}
+    \end{subfigure}
+    \caption[]
+    {Analytischer Fehler $e_{\nicefrac{r}{i}}$ mit der Lösung aus der \ac{tf} als exakte Lösung.}
+    \label{fig:rates1}
+\end{figure*}
+Es zeigt sich eine sehr schwache Konvergenz, wobei nicht sichergestellt ist, ob es überhaupt zu einer Konvergenz im wörtlichen Sinne kommt. Vielmehr scheint es bezüglich des Realteils eine Art konstante Differenz zu geben. Die zugehörigen Fehlerraten sind
+\begin{equation*}
+  \begin{aligned}
+    r_r &= \{\input{python/test3_real_r.tex}\} \\
+    r_i &= \{\input{python/test3_imag_r.tex}\} \\
+    r_{\mathcal{T},r} &= \{\input{python/test5_nonConvGL1_r.tex}\}
+  \end{aligned}
+\end{equation*}
+und damit weit entfernt von der optimalen Konvergenz \eqref{eq:optimaleKonvergenz}. Es ist noch anzumerken, dass die Raten für Methode G1 noch schlechter sind. Die Suche nach möglichen Erklärungen führt unter Anderem auf die Frage nach der Form des Potentials. Im Wigner-Formalismus muss das Potential gefaltet werden und es bereitet dort wegen des Gibbschen Phänomens Schwierigkeiten, dieses nicht-lokale Faltungsintegral für eine Rechteckfunktion auszwerten. Ein möglicher Ansatz zur Umgehung des Problems ist dann die Glättung des Potentials, wie beispielsweise in \cite{wiedenhaus} geschehen.
+
+Dieser Idee wird nachgegangen, indem das Potential $V^s$ mit einer Gauß-Funktion gefaltet und damit geglättet wird (der entsprechende Parameter ist in Tabelle \ref{tab:parameter} mit doPotConv gekennzeichnet). Das Ergebnis für die iterativen Fehler\footnote{Die \ac{tf}-Methode geht von einem Flachbandpotential aus und ist daher nun nicht mehr verfügbar.} ist in Abbildung \ref{fig:rates2} gezeigt.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/test5/convGL1.pdf}
+        \label{fig:rates2_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/test5/convGL1_i.pdf}
+        \label{fig:rates2_2}
+    \end{subfigure}
+  \caption{Iterativer Fehler für die \ac{lvn} mit geglättetem Potential.}
+  \label{fig:rates2}
+\end{figure*}
+Die zugehörigen Fehlerraten sind
+\begin{align*}
+  r_{\mathcal{T},r} &= \{\input{python/test5_convGL1_r.tex}\} \\
+  r_{\mathcal{T},i} &= \{\input{python/test5_convGL1_i.tex}\} \; .
+\end{align*}
+Ab einer Systemgröße von etwa $K_x N \approx 160$ wird darüber hinaus nahezu optimale Konvergenz erreicht, wie die Abbildung bereits vermuten lässt.
+
 
 
 \section{Transiente Lösung}\label{sec:transient}
+In diesem Abschnitt wird die Antwort des Systems auf die zwei zeitlich variierenden Eingangsspannungen
+\begin{align*}
+  U_1(t) &= \begin{cases} U_A & t\leq 0 \\ (U_B - U_A)\frac{t}{t_\text{ramp}} & 0<t<t_{\text{ramp}} \\ U_B & t>t_{\text{ramp}} \end{cases} \\
+  U_2(t) &= U_C \sin(2\pi f t)
+\end{align*}
+untersucht. Dabei werden die Konstanten zu
+\begin{align*}
+  U_A &= \SI{0.1}{\volt} & U_B &= \SI{0.2}{\volt} & U_C &= \SI{0.3}{\volt} \\
+  t_{\text{ramp}}/\tau &= 6  & f \cdot \tau &= 0,013 & \text{(entspricht }&\SI{400}{\giga\hertz}\text{)}
+\end{align*}
+gewählt. Für den ersten Fall ergibt sich mit $t_{\text{ramp}}\rightarrow 0$ die Frage nach der \emph{Sprung-antwort}\index{Sprungantwort} des Systems. In allen transienten Berechnungen wird die stationäre Lösung zu der Spannung $U(t=0)$ als Anfangsbedingung gesetzt.
+
+Die Ergebnisse für Strom und Spannung sind in Abbildung \ref{fig:transient} zusammengestellt.
+\begin{figure*}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/transient/Dichte_sprung.eps}
+        \caption[]%
+        {{\small $n(x,t)$ in m$^{-3}$ bei $U_1(t)$.}}
+        % \label{fig:G_1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/transient/Dichte_sinus.eps}
+        \caption[]%
+        {{\small $n(x,t)$ in m$^{-3}$ bei $U_2(t)$.}}
+        % \label{fig:G_2}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/transient/Strom_sprung.eps}
+        \caption[]%
+        {{\small $j(x,t)$ in m$^{-3}$ bei $U_1(t)$.}}
+        % \label{fig:G_3}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/transient/Strom_sinus.eps}
+        \caption[]%
+        {{\small $j(x,t)$ in m$^{-3}$ bei $U_2(t)$.}}
+        % \label{fig:kappa_var_4}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/transient/UI_sprung.eps}
+        \caption[]%
+        {{\small Strom- und Spannungsverlauf für $U_1(t)$.}}
+        % \label{fig:G_3}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plots/transient/UI_sinus.eps}
+        \caption[]%
+        {{\small Strom- und Spannungsverlauf für $U_2(t)$.}}
+        % \label{fig:transient_4}
+    \end{subfigure}
+    \caption[]
+    {Zeitlicher Verlauf der Observablen. Links ist die Sprungantwort und rechts die Antwort auf eine Wechselspannung mit $f=\SI{400}{\giga\hertz}$ gezeigt. In den untersten Abbildungen ist zusätzlich zum gemessenen Strom der zu $U(t)$ korrespondierende stationäre Strom $j^s(U)$ eingezeichnet. Parameter der Numerik:  $K_x=33$, $N=2$, $K_y=100$.}
+    \label{fig:transient}
+\end{figure*}
+Dabei ist das \ac{rk}2-Verfahren mit dem nach Formel \eqref{eq:delta_t} errechneten Zeitschritt ${\Delta t / \tau = 0,1036}$ (entspricht $\SI{0.3252}{\femto\second}$) zum Einsatz gekommen. Die Konstante $c$ in dieser Gleichung ist numerisch getestet worden. Es zeigt sich, dass es ab $c=1$ zu Instabilität kommt. Mit dahingegen restriktiv gewähltem $c=0,2$ hingegen treten keine Probleme auf.
+
+Für das \ac{rk}2-Schema ist zu Testzwecken (wie in Kapitel \ref{sec:timestepping} erwähnt) ein gewisser Mehraufwand hinsichtlich \emph{Limiter} und \emph{strong stability preserving} implementiert worden. Die Verwendung eines \ac{rk}4-Schemas liefert keine Abweichungen gegenüber dem \ac{rk}2-Schema. Es kommt daher erwartungsgemäß zu keinen Problemen bezüglich Überschwingern in Folge nicht-stetiger Eingangsdaten.
+
+Die Abbildung \ref{fig:transient} zeigt, dass das System bei einem Sprung der Spannung von $\SI{0.1}{\volt}$ auf $\SI{0.2}{\volt}$ nach einigen Überschwingern nach etwa $\SI{2}{\pico\second}$ auf den neuen stationären Zustand eingeschwungen ist. Es ist daher zu erwarten, dass die eingestellte Frequenz von $\SI{400}{\giga\hertz}$ zu hoch ist, als dass das System mit dem stationären Stromfluss $j^s(U)$ aus Abbildung \ref{fig:iv1} folgen könnte. Diese Erwartung bestätigt sich im rechten Teil der Abbildung. Es ist zu beobachten, dass der Strom bei positiver Spannung sogar negativ wird. Der Strom scheint der Spannung phasenverschoben zu folgen.
+
+Hierzu ist anzumerken, dass die numerischen Parameter mit einer Systemgröße $K_xN=66$, $K_y=100$ eine relativ grobe Diskretisierung darstellen. Im letzten Kapitel ist gezeigt worden, dass die Fehlerraten erst ab etwa $K_x N \approx 160$ gute Konvergenz zeigen. Die aus der Ortsdiskretisierung resultierenden Fehler werden durch die Zeitentwicklung weiter verstärkt, sodass es zwangsläufig zu einem Abweichen von stationären Lösungen kommen muss für nicht-konstante Spannungen. Der Grund für die grob gewählte Diskretisierung wiederum ist schlicht in dem Rechenaufwand zu finden. Für eine zeitabhängige Spannung muss in jedem Zeitschritt die hoch-besetzte Matrix $\mathcal{G}$ (vergleiche Abbildung \ref{fig:G_1}) neu berechnet werden. Auch ein Zwischenspeichern und späteres Abrufen für bereits berechnete Spannungswerte ist nicht hilfreich aufgrund der immensen Datengröße. Mit einigem Aufwand könnte an dieser Stelle weiter optimiert werden.

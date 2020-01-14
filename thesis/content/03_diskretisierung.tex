@@ -7,40 +7,40 @@ Eine zeitabhängige \ac{pdg} $n$-ter Ordnung für skalares $u(x,t)$ ist von der 
 Sie unterliegt Randbedingungen (für die Zeitvariable auch Anfangsbedingung genannt), die je nach Problemstellung auf Teilen des Randes formuliert sind. Beispielsweise ist die Auslenkung einer eingespannten Membran am Ortsrand fest, während in der Zeit lediglich für $t_0$ ein Randwert vorliegt.
 
 Die \ac{lvn} \eqref{eq:lvn} ist eine lineare \ac{pdg} zweiter Ordnung in $d=2$ Dimensionen. Sie ist weder elliptisch, noch parabolisch, noch hyperbolisch\footnote{Dies ist ersichtlich anhand der Eigenwerte der Koeffizientenmatrix zweiter Ableitungen $T=\text{diag}(0,1,-1)$ für Gleichung \eqref{eq:lvn_first}. Bei elliptischen Problemen haben alle Koeffizienten gleiches Vorzeichen und sind ungleich Null. Bei hyperbolischen Problemen hat genau ein Eigenwert ein anderes Vorzeichen und alle Koeffizienten sind ungleich Null. Parabolische Probleme schließlich sind gekennzeichnet durch genau einen Null-Eigenwert und ansonsten gleiches Vorzeichen.}.
-Ferner bildet $u\in C^2(\Omega)$ in den Raum der komplexen Zahlen ab. Damit unterscheidet sich das Problem bereits grundlegend von den zumeist in der Literatur vorkommenden Problemstellungen. Die stationäre \ac{lvn} hingegen ist hyperbolisch. In diesem Kapitel soll ein Verfahren entwickelt werden, welches bislang noch nicht zur Anwendung gekommen ist im Kontext der \ac{lvn}: das \emph{\ac{dg}}-Verfahren\index{Discontinuous-Galerkin Verfahren}. Die Ausführungen orientieren sich an dem praxisnahen Buch von Hesthaven und Warburton \cite{buch}.
+Ferner bildet $u\in C^2(\Omega)$ in den Raum der komplexen Zahlen ab. Damit unterscheidet sich das Problem bereits grundlegend von den zumeist in der Literatur vorkommenden Problemstellungen. Die stationäre \ac{lvn} hingegen ist hyperbolisch. In diesem Kapitel soll ein Verfahren entwickelt werden, welches bislang noch nicht zur Anwendung gekommen ist im Kontext der \ac{lvn}: das \ac{dg}-Verfahren\index{Discontinuous-Galerkin Verfahren}. Die Ausführungen orientieren sich an dem praxisnahen Buch von Hesthaven und Warburton \cite{buch}.
 
-Zunächst wird ein Überblick über verschiedene, gängige numerische Verfahren gegeben. Vor- und Nachteile werden skizziert, wenngleich die Numerik partieller Differentialgleichungen ein großes Forschungsgebiet ist und somit die verschiedenen angedeuteten Probleme sich möglicherweise nur in einer oberflächlichen Betrachtung als solche äußern.
+Zunächst wird ein Überblick über verschiedene, gängige numerische Verfahren gegeben. Vor- und Nachteile werden skizziert, wenngleich die Numerik partieller Differentialgleichungen ein großes Forschungsgebiet ist und somit die verschiedenen angedeuteten Probleme sich möglicherweise nur in einer oberflächlichen Betrachtung als solche äußern. Es folgt der Hauptteil dieser Arbeit, in dem die Entwicklung und theoretische Analyse eines \ac{dg}-Verfahrens für die \ac{lvn} detailliert beschrieben wird.
 
 \section{Übersicht}\label{sec:Übersicht}
 Bei der Diskretisierung einer \ac{pdg} sind zwei grundlegende Fragestellungen zu berücksichtigen:
 \begin{enumerate}
-  \item Auf welche Weise wird die Lösung $u(x,t)$ durch eine diskrete Lösung $u_h(x,t)$ genähert?
-  \item Wie ist die Verbindung zwischen diskretisierter Lösung und zugrundeliegender \ac{pdg}?
+  \item Auf welche Weise wird die Lösung $u(x,t)$ durch eine diskrete Lösung $u_h(x,t)$ genähert? Was sind beispielsweise die Basisfunktionen von $u_h(x,t)$?
+  \item Wie ist die Verbindung zwischen diskretisierter Lösung und zugrundeliegender \ac{pdg}? In welcher Weise löst also die diskrete Lösung das exakte Problem?
 \end{enumerate}
 Als Folge einer unterschiedliche Beantwortung dieser Fragen wurden zahlreiche Verfahren entwickelt, die jeweils spezifische Vor- und Nachteile aufweisen. Im Folgenden werden in knapper Form drei Verfahren vorgestellt und  gegeneinander verglichen. In dieser Reihenfolge nimmt die Komplexität zu, denn die Schwächen des einen Verfahrens führen jeweils zu der nächst allgemeineren Formulierung.
 
 \subsection{Finite Differenzen}\index{Finite Differenzen}\label{sec:FD}
-Die partiellen Ableitungen werden bei diesem Verfahren durch eine endliche (finite) Anzahl von Differenzen (\ac{fd}) genähert. Zur Formulierung der n-ten Ableitung einer Funktion $f(x)$ im Punkt $x_0$ wird die zugehörige Taylorreihe bis zur n-ten Ordnung verwendet. Der Punkt $x_0$ entstammt einem Gitter, welches das Gebiet $\Omega$ diskretisiert. Dieser Ansatz setzt inhärent voraus, dass eine Funktion sich hinreichend genau durch ein lokales Polynom niedriger Ordnung nähern lässt. Damit ist zeitgleich Frage (1) beantwortet.
+Die partiellen Ableitungen werden bei diesem Verfahren durch eine endliche (finite) Anzahl von Differenzen (\ac{fd}) genähert. Zur Formulierung der n-ten Ableitung einer Funktion $u(x)$ im Punkt $x_0$ wird die zugehörige Taylorreihe bis zur n-ten Ordnung verwendet. Der Punkt $x_0$ entstammt einem Gitter $\{x^k\}$, welches das Gebiet $\Omega$ diskretisiert. Dieser Ansatz setzt inhärent voraus, dass eine Funktion sich hinreichend genau durch ein lokales Polynom niedriger Ordnung nähern lässt. Damit ist zeitgleich Frage (1) beantwortet.
 
 Die Antwort auf die zweite Frage bestimmt dann die Koeffizienten der lokalen Polynome. Durch Einsetzen der Näherung $u_h(x,t)$ in die \ac{pdg} folgt ein Residuum
 \begin{equation*}
-  \mathcal{R}(x,t)\equiv F(x,t, u_h(x), Du_h(x), \dots, D^nu_h(x,t)) \; ,
+  \mathcal{R}(x,t)\equiv F(x,t, u_h(x,t), Du_h(x,t), \dots, D^nu_h(x,t)) \; ,
 \end{equation*}
-welches i.A. nicht verschwindet, denn sonst wäre ${u_h(x,t) = u(x,t)}$ die exakte Lösung. Zur Bestimmung der Koeffizienten (Freiheitsgrade) wird daher beispielsweise gefordert, dass auf den Gitterpunkten ${\mathcal{R}(x^k,t)=0}$ verschwindet.
+welches i.A. nicht verschwindet, denn sonst wäre ${u_h(x,t) = u(x,t)}$ die exakte Lösung. Zur Bestimmung der Koeffizienten (Freiheitsgrade) wird daher beispielsweise gefordert, dass auf den Gitterpunkten ${\mathcal{R}(x^k,t)=0 \, \forall t}$ verschwindet.
 
 Das Verfahren ist besonders leicht zu implementieren. Es ist robust, effizient und wird von einer umfangreichen Literatur gestützt. Für zeitabhängige Probleme folgt aus der Ortsdiskretisierung eine explizite semidiskrete Form, was eine Flexibilität in der Wahl der Zeitschritt-Methode ermöglicht. In höherdimensionalen Problemen $d>1$ erfordert das Verfahren jedoch eine Tensorprodukt-Struktur der Basisfunktionen, sodass letztlich komplexe Geometrien $\Omega\subset{\mathbb{R}^d}$ nicht gut abgebildet werden können. Ferner führen Unstetigkeiten in den Randbedingungen oder internen Schichten (wie zum Beispiel der Potentialsprung in Abbildung \ref{fig:pot1}) zu Problemen aufgrund der simplen, zugrundeliegenden Diskretisierung.
 
 \subsection{Finite Volumen}\index{Finite Volumen}
-Für erhöhte geometrische Flexibilität und insbesondere für nichtlineare Erhaltungsgleichungen eignet sich das \ac{fv}-Verfahren. Das Gebiet $\Omega$ wird dabei in Zellen aufgteilt, zumeist Simplizes. Die approximative Lösung $u_h(x,t)$ wird als Konstante $\bar{u}^k(t)$ innerhalb einer Zelle $k$ gesetzt. Die \ac{pdg} wird lokal über jede Zelle integriert, wobei auftretende Divergenzterme mit Hilfe des Gaußschen Satzes in Oberflächenterme überführt werden. Für diese Terme müssen geeignete Flüsse gefunden werden und diese Wahl führt zu unterschiedlichen Verfahren. Da der Fluss in eine Zelle hinein demjenigen aus der Nachbarzelle heraus entspricht, sind die \ac{fv}-Verfahren konservativ.
+Für erhöhte geometrische Flexibilität und insbesondere für nichtlineare Erhaltungsgleichungen eignet sich das \ac{fv}-Verfahren. Das Gebiet $\Omega$ wird dabei in Zellen aufgteilt, zumeist Simplizes. Die approximative Lösung $u_h(x,t)$ wird innerhalb einer Zelle $D^k$ als (zeitabhängige) Konstante $\bar{u}^k(t)$  gesetzt. Die \ac{pdg} wird lokal über jede Zelle integriert, wobei auftretende Divergenzterme mit Hilfe des Gaußschen Satzes in Oberflächenterme überführt werden. Für diese Terme müssen geeignete Flüsse gefunden werden und diese Wahl führt zu unterschiedlichen Verfahren. Da der Fluss in eine Zelle hinein demjenigen aus den Nachbarzellen heraus entspricht, sind die \ac{fv}-Verfahren konservativ.
 
-Während wegen der Flexibilität bezüglich Geometrie und Wahl des Flusses die \ac{fv}-Verfahren sehr erfolgreich sind, offenbart die Forderung nach Verbesserung der Genauigkeit ein fundamentales Problem: im mehrdimensionalen müsste die geometrische Flexibilität wieder fallengelassen werden. Um nämlich $u_h(x,t)$ als Polynom vom Grad $N$ zu entwickeln und somit ${N+1}$ Koeffizienten zu finden, müssen zellübergreifende Informationen gesammelt werden aus mindestens ${N+1}$ Zellen (der sogenannten \emph{stencil} wird ausgeweitet). Dadurch wird eine spezielle Gitterstruktur erforderlich, weshalb geometrische Flexibilität nicht länger gewährleistet ist.
+Während wegen der Flexibilität bezüglich Geometrie und Wahl des Flusses die \ac{fv}-Verfahren sehr erfolgreich sind, offenbart die Forderung nach Verbesserung der Genauigkeit ein fundamentales Problem: im Mehrdimensionalen müsste die geometrische Flexibilität wieder fallengelassen werden. Um nämlich $u_h(x,t)$ als Polynom vom Grad $N$ zu entwickeln und somit ${N+1}$ Koeffizienten zu finden, müssen zellübergreifende Informationen gesammelt werden aus mindestens ${N+1}$ Zellen (der sogenannten \emph{stencil} wird ausgeweitet). Dadurch wird eine spezielle Gitterstruktur erforderlich, weshalb geometrische Flexibilität nicht länger gewährleistet ist\cite{buch}.
 
 Im eindimensionalen Fall $d=1$ ist eine Erhöhung der Genauigkeit jedoch möglich und es soll an dieser Stelle betont werden, dass die \ac{lvn} ebenso mit einem zweistufigen \ac{fv}-Verfahren und Polynomgraden ${N_x,N_y > 1}$ gelöst werden kann. Die Flexibilität des Gitters ist im Falle eines hybriden \ac{fv}/\ac{dg}-Verfahrens ohnehin nicht gegeben (vgl. Kapitel \ref{sec:primal}).
 
 \subsection{Finite Elemente}\index{Finite Elemente}
-Der Übergang zu den \ac{fem} geschieht, indem die approximative Lösung innerhalb einer Zelle nicht mehr als konstant gesetzt wird. Erhöhung der Genauigkeit durch Erhöhung der Freiheitsgrade ist dann ohne weiteres möglich, indem ähnlich wie beim FD Verfahren das Residuum auf den inneren Interpolationspunkten einer jeden Zelle orthogonal zu allen Testfunktionen sein soll. Die numerische Lösung $u_h(x,t)$ wird also als lokales Polynom auf jeder Zelle angesetzt, wobei sogar der Polynomgrad von Zelle zu Zelle verschieden sein kann (sogenannte \emph{hp-adaptivity}). Die Wahl der Räume für Basis- und Testfunktionen führt zu unterschiedlichen \ac{fem}-Verfahren. Werden an die Polynome zellübergreifende Stetigkeitsanforderungen gestellt, so führt dies zu den \emph{\ac{cg}}-\index{Continuous Galerkin (CG)}Methoden.
+Der Übergang zu den \ac{fem} geschieht, indem die approximative Lösung innerhalb einer Zelle nicht mehr als konstant gesetzt wird. Zur Herleitung eines numerischen Schemas wird bei den \ac{fem} die \ac{pdg} mit einer Testfunktion multipliziert und anschließend über $\Omega$ integriert. Erhöhung der Genauigkeit durch Erhöhung der Freiheitsgrade ist dann ohne weiteres möglich, indem ähnlich wie beim FD Verfahren das Residuum auf den inneren Interpolationspunkten einer jeden Zelle orthogonal zu allen Testfunktionen sein soll. Die numerische Lösung $u_h(x,t)$ wird also als lokales Polynom auf jeder Zelle angesetzt, wobei sogar der Polynomgrad von Zelle zu Zelle verschieden sein kann (sogenannte \emph{hp-adaptivity}). Die Wahl der Räume für Basis- und Testfunktionen führt zu unterschiedlichen \ac{fem}-Verfahren. Werden an die Polynome zellübergreifende Stetigkeitsanforderungen gestellt, so führt dies zu den \emph{\ac{cg}}-\index{Continuous Galerkin (CG)}Methoden.
 
-Ein Nachteil ist hier für zeitabhängige Probleme die implizite Form der Massenmatrix, die eine Invertierung in jedem Zeitschritt erfordert. Ferner führen Schocks und Unstetigkeiten, wie sie in hyperbolischen Erhaltungsgleichungen auftreten können, zu Problemen \cite{dolejvsi2015discontinuous}. In FD- bzw. \ac{fv}-Verfahren werden solche Umstände durch ein \emph{Upwind Scheme}\index{Upwind Scheme} bzw. einen \emph{Upwind Fluss}\index{Upwind Fluss} berücksichtigt. Indem die oben genannte Stetigkeitsanforderung fallen gelassen wird, lassen sich die Vorteile von \ac{fv} und \ac{cg}-\ac{fem} kombinieren durch die \emph{\ac{dg}}-Methoden. Genau wie bei den \ac{fv}-Verfahren ist auch für die \ac{dg} Methoden die Wahl eines geeigneten Flusses das Herzstück.
+Ein Nachteil ist hier für zeitabhängige Probleme die implizite Form der Massenmatrix\footnote{Die Massenmatrix wird in Kapitel \ref{sec:implementierung} analog für \ac{dg}-Verfahren definiert und ist dort erklärt.}, die eine Invertierung in jedem Zeitschritt erfordert. Ferner führen Schocks und Unstetigkeiten, wie sie in hyperbolischen Erhaltungsgleichungen auftreten können, zu Problemen \cite{dolejvsi2015discontinuous}. In FD- bzw. \ac{fv}-Verfahren werden solche Umstände durch ein \emph{Upwind-Schema}\index{Upwind-Schema} bzw. einen \emph{Upwind-Fluss}\index{Upwind-Fluss} berücksichtigt. Indem die oben genannte Stetigkeitsanforderung fallen gelassen wird, lassen sich die Vorteile von \ac{fv} und \ac{cg}-\ac{fem} kombinieren durch die \emph{\ac{dg}}-Methoden. Genau wie bei den \ac{fv}-Verfahren ist auch für die \ac{dg} Methoden die Wahl eines geeigneten Flusses das Herzstück.
 
 Die Tabelle \ref{tab:vergleich_hest} zeigt schematisch einige Vor- und Nachteile der genannten Verfahren. Zahlreiche Entwicklungen und Erweiterungen überwinden die Nachteile häufig und es gibt daneben eine Reihe weiterer Eigenschaften, die zumeist problemabhängig sind und daher in dieser Übersicht nicht erwähnt werden können.
 \begin{table}
@@ -78,13 +78,13 @@ Der mit Abstand wichtigste Satz in diesem abstrakten Rahmen ist der Satz von Lax
   \end{equation}
   a und äquivalent b heißen beschränkt falls es eine Konstante $C>0$ gibt sodass
   \begin{equation*}
-    \forall \, v,w \in X : \qquad C\norm{v}_X \norm{w}_X \geq |a(v,w)|
+    \forall \, v,w \in X : \qquad C\norm{v}_X \norm{w}_X \geq |a(v,w)| \; .
   \end{equation*}
 \end{definition}
 \begin{satz}[Lax-Milgram]\label{laxmilgram}
   Sei $X$ ein Hilbertraum, $a \in \mathcal{L}(X\times X, \mathbb{R})$ und darüber hinaus ${\ell\in\mathcal{L}(X,\mathbb{R})=X^*}$. Dann ist das Variationsproblem \ref{varprob} wohlgestellt, wenn die Bilinearform beschränkt und koerzitiv ist. Es gilt ferner die a priori Abschätzung
   \begin{equation*}
-    \norm{u}_X \leq \frac{1}{\beta} \norm{\ell}_{X^*}
+    \norm{u}_X \leq \frac{1}{\beta} \norm{\ell}_{X^*} \; .
   \end{equation*}
 \end{satz}
  Für eine \ac{pdg} ergibt sich die variationale Formulierung (auch als \emph{schwache Formulierung}\index{schwache Formulierung} bezeichnet) mit ${X=W^{k,p}(\Omega)}$ aus einer Multiplikation mit einer Testfunktion ${w\in X}$ und Integration über die offene beschränkte Menge ${\Omega \subset \mathbb{R}^d}$ mit Lipschitz-Rand $\Gamma = \partial\Omega$.
@@ -108,12 +108,12 @@ Der mit Abstand wichtigste Satz in diesem abstrakten Rahmen ist der Satz von Lax
 
  Die FE Methoden verarbeiten das analytische Variationsproblem durch eine geeignete Diskretisierung. Folgende Schritte werden dabei vorgenommen:
 \begin{enumerate}[label=(\roman*)]
-  \item Die abstrakten Sobolev-Räume werden durch endlich dimensionale Räume $X\fin$ approximiert.
+  \item Die abstrakten Sobolev-Räume werden durch endlich-dimensionale Räume $X\fin$ approximiert.
   \item Es werden Basisfunktionen für den Raum $X\fin$ definiert.
   \item Das Gebiet $\Omega$ wird in Elemente $D^1,\dots, D^K$ einfacher Gestalt unterteilt. Hierdurch entsteht im zweidimensionalen die aus vielen Bildern bekannte Dreiecksstruktur komplizierter Oberflächen. Die Teilgebiete lassen sich durch einen Diffeomorphismus $F_k: \hat{K}\rightarrow D^k$ aus einem Referenzelement $\hat{K}$ erzeugen. So werden Integrale einmalig auf dem Referenzelement ausgewertet und dann über den Transformationssatz mit $F_k$ für das jeweilige Element ausgerechnet.
 \end{enumerate}
 Liegen nun Lösungs- und Testfunktionen in einem abgeschlossenen, nicht-leeren Teilraum $X\fin$ von $X$, so folgt erneut Existenz und Eindeutigkeit aus Beschränktheit und Koerzivität der Bilinearform auf $X$, wie sich leicht zeigen lässt. %(Thm 2.17)
-Die diskrete Lösung $u\fin$ wird auch als \emph{Galerkin Näherung}\index{Galerkin Näherung} bezeichnet, denn die Prozedur geht auf Ritz, Galerkin und Bubnov im Jahre 1915 zurück. Eine Antwort auf die erste Frage des vorangegangenen Abschnittes nach dem Zusammenhang zwischen $u$ und $u\fin$ gibt das Lemma von Cea. Es trifft eine Abschätzung für $\norm{u\fin-u}_X$ und besagt außerdem, dass dieser Fehler umso besser ist, je besser $X\fin$ den Raum $X$ approximiert.
+Die diskrete Lösung $u\fin$ wird auch als \emph{Ritz-Approximation}\index{Ritz-Approximation} bezeichnet, denn die Prozedur geht auf Ritz, Galerkin und Bubnov im Jahre 1915 zurück. Eine Antwort auf die erste Frage des vorangegangenen Abschnittes nach dem Zusammenhang zwischen $u$ und $u\fin$ gibt das Lemma von Cea. Es trifft eine Abschätzung für $\norm{u\fin-u}_X$ und besagt außerdem, dass dieser Fehler umso besser ist, je besser $X\fin$ den Raum $X$ approximiert.
 
 Die \ac{dg}-Methoden zählen jedoch zu den \emph{nicht-konformen}\index{nicht-konforme Methode} Methoden, die sich dadurch unterscheiden dass $X\fin\not\subset X$. Dann lautet die diskrete Approximation des Variationsproblems
 \begin{equation}
@@ -153,11 +153,11 @@ In Anbetracht der Randbedingungen aus Kapitel \ref{sec:RB} ist das Hybridverfahr
 
 Eine weitere Motivation für das Hybridverfahren ist die Charakteristik der \ac{pdg} nach erfolgter $y$-Diskretisierung. Dann liegt nämlich ein System von Advektions-Reaktions-Gleichungen vor, was wiederum den Transportcharakter der \ac{pdg} offenbart. \ac{dg}-Verfahren sind wie bereits in Abschnitt \ref{sec:Übersicht} angesprochen dank einer flexiblen Wahl des numerischen Flusses für eben solche Transportgleichungen ausgelegt.
 
-In einem vorbereitenden Einschub sollen im Folgenden einige wichtige Erkenntnisse aus der Theorie für Riemann Probleme hyperbolischer Systeme gezeigt werden. Sie werden später in Abschnitt \ref{sec:Hybridverfahren} benötigt, um einen korrekten numerischen Fluss zu formulieren.
+In einem vorbereitenden Einschub sollen im Folgenden einige wichtige Erkenntnisse aus der Theorie für Riemann-Probleme hyperbolischer Systeme gezeigt werden. Sie werden später in Abschnitt \ref{sec:Hybridverfahren} benötigt, um einen korrekten numerischen Fluss zu motivieren. In diesem anschließenden Teil wird das \ac{dg}-Schema für die \ac{lvn} hergeleitet. Ziel dabei ist die Formulierung eines wohlgestellten Variationsproblems (die Begriffe werden dort erklärt). Dieses wird dann auf Wohlgestelltheit und Stabilität hin untersucht in den Abschnitten \ref{sec:existenz} und \ref{sec:stabilität}, bevor die zugehörige Implementierung in Abschnitt \ref{sec:implementierung} beschrieben wird. Schließlich werden zwei mögliche Realisierungen des Schrittes von Punkt C nach Punkt D aus Abbildung \ref{fig:methodeDerGeraden} vorgestellt.
 
-\subsection{Riemann Probleme in hyperbolischen Systemen}\label{sec:riemann}\index{Riemann Problem}
+\subsection{Riemann-Probleme in hyperbolischen Systemen}\label{sec:riemann}\index{Riemann-Problem}
 Die folgenden Ausführungen orientieren sich an dem Buch von Leveque \cite{buchLeveque}.
-Das Riemann Problem für die skalare Advektionsgleichung $u_t + f_x(u) = 0$ mit dem Fluss $f(u(x)) = s u(x)$ ist durch die diskontinuierliche Anfangswertbedingung
+Das Riemann-Problem für die skalare Advektionsgleichung $u_t + f_x(u) = 0$ mit dem Fluss $f(u(x)) = s u(x)$ ist durch die diskontinuierliche Anfangswertbedingung
 \begin{equation*}
   u(x,0) = \begin{cases} u^- , \; x < 0 \\
                          u^+ , \; x > 0
@@ -168,7 +168,7 @@ gestellt.  Die \emph{Rankine-Hugoniot-Bedingung}\index{Rankine-Hugoniot-Bedingun
   s(u^- - u^+) = (f^- - f^+) \; .
   \label{eq:rhc}
 \end{equation}
-Die Größe s ist dabei die Geschwindigkeit, mit der sich die Diskontinuität ausbreitet (\emph{shock speed}). Im allgemeineren Fall eines linearen Systems mit $f(u) = A u$ wird angenommen, dass die Matrix $A$ reelle, disjunkte Eigenwerte $\lambda_1 < \lambda_2 < \dots < \lambda_m$ hat, das heißt $A$ ist diagonalisierbar gemäß
+Die Größe $s$ ist dabei die Geschwindigkeit, mit der sich die Diskontinuität ausbreitet (\emph{shock speed}). Im allgemeineren Fall eines linearen Systems mit $f(u) = A u$ wird angenommen, dass die Matrix $A$ reelle, disjunkte Eigenwerte $\lambda_1 < \lambda_2 < \dots < \lambda_m$ hat, das heißt $A$ ist diagonalisierbar gemäß
 \begin{equation*}
   A = R \Lambda R^{-1}
 \end{equation*}
@@ -250,7 +250,7 @@ In natürlichen Einheiten kann die bezüglich $y$ diskretisierte \ac{lvn} \eqref
 \end{equation}
 geschrieben werden. Die Matrizen  ${A}^y$, ${B}^y$ und ${C}^y$ resultieren in diesem Abschnitt aus einem \ac{fv}-Verfahren, können aber ebenso anderen Verfahren entstammen.
 
-Dem \ac{fv} Ansatz in \cite{lukas1} folgend wird das Intervall ${\Omega_y = [-L_y/2,+L_y/2]}$ in $K_y$ Zellen unterteilt. Dabei ist $L_y$ die Distanz, über die Quentenkorrelationen berücksichtigt werden, vergleiche auch \cite{frensley2}. Aus der Diskretisierung  ergeben sich demnach $K_y+1$ Kanten
+Dem \ac{fv} Ansatz in \cite{lukas1} folgend wird das Intervall ${\Omega_y = [-L_y/2,+L_y/2]}$ in $K_y$ Zellen unterteilt. Dabei ist $L_y$ die Distanz, über die Quantenkorrelationen berücksichtigt werden, vergleiche auch \cite{frensley2}. Aus der Diskretisierung  ergeben sich demnach $K_y+1$ Kanten
 \begin{equation*}
   {y_{\nicefrac{1}{2}}, y_{\nicefrac{3}{2}}, \dots, y_{K_y + \nicefrac{1}{2}} = -L_y/2, -L_y/2+\Delta y_1,\dots,+L_y/2} \; .
 \end{equation*}
@@ -388,7 +388,7 @@ Aufgabe des numerischen Flusses ist es, die Randbedingungen in einer schwachen W
 \begin{equation*}
   (\hat{f}(g, v^+))_j = \lambda_j g(x=-L_x/2)
 \end{equation*}
-gelten und damit dem Upwind Charakter der \ac{pdg} Rechnung getragen werden. Der numerische Fluss
+gelten und damit dem Upwind-Charakter der \ac{pdg} Rechnung getragen werden. Der numerische Fluss
 \begin{equation}
   \begin{aligned}
     \hat{f} = \begin{cases}
@@ -399,7 +399,7 @@ gelten und damit dem Upwind Charakter der \ac{pdg} Rechnung getragen werden. Der
   \end{aligned}
   \label{eq:numflux}
 \end{equation}
-aus dem vorherigen Abschnitt entspricht mit $\kappa=\nicefrac{1}{2}$ einem \emph{Upwind Fluss}\index{Upwind Fluss}. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Der Upwind Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch in Konsistenz mit den Ergebnissen in \cite{feistauer2004}, dass lediglich $\kappa=1/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Es gilt insbesondere für die schwache Lösung $\hat{f}(u,u)=f(u)$, wodurch die \emph{Konsistenz}\index{Konsistenz} des Verfahrens sichergestellt ist. Der Upwind Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
+aus dem vorherigen Abschnitt entspricht mit $\kappa=\nicefrac{1}{2}$ einem \emph{Upwind-Fluss}\index{Upwind-Fluss}. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Der Upwind-Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch in Konsistenz mit den Ergebnissen in \cite{feistauer2004}, dass lediglich $\kappa=1/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind-Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Es gilt insbesondere für die schwache Lösung $\hat{f}(u,u)=f(u)$, wodurch die \emph{Konsistenz}\index{Konsistenz} des Verfahrens sichergestellt ist. Der Upwind-Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
 
 Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt die \emph{schwache Formulierung} des Hybridverfahrens:
 \begin{problem}[Schwache variationale Formulierung der \ac{lvn}]\index{Schwache variationale Formulierung der LNG}
@@ -433,7 +433,7 @@ Integrale über Kanten dienen hier lediglich der Übersicht. Da sie aber im Eind
   und $b,\ell$ wie in der schwachen Formulierung \ref{prob:weak} definiert.
 \end{problem}
 
-\subsection{Existenz und Eindeutigkeit}
+\subsection{Existenz und Eindeutigkeit} \label{sec:existenz}
 Für die Bilinearform aus Problem \ref{prob:strong} soll im Folgenden die Existenz und Eindeutigkeit der Ritz-Approximation für die stationäre \ac{lvn} mit $\partial_t=0$ untersucht werden. Dazu ist Koerzivität nach Definition \ref{def:koerz} erforderlich. Es gilt mit $v\in X\fin$
 \begin{align*}
   \sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} \partial_x f(v) &=
@@ -457,7 +457,7 @@ anhand dessen Form zu erkennen ist, dass lediglich der durch den numerischen Flu
   \end{aligned}
   \label{eq:koerz_result}
 \end{equation}
-An dieser Stelle ist die Anfälligkeit des Verfahrens ersichtlich. Damit die rechte Seite auf eine Norm von $v$ zurückgeführt werden kann, müssen zwei Bedingungen erfüllt sein. Erstens muss $\forall i=1\dots K_y$ gelten $\lambda_i\neq 0$ genau wie bereits im Transfermatrix-Verfahren (vergleiche Abschnitt \ref{sec:TFmethod}). Zweitens muss der Realteil aller Eigenwerte von $(G+G^{\dagger})$ gemäß der Bedingung \eqref{eq:koerz_imag} größer 0 sein. Gibt es solche Schranken $g_0$ und $\lambda_{\text{min}}$(als betragsmäßig kleinster Eigenwert von $\Lambda$), so folgt unmittelbar
+An dieser Stelle ist die Anfälligkeit des Verfahrens ersichtlich. Damit die rechte Seite auf eine Norm von $v$ zurückgeführt werden kann, müssen zwei Bedingungen erfüllt sein. Erstens muss $\forall i=1\dots K_y$ gelten, dass $\lambda_i\neq 0$, genau wie bereits im Transfermatrix-Verfahren (vergleiche Abschnitt \ref{sec:TFmethod}). Zweitens muss der Realteil aller Eigenwerte von $(G+G^{\dagger})$ gemäß der Bedingung \eqref{eq:koerz_imag} größer 0 sein. Gibt es solche Schranken $g_0$ und $\lambda_{\text{min}}$(als betragsmäßig kleinster Eigenwert von $\Lambda$), so folgt unmittelbar
 \begin{align}
   \operatorname{Re}(a\fin^s(v, v)) \geq g_0 |||v||| \qquad \text{mit} \nonumber \\
   \trinorm{.} = \sum_{D^k\in\mathcal{T}}\int_{D^k} |.|^2 + \sum_{e\in F}\int_e  \frac{\lambda_{\text{min}}}{g_0} |\jump{.}|^2 \; . \label{eq:trinorm}
@@ -475,7 +475,7 @@ Es ist anzumerken, dass die Wahl des numerischen Flusses keinerlei Einfluss auf 
 
 % Aus Koerzivität folgt  Eindeutigkeit der Lösung, denn angenommen es gebe zwei Lösungen $v\fin^1$ und $v\fin^2$. Dann gilt $a\fin^s(v\fin^1-v\fin^2,\varphi)=0$ und mit der Wahl ${\varphi=v\fin^1-v\fin^2}$ folgt aufgrund der Koerzivität $0\geq g_0 \trinorm{v\fin^1-v\fin^2}$ und somit $v\fin^1=v\fin^2$. Im endlich-dimensionalen folgt aus der Eindeutigkeit die Existenz. Alternativ ließe sich auch die Beschränktheit der Bilinearform und dann mit Satz \ref{laxmilgram} die Existenz zeigen.
 
-Auffällig an der Argumentation ist, dass die Randbedingungen lediglich in Form ihrer Charakteristik zur Definition eines Upwind Flusses eingehen. Solange die rechte Seite des Variationsproblems $\ell(\varphi)$ in $\mathcal{L}(X\fin,\mathbb{C})$ liegt, ist die konkrete Form von $g(x)$ nicht weiter relevant.
+Auffällig an der Argumentation ist, dass die Randbedingungen lediglich in Form ihrer Charakteristik zur Definition eines Upwind-Flusses eingehen. Solange die rechte Seite des Variationsproblems $\ell(\varphi)$ in $\mathcal{L}(X\fin,\mathbb{C})$ liegt, ist die konkrete Form von $g(x)$ nicht weiter relevant.
 
 \subsection{Stabilität}\label{sec:stabilität}
 Stabile Lösungen zeichnen sich dadurch aus, dass alle Eigenwerte des Liouvilleoperators aus Gleichung \eqref{eq:Liouvilleoperator} negativen Imaginärteil haben, wie sich leicht anhand der Form $i\td{}{t}\rho = \mathcal{L}\rho$ nachvollziehen lässt. Numerisch kann einerseits das Eigenwertspektrum der entsprechenden Matrix untersucht werden. Andererseits kann und soll im Folgenden eine Abschätzung für den Term $\td{}{t}\norm{v\fin}_{L^2(\Omega_x)}^2$ gefunden werden. Dazu wird zu der starken Formulierung \ref{prob:strong} ihr komplex konjugiertes hinzu addiert und die Testfunktion $\varphi=v\fin$ verwendet. Mit Hilfe des Resultates \eqref{eq:koerz_result} für den stationären Anteil der Bilinearform sowie den Überlegungen bezüglich des Driftterms aus dem vorherigen Abschnittes folgt
@@ -487,8 +487,8 @@ Stabile Lösungen zeichnen sich dadurch aus, dass alle Eigenwerte des Liouvilleo
  &\stackrel{g_0=0}{\leq} -  \sum_{e\in F}\int_e \lambda_{\text{min}}  |\jump{v\fin}|^2
        + 2\operatorname{Re}(\ell\fin(v\fin)) \label{eq:stabi} \; .
 \end{align}
-Mit der Annahme $-  \sum_{e\in F}\int_e \lambda_{\text{min}}  |\jump{v\fin}|^2  \leq 2\operatorname{Re}(\ell\fin(v\fin))$ folgt die Stabilität. Diese Behauptung wiederum soll in der vorliegenden Arbeit lediglich \emph{a posteriori} bestätigt werden. Sie lässt sich \emph{hand-wavy} dadurch begründen, dass die Randbedingungen symmetrisch sind und die approximierende Lösung $v\fin$ für hinreichend große $L_x$ keine großen Sprünge gegenüber der Fermi-Dirac-Statistik $g(x)$ zeigt. Damit heben sich die beiden in $\ell$ enthaltenen Terme am linken und rechten Rand in etwa auf.
-Numerische Experimente zeigen, dass ein Abweichen vom Upwind Fluss mit dem Strafparameter $\kappa=|\Lambda|/2$ hin zu kleineren $\kappa$ zur Instabilität des transienten Systems führen. Da $\kappa$ unmittelbar mit $\lambda_{\text{min}}$ korreliert, ist dies ein weiteres Indiz für die Gültigkeit der Ungleichung \eqref{eq:stabi} sowie der getroffenen Annahme.
+Mit der Annahme $-  \sum_{e\in F}\int_e \lambda_{\text{min}}  |\jump{v\fin}|^2  \leq 2\operatorname{Re}(\ell\fin(v\fin))$ folgt die Stabilität. Diese Behauptung wiederum soll in der vorliegenden Arbeit lediglich \emph{a posteriori} bestätigt werden. Sie lässt sich salopp dadurch begründen, dass die Randbedingungen symmetrisch sind und die approximierende Lösung $v\fin$ für hinreichend große $L_x$ keine großen Sprünge gegenüber der Fermi-Dirac-Statistik $g(x)$ zeigt. Damit heben sich die beiden in $\ell$ enthaltenen Terme am linken und rechten Rand in etwa auf.
+Numerische Experimente zeigen, dass ein Abweichen vom Upwind-Fluss mit dem Strafparameter $\kappa=|\Lambda|/2$ hin zu kleineren $\kappa$ zur Instabilität des transienten Systems führen. Da $\kappa$ unmittelbar mit $\lambda_{\text{min}}$ korreliert, ist dies ein weiteres Indiz für die Gültigkeit der Ungleichung \eqref{eq:stabi} sowie der getroffenen Annahme.
 
 Eine ähnliche Stabilitätsanalyse wird in der Literatur \cite{NLS} vorgenommen mit dem entscheidenden Unterschied, dass dort periodische Randbedingungen angenommen werden, sodass sich die beiden Terme tatsächlich exakt aufheben.
 
@@ -504,7 +504,7 @@ Im transienten Fall ist $\partial_t\neq 0$ und daher Gleichung \eqref{eq:stat_LG
 \end{equation}
 zu ersetzen. Dieser letzte Schritt überführt die semidiskrete Form aus Abbildung \ref{fig:methodeDerGeraden} (Punkt C) in die vollständig diskretisierte Form (Punkt D). In der Herleitung des stationären Schemas aus dem vorherigen Abschnitt ist die Gleichung lokal bereits mit $(M^k)^{-1}$ multipliziert worden. Da die Massenmatrix bezüglich der \ac{dg}-Diskretisierung blockdiagonal ist, ist die Invertierung besonders einfach, weshalb bei \ac{dg}-Verfahren in aller Regel explizite Zeitschrittverfahren zur Anwendung kommen. Dies stellt einen Vorteil gegenüber einem \ac{cg}-Verfahren dar, wo die globale Massenmatrix nicht blockdiagonal ist, vergleiche auch Kapitel \ref{sec:Übersicht}. Gegenüber impliziten Verfahren sind die expliziten Verfahren in der Regel schneller \cite{buchLeveque}.
 
-Deshalb sind in der vorliegenden Arbeit zur Lösung des Systems gewöhnlicher Differentialgleichungen \eqref{eq:system_transient} \ac{rk}-Verfahren der Ordnung zwei und vier (\ac{rk}2 und \ac{rk}4) implementiert worden. Zu Testzwecken ist dabei das Verfahren zweiter Ordnung als \emph{strong stability preserving} ausgelegt, das heißt es erhält die sogenannte TVDM-Eigenschaft:
+Deshalb sind in der vorliegenden Arbeit zur Lösung des Systems gewöhnlicher Differentialgleichungen \eqref{eq:system_transient} \ac{rk}-Verfahren der Ordnung zwei und vier (\ac{rk}2 und \ac{rk}4) implementiert worden. Zu Testzwecken ist dabei das Verfahren zweiter Ordnung als \emph{strong stability preserving} ausgelegt (siehe hierzu \cite{buch}), das heißt es erhält die sogenannte TVDM-Eigenschaft:
 \begin{equation*}
   \sum_{D^k\in\mathcal{T}\textbackslash D^{K_x}} |\bar{v}\fin^{k+1,n+1} - \bar{v}\fin^{k,n+1}| \leq\sum_{D^k\in\mathcal{T}\textbackslash D^{K_x}} |\bar{v}\fin^{k+1,n} - \bar{v}\fin^{k,n}| \; .
 \end{equation*}
@@ -514,40 +514,23 @@ Das \ac{rk}2-Verfahren genügt der Vorschrift
 \begin{equation*}
   \begin{aligned}
     p^{(1)} &= v\fin^n + \Delta t \mathcal{F}(v\fin^n,t^n) \\
-    v\fin^{n+1} = \frac{1}{2}(v\fin^n + p^{(1)} + \Delta t \mathcal{F}(p^{(1)},t^n+\Delta t)) \; ,
+    v\fin^{n+1} &= \frac{1}{2}(v\fin^n + p^{(1)} + \Delta t \mathcal{F}(p^{(1)},t^n+\Delta t)) \; ,
   \end{aligned}
 \end{equation*}
-wobei die Länge eines Zeitschrittes in Abhängigkeit von Polynomgrad $N$ der \ac{dg}-Diskretisierung sowie den Gitterabständen $h_x$ (als Mittelwert der $h^k$) und $h_y$ gewählt werden sollte. Hierzu gibt es keine analytische Vorschrift, sondern es gilt die Daumenregel \cite{buch}
+wobei die Länge eines Zeitschrittes in Abhängigkeit von Polynomgrad $N$ der \ac{dg}-Diskretisierung sowie den Gitterabständen $h_x$ (als Mittelwert der $h^k$) und $h_y$ gewählt werden sollte. Hierzu gibt es keine analytische Vorschrift, sondern es gilt die Abschätzung \cite{buch}
 \begin{equation}
   \Delta t \leq \frac{1}{2N+1}c\frac{h_x}{h_y \text{max}(\Lambda)}
+  \label{eq:delta_t}
 \end{equation}
 mit einer Konstanten $c$, die durch numerische Experimente für das \ac{rk}2-Verfahren zu $c=0.2$ und für das \ac{rk}4-Verfahren entsprechend verdoppelt zu $c=0.4$ gewählt wird. Das \ac{rk}4-Verfahren wird in der geläufigen speicherarmen Version
 \begin{equation*}
   \begin{aligned}
-    p^{(0)} = v\fin^n \\
+    p^{(0)} &= v\fin^n \\
     i\in [1,\dots,5]: \begin{cases}
-      q^{(i)} = a_i q^{(i-1)} + \Delta t \mathcal{F}(p^{(i-1)},t^n+c_i \Delta t) \\
-      p^{(i)} = p^{(i-1)}+b_iq^{(i)}
+      q^{(i)} &= a_i q^{(i-1)} + \Delta t \mathcal{F}(p^{(i-1)},t^n+c_i \Delta t) \\
+      p^{(i)} &= p^{(i-1)}+b_iq^{(i)}
   \end{cases} \\
-  v\fin^{n+1} = p^{(5)}
+  v\fin^{n+1} &= p^{(5)}
   \end{aligned}
 \end{equation*}
 implementiert. Die Koeffizienten $a_i,b_i,c_i$ können der Literatur \cite{buch} entnommen werden. Offenbar werden in dieser Variante fünf Funktionsaufrufe benötigt, was zunächst gegenüber der Ordnung des Verfahrens einen Mehraufwand bedeutet. Dadurch jedoch können größere Zeitschritte $\Delta t$ realisiert werden \cite{buch}.
-% Die in Abbildung \ref{fig:pot1} eingezeichneten Längen werden wie in \cite{lukas1} zu
-% \begin{align}
-%   L_1 &= \SI{6}{\nano\meter}\\
-%   L_2 &= \SI{5}{\nano\meter}\\
-%   L_U &= \SI{30}{\nano\meter} \; .
-% \end{align}
-% gewählt. Hierin ist $L_U$ die Länge, über der die Spannung $U$ abfällt.
-
-% \todo{Idee: TF-Lösung für Überlagerung von l und r zeigen.}
-
-% \section{Mathematische Aspekte der \lvn}
-% Die eindimensionale Wellenfunktion $\Psi(x)$ eines Teilchens ist ein Vektor des unendlich-dimensionalen Hilbertraums $L^2(\mathbb{R})$ mit dem üblichen Skalarprodukt
-% \begin{align}
-%   \bra{\Psi}\ket{\Phi} = \int_{\mathbb{R}} \Psi^*(x)\Phi(x) \diff x \; .
-% \end{align}
-% Beschränken wir uns auf ein Rechengebiet $L$, so ist entsprechend $\Psi(x) \,\in\,L^2(L)$. Diskretisieren wir ferner das System, so wird der Hilbertraum endlichdimensional mit Dimension $N$. Dann ist die Dichtematrix in Gleichung \eqref{eq:lvn} eine Matrix der Form $\mathbb{C}^N \times \mathbb{C}^N$ und der Liouville-Operator ein "Superoperator" \cite{frensley2} der Form $(\mathbb{C}^N \times \mathbb{C}^N)\times(\mathbb{C}^N \times \mathbb{C}^N)$.
-% Letztlich wird numerisch gesehen $N^2$ der Anzahl Freiheitsgrade entsprechen und die \lvn wird wieder eine Matrix-Vektor-Gleichung sein. Dazu wird $u(x,y)$ nicht als Matrix, sondern als Vektor der Länge $N^2$ geschrieben.
-% \todo{Eigenschaften von B(x,y) und A. Hermitizität von $\mathcal{L}$ (frensley).}
