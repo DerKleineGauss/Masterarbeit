@@ -159,11 +159,11 @@ Das Integral wird durch die Jacobideterminante $J^k=h^k/2$ auf das Referenzeleme
 \begin{align*}
     (\drift^{k,jm})_{pq} &\approx \sum_{r,s=1}^{N_p} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}  \sum_{a=1}^{N_{GL}} G_{jm}(x(\xi_a)) \Phi_r(\xi_a) \Phi_s(\xi_a) w_a J^k\; .
 \end{align*}
-Mit der Definition der Vandermondematrix $\van_{ij}=\Phi_j(\xi_i)$ aus Gleichung \eqref{eq:vandermonde} lässt sich eine zweite Vandermondematrix $\tilde{\van}$ der Größe $N_{GL}\times N_p$ einführen, sodass
+Mit der Definition der Vandermonde-Matrix $\van_{ij}=\Phi_j(\xi_i)$ aus Gleichung \eqref{eq:vandermonde} lässt sich eine zweite Vandermonde-Matrix $\tilde{\van}$ der Größe $N_{GL}\times N_p$ einführen, sodass
 \begin{align*}
   (\drift^{k,jm})_{pq} &= \sum_{r,s=1}^{N_p}\sum_{a=1}^{N_{GL}} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}   G_{jm}(x(\xi_a)) \tilde{\van}_{ar} \tilde{\van}_{as} w_a J^k \\
   &= \sum_{r,s=1}^{N_p}\sum_{a=1}^{N_{GL}} (\van^T)^{-1}_{pr} (\van^T)^{-1}_{qs}   G_{jm}(x(\xi_a)) \tilde{\van}_{ra}^T \tilde{\van}_{sa}^T w_a J^k \\
   &= \sum_{a=1}^{N_{GL}} ((\van^{-1})^T \tilde{\van}^T)_{pa} ((\van^{-1})^T \tilde{\van}^T)_{qa}   G_{jm}(x(\xi_a))   w_a J^k \\
   &= \sum_{a=1}^{N_{GL}} (\tilde{\van} \van^{-1})_{ap} (\tilde{\van} \van^{-1})_{aq}   G_{jm}(x(\xi_a))   w_a J^k
 \end{align*}
-folgt. Mit der Definition $W\equiv\tilde{\van}V^{-1}$ ergibt sich das gesuchte Resultat \eqref{eq:G_GL}.
+folgt. Mit der Definition $W\equiv\tilde{\van}V^{-1}$ ergibt sich das behauptete Resultat \eqref{eq:G_GL}.

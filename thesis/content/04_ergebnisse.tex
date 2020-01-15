@@ -18,9 +18,9 @@ In diesem Kapitel werden die Ergebnisse numerischer Experimente für das Schema 
     $L_2$ & Breite der Potentialbarrieren  (s. Abbildung \ref{fig:pot1}) &$\SI{4}{\nano\meter}$ \\
     $V_0$ & Barrierenhöhe (Differenz der Leitungsbandkantenenergien) &$\SI{0.2098}{\electronvolt}$ \\
     $N_D$ & Donatorkonzentration des GaAs & $10^{24}\,\text{m}^{-3}$ \\
-    $m$ & Effektive Elektronenmasse in GaAs & $0,063 m_e$ \\
+    $m$ & Effektive Elektronenmasse in GaAs & $0.063 m_e$ \\
     $\mu$   & Chemisches Potential (wird errechnet, siehe Abschnitt \ref{sec:A_3}) & $\SI{46}{\milli\electronvolt}$ \\
-    $\delta$ & Einflussbereich des ac{cap}, siehe Gleichung \eqref{eq:cap} & $0,2 L_y$\\
+    $\delta$ & Einflussbereich des ac{cap}, siehe Gleichung \eqref{eq:cap} & $0.2 L_y$\\
     $W_0$ & Stärke des \ac{cap}, siehe Gleichung \eqref{eq:cap} &$-1V_0$ \\
     $U$   &Spannung, die über die Strecke $L_D$ abfällt & $\SI{0}{\volt}$ \\
     \midrule
@@ -32,7 +32,7 @@ In diesem Kapitel werden die Ergebnisse numerischer Experimente für das Schema 
     $\kappa$ & Strafparameter des numerischen Flusses, siehe Gleichung \eqref{eq:numflux} &$\nicefrac{1}{2}$ \\
     \midrule
      & \emph{Parameter des Programmablaufs} & \\
-    doGL & Soll Methode G2 verwendet werden?(sonst G1) Die Quadraturordnung ist stests 20. & true \\
+    doGL & Soll Methode G2 verwendet werden?(sonst G1) Die Quadraturordnung ist stets 20. & true \\
     doPotConv & Soll das Potential mit einer Gaußverteilung gefaltet werden? & false\\
     withCAP & Soll das \ac{cap} eingeschaltet werden? & true \\
     doTransient & Soll transient gerechnet werden? & false \\
@@ -42,22 +42,22 @@ In diesem Kapitel werden die Ergebnisse numerischer Experimente für das Schema 
     \bottomrule
   \end{tabular}
 \end{table}
-Offenbar entsteht eine große Variationsmöglichkeit. Zunächst soll jedoch im nächsten Abschnitt die Funktionalität des Schemas getestet werden für ein analytisch lösbares Randwertproblem. Daraufhin wird die stationäre Lösung näher untersucht. Der mit der Elektronendichte korrespondierende Realteil sowie der mit dem Strom korrespondierende Imaginärteil werden für verschiedene Spannungen gezeigt. Aus einer Mittelung des Stromes über $x$ ergibt sich der Gesamtstrom in Abhängigkeit von der Spannung. Hierfür soll in Kapitel \ref{sec:IV} insbesondere der Einfluss der physikalischen Längen sowie die Übereinstimmung mit der Erwartung gemäß Abbildung \ref{fig:IVkurve} untersucht werden. Besonders interessant sind darüber hinaus Fehlerraten, die eine Aussage über die Qualität des verwendeten Verfahrens liefern. Dazu wird in Kapitel \ref{sec:rates} einerseits ein Vergleich mit der \ac{tf} aus Kapitel \ref{sec:TFmethod} gezogen, andererseits eine iterative Fehlerrate definiert. Abgeschlossen wird das Kapitel durch eine Untersuchung der transienten Lösung in Abschnitt \ref{sec:transient}.
+Offenbar entsteht eine große Variationsmöglichkeit. Zunächst soll jedoch im nächsten Abschnitt die Funktionalität des Schemas getestet werden für ein analytisch lösbares Randwertproblem. Daraufhin wird die stationäre Lösung näher untersucht. Der mit der Elektronendichte korrespondierende Realteil sowie der mit dem Strom korrespondierende Imaginärteil werden für verschiedene Spannungen gezeigt. Aus einer Mittlung des Stromes über $x$ ergibt sich der Gesamtstrom in Abhängigkeit von der Spannung. Hierfür soll in Kapitel \ref{sec:IV} insbesondere der Einfluss der physikalischen Längen sowie die Übereinstimmung mit der Erwartung gemäß Abbildung \ref{fig:IVkurve} untersucht werden. Besonders interessant sind darüber hinaus Fehlerraten, die eine Aussage über die Qualität des verwendeten Verfahrens liefern. Dazu wird in Kapitel \ref{sec:rates} einerseits ein Vergleich mit der \ac{tf} aus Kapitel \ref{sec:TFmethod} gezogen, andererseits eine iterative Fehlerrate definiert. Abgeschlossen wird das Kapitel durch eine Untersuchung der transienten Lösung in Abschnitt \ref{sec:transient}.
 
 \section{Notation}\label{sec:notation_4}
 Für numerische Untersuchungen ist die Definition eines \emph{analytischen Fehlers} \index{analytischer Fehler}
 \begin{equation}
-  e_{\nicefrac{i}{r}}^{\alpha} = \norm{\nicefrac{\operatorname{Re}}{\operatorname{Im}} (u - u\fin^{\alpha})}_{L^2(\Omega)}
+  e_{\nicefrac{i}{r}}^{\alpha} = \norm{\nicefrac{\operatorname{Im}}{\operatorname{Re}} (u - u\fin^{\alpha})}_{L^2(\Omega)}
   \label{eq:error_ana}
 \end{equation}
 sowie eines \emph{iterativen Fehlers}\index{iterativer Fehler}
 \begin{equation*}
-  e_{\mathcal{T}, \nicefrac{i}{r}}^{\alpha} = \norm{\nicefrac{\operatorname{Re}}{\operatorname{Im}} (u\fin^{\alpha} - u\fin^{\alpha-1})}_{L^2(\Omega)}
+  e_{\mathcal{T}, \nicefrac{i}{r}}^{\alpha} = \norm{\nicefrac{\operatorname{Im}}{\operatorname{Re}} (u\fin^{\alpha} - u\fin^{\alpha-1})}_{L^2(\Omega)}
 \end{equation*}
 sinnvoll, wobei $\Omega=\Omega_x \times \Omega_y$ das Rechengebiet, $u$ die exakte Lösung und $u\fin$ die Ritz-Approximation sind. Der Index $\alpha>0$ bezieht sich auf die Verfeinerung des Gitters in $x$-Richtung gemäß $K_x^{\alpha} = 2^\alpha$. Wenn nicht anders angegeben, werden die benötigten Integrale in $x$-Richtung mit Gauß-Lobatto Quadratur der Ordnung $N$ (also gleich der Ordnung des \ac{dg}-Verfahrens) berechnet.
 In $y$-Richtung hingegen wird schlicht $\int_{\Omega_y}\diff y f(y) \approx \sum_{j=1}^{K_y} h_y f(y_j)$ berechnet, da $f(y)$ im \ac{fv}-Verfahren konstant ist innerhalb der Zelle $j$.
 
-Für die Betrachtung der \emph{Konvergenzordnung}\index{Konvergenzordnung} in Abschnitt \ref{sec:rates} werden ferner die Fehlerraten
+Zur Analyse der \emph{Konvergenzordnung}\index{Konvergenzordnung} in Abschnitt \ref{sec:rates} werden ferner die Fehlerraten
 \begin{equation}
   \begin{aligned}
     r_{\nicefrac{i}{r}}^{\alpha} &= \frac{\ln(e_{\nicefrac{i}{r}}^{\alpha}) - \ln(e_{\nicefrac{i}{r}}^{\alpha-1})}{\ln(K_x^{\alpha-1}) - \ln(K_x^{\alpha})} \qquad\text{und}\\
@@ -65,14 +65,14 @@ Für die Betrachtung der \emph{Konvergenzordnung}\index{Konvergenzordnung} in Ab
   \end{aligned}
   \label{eq:fehlerraten}
 \end{equation}
-definiert. Daraus lassen sich noch $r_{\nicefrac{i}{r}}$ bzw. $r_{\mathcal{T},\nicefrac{i}{r}}$ als Mittelwerte über $\alpha$ errechnen. Die Definition der Fehlerrate ist motiviert durch eine Fehlerabschätzung der Form $e \leq ch_x^r$. Logarithmieren und Subtrahieren für zwei verschiedene mittlere Gitterabstände $h_x$ liefert die Konvergenzordnung $r$.
+definiert. Daraus lassen sich noch $r_{\nicefrac{i}{r}}$ bzw. $r_{\mathcal{T},\nicefrac{i}{r}}$ als Mittelwerte über $\alpha$ errechnen. Die Definition der Fehlerrate ist motiviert durch eine Fehlerabschätzung der Form ${e \leq ch_x^r}$. Logarithmieren und Subtrahieren für zwei verschiedene mittlere Gitterabstände $h_x$ liefert die Konvergenzordnung $r$.
 
-Wann immer die numerische Lösung $u\fin$ ausgwertet werden muss, sind die Gleichungen\eqref{eq:ellPsi} und \eqref{eq:vandermonde} hilfreich. Sei nun $u\fin$ an der Stelle $x_0$ auszuwerten. Dann ist zunächst das Element $D^k$ zu suchen, für das $x_0\in D^k$ gilt. Durch Gleichung \eqref{eq:affmap} ergibt sich hieraus $r_0$ als Koordinate auf dem Referenzelement $I$. Dann gilt nach Gleichung \eqref{eq:nodal}
+Wann immer die numerische Lösung $u\fin$ ausgewertet werden muss, sind die Gleichungen\eqref{eq:ellPsi} und \eqref{eq:vandermonde} hilfreich. Sei nun $u\fin$ an der Stelle $x_0$ auszuwerten. Dann ist zunächst das Element $D^k$ zu suchen, für das $x_0\in D^k$ gilt. Durch Gleichung \eqref{eq:affmap} ergibt sich hieraus $r_0$ als Koordinate auf dem Referenzelement $I$. Dann gilt nach Gleichung \eqref{eq:nodal}
 \begin{align*}
   v\fin(x_0) &= v\fin^k(r_0,t) = \sum_{j=1}^{N_p} v_{\mathcal{T},j}^k(t)\ell_j(r_0) \\
    &\stackrel{\eqref{eq:ellPsi}}{=} \sum_{j=1}^{N_p} v_{\mathcal{T},j}^k(t) ((\van^T)^{-1}\Psi(r_0))_j \; .
 \end{align*}
-Jetzt wird eine weitere Vandermondematrix $\tilde{\van}$ der Dimension $1\times N_p$ eingeführt, um den Punkt $r_0$ zu errechnen. Nach Gleichung \eqref{eq:vandermonde} ist also $\tilde{\van}_{1j}=\Psi_j(r_0)$. Dann folgt
+Jetzt wird eine weitere Vandermonde-Matrix $\tilde{\van}$ der Dimension $1\times N_p$ eingeführt, um den Punkt $r_0$ zu errechnen. Nach Gleichung \eqref{eq:vandermonde} ist also $\tilde{\van}_{1j}=\Psi_j(r_0)$. Dann folgt
 \begin{align*}
   v\fin(x_0) &= \sum_{i=j}^{N_p} v_{\mathcal{T},j}^k(t) ((\van^T)^{-1}\tilde{\van}^T)_{j,1} \\
   &= (\tilde{\van}\van^{-1})\underline{v}_j^k(t) \; ,
@@ -80,6 +80,20 @@ Jetzt wird eine weitere Vandermondematrix $\tilde{\van}$ der Dimension $1\times 
 wobei im letzten Schritt die Definition \ref{def:matrizen} sowie die Vertauschbarkeit von Invertierung und Transponierung einer Matrix eingegangen sind. Falls $r_0\in\{-1,1\}$, so ist $u\fin$ auf einer Kante auszuwerten. An diesen Stellen wird der numerische Fluss verwendet. Anhand des Vorzeichens des zu $y_j$ korrespondierenden Eigenwerts $\lambda_j$ aus Gleichung \eqref{eq:Lambda} wird entweder $u\fin^+$ oder $u\fin^-$ ausgewertet, siehe auch Abbildung \ref{fig:notation_DG}.
 
 Die soeben angestellten Überlegungen zur Auswertung der numerischen Lösung mögen aufwändig erscheinen. Wenn jedoch Fehlerraten bestimmt werden sollen, ist die exakte Auswertung nach Ansicht des Autors unerlässlich. Eine interpolatorische Bestimmung der $L^2$-Norm führt ansonsten zu Abweichungen. Insbesondere für grobe Diskretisierungen (also kleine Werte von $K_x$, $N$) sind diese deutlich zu spüren.
+
+Eine letzte Bemerkung betrifft die Einheiten der Orte und Zeiten in den folgenden Abbildungen. Die Skalierung ist durch Gleichung \eqref{eq:skalierung} gegeben und lässt sich berechnen, indem die effektive Masse als konstant
+\begin{align*}
+  m = 0,063 m_0 =  0,063\cdot\SI{9.1e-31}{\kilogram}
+\end{align*}
+angenommen wird. Damit ergibt sich folgende Skalierung zwischen SI-Einheiten und den eingeführten einheitenlosen Größen:
+\begin{equation}
+  \begin{aligned}
+    V_0 &= \SI{0.2098}{\electronvolt} \\
+    \xi &= \input{tex_files/xi.tex} \\
+    \tau &= \input{tex_files/tau.tex} \; .
+  \end{aligned}
+  \label{eq:skala}
+\end{equation}
 
 \section{Test für ein analytisch lösbares Randwertproblem}\label{sec:test}
 Losgelöst von der physikalischen \ac{lvn} wird in diesem Abschnitt für Testzwecke die Gleichung \eqref{eq:qschema} mit
@@ -140,7 +154,7 @@ Die in Kapitel \ref{sec:2_1} eingeführten Observablen der Teilchendichte $n(x,t
 gebildet. Da $K_y$ stets gerade gewählt wird, liegt die Kante zwischen den Elementen $K_y/2+1$ und $K_y/2$ genau bei $y=0$.
 
 \subsection{Dichtematrix}
-Ein erster Test des Verfahrens überprüft die Symmetrieeigenschaften der numerischen Lösung. Mit Hilfe von Gleichung \eqref{eq:Liouvilleoperator} ist in Kapitel \ref{sec:dynamik} gezeigt worden, dass die exakte Lösung im stationären Fall $u(x,y) = -u^*(x,-y)$ erfüllt. Die Differenz $(u\fin(x,y)-u\fin^*(x,-y))/\norm{u\fin(x,y)}_{L^2(\Omega)}$ ist in Abbildung \ref{fig:parity} gezeigt.
+Ein erster Test des Verfahrens überprüft die Symmetrieeigenschaften der numerischen Lösung. Mit Hilfe von Gleichung \eqref{eq:Liouvilleoperator} ist in Kapitel \ref{sec:dynamik} gezeigt worden, dass die exakte Lösung im stationären Fall $u(x,y) = -u^*(x,-y)$ erfüllt. Dies ist letztlich die Konsequenz der in Kapitel \ref{sec:2_1} gezeigten Hermitizität des Dichteoperators. Die Differenz $(u\fin(x,y)-u\fin^*(x,-y))/\norm{u\fin(x,y)}_{L^2(\Omega)}$ ist in Abbildung \ref{fig:parity} gezeigt.
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{plots/parity_abs.eps}
@@ -225,12 +239,12 @@ Zum Vergleich ist in Abbildung \ref{fig:solution_gummel} das analoge Ergebnis ei
     \label{fig:solution_gummel}
 \end{figure*}
 Die gezeigten Ergebnisse decken sich qualitativ mit den Ergebnissen anderer Verfahren wie einem \ac{fv}/\ac{fv}-Hybridverfahren in \cite{lukas1} oder einem Upwind-Differenzen-Schema für die Wignergleichung wie in \cite{frensley2}. Ein quantitativer Vergleich wird in Kapitel \ref{sec:rates} mit Hilfe der \ac{tf} aus Kapitel \ref{sec:TFmethod} vorgenommen. Ein Nachteil zeigt sich für den Imaginärteil im Gleichgewichtsfall bei $U_1=\SI{0}{\volt}$. Andere Verfahren (\ac{qtbm} und \ac{tf}) legen nahe, dass der Imaginärteil bis auf CPU-Genauigkeit verschwinden sollte, was hier nicht bestätigt werden kann.
-Feinere Diskretisierungen verbessern zwar die Resultate diesbezüglich, jedoch konnte aufgrund begrenzter Rechenkapazität ein nomineller Unterschied zwischen Real- und Imaginärteil von ca. vier Größenordnungen nicht überschritten werden. Hier zeigt sich bereits, dass bezüglich des Imaginärteils eine Fehlerrate nach Gleichung \eqref{eq:optimaleKonvergenz} nicht erwartet werden kann.
+Feinere Diskretisierungen verbessern zwar die Resultate diesbezüglich, jedoch konnte aufgrund begrenzter Rechenkapazität ein nomineller Unterschied zwischen Real- und Imaginärteil von ca. vier Größenordnungen nicht überschritten werden.
 \clearpage
 
-\subsection{Strom-Spannungs-Kennlinien} 
+\subsection{Strom-Spannungs-Kennlinien}
 Für einen qualitativen Vergleich werden im Folgenden Ergebnisse einer \ac{qtbm}-Rechnung (siehe \cite{qtbm}) mit einbezogen. Da die selbstkonsistente Rechnung für angelegte Spannungen keine gute Konvergenz zeigt, beschränken sich die Berechnungen auf Flachband-Modelle gemäß Abbildung \ref{fig:pot1}. Für den stationären Fall gilt wegen Gleichung \eqref{eq:kontigl} theoretisch $\partial_x j(x)=0$. Die numerischen Experimente zeigen jedoch, dass diese Forderung nicht perfekt eingehalten werden kann, siehe zum Beispiel Abbildung \ref{fig:kappa_var_4}. Eine mögliche Erklärung hierfür ist in der $y$-Diskretisierung zu finden, denn die Ableitung nach Gleichung \eqref{eq:ableitung_y} stellt lediglich eine grobe Näherung dar. Weitere Verfahren könnten eine $y$-Diskretisierung mit analytischer Ableitung\footnote{Eine analytische Ableitung kann mit stetigen Basisfunktionen gewährleistet werden.} implementieren, wie zum Beispiel ein \ac{fem}-Verfahren.
-Da also ${j(x,t\rightarrow \infty)}$ nicht konstant ist entlang $x$, wird ein mittlerer Strom $j$ als Mittelwert gemäß
+Da also ${j(x,t\rightarrow \infty)}$ nicht konstant ist entlang $x$, wird ein Strom $j$ als Mittelwert gemäß
 \begin{equation*}
   j \equiv \frac{1}{L_x} \int_{\Omega_x} \diff x j(x,t\rightarrow\infty)
 \end{equation*}
@@ -256,7 +270,7 @@ definiert. Durch Iteration über verschiedene Spannungen ergibt sich die charakt
     {Strom-Spannungs-Kennlinien im Vergleich. Parameter der Numerik: $K_x=30$, $N=7$, $K_y=280$. Zusätzlich gezeigt ist das Ergebnis einer \ac{qtbm}-Rechnung. Die Grafik rechts ist aus \cite{frensley3} entnommen. Die durchgezogene Linie ist das Resultat einer Tunneltheorie-Rechnung. Für die gestrichelte Linie wird eine lokale Variation der effektiven Masse berücksichtigt. Die punktierte Linie schließlich stellt das Ergebnis eines Modells mit nicht-lokaler effektiver Masse dar.}
     \label{fig:iv_vergleich1}
 \end{figure}
-Dabei ist für die \ac{qtbm}-Rechnung derselbe Parametersatz gewählt worden, während für die Grafik aus der Literatur \cite{frensley3} andere Parameter eingestellt sind. Es ist ersichtlich, dass die beiden Resonanzen bei ca. $\SI{0.11}{\volt}$ und $\SI{0.4}{\volt}$ reproduziert werden mit dem entwickelten \ac{dg}-Verfahren. Die Abbildung \ref{fig:frensley_iv} belegt dabei, dass sowohl Position als auch Höhe der Peaks abhängig sind von der zugrundeliegenden Theorie.
+Dabei ist für die \ac{qtbm}-Rechnung derselbe Parametersatz gewählt worden, während für die Grafik aus der Literatur \cite{frensley3} andere Parameter eingestellt sind. Es ist ersichtlich, dass die beiden Resonanzen bei ca. $\SI{0.11}{\volt}$ und $\SI{0.4}{\volt}$ reproduziert werden mit dem entwickelten \ac{dg}-Verfahren. Die Abbildung \ref{fig:frensley_iv} belegt dabei, dass sowohl Position als auch Höhe der Peaks abhängig sind von der zugrunde liegenden Theorie.
 
 Auch innerhalb des \ac{dg}-Verfahrens gibt es einige variable Parameter, siehe Tabelle \ref{tab:parameter}. So lässt sich beispielsweise zwischen Methode G1 und G2 umschalten. Die entstehenden Unterschiede zeigt Abbildung \ref{fig:iv2} bei ansonsten gleichen Parametern.
 \begin{figure}
@@ -289,9 +303,9 @@ Als nächstes werden daher die Parameter $L_x$ und $L_y$ variiert. Dabei zeigt s
     {Parametervariation bezüglich $L_x$ (links) und $L_y$ (rechts). Parameter der Numerik: $K_x=60$, $N=2$. Links ist  $K_y=180$ zudem konstant. Die Ausdehnung des \ac{cap} wird mit $\delta/\xi=8,3$ fixiert. Für die rechte Abbildung wird der Gitterabstand $h_y=L_y/K_y$ konstant gehalten, sodass keine Verzerrung bezüglich der Diskretisierung stattfindet.}
     \label{fig:iv3}
 \end{figure*}
-Offenbar haben beide Parameter einen Einfluss auf die Höhe des Peaks. Zusätzlich schwanken jedoch mit $L_y$ sowohl Position als auch Anzahl der Peaks. Genauer gesagt wird für $L_y/\xi=37,5$ lediglich ein Peak aufgelöst und mit steigendem $L_y$ kommen immer weitere Peaks hinzu, deren Amplituden zunehmend schwächer ausgeprägt sind. Dieses Verhalten deutet darauf hin, dass im Grenzfall großer Ausdehnung bei gleichzeitig feiner Diskretisierung tatsächlich nur noch ein Peak verbleibt.
+Offenbar haben beide Parameter einen Einfluss auf die Höhe des Peaks. Zusätzlich schwanken jedoch mit $L_y$ sowohl Position als auch Anzahl der Peaks. Genauer gesagt wird für $L_y/\xi=37,5$ lediglich ein Peak aufgelöst und mit steigendem $L_y$ kommen immer weitere Peaks hinzu, deren Amplituden zunehmend schwächer ausgeprägt sind. Dieses Verhalten deutet darauf hin, dass im Grenzfall großer Ausdehnung tatsächlich nur noch ein Peak verbleibt.
 
-Zusammenfassend bleibt festzuhalten, dass das Verfahren sehr sensibel auf den gewählten Parametersatz reagiert. Prinzipiell sind die Ergebnisse für die Strom-Spannungs-Kennlinie akzeptabel, jedoch stellt insbesondere die Auflösung des ersten Peaks ein  Problem dar. Die Herkunft der zusätzlichen Peaks kann nicht abschließend geklärt werden. Einen großen Einfluss wird hierbei auch das \ac{cap} haben, was möglicherweise in weiteren Arbeiten untersucht werden kann.
+Zusammenfassend bleibt festzuhalten, dass das Verfahren sehr sensibel auf den gewählten Parametersatz reagiert. Prinzipiell sind die Ergebnisse für die Strom-Spannungs-Kennlinie akzeptabel, jedoch stellt insbesondere die Auflösung des ersten Peaks ein  Problem dar. Die Herkunft der zusätzlichen Peaks kann nicht abschließend geklärt werden, allerdings tritt dieses Problem auch in anderen Verfahren, z.B. in der Veröffentlichung \cite{jiang2011accuracy} auf. Einen großen Einfluss wird hierbei auch das \ac{cap} haben, was möglicherweise in weiteren Arbeiten untersucht werden kann.
 
 % Auch eine Variation bezüglich der numerischen Parameter erscheint daher sinnvoll und ist in Abbildung \ref{fig:iv4} gezeigt und quantitativ in Kapitel \ref{sec:rates} untersucht.
 % \begin{figure}
@@ -342,7 +356,7 @@ Neben den beiden für die Feinheit der Diskretisierung verantwortlichen Paramete
     {Variation des Strafparameters $\kappa$.}
     \label{fig:kappa_var}
 \end{figure*}
-Es zeigt sich, dass es sowohl für $j(x)$, als auch für $n(x)$ im Bereich eines zentralen Flusses $\kappa=0$ zu starken Oszillationen kommt. Für negatives $\kappa$ bricht das Verfahren vollständig zusammen, wie dies auch durch die Existenz-Analyse aus Kapitel \ref{sec:existenz} vorausgesagt wird. Genauere Betrachtungen für $\kappa>0$ zeigen die beiden rechten Teile der Abbildung. Es ist klar zu erkennen, dass es insbesondere am Randbereich $x\approx \pm L_x/2$ zu Oszillationen kommt, wenn $\kappa\neq 0,5$.
+Es zeigt sich, dass es sowohl für $j(x)$, als auch für $n(x)$ im Bereich eines zentralen Flusses $\kappa=0$ zu starken Oszillationen kommt. Für negatives $\kappa$ bricht das Verfahren vollständig zusammen, wie dies auch durch die Existenz-Analyse aus Kapitel \ref{sec:existenz} vorausgesagt wird. Genauere Betrachtungen für $\kappa>0$ zeigen die beiden rechten Teile der Abbildung. Es ist klar zu erkennen, dass es insbesondere am Randbereich $x\approx \pm L_x/2$ zu Oszillationen kommt, wenn $\kappa\neq \nicefrac{1}{2}$.
 
 
 
@@ -373,7 +387,7 @@ Es zeigt sich eine sehr schwache Konvergenz, wobei nicht sichergestellt ist, ob 
     r_{\mathcal{T},r} &= \{\input{python/test5_nonConvGL1_r.tex}\}
   \end{aligned}
 \end{equation*}
-und damit weit entfernt von der optimalen Konvergenz \eqref{eq:optimaleKonvergenz}. Es ist noch anzumerken, dass die Raten für Methode G1 noch schlechter sind. Die Suche nach möglichen Erklärungen führt unter Anderem auf die Frage nach der Form des Potentials. Im Wigner-Formalismus muss das Potential gefaltet werden und es bereitet dort wegen des Gibbschen Phänomens Schwierigkeiten, dieses nicht-lokale Faltungsintegral für eine Rechteckfunktion auszwerten. Ein möglicher Ansatz zur Umgehung des Problems ist dann die Glättung des Potentials, wie beispielsweise in \cite{wiedenhaus} geschehen.
+und damit weit entfernt von der optimalen Konvergenz \eqref{eq:optimaleKonvergenz}. Es ist noch anzumerken, dass die Raten für Methode G1 noch schlechter sind. Die Suche nach möglichen Erklärungen führt unter Anderem auf die Frage nach der Form des Potentials. Im Wigner-Formalismus muss das Potential gefaltet werden und es bereitet dort wegen des Gibbschen Phänomens Schwierigkeiten, dieses nicht-lokale Faltungsintegral für eine Rechteckfunktion auszuwerten. Ein möglicher Ansatz zur Umgehung des Problems ist dann die Glättung des Potentials, wie beispielsweise in \cite{wiedenhaus} geschehen.
 
 Dieser Idee wird nachgegangen, indem das Potential $V^s$ mit einer Gauß-Funktion gefaltet und damit geglättet wird (der entsprechende Parameter ist in Tabelle \ref{tab:parameter} mit doPotConv gekennzeichnet). Das Ergebnis für die iterativen Fehler\footnote{Die \ac{tf}-Methode geht von einem Flachbandpotential aus und ist daher nun nicht mehr verfügbar.} ist in Abbildung \ref{fig:rates2} gezeigt.
 \begin{figure*}
@@ -465,7 +479,7 @@ Die Ergebnisse für Strom und Spannung sind in Abbildung \ref{fig:transient} zus
         % \label{fig:transient_4}
     \end{subfigure}
     \caption[]
-    {Zeitlicher Verlauf der Observablen. Links ist die Sprungantwort und rechts die Antwort auf eine Wechselspannung mit $f=\SI{400}{\giga\hertz}$ gezeigt. In den untersten Abbildungen ist zusätzlich zum gemessenen Strom der zu $U(t)$ korrespondierende stationäre Strom $j^s(U)$ eingezeichnet. Parameter der Numerik:  $K_x=33$, $N=2$, $K_y=100$.}
+    {Zeitlicher Verlauf der Observablen. In den untersten Abbildungen ist zusätzlich zum gemessenen Strom der zu $U(t)$ korrespondierende stationäre Strom $j^s(U)$ eingezeichnet. Parameter der Numerik:  $K_x=33$, $N=2$, $K_y=100$.}
     \label{fig:transient}
 \end{figure*}
 Dabei ist das \ac{rk}2-Verfahren mit dem nach Formel \eqref{eq:delta_t} errechneten Zeitschritt ${\Delta t / \tau = 0,1036}$ (entspricht $\SI{0.3252}{\femto\second}$) zum Einsatz gekommen. Die Konstante $c$ in dieser Gleichung ist numerisch getestet worden. Es zeigt sich, dass es ab $c=1$ zu Instabilität kommt. Mit dahingegen restriktiv gewähltem $c=0,2$ hingegen treten keine Probleme auf.
@@ -474,4 +488,4 @@ Für das \ac{rk}2-Schema ist zu Testzwecken (wie in Kapitel \ref{sec:timesteppin
 
 Die Abbildung \ref{fig:transient} zeigt, dass das System bei einem Sprung der Spannung von $\SI{0.1}{\volt}$ auf $\SI{0.2}{\volt}$ nach einigen Überschwingern nach etwa $\SI{2}{\pico\second}$ auf den neuen stationären Zustand eingeschwungen ist. Es ist daher zu erwarten, dass die eingestellte Frequenz von $\SI{400}{\giga\hertz}$ zu hoch ist, als dass das System mit dem stationären Stromfluss $j^s(U)$ aus Abbildung \ref{fig:iv1} folgen könnte. Diese Erwartung bestätigt sich im rechten Teil der Abbildung. Es ist zu beobachten, dass der Strom bei positiver Spannung sogar negativ wird. Der Strom scheint der Spannung phasenverschoben zu folgen.
 
-Hierzu ist anzumerken, dass die numerischen Parameter mit einer Systemgröße $K_xN=66$, $K_y=100$ eine relativ grobe Diskretisierung darstellen. Im letzten Kapitel ist gezeigt worden, dass die Fehlerraten erst ab etwa $K_x N \approx 160$ gute Konvergenz zeigen. Die aus der Ortsdiskretisierung resultierenden Fehler werden durch die Zeitentwicklung weiter verstärkt, sodass es zwangsläufig zu einem Abweichen von stationären Lösungen kommen muss für nicht-konstante Spannungen. Der Grund für die grob gewählte Diskretisierung wiederum ist schlicht in dem Rechenaufwand zu finden. Für eine zeitabhängige Spannung muss in jedem Zeitschritt die hoch-besetzte Matrix $\mathcal{G}$ (vergleiche Abbildung \ref{fig:G_1}) neu berechnet werden. Auch ein Zwischenspeichern und späteres Abrufen für bereits berechnete Spannungswerte ist nicht hilfreich aufgrund der immensen Datengröße. Mit einigem Aufwand könnte an dieser Stelle weiter optimiert werden.
+Hierzu ist anzumerken, dass die numerischen Parameter mit einer Systemgröße $K_xN=66$, $K_y=100$ eine relativ grobe Diskretisierung darstellen. Die aus der Ortsdiskretisierung resultierenden Fehler werden durch die Zeitentwicklung weiter verstärkt, sodass es zwangsläufig zu einem Abweichen von der stationären Lösungen kommen muss für nicht-konstante Spannungen. Der Grund für die grob gewählte Diskretisierung wiederum ist schlicht in dem Rechenaufwand zu finden. Für eine zeitabhängige Spannung muss in jedem Zeitschritt die hoch-besetzte Matrix $\mathcal{G}$ (vergleiche Abbildung \ref{fig:G_1}) neu berechnet werden. Auch ein Zwischenspeichern und späteres Abrufen für bereits berechnete Spannungswerte ist nicht hilfreich aufgrund der immensen Datengröße. Mit einigem Aufwand könnte an dieser Stelle weiter optimiert werden.

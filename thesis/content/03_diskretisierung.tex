@@ -66,7 +66,7 @@ Die \ac{dg} Methoden entstammen als erweiterte FE Methoden den abstrakten Variat
       \emph{Finde ein } u\in X\emph{ , sodass für alle } v\in X \emph{ gilt } a(u,v) = \ell(v).
 \end{equation}
 Hier ist $X$ ein Banach-Raum, $a:X\times X \rightarrow \mathbb{R}$ eine Bilinearform und ${\ell:X\rightarrow \mathbb{R}}$ ein lineares Funktional.
-Der mit Abstand wichtigste Satz in diesem abstrakten Rahmen ist der Satz von Lax-Milgram \cite{buchPietro} über die Existenz und Eindeutigkeit (Wohlgestelltheit) einer Lösung. Dazu werden die Begriffe Koerzivität und Stetigkeit benötigt.
+Der mit Abstand wichtigste Satz in diesem abstrakten Rahmen ist der Satz von Lax-Milgram \cite{buchPietro} über die Existenz und Eindeutigkeit (Wohlgestelltheit) einer Lösung. Dazu werden die Begriffe Koerzivität und Beschränktheit benötigt.
 \begin{definition}[Koerzivität und Beschränktheit einer Bilinearform] \label{def:koerz}
   Sei $X$ ein Hilbertraum, $a \in \mathcal{L}(X\times X, \mathbb{R})$ und $b \in \mathcal{L}(X\times X, \mathbb{C})$ Bilinearformen. $a$ heißt koerzitiv auf $X$ falls es ein $\beta>0$ gibt sodass
   \begin{equation*}
@@ -136,7 +136,7 @@ Die Existenz und Eindeutigkeit der Ritz-Approximation $u\fin$ ergibt sich wieder
 Für zeitabhängige Probleme wird in dieser Arbeit wie auch in den meisten Literaturquellen (z.B. in \cite{NLS}) zunächst im folgenden Abschnitt \ref{sec:primal} das stationäre Problem als Variationsproblem formuliert und dessen Wohlgestelltheit geprüft. Anschließend wird die Stabilität der Lösung untersucht, also das Vorzeichen der zeitlichen Änderung von $\norm{u\fin}$, siehe Abschnitt \ref{sec:stabilität}.
 
 
-\section{Discontinuous-Galerkin-Verfahren für die Liouville-von-Neumann Gleichung}\label{sec:primal}
+\section{Discontinuous-Galerkin-Verfahren für die Liouville-von-Neumann-Gleichung}\label{sec:primal}
 Für zeitabhängige \ac{pdg}n mit Dimensionalität $d>1$ gibt es prinzipiell zwei verschiedene Möglichkeiten der Diskretisierung.
 \begin{itemize}
   \item Die jeweiligen Orts-Koordinaten werden sukzessive behandelt -- dieses Vorgehen wird als \emph{Methode der Geraden}\index{Methode der Geraden} bezeichnet. Dabei können die einzelnen Richtungen auch mit unterschiedlichen Methoden diskretisiert werden, was im Folgenden als \emph{Hybridverfahren}\index{Hybridverfahren} bezeichnet werden soll. Das resultierende Gitter ist stets ein Rechteckgitter, was wie bereits in Kapitel \ref{sec:FD} erwähnt geometrische Flexibilität nicht zulässt. Andererseits ist dies für rechteckige Gebiete $\Omega$ unkritisch.
@@ -292,7 +292,7 @@ sowie der Definition
 \end{equation}
 folgt die diagonalisierte \ac{pdg}
 \begin{equation}
-  v_t(x,t) + \Lambda^y v_x(x,t) + G(x,t)v(x,t) = 0 \; .
+  v_t(x,t) + {{f}({v}(x,t))}_x(x,t) + G(x,t)v(x,t) = 0 \; .
   \label{eq:diagLVN}
 \end{equation}
 Dies ist ein System von $K_y$ gekoppelten Advektions-Reaktions-Gleichungen mit Anfangsbedingung
@@ -401,7 +401,8 @@ gelten und damit dem Upwind-Charakter der \ac{pdg} Rechnung getragen werden. Der
 \end{equation}
 aus dem vorherigen Abschnitt entspricht mit $\kappa=\nicefrac{1}{2}$ einem \emph{Upwind-Fluss}\index{Upwind-Fluss}. Dabei kann der letzte Term als Strafterm angesehen werden, der Sprünge der Lösung "bestraft". Der Upwind-Fluss ist zwar ein Spezialfall dieser allgemeineren Formulierung, numerische Experimente zeigen jedoch in Konsistenz mit den Ergebnissen in \cite{feistauer2004}, dass lediglich $\kappa=1/2$ akzeptable Ergebnisse liefert. Das entspricht der Erwartung, denn der Upwind-Fluss stellt wegen Erfüllung der Rankine-Hugoniot-Bedingung die beste Approximation an $f$ dar. Es gilt insbesondere für die schwache Lösung $\hat{f}(u,u)=f(u)$, wodurch die \emph{Konsistenz}\index{Konsistenz} des Verfahrens sichergestellt ist. Der Upwind-Charakter des Flusses wird deutlich, wenn einzelne Eigenwerte $\lambda$ betrachtet werden. Ist beispielsweise $\lambda>0$, so folgt wie gefordert $\hat{f}=\lambda v^-$ auf inneren Kanten und am rechten Rand sowie $\hat{f}=\lambda g$ am linken Rand.
 
-Einsetzen des numerischen Flusses in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt die \emph{schwache Formulierung} des Hybridverfahrens:
+Einsetzen des numerischen Flusses für $\kappa=\nicefrac{1}{2}$ in Gleichung \eqref{eq:kontinForm} zusammen mit dem Übergang zur Ritz-Approximation $v\fin$ ergibt die \emph{schwache Formulierung} des Hybridverfahrens:
+\clearpage
 \begin{problem}[Schwache variationale Formulierung der \ac{lvn}]\index{Schwache variationale Formulierung der LNG}
   \label{prob:weak}
   Finde ein ${v\fin\in X\fin}$, sodass für alle $\varphi\in X\fin$ gilt $a\fin^w(v\fin, \varphi) + b\fin(v\fin, \varphi) = \ell\fin(\varphi)$. Hierin sind
@@ -434,7 +435,7 @@ Integrale über Kanten dienen hier lediglich der Übersicht. Da sie aber im Eind
 \end{problem}
 
 \subsection{Existenz und Eindeutigkeit} \label{sec:existenz}
-Für die Bilinearform aus Problem \ref{prob:strong} soll im Folgenden die Existenz und Eindeutigkeit der Ritz-Approximation für die stationäre \ac{lvn} mit $\partial_t=0$ untersucht werden. Dazu ist Koerzivität nach Definition \ref{def:koerz} erforderlich. Es gilt mit $v\in X\fin$
+Für die Bilinearform aus Problem \ref{prob:strong} soll im Folgenden die Existenz und Eindeutigkeit der Ritz-Approximation für die stationäre \ac{lvn} mit $\partial_t v\fin=0$ untersucht werden. Dazu ist Koerzivität nach Definition \ref{def:koerz} erforderlich. Es gilt mit $v\in X\fin$
 \begin{align*}
   \sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} \partial_x f(v) &=
   \frac{1}{2}\partial_x \sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} f(v) \\
@@ -449,7 +450,7 @@ Dieser Ausdruck hebt sich folgerichtig mit den entsprechenden Termen der Bilinea
     + \sum_{e\in F}\int_e  \jump{v^{\dagger}} \frac{1}{2}|\Lambda| \jump{v} \; ,
   \end{aligned}
 \end{equation*}
-anhand dessen Form zu erkennen ist, dass lediglich der durch den numerischen Fluss eingeführte Strafterm sowie der Potentialterm $G$ stabilisierend wirken. Um den Realteil der Bilinearform zu erhalten, wird dessen komplex Konjugiertes hinzu addiert.
+anhand dessen Form zu erkennen ist, dass lediglich der durch den numerischen Fluss eingeführte Strafterm sowie der Potentialterm $G$ stabilisierend wirken. Statt des Faktors $\nicefrac{1}{2}$ lässt sich erneut in der allgemeineren Formulierung der Faktor $\kappa$ schreiben. Um den Realteil der Bilinearform zu erhalten, wird dessen komplex Konjugiertes hinzu addiert.
 \begin{equation}
   \begin{aligned}
     2\operatorname{Re} (a\fin^s(v, v)) = &\sum_{D^k\in\mathcal{T}}\int_{D^k} v^{\dagger} (G+G^{\dagger}) v
@@ -523,14 +524,10 @@ wobei die Länge eines Zeitschrittes in Abhängigkeit von Polynomgrad $N$ der \a
   \label{eq:delta_t}
 \end{equation}
 mit einer Konstanten $c$, die durch numerische Experimente für das \ac{rk}2-Verfahren zu $c=0.2$ und für das \ac{rk}4-Verfahren entsprechend verdoppelt zu $c=0.4$ gewählt wird. Das \ac{rk}4-Verfahren wird in der geläufigen speicherarmen Version
-\begin{equation*}
-  \begin{aligned}
-    p^{(0)} &= v\fin^n \\
-    i\in [1,\dots,5]: \begin{cases}
-      q^{(i)} &= a_i q^{(i-1)} + \Delta t \mathcal{F}(p^{(i-1)},t^n+c_i \Delta t) \\
-      p^{(i)} &= p^{(i-1)}+b_iq^{(i)}
-  \end{cases} \\
-  v\fin^{n+1} &= p^{(5)}
-  \end{aligned}
-\end{equation*}
+\begin{align*}
+  p^{(0)} &= v\fin^n \\
+  \forall \,i\in [1,\dots,5] \qquad  q^{(i)} &= a_i q^{(i-1)} + \Delta t \mathcal{F}(p^{(i-1)},t^n+c_i \Delta t) \\
+  p^{(i)} &= p^{(i-1)}+b_iq^{(i)} \\
+  v\fin^{n+1} &= p^{(5)} 
+\end{align*}
 implementiert. Die Koeffizienten $a_i,b_i,c_i$ können der Literatur \cite{buch} entnommen werden. Offenbar werden in dieser Variante fünf Funktionsaufrufe benötigt, was zunächst gegenüber der Ordnung des Verfahrens einen Mehraufwand bedeutet. Dadurch jedoch können größere Zeitschritte $\Delta t$ realisiert werden \cite{buch}.

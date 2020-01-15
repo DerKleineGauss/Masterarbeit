@@ -315,23 +315,29 @@
 \thesisclass{Master of Science}
 \publishers{\thechair \\ \thedivision \\ Technische Universität Dortmund}
 \submissiondate{15. Januar 2020}
-\secondcorrector{Prof.~Dr.~Manfred Bayer}
-\firstcorrector{Apl.-Prof.~Dr.~Dirk Schulz}
+\firstcorrector{Prof.~Dr.~Manfred Bayer}
+\secondcorrector{Apl.-Prof.~Dr.~Dirk Schulz}
 
 % tu logo on top of the titlepage
 \titlehead{\includegraphics[height=1.5cm]{logos/tu-logo.pdf}}
 
+\def\blankpage{%
+      \clearpage%
+      \thispagestyle{empty}%
+      \null%
+      \clearpage}
+
 \begin{document}
 \frontmatter
 \maketitle
-
+\blankpage
 % Gutachterseite
 \makecorrectorpage
 
 
 
 % % hier beginnt der Vorspann, nummeriert in römischen Zahlen
-% \input{content/00_abstract.tex}
+\cleardoublepage
 \tableofcontents
 % Abkürzungsverzeichnis
 \clearpage \newpage
@@ -344,7 +350,7 @@
   \acro{fd}[FD]{Finite-Differenzen}
   \acro{fem}[FEM]{Finite-Elemente-Methode}
   \acro{fv}[FV]{Finite-Volumen}
-  \acro{lvn}[LNG]{Liouville-von-Neumann Gleichung}
+  \acro{lvn}[LNG]{Liouville-von-Neumann-Gleichung}
   \acro{negf}[NEGF]{nonequilibrium Green’s function}
   \acro{pdg}[PDG]{partielle Differentialgleichung}
   \acro{qtbm}[QTBM]{Quantum-Transmitting-Boundary-Methode}
